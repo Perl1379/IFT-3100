@@ -12,14 +12,23 @@ Project{
         name: { return FileInfo.baseName(sourceDirectory) }
 
         files: [
-            'src/application.cpp',
-            'src/application.h',
+            'src/Application.cpp',
+            'src/Application.h',
+            'src/MainWindow.cpp',
+            'src/MainWindow.h',
             'src/main.cpp',
-            'src/ofApp.cpp',
-            'src/ofApp.h',
+            'src/nodes/BaseNode.cpp',
+            'src/nodes/BaseNode.h',
+            'src/nodes/ModelNode.cpp',
+            'src/nodes/ModelNode.h',
+            'src/Global.cpp',
+            'src/Global.h',
+            'src/ui/UserInterface.cpp',
+            'src/ui/UserInterface.h',
         ]
 
         of.addons: [
+            'ofxImGui'
         ]
 
         // additional flags for the project. the of module sets some
