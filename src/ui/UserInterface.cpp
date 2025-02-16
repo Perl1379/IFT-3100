@@ -6,11 +6,11 @@
  * UserInterface class implementation
  *
  *****************************************************/
-
 #include "UserInterface.h"
 #include <ofAppRunner.h>
 #include <ofGraphics.h>
 #include "Global.h"
+
 
 /**
  * Setup user interface
@@ -35,6 +35,14 @@ void UserInterface::setup() {
  imgToolbarGenerateAtlas.load("images/ui/toolbar_buttons/generate_atlas.png");
  m_textureToolbarGenerateAtlas = imgToolbarGenerateAtlas.getTexture();
 
+ ofImage imgToolbarToggleCameras;
+ imgToolbarToggleCameras.load("images/ui/toolbar_buttons/toggle_cameras.png");
+ m_textureToolbarToggleCameras = imgToolbarToggleCameras.getTexture();
+
+ ofImage imgToolbarToggleCamerasPressed;
+ imgToolbarToggleCamerasPressed.load("images/ui/toolbar_buttons/toggle_cameras_pressed.png");
+ m_textureToolbarToggleCamerasPressed = imgToolbarToggleCamerasPressed.getTexture();
+
 }
 
 
@@ -45,13 +53,20 @@ void UserInterface::draw() {
 
  m_gui.begin();
 
- draw_menu();
- draw_toolbar();
- draw_tree();
- draw_properties();
- draw_viewports();
- draw_status();
+ m_selectedWindow = "";
+ m_hoveredWindow = "";
 
+ drawMenu();
+ drawToolbar();
+ drawTree();
+ drawProperties();
+ drawViewports();
+ drawStatus();
+
+ if (m_initialDraw) {
+  m_initialDraw = false;
+  ImGui::SetWindowFocus("Main Camera");
+ }
 
  m_gui.end();
 
@@ -59,26 +74,26 @@ void UserInterface::draw() {
 
 
 /**
-* Draw the menu
-*/
-void UserInterface::draw_menu() {
+ * Draw the menu
+ */
+void UserInterface::drawMenu() {
 
  // Draw menu
  if (ImGui::BeginMainMenuBar()) {
 
   if (ImGui::BeginMenu("File")) {
    if (ImGui::MenuItem("New Level")) {
-    on_new_level();
+    onNewLevel();
    }
    if (ImGui::MenuItem("Load Level")) {
-    on_load_level();
+    onLoadLevel();
    }
    if (ImGui::MenuItem("Save Level")) {
-    on_save_level();
+    onSaveLevel();
    }
 
    if (ImGui::MenuItem("Generate Texture Atlas")) {
-    on_generate_atlas();
+    onGenerateAtlas();
    }
 
    if (ImGui::MenuItem("Exit")) {
@@ -90,17 +105,17 @@ void UserInterface::draw_menu() {
 
   if (ImGui::BeginMenu("Edit")) {
    if (ImGui::MenuItem("Undo")) {
-    on_history_undo();
+    onHistoryUndo();
    }
    if (ImGui::MenuItem("Redo")) {
-    on_history_redo();
+    onHistoryRedo();
    }
    ImGui::EndMenu();
   }
 
   if (ImGui::BeginMenu("Help")) {
    if (ImGui::MenuItem("About Knight Maker")) {
-    on_about_program();
+    onAboutProgram();
    }
    ImGui::EndMenu();
   }
@@ -113,7 +128,7 @@ void UserInterface::draw_menu() {
 /**
  * Draw the toolbar_buttons
  */
-void UserInterface::draw_toolbar() {
+void UserInterface::drawToolbar() {
 
  ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetFrameHeight()), ImGuiCond_Always);
  ImGui::SetNextWindowSize(ImVec2(ofGetWidth(), TOOLBAR_HEIGHT));
@@ -127,22 +142,27 @@ void UserInterface::draw_toolbar() {
  if (ImGui::Begin("Toolbar", nullptr, toolbarFlags)) {
 
   if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarNewLevel.getTextureData().textureID), ImVec2(48, 48))) {
-   on_new_level();
+   onNewLevel();
   }
   ImGui::SameLine();
 
   if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarLoadLevel.getTextureData().textureID), ImVec2(48, 48))) {
-    on_load_level();
+    onLoadLevel();
   }
   ImGui::SameLine();
 
   if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarSaveLevel.getTextureData().textureID), ImVec2(48, 48))) {
-   on_save_level();
+   onSaveLevel();
   }
   ImGui::SameLine();
 
   if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarGenerateAtlas.getTextureData().textureID), ImVec2(48, 48))) {
-   on_generate_atlas();
+   onGenerateAtlas();
+  }
+  ImGui::SameLine();
+
+  if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_onlyOneCamera ? m_textureToolbarToggleCamerasPressed.getTextureData().textureID : m_textureToolbarToggleCameras.getTextureData().textureID), ImVec2(48, 48))) {
+   onToggleCameras();
   }
 
  }
@@ -151,9 +171,9 @@ void UserInterface::draw_toolbar() {
 
 
 /**
-* Draw tree containing nodes
-*/
-void UserInterface::draw_tree() {
+ * Draw tree containing nodes
+ */
+void UserInterface::drawTree() {
 
 // Define position and size
  ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImGuiCond_Always);
@@ -164,30 +184,10 @@ void UserInterface::draw_tree() {
 
   ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Always);
 
-  // Root node
-  if (ImGui::TreeNode("Root Node")) {
-
-   // All tree nodes opens
-
-   // Child nodes under Root Node
-   if (ImGui::TreeNode("Child 1")) {
-    ImGui::Selectable(" Sub-Child 1");
-    ImGui::TreePop();
-   }
-
-   if (ImGui::TreeNode("Child 2")) {
-    ImGui::Selectable(" Sub-Child 2");
-    ImGui::TreePop();
-   }
-
-   // Nested tree nodes
-   if (ImGui::TreeNode("Child 3")) {
-    ImGui::Selectable(" Sub-Child 3");
-    ImGui::TreePop();
-   }
-
-   ImGui::TreePop(); // Close the root node
+  for (BaseNode* child : Global::level.getTree()->getChildren()) {
+   drawTreeElement(child);
   }
+
   ImGui::End();
 
  }
@@ -195,9 +195,49 @@ void UserInterface::draw_tree() {
 
 
 /**
-* Draw properties for a selected node
+* Draw one tree element (node)
 */
-void UserInterface::draw_properties() {
+void UserInterface::drawTreeElement(BaseNode* node) {
+
+ ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Always);ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Bullet;
+ if (node->getChildren().size() == 0)
+ {
+  flags |= ImGuiTreeNodeFlags_Leaf;
+ }
+
+ if (m_selectedNode == node->getId()) {
+  flags |= ImGuiTreeNodeFlags_Selected;
+ }
+
+ if (ImGui::TreeNodeEx(node->getName().c_str(), flags)) {
+
+  if (ImGui::IsItemClicked()) {
+  ofLog() << "Item selected:" << node->getName();
+
+   if (m_selectedNode != -1) {
+    ofLog() << "Selected node:" << m_selectedNode << " :" << Global::level.getTree()->findNode(m_selectedNode);
+    Global::level.getTree()->findNode(m_selectedNode)->displayBoundingBox(false);
+   }
+   m_selectedNode = node->getId();
+   Global::level.getTree()->findNode(m_selectedNode)->displayBoundingBox(true);
+  }
+
+
+  for (BaseNode* child : node->getChildren()) {
+   drawTreeElement(child);
+  }
+  ImGui::TreePop();
+ }
+
+
+}
+
+
+
+/**
+ * Draw properties for a selected node
+ */
+void UserInterface::drawProperties() {
 
  int posY = ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + TREEVIEW_HEIGHT + 8;
  ImGui::SetNextWindowPos(ImVec2(0, posY));
@@ -205,28 +245,56 @@ void UserInterface::draw_properties() {
 
  ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
- // Add some properties with input fields
- static char name[128] = "Sample Node";
- ImGui::Text("Name");
- ImGui::SameLine(100);
- ImGui::InputText("", name, IM_ARRAYSIZE(name));
+ if (m_selectedNode == -1) {
+  ImGui::End();
+  return;
+ }
 
- static int age = 30;
- ImGui::Text("Render Order");
- ImGui::SameLine(100);
- ImGui::InputInt("", &age);
+ BaseNode* selectedNode = Global::level.getTree()->findNode(m_selectedNode);
+ if (selectedNode == nullptr) {
+  ImGui::End();
+  return;
+ }
 
- static float height = 1.75f;
- ImGui::Text("Alpha Value");
- ImGui::SameLine(100);
- ImGui::InputFloat("", &height, 0.01f, 0.1f, 3);
+ auto properties = selectedNode->getProperties();
+ for (auto property : properties) {
 
- static bool isActive = true;
- ImGui::Text("Active");
- ImGui::SameLine(100);
- ImGui::Checkbox("", &isActive);
+  ImGui::Text(property.getName().c_str());
+  ImGui::SameLine(100);
 
- ImGui::End();  // End of the property list window
+  switch(property.getType()) {
+   case PROPERTY_TYPE::TEXT_FIELD:
+   {
+
+    char buffer[255];
+    std::string value = std::any_cast<std::string>(property.getValue());
+    std::strncpy(buffer, value.c_str(), sizeof(buffer) - 1);  // Copy with limit
+    buffer[sizeof(buffer) - 1] = '\0';
+
+    if (ImGui::InputText("", buffer, IM_ARRAYSIZE(buffer))) {
+     ofLog() << "Text changed:" << "/" << selectedNode->getName() << " : " << buffer;
+     selectedNode->setProperty(property.getName(), std::string(buffer));
+    }
+
+   }
+   break;
+   case PROPERTY_TYPE::COLOR_PICKER:
+   {
+    ImGui::Text("---");
+   }
+   break;
+   case PROPERTY_TYPE::VECTOR3:
+   {
+    ImGui::Text("---");
+
+   }
+   break;
+
+  }
+
+ }
+
+ ImGui::End();
 
 }
 
@@ -234,7 +302,7 @@ void UserInterface::draw_properties() {
 /**
 * Draw the status bar
 */
-void UserInterface::draw_status() {
+void UserInterface::drawStatus() {
 
  ImGui::SetNextWindowPos(ImVec2(0, ofGetHeight() - STATUSBAR_HEIGHT)); // Position the status bar at the bottom
  ImGui::SetNextWindowSize(ImVec2(ofGetWidth(), STATUSBAR_HEIGHT)); // Set the height of the status bar
@@ -251,66 +319,90 @@ void UserInterface::draw_status() {
 
 
 /**
-* Draw viewports
-*/
-void UserInterface::draw_viewports() {
+ * Draw viewports
+ */
+void UserInterface::drawViewports() {
 
- float camera_size_first = (float) ofGetHeight() - ImGui::GetFrameHeight() - STATUSBAR_HEIGHT - TOOLBAR_HEIGHT - 8;
- float camera_size_second = ((float) ofGetHeight() - ImGui::GetFrameHeight() - STATUSBAR_HEIGHT - TOOLBAR_HEIGHT - 8) / 2.0;
- float camera_size_third = camera_size_second;
+ if (m_onlyOneCamera) {
+  float cameraSizeFirstWidth = (float) (ofGetWidth() - LEFTPANEL_WIDTH - 4);
+  float cameraSizeFirstHeight = (float) ofGetHeight() - ImGui::GetFrameHeight() - STATUSBAR_HEIGHT - TOOLBAR_HEIGHT - 8;
+  drawViewport("Main Camera", 0, ImVec2(LEFTPANEL_WIDTH + 2, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImVec2(cameraSizeFirstWidth, cameraSizeFirstHeight));
 
- // First camera
- {
-  ImGui::SetNextWindowPos(ImVec2(LEFTPANEL_WIDTH + 2, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6)); // Position the status bar at the bottom
-  ImGui::SetNextWindowSize(ImVec2(camera_size_first, camera_size_first)); // Set the height of the status bar
+ } else {
+  float cameraSizeFirstHeight = (float) ofGetHeight() - ImGui::GetFrameHeight() - STATUSBAR_HEIGHT - TOOLBAR_HEIGHT - 8;
+  float cameraSizeSecond = ((float) ofGetHeight() - ImGui::GetFrameHeight() - STATUSBAR_HEIGHT - TOOLBAR_HEIGHT - 8) / 2.0;
+  float cameraSizeThird = cameraSizeSecond;
+  float cameraSizeFirstWidth = (float) (ofGetWidth() - cameraSizeSecond - LEFTPANEL_WIDTH - 4);
 
-  ImGui::Begin("Main Camera", nullptr,
-   ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
-
-  ImVec2 windowSize = ImGui::GetContentRegionAvail();
-
-  auto cameraTextureMain = reinterpret_cast<ImTextureID>(Global::m_fboCameraMain.getTexture().getTextureData().textureID);
-  ImGui::Image(cameraTextureMain, windowSize);
-  ImGui::End();
- }
-
- // Second camera
- {
-  ImGui::SetNextWindowPos(ImVec2(LEFTPANEL_WIDTH + 4 + camera_size_first, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6)); // Position the status bar at the bottom
-  ImGui::SetNextWindowSize(ImVec2(camera_size_second, camera_size_second)); // Set the height of the status bar
-
-  ImGui::Begin("Second Camera", nullptr,
-   ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
-
-  ImVec2 windowSize = ImGui::GetContentRegionAvail();
-
-  auto cameraTextureMain = reinterpret_cast<ImTextureID>(Global::m_fboCameraSecond.getTexture().getTextureData().textureID);
-  ImGui::Image(cameraTextureMain, windowSize);
-  ImGui::End();
- }
-
- // Third camera
- {
-  ImGui::SetNextWindowPos(ImVec2(LEFTPANEL_WIDTH + 4 + camera_size_first, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 7 + camera_size_second)); // Position the status bar at the bottom
-  ImGui::SetNextWindowSize(ImVec2(camera_size_third, camera_size_third)); // Set the height of the status bar
-
-  ImGui::Begin("Third Camera", nullptr,
-   ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
-
-  ImVec2 windowSize = ImGui::GetContentRegionAvail();
-
-  auto cameraTextureMain = reinterpret_cast<ImTextureID>(Global::m_fboCameraThird.getTexture().getTextureData().textureID);
-  ImGui::Image(cameraTextureMain, windowSize);
-  ImGui::End();
+  drawViewport("Main Camera", 0, ImVec2(LEFTPANEL_WIDTH + 2, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImVec2(cameraSizeFirstWidth, cameraSizeFirstHeight));
+  drawViewport("Second Camera", 1, ImVec2(LEFTPANEL_WIDTH + 4 + cameraSizeFirstWidth, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImVec2(cameraSizeSecond, cameraSizeSecond));
+  drawViewport("Third Camera", 2, ImVec2(LEFTPANEL_WIDTH + 4 + cameraSizeFirstWidth, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 7 + cameraSizeSecond), ImVec2(cameraSizeThird, cameraSizeThird));
  }
 
 }
 
 
 /**
+ * Draw a specific viewport (each viewport have a camera associated with)
+ */
+void UserInterface::drawViewport(const std::string &name, int index, const ImVec2 &position, const ImVec2 &size) {
+
+ // Convert from float to integers
+ int size_x = (int) size.x;
+ int size_y = (int) size.y;
+
+ // If a viewport changed size, resize the associated FBO (also prevent float comparison)
+ auto fbo = Global::m_cameras[index].getFbo();
+ auto camera = Global::m_cameras[index].getCamera();
+
+ Global::m_cameras[index].setViewportSize(size_x, size_y);
+
+
+ ImGui::SetNextWindowPos(position); // Position the status bar at the bottom
+ ImGui::SetNextWindowSize(size); // Set the height of the status bar
+
+ ImGui::Begin(name.c_str(), nullptr,
+  ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing);
+
+ ImVec2 windowSize = ImGui::GetContentRegionAvail();
+ auto textureID = reinterpret_cast<ImTextureID>(fbo.getTexture().getTextureData().textureID);
+ ImGui::Image(textureID, windowSize);
+
+ if (ImGui::IsWindowHovered()) {
+  m_hoveredWindow = name;
+ }
+
+ if (ImGui::IsWindowFocused()) {
+
+  m_selectedWindow = name;
+
+  // Draw axis arrows
+  float axisLength = 40.0f;
+
+  ofVec3f rightDirection = camera.getXAxis();  // Right direction
+  ofVec3f upDirection = camera.getYAxis();     // Up direction
+  ofVec3f forwardDirection = camera.getZAxis(); // Forward direction
+
+  rightDirection *= axisLength;
+  upDirection *= axisLength;
+  forwardDirection *= axisLength;
+
+  ImVec2 startPos = position + ImVec2(50,70);
+  ImDrawList* drawList = ImGui::GetWindowDrawList();
+  drawList->AddLine(startPos, startPos + ImVec2(rightDirection.x, rightDirection.y), IM_COL32(255, 0, 0, 255), 2.0f); // Red X-axis
+  drawList->AddLine(startPos, startPos + ImVec2(upDirection.x, upDirection.y), IM_COL32(0, 255, 0, 255), 2.0f);    // Green Y-axis
+  drawList->AddLine(startPos, startPos + ImVec2(forwardDirection.x, forwardDirection.y), IM_COL32(0, 0, 255, 255), 2.0f); // Blue Z-axis
+ }
+
+ ImGui::End();
+}
+
+
+
+/**
  * Callback function : Show about dialog
  */
-void UserInterface::on_about_program() {
+void UserInterface::onAboutProgram() {
  // TODO
 }
 
@@ -318,7 +410,7 @@ void UserInterface::on_about_program() {
 /**
  * Callback function : New level
  */
-void UserInterface::on_new_level() {
+void UserInterface::onNewLevel() {
  // TODO
 }
 
@@ -326,7 +418,7 @@ void UserInterface::on_new_level() {
 /**
  * Callback function : load level
  */
-void UserInterface::on_load_level() {
+void UserInterface::onLoadLevel() {
  // TODO
 }
 
@@ -334,7 +426,7 @@ void UserInterface::on_load_level() {
 /**
  * Callback function : Save level
  */
-void UserInterface::on_save_level() {
+void UserInterface::onSaveLevel() {
  // TODO
 }
 
@@ -342,7 +434,7 @@ void UserInterface::on_save_level() {
 /**
  * Callback function : Generate atlas
  */
-void UserInterface::on_generate_atlas() {
+void UserInterface::onGenerateAtlas() {
  // TODO
 }
 
@@ -350,7 +442,7 @@ void UserInterface::on_generate_atlas() {
 /**
  * Callback function : History undo
  */
-void UserInterface::on_history_undo() {
+void UserInterface::onHistoryUndo() {
  // TODO
 }
 
@@ -358,7 +450,14 @@ void UserInterface::on_history_undo() {
 /**
  * Callback function : History redo
  */
-void UserInterface::on_history_redo() {
+void UserInterface::onHistoryRedo() {
  // TODO
 }
 
+
+/**
+ * Toggle 3 or 1 camera
+ */
+void UserInterface::onToggleCameras() {
+ m_onlyOneCamera = !m_onlyOneCamera;
+}

@@ -9,18 +9,18 @@
 #pragma once
 
 #include <ofFbo.h>
+#include <ofCamera.h>
 #include "Level.h"
+#include <array>
+#include <Camera.h>
 
 class Global {
 
 public:
 
-const static int FBO_RESOLUTION = 1000;
+ static std::array<Camera,3> m_cameras;
 
-// Framebuffer objects (camera to texture)
- static ofFbo m_fboCameraMain;
- static ofFbo m_fboCameraSecond;
- static ofFbo m_fboCameraThird;
+
  static Level level;
 
  static void setup();

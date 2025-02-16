@@ -13,10 +13,13 @@
 class Level {
 
 private:
-  BaseNode tree;
+  BaseNode* tree;
 
 public:
   Level();
+
+  BaseNode* getTree();
+
   void reset();
   bool loadFromFile(const char* filename);
   bool saveToFile(const char* filename);

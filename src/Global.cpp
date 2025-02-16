@@ -12,9 +12,8 @@
 #include <ofAppRunner.h>
 
 // Static allocation
-ofFbo Global::m_fboCameraMain;
-ofFbo Global::m_fboCameraSecond;
-ofFbo Global::m_fboCameraThird;
+std::array<Camera,3> Global::m_cameras;
+
 Level Global::level;
 
 
@@ -23,9 +22,10 @@ Level Global::level;
  */
 void Global::setup() {
 
- m_fboCameraMain.allocate(FBO_RESOLUTION, FBO_RESOLUTION, GL_RGB);
- m_fboCameraSecond.allocate(FBO_RESOLUTION, FBO_RESOLUTION, GL_RGB);
- m_fboCameraThird.allocate(FBO_RESOLUTION, FBO_RESOLUTION, GL_RGB);
+ m_cameras[0].setup(ofVec3f(0, 0, 100), ofVec3f(0, 0, 0));
+ m_cameras[1].setup(ofVec3f(0, 100, 0), ofVec3f(0, 0, 0));
+ m_cameras[2].setup(ofVec3f(100, 0, 0), ofVec3f(0, 0, 0));
+
  level.reset();
 
 }
