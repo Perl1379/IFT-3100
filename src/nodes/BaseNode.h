@@ -7,27 +7,43 @@
  *
  *****************************************************/
 #pragma once
-#include <of3dPrimitives.h>
+#include <ofMaterial.h>
 #include <ofNode.h>
+#include "NodeProperty.h"
 
 class BaseNode {
 
-private:
+protected:
     std::vector<BaseNode*> m_children;
     ofNode m_transform;
-
-    // To be removed
-    ofSpherePrimitive m_primitive;
+    std::string m_name = "Unnamed";
+    int m_id = 0;
+    bool m_displayBoundingBox = false;
+    ofMaterial m_materialNode;
+    ofMaterial m_materialBoundingBox;
 
 
 public:
+    virtual ~BaseNode() = default;
 
-    BaseNode();
+    explicit BaseNode(const std::string& p_name);
     virtual void draw();
-    void addChild(BaseNode* child);
+    void addChild(BaseNode* p_child);
 
-    // TODO:
-    // load and save function
+    void removeChild(int p_index);
+
+    ofNode& getTransform() { return m_transform; };
+    void setName(const std::string& p_name) { m_name = p_name; };
+    const std::string& getName() { return m_name; }
+    int getId() const;
+
+    void displayBoundingBox(bool display);
+
+    std::vector<BaseNode*>& getChildren() { return m_children; };
+    std::vector<NodeProperty> getProperties() const;
+    void setProperty(const std::string& p_name, std::any p_value);
+    BaseNode* findNode(int p_id);
+
 };
 
 

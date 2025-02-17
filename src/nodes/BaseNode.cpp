@@ -7,16 +7,23 @@
  *
  *****************************************************/
 #include "BaseNode.h"
-#include <of3dGraphics.h>
 
 
 /**
  * Constructor
  */
-BaseNode::BaseNode() {
-    m_primitive.setRadius(10.0);
-    m_primitive.setResolution(16.0);
-    m_primitive.setPosition(0, 0, 0);
+BaseNode::BaseNode(const std::string& p_name) : m_name(p_name) {
+
+    static int id_next = 0;
+    m_id = id_next++;
+
+    m_materialBoundingBox.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0)); // Full red emission
+    m_materialBoundingBox.setAmbientColor(ofFloatColor(1.0, 0.0, 0.0));  // Red base color
+    m_materialBoundingBox.setDiffuseColor(ofFloatColor(0.0));            // No diffuse
+    m_materialBoundingBox.setSpecularColor(ofFloatColor(0.0));           // No specular
+    m_materialNode.setShininess(100);  // Controls specular reflection
+    m_materialNode.setSpecularColor(ofColor(255, 255, 255));  // Highlights
+
 }
 
 
@@ -26,7 +33,6 @@ BaseNode::BaseNode() {
 void BaseNode::draw() {
 
     m_transform.transformGL();
-    m_primitive.draw();
 
     for (BaseNode* child : m_children) {
         child->draw();
@@ -38,10 +44,64 @@ void BaseNode::draw() {
 
 
 /**
+* Retrieve unique ID associated to the node
+*/
+int BaseNode::getId() const {
+    return m_id;
+}
+
+
+/**
+* Toggle display of a red bounding box, drawing is honored in draw function
+*/
+void BaseNode::displayBoundingBox(bool display) {
+    m_displayBoundingBox = display;
+}
+
+
+/**
  * Add child node
  */
-void BaseNode::addChild(BaseNode *child) {
+void BaseNode::addChild(BaseNode *p_child) {
 
-    child->m_transform.setParent(m_transform);
-    m_children.push_back(child);
+    m_children.push_back(p_child);
 }
+
+
+/**
+ * Reveal properties to the editor
+ */
+std::vector<NodeProperty> BaseNode::getProperties() const {
+
+    std::vector<NodeProperty> properties;
+    properties.emplace_back("Name", PROPERTY_TYPE::TEXT_FIELD, m_name);
+    properties.emplace_back("Position", PROPERTY_TYPE::VECTOR3, m_transform.getPosition());
+    properties.emplace_back("Orientation", PROPERTY_TYPE::VECTOR3, m_transform.getPosition());
+    return properties;
+
+}
+
+
+/**
+* Set property from editor
+*/
+void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
+    if (p_name == "Name") {
+        m_name = std::any_cast<std::string>(p_value);
+    }
+}
+
+
+/**
+* Find node (recursive search) by ID
+*/
+BaseNode* BaseNode::findNode(int p_id) {
+    if (p_id == m_id) return this;
+    for (BaseNode* child : m_children) {
+        BaseNode* result = child->findNode(p_id);
+        if (result != nullptr) return result;
+    }
+
+    return nullptr;
+}
+
