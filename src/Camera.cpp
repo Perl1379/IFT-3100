@@ -12,6 +12,7 @@ void Camera::setup(ofVec3f p_initial_position, ofVec3f p_initial_orientation) {
     m_initial_position = p_initial_position;
     m_initial_orientation = p_initial_orientation;
     m_fboTexture.allocate(32, 32, GL_RGB);
+    m_fboPickingTexture.allocate(32, 32, GL_RGB);
 
     reset();
 }
@@ -33,6 +34,7 @@ void Camera::resizeTextureIfNeeded() {
     int th = (int) m_fboTexture.getHeight();
     if (m_viewport_width != tw || m_viewport_height != th) {
         m_fboTexture.allocate(m_viewport_width, m_viewport_height, GL_RGB);
+        m_fboPickingTexture.allocate(m_viewport_width, m_viewport_height, GL_RGB);
     }
 }
 

@@ -23,7 +23,7 @@ public:
   void reset();
   bool loadFromFile(const char* filename);
   bool saveToFile(const char* filename);
-  void draw();
+  void draw(bool objectPicking);
 
 };
 

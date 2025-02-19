@@ -27,7 +27,7 @@ public:
     virtual ~BaseNode() = default;
 
     explicit BaseNode(const std::string& p_name);
-    virtual void draw();
+    virtual void draw(bool objectPicking);
     void addChild(BaseNode* p_child);
 
     void removeChild(int p_index);
@@ -40,8 +40,8 @@ public:
     void displayBoundingBox(bool display);
 
     std::vector<BaseNode*>& getChildren() { return m_children; };
-    std::vector<NodeProperty> getProperties() const;
-    void setProperty(const std::string& p_name, std::any p_value);
+    virtual std::vector<NodeProperty> getProperties() const;
+    virtual void setProperty(const std::string& p_name, std::any p_value);
     BaseNode* findNode(int p_id);
 
 };

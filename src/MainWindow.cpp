@@ -64,13 +64,19 @@ void MainWindow::cameraDraw(int index) {
  ofEnableLighting();
  light.enable();
  ofSetColor(255);
-
- Global::level.draw();
-
+ Global::m_level.draw(false);
  light.disable();
  ofDisableLighting();
  camera.end();
  fbo.end();
+
+ auto fboPicking = Global::m_cameras[index].getPickingFbo();
+ fboPicking.begin();
+ camera.begin();
+ ofBackground(0);
+ Global::m_level.draw(true);
+ camera.end();
+ fboPicking.end();
 
 }
 

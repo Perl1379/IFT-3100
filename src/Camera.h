@@ -11,6 +11,7 @@ class Camera {
     ofVec3f m_initial_orientation;
 
     ofFbo m_fboTexture;
+    ofFbo m_fboPickingTexture;
     ofCamera m_camera;
     int m_viewport_width = 0;
     int m_viewport_height = 0;
@@ -25,6 +26,10 @@ public:
 
     ofFbo & getFbo() {
         return m_fboTexture;
+    }
+
+    ofFbo & getPickingFbo() {
+        return m_fboPickingTexture;
     }
 
     ofCamera & getCamera() {

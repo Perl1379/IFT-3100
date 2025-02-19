@@ -19,11 +19,11 @@ class Global {
 public:
 
  static std::array<Camera,3> m_cameras;
-
-
- static Level level;
+ static Level m_level;
 
  static void setup();
+ static ofColor idToColor(int id);
+ static int colorToId(ofColor color);
 
 
 };

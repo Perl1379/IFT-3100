@@ -184,7 +184,7 @@ void UserInterface::drawTree() {
 
   ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Always);
 
-  for (BaseNode* child : Global::level.getTree()->getChildren()) {
+  for (BaseNode* child : Global::m_level.getTree()->getChildren()) {
    drawTreeElement(child);
   }
 
@@ -215,11 +215,11 @@ void UserInterface::drawTreeElement(BaseNode* node) {
   ofLog() << "Item selected:" << node->getName();
 
    if (m_selectedNode != -1) {
-    ofLog() << "Selected node:" << m_selectedNode << " :" << Global::level.getTree()->findNode(m_selectedNode);
-    Global::level.getTree()->findNode(m_selectedNode)->displayBoundingBox(false);
+    ofLog() << "Selected node:" << m_selectedNode << " :" << Global::m_level.getTree()->findNode(m_selectedNode);
+    Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(false);
    }
    m_selectedNode = node->getId();
-   Global::level.getTree()->findNode(m_selectedNode)->displayBoundingBox(true);
+   Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(true);
   }
 
 
@@ -250,51 +250,86 @@ void UserInterface::drawProperties() {
   return;
  }
 
- BaseNode* selectedNode = Global::level.getTree()->findNode(m_selectedNode);
+ BaseNode* selectedNode = Global::m_level.getTree()->findNode(m_selectedNode);
  if (selectedNode == nullptr) {
   ImGui::End();
   return;
  }
 
  auto properties = selectedNode->getProperties();
+ int count = 0;
  for (auto property : properties) {
 
-  ImGui::Text(property.getName().c_str());
-  ImGui::SameLine(100);
 
   switch(property.getType()) {
    case PROPERTY_TYPE::TEXT_FIELD:
    {
+    ImGui::Text(property.getName().c_str());
+    ImGui::SameLine(110);
 
     char buffer[255];
-    std::string value = std::any_cast<std::string>(property.getValue());
+    auto value = std::any_cast<std::string>(property.getValue());
     std::strncpy(buffer, value.c_str(), sizeof(buffer) - 1);  // Copy with limit
     buffer[sizeof(buffer) - 1] = '\0';
 
     if (ImGui::InputText("", buffer, IM_ARRAYSIZE(buffer))) {
-     ofLog() << "Text changed:" << "/" << selectedNode->getName() << " : " << buffer;
      selectedNode->setProperty(property.getName(), std::string(buffer));
     }
 
    }
    break;
+
    case PROPERTY_TYPE::COLOR_PICKER:
    {
-    ImGui::Text("---");
+    ImGui::Text(property.getName().c_str());
+    ImGui::SameLine(110);
+    auto color = std::any_cast<ofFloatColor>(property.getValue());
+
+    ImVec4 imColor = color;
+    if (ImGui::ColorButton(("...##" + std::to_string(count)).c_str(), imColor, 0, ImVec2(140,16))) {
+     // TODO: Handle color picker here
+    }
    }
    break;
+
+   case PROPERTY_TYPE::LABEL:
+   {
+    ImGui::Dummy(ImVec2(0, 5));
+    ImGui::TextColored(ImVec4(1,0.5,0.5,1), property.getName().c_str());
+   }
+   break;
+
    case PROPERTY_TYPE::VECTOR3:
    {
-    ImGui::Text("---");
+    ImGui::Text(property.getName().c_str());
+    ImGui::SameLine(110);
+    glm::vec3 value = std::any_cast<glm::vec3>(property.getValue());
+    std::ostringstream oss;
+    oss << value.x << "," << value.y << "," << value.z;
+    ImGui::Text(oss.str().c_str());
+    ImGui::SameLine(224);
+
+    if (ImGui::Button(("...##" + std::to_string(count)).c_str())) {
+     m_vec3Dialog.setTitle("Change " + property.getName());
+     m_vec3Dialog.useProperty(selectedNode, property.getName(), value);
+     m_vec3Dialog.openDialog();
+    }
+
 
    }
    break;
 
   }
 
+  count++;
+ }
+
+ if (m_vec3Dialog.isOpen()) {
+  m_vec3Dialog.draw();
  }
 
  ImGui::End();
+
 
 }
 
@@ -353,6 +388,7 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
 
  // If a viewport changed size, resize the associated FBO (also prevent float comparison)
  auto fbo = Global::m_cameras[index].getFbo();
+ auto pickingFbo = Global::m_cameras[index].getPickingFbo();
  auto camera = Global::m_cameras[index].getCamera();
 
  Global::m_cameras[index].setViewportSize(size_x, size_y);
@@ -366,6 +402,7 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
 
  ImVec2 windowSize = ImGui::GetContentRegionAvail();
  auto textureID = reinterpret_cast<ImTextureID>(fbo.getTexture().getTextureData().textureID);
+ auto cursorScreenPos = ImGui::GetCursorScreenPos();
  ImGui::Image(textureID, windowSize);
 
  if (ImGui::IsWindowHovered()) {
@@ -375,6 +412,39 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
  if (ImGui::IsWindowFocused()) {
 
   m_selectedWindow = name;
+
+  // Check if an object is clicked
+  if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+
+   ImVec2 imagePos = cursorScreenPos;  // Image top-left position
+
+   // Get mouse position relative to the image
+   ImVec2 mousePos = ImGui::GetMousePos();
+   auto mouseX = static_cast<size_t>(mousePos.x - imagePos.x);
+   auto mouseY = static_cast<size_t>(mousePos.y - imagePos.y);
+
+   ofPixels pixels;
+   pickingFbo.readToPixels(pixels);  // Read the entire FBO content to pixels
+
+   // Get the color of the clicked pixel
+   int pickedObjectId = Global::colorToId(pixels.getColor(mouseX, mouseY));
+
+   if (pickedObjectId != 0) {
+    // Verify if the object exists (just in case)
+    if (Global::m_level.getTree()->findNode(pickedObjectId) != nullptr) {
+
+     if (m_selectedNode != -1) {
+      Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(false);
+     }
+
+     m_selectedNode = pickedObjectId;
+     ofLog() << "New selected node:" << m_selectedNode;
+     Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(true);
+
+    }
+   }
+
+  }
 
   // Draw axis arrows
   float axisLength = 40.0f;
@@ -392,6 +462,9 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
   drawList->AddLine(startPos, startPos + ImVec2(rightDirection.x, rightDirection.y), IM_COL32(255, 0, 0, 255), 2.0f); // Red X-axis
   drawList->AddLine(startPos, startPos + ImVec2(upDirection.x, upDirection.y), IM_COL32(0, 255, 0, 255), 2.0f);    // Green Y-axis
   drawList->AddLine(startPos, startPos + ImVec2(forwardDirection.x, forwardDirection.y), IM_COL32(0, 0, 255, 255), 2.0f); // Blue Z-axis
+
+
+
  }
 
  ImGui::End();
