@@ -21,7 +21,7 @@ private:
 
 public:
  explicit SphereNode(const std::string& p_name);
- void draw() override;
+ void draw(bool objectPicking) override;
  void setRadius(float radius);
 
 };

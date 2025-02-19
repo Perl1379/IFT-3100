@@ -22,8 +22,8 @@ Level::Level() {
 /**
  * Draw node tree
  */
-void Level::draw() {
- tree->draw();
+void Level::draw(bool objectPicking) {
+ tree->draw(objectPicking);
 }
 
 
@@ -86,9 +86,9 @@ void test_spawn_sphere(BaseNode* tree, int sphere_count, float sphere_spacing, f
  */
 void Level::reset() {
 
- int sphere_count = 4;
+ int sphere_count = 2;
  float sphere_spacing = 16.0f;
- for (int z=0;z<4;z++) {
+ for (int z=0;z<2;z++) {
   test_spawn_sphere(tree, sphere_count, sphere_spacing, z * sphere_spacing, 0);
  }
 

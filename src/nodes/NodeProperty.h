@@ -14,6 +14,7 @@ enum PROPERTY_TYPE {
   TEXT_FIELD,
   VECTOR3,
   COLOR_PICKER,
+  LABEL,
 };
 
 

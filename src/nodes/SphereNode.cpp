@@ -8,6 +8,7 @@
  *****************************************************/
 #include "SphereNode.h"
 
+#include <Global.h>
 #include <of3dGraphics.h>
 #include <ofGraphics.h>
 #include <ofLight.h>
@@ -26,23 +27,33 @@ SphereNode::SphereNode(const std::string& p_name) : BaseNode(p_name) {
 /**
  * Draw node content
  */
-void SphereNode::draw() {
+void SphereNode::draw(bool objectPicking) {
 
  m_transform.transformGL();
- m_materialNode.begin();
- m_primitive.draw();
- m_materialNode.end();
 
- if (m_displayBoundingBox) {
-  float size = m_primitive.getRadius() * 2.0f;
-  m_materialBoundingBox.begin();
-  ofNoFill();
-  ofDrawBox(m_primitive.getGlobalPosition(), size, size, size);
-  m_materialBoundingBox.end();
+ if (!objectPicking) {
+  m_materialNode.begin();
+ } else {
+  ofSetColor(Global::idToColor(m_id));
+ }
+
+ m_primitive.draw();
+
+ if (!objectPicking) {
+  m_materialNode.end();
+
+  if (m_displayBoundingBox) {
+   float size = m_primitive.getRadius() * 2.0f;
+   m_materialBoundingBox.begin();
+   ofNoFill();
+
+   ofDrawBox(m_primitive.getGlobalPosition(), size, size, size);
+   m_materialBoundingBox.end();
+  }
  }
 
  for (BaseNode* child : m_children) {
-  child->draw();
+  child->draw(objectPicking);
  }
 
  m_transform.restoreTransformGL();
