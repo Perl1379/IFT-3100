@@ -12,36 +12,36 @@
 #include "Global.h"
 
 
-/**
- * Setup user interface
- */
+ /**
+  * Setup user interface
+  */
 void UserInterface::setup() {
- m_gui.setup();
+	m_gui.setup();
 
- // Load images needed by the toolbar
- ofImage imgToolbarNewLevel;
- imgToolbarNewLevel.load("images/ui/toolbar_buttons/new_level.png");
- m_textureToolbarNewLevel = imgToolbarNewLevel.getTexture();
+	// Load images needed by the toolbar
+	ofImage imgToolbarNewLevel;
+	imgToolbarNewLevel.load("images/ui/toolbar_buttons/new_level.png");
+	m_textureToolbarNewLevel = imgToolbarNewLevel.getTexture();
 
- ofImage imgToolbarLoadLevel;
- imgToolbarLoadLevel.load("images/ui/toolbar_buttons/load_level.png");
- m_textureToolbarLoadLevel = imgToolbarLoadLevel.getTexture();
+	ofImage imgToolbarLoadLevel;
+	imgToolbarLoadLevel.load("images/ui/toolbar_buttons/load_level.png");
+	m_textureToolbarLoadLevel = imgToolbarLoadLevel.getTexture();
 
- ofImage imgToolbarSaveLevel;
- imgToolbarSaveLevel.load("images/ui/toolbar_buttons/save_level.png");
- m_textureToolbarSaveLevel = imgToolbarSaveLevel.getTexture();
+	ofImage imgToolbarSaveLevel;
+	imgToolbarSaveLevel.load("images/ui/toolbar_buttons/save_level.png");
+	m_textureToolbarSaveLevel = imgToolbarSaveLevel.getTexture();
 
- ofImage imgToolbarGenerateAtlas;
- imgToolbarGenerateAtlas.load("images/ui/toolbar_buttons/generate_atlas.png");
- m_textureToolbarGenerateAtlas = imgToolbarGenerateAtlas.getTexture();
+	ofImage imgToolbarGenerateAtlas;
+	imgToolbarGenerateAtlas.load("images/ui/toolbar_buttons/generate_atlas.png");
+	m_textureToolbarGenerateAtlas = imgToolbarGenerateAtlas.getTexture();
 
- ofImage imgToolbarToggleCameras;
- imgToolbarToggleCameras.load("images/ui/toolbar_buttons/toggle_cameras.png");
- m_textureToolbarToggleCameras = imgToolbarToggleCameras.getTexture();
+	ofImage imgToolbarToggleCameras;
+	imgToolbarToggleCameras.load("images/ui/toolbar_buttons/toggle_cameras.png");
+	m_textureToolbarToggleCameras = imgToolbarToggleCameras.getTexture();
 
- ofImage imgToolbarToggleCamerasPressed;
- imgToolbarToggleCamerasPressed.load("images/ui/toolbar_buttons/toggle_cameras_pressed.png");
- m_textureToolbarToggleCamerasPressed = imgToolbarToggleCamerasPressed.getTexture();
+	ofImage imgToolbarToggleCamerasPressed;
+	imgToolbarToggleCamerasPressed.load("images/ui/toolbar_buttons/toggle_cameras_pressed.png");
+	m_textureToolbarToggleCamerasPressed = imgToolbarToggleCamerasPressed.getTexture();
 
 }
 
@@ -51,24 +51,24 @@ void UserInterface::setup() {
  */
 void UserInterface::draw() {
 
- m_gui.begin();
+	m_gui.begin();
 
- m_selectedWindow = "";
- m_hoveredWindow = "";
+	m_selectedWindow = "";
+	m_hoveredWindow = "";
 
- drawMenu();
- drawToolbar();
- drawTree();
- drawProperties();
- drawViewports();
- drawStatus();
+	drawMenu();
+	drawToolbar();
+	drawTree();
+	drawProperties();
+	drawViewports();
+	drawStatus();
 
- if (m_initialDraw) {
-  m_initialDraw = false;
-  ImGui::SetWindowFocus("Main Camera");
- }
+	if (m_initialDraw) {
+		m_initialDraw = false;
+		ImGui::SetWindowFocus("Main Camera");
+	}
 
- m_gui.end();
+	m_gui.end();
 
 }
 
@@ -78,50 +78,50 @@ void UserInterface::draw() {
  */
 void UserInterface::drawMenu() {
 
- // Draw menu
- if (ImGui::BeginMainMenuBar()) {
+	// Draw menu
+	if (ImGui::BeginMainMenuBar()) {
 
-  if (ImGui::BeginMenu("File")) {
-   if (ImGui::MenuItem("New Level")) {
-    onNewLevel();
-   }
-   if (ImGui::MenuItem("Load Level")) {
-    onLoadLevel();
-   }
-   if (ImGui::MenuItem("Save Level")) {
-    onSaveLevel();
-   }
+		if (ImGui::BeginMenu("File")) {
+			if (ImGui::MenuItem("New Level")) {
+				onNewLevel();
+			}
+			if (ImGui::MenuItem("Load Level")) {
+				onLoadLevel();
+			}
+			if (ImGui::MenuItem("Save Level")) {
+				onSaveLevel();
+			}
 
-   if (ImGui::MenuItem("Generate Texture Atlas")) {
-    onGenerateAtlas();
-   }
+			if (ImGui::MenuItem("Generate Texture Atlas")) {
+				onGenerateAtlas();
+			}
 
-   if (ImGui::MenuItem("Exit")) {
-    ofExit(0);
-   }
+			if (ImGui::MenuItem("Exit")) {
+				ofExit(0);
+			}
 
-   ImGui::EndMenu();
-  }
+			ImGui::EndMenu();
+		}
 
-  if (ImGui::BeginMenu("Edit")) {
-   if (ImGui::MenuItem("Undo")) {
-    onHistoryUndo();
-   }
-   if (ImGui::MenuItem("Redo")) {
-    onHistoryRedo();
-   }
-   ImGui::EndMenu();
-  }
+		if (ImGui::BeginMenu("Edit")) {
+			if (ImGui::MenuItem("Undo")) {
+				onHistoryUndo();
+			}
+			if (ImGui::MenuItem("Redo")) {
+				onHistoryRedo();
+			}
+			ImGui::EndMenu();
+		}
 
-  if (ImGui::BeginMenu("Help")) {
-   if (ImGui::MenuItem("About Knight Maker")) {
-    onAboutProgram();
-   }
-   ImGui::EndMenu();
-  }
+		if (ImGui::BeginMenu("Help")) {
+			if (ImGui::MenuItem("About Knight Maker")) {
+				onAboutProgram();
+			}
+			ImGui::EndMenu();
+		}
 
-  ImGui::EndMainMenuBar(); // End the menu bar
- }
+		ImGui::EndMainMenuBar(); // End the menu bar
+	}
 }
 
 
@@ -130,43 +130,43 @@ void UserInterface::drawMenu() {
  */
 void UserInterface::drawToolbar() {
 
- ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetFrameHeight()), ImGuiCond_Always);
- ImGui::SetNextWindowSize(ImVec2(ofGetWidth(), TOOLBAR_HEIGHT));
+	ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetFrameHeight()), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(ofGetWidth(), TOOLBAR_HEIGHT));
 
- ImGuiWindowFlags toolbarFlags = ImGuiWindowFlags_NoTitleBar |
-                                 ImGuiWindowFlags_NoResize |
-                                 ImGuiWindowFlags_NoMove |
-                                 ImGuiWindowFlags_NoCollapse |
-                                 ImGuiWindowFlags_NoScrollbar;
+	ImGuiWindowFlags toolbarFlags = ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_NoResize |
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoCollapse |
+		ImGuiWindowFlags_NoScrollbar;
 
- if (ImGui::Begin("Toolbar", nullptr, toolbarFlags)) {
+	if (ImGui::Begin("Toolbar", nullptr, toolbarFlags)) {
 
-  if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarNewLevel.getTextureData().textureID), ImVec2(48, 48))) {
-   onNewLevel();
-  }
-  ImGui::SameLine();
+		if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarNewLevel.getTextureData().textureID), ImVec2(48, 48))) {
+			onNewLevel();
+		}
+		ImGui::SameLine();
 
-  if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarLoadLevel.getTextureData().textureID), ImVec2(48, 48))) {
-    onLoadLevel();
-  }
-  ImGui::SameLine();
+		if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarLoadLevel.getTextureData().textureID), ImVec2(48, 48))) {
+			onLoadLevel();
+		}
+		ImGui::SameLine();
 
-  if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarSaveLevel.getTextureData().textureID), ImVec2(48, 48))) {
-   onSaveLevel();
-  }
-  ImGui::SameLine();
+		if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarSaveLevel.getTextureData().textureID), ImVec2(48, 48))) {
+			onSaveLevel();
+		}
+		ImGui::SameLine();
 
-  if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarGenerateAtlas.getTextureData().textureID), ImVec2(48, 48))) {
-   onGenerateAtlas();
-  }
-  ImGui::SameLine();
+		if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarGenerateAtlas.getTextureData().textureID), ImVec2(48, 48))) {
+			onGenerateAtlas();
+		}
+		ImGui::SameLine();
 
-  if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_onlyOneCamera ? m_textureToolbarToggleCamerasPressed.getTextureData().textureID : m_textureToolbarToggleCameras.getTextureData().textureID), ImVec2(48, 48))) {
-   onToggleCameras();
-  }
+		if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_onlyOneCamera ? m_textureToolbarToggleCamerasPressed.getTextureData().textureID : m_textureToolbarToggleCameras.getTextureData().textureID), ImVec2(48, 48))) {
+			onToggleCameras();
+		}
 
- }
- ImGui::End();
+	}
+	ImGui::End();
 }
 
 
@@ -175,22 +175,22 @@ void UserInterface::drawToolbar() {
  */
 void UserInterface::drawTree() {
 
-// Define position and size
- ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImGuiCond_Always);
- ImGui::SetNextWindowSize(ImVec2(LEFTPANEL_WIDTH, TREEVIEW_HEIGHT), ImGuiCond_Always);
+	// Define position and size
+	ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(LEFTPANEL_WIDTH, TREEVIEW_HEIGHT), ImGuiCond_Always);
 
- if (ImGui::Begin("Level", nullptr,
-     ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse)) {
+	if (ImGui::Begin("Level", nullptr,
+		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse)) {
 
-  ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Always);
+		ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Always);
 
-  for (BaseNode* child : Global::m_level.getTree()->getChildren()) {
-   drawTreeElement(child);
-  }
+		for (BaseNode* child : Global::m_level.getTree()->getChildren()) {
+			drawTreeElement(child);
+		}
 
-  ImGui::End();
+		ImGui::End();
 
- }
+	}
 }
 
 
@@ -199,35 +199,35 @@ void UserInterface::drawTree() {
 */
 void UserInterface::drawTreeElement(BaseNode* node) {
 
- ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Always);ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Bullet;
- if (node->getChildren().size() == 0)
- {
-  flags |= ImGuiTreeNodeFlags_Leaf;
- }
+	ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Always); ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Bullet;
+	if (node->getChildren().size() == 0)
+	{
+		flags |= ImGuiTreeNodeFlags_Leaf;
+	}
 
- if (m_selectedNode == node->getId()) {
-  flags |= ImGuiTreeNodeFlags_Selected;
- }
+	if (m_selectedNode == node->getId()) {
+		flags |= ImGuiTreeNodeFlags_Selected;
+	}
 
- if (ImGui::TreeNodeEx(node->getName().c_str(), flags)) {
+	if (ImGui::TreeNodeEx(node->getName().c_str(), flags)) {
 
-  if (ImGui::IsItemClicked()) {
-  ofLog() << "Item selected:" << node->getName();
+		if (ImGui::IsItemClicked()) {
+			ofLog() << "Item selected:" << node->getName();
 
-   if (m_selectedNode != -1) {
-    ofLog() << "Selected node:" << m_selectedNode << " :" << Global::m_level.getTree()->findNode(m_selectedNode);
-    Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(false);
-   }
-   m_selectedNode = node->getId();
-   Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(true);
-  }
+			if (m_selectedNode != -1) {
+				ofLog() << "Selected node:" << m_selectedNode << " :" << Global::m_level.getTree()->findNode(m_selectedNode);
+				Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(false);
+			}
+			m_selectedNode = node->getId();
+			Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(true);
+		}
 
 
-  for (BaseNode* child : node->getChildren()) {
-   drawTreeElement(child);
-  }
-  ImGui::TreePop();
- }
+		for (BaseNode* child : node->getChildren()) {
+			drawTreeElement(child);
+		}
+		ImGui::TreePop();
+	}
 
 
 }
@@ -239,96 +239,96 @@ void UserInterface::drawTreeElement(BaseNode* node) {
  */
 void UserInterface::drawProperties() {
 
- int posY = ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + TREEVIEW_HEIGHT + 8;
- ImGui::SetNextWindowPos(ImVec2(0, posY));
- ImGui::SetNextWindowSize(ImVec2(LEFTPANEL_WIDTH, ofGetHeight() - STATUSBAR_HEIGHT - posY - 2));
+	int posY = ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + TREEVIEW_HEIGHT + 8;
+	ImGui::SetNextWindowPos(ImVec2(0, posY));
+	ImGui::SetNextWindowSize(ImVec2(LEFTPANEL_WIDTH, ofGetHeight() - STATUSBAR_HEIGHT - posY - 2));
 
- ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+	ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
- if (m_selectedNode == -1) {
-  ImGui::End();
-  return;
- }
+	if (m_selectedNode == -1) {
+		ImGui::End();
+		return;
+	}
 
- BaseNode* selectedNode = Global::m_level.getTree()->findNode(m_selectedNode);
- if (selectedNode == nullptr) {
-  ImGui::End();
-  return;
- }
+	BaseNode* selectedNode = Global::m_level.getTree()->findNode(m_selectedNode);
+	if (selectedNode == nullptr) {
+		ImGui::End();
+		return;
+	}
 
- auto properties = selectedNode->getProperties();
- int count = 0;
- for (auto property : properties) {
-
-
-  switch(property.getType()) {
-   case PROPERTY_TYPE::TEXT_FIELD:
-   {
-    ImGui::Text(property.getName().c_str());
-    ImGui::SameLine(110);
-
-    char buffer[255];
-    auto value = std::any_cast<std::string>(property.getValue());
-    std::strncpy(buffer, value.c_str(), sizeof(buffer) - 1);  // Copy with limit
-    buffer[sizeof(buffer) - 1] = '\0';
-
-    if (ImGui::InputText("", buffer, IM_ARRAYSIZE(buffer))) {
-     selectedNode->setProperty(property.getName(), std::string(buffer));
-    }
-
-   }
-   break;
-
-   case PROPERTY_TYPE::COLOR_PICKER:
-   {
-    ImGui::Text(property.getName().c_str());
-    ImGui::SameLine(110);
-    auto color = std::any_cast<ofFloatColor>(property.getValue());
-
-    ImVec4 imColor = color;
-    if (ImGui::ColorButton(("...##" + std::to_string(count)).c_str(), imColor, 0, ImVec2(140,16))) {
-     // TODO: Handle color picker here
-    }
-   }
-   break;
-
-   case PROPERTY_TYPE::LABEL:
-   {
-    ImGui::Dummy(ImVec2(0, 5));
-    ImGui::TextColored(ImVec4(1,0.5,0.5,1), property.getName().c_str());
-   }
-   break;
-
-   case PROPERTY_TYPE::VECTOR3:
-   {
-    ImGui::Text(property.getName().c_str());
-    ImGui::SameLine(110);
-    glm::vec3 value = std::any_cast<glm::vec3>(property.getValue());
-    std::ostringstream oss;
-    oss << value.x << "," << value.y << "," << value.z;
-    ImGui::Text(oss.str().c_str());
-    ImGui::SameLine(224);
-
-    if (ImGui::Button(("...##" + std::to_string(count)).c_str())) {
-     m_vec3Dialog.setTitle("Change " + property.getName());
-     m_vec3Dialog.useProperty(selectedNode, property.getName(), value);
-     m_vec3Dialog.openDialog();
-    }
+	auto properties = selectedNode->getProperties();
+	int count = 0;
+	for (auto property : properties) {
 
 
-   }
-   break;
+		switch (property.getType()) {
+		case PROPERTY_TYPE::TEXT_FIELD:
+		{
+			ImGui::Text(property.getName().c_str());
+			ImGui::SameLine(110);
 
-  }
+			char buffer[255];
+			auto value = std::any_cast<std::string>(property.getValue());
+			std::strncpy(buffer, value.c_str(), sizeof(buffer) - 1);  // Copy with limit
+			buffer[sizeof(buffer) - 1] = '\0';
 
-  count++;
- }
+			if (ImGui::InputText("", buffer, IM_ARRAYSIZE(buffer))) {
+				selectedNode->setProperty(property.getName(), std::string(buffer));
+			}
 
- if (m_vec3Dialog.isOpen()) {
-  m_vec3Dialog.draw();
- }
+		}
+		break;
 
- ImGui::End();
+		case PROPERTY_TYPE::COLOR_PICKER:
+		{
+			ImGui::Text(property.getName().c_str());
+			ImGui::SameLine(110);
+			auto color = std::any_cast<ofFloatColor>(property.getValue());
+
+			ImVec4 imColor = color;
+			if (ImGui::ColorButton(("...##" + std::to_string(count)).c_str(), imColor, 0, ImVec2(140, 16))) {
+				// TODO: Handle color picker here
+			}
+		}
+		break;
+
+		case PROPERTY_TYPE::LABEL:
+		{
+			ImGui::Dummy(ImVec2(0, 5));
+			ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), property.getName().c_str());
+		}
+		break;
+
+		case PROPERTY_TYPE::VECTOR3:
+		{
+			ImGui::Text(property.getName().c_str());
+			ImGui::SameLine(110);
+			glm::vec3 value = std::any_cast<glm::vec3>(property.getValue());
+			std::ostringstream oss;
+			oss << value.x << "," << value.y << "," << value.z;
+			ImGui::Text(oss.str().c_str());
+			ImGui::SameLine(224);
+
+			if (ImGui::Button(("...##" + std::to_string(count)).c_str())) {
+				m_vec3Dialog.setTitle("Change " + property.getName());
+				m_vec3Dialog.useProperty(selectedNode, property.getName(), value);
+				m_vec3Dialog.openDialog();
+			}
+
+
+		}
+		break;
+
+		}
+
+		count++;
+	}
+
+	if (m_vec3Dialog.isOpen()) {
+		m_vec3Dialog.draw();
+	}
+
+	ImGui::End();
 
 
 }
@@ -339,16 +339,16 @@ void UserInterface::drawProperties() {
 */
 void UserInterface::drawStatus() {
 
- ImGui::SetNextWindowPos(ImVec2(0, ofGetHeight() - STATUSBAR_HEIGHT)); // Position the status bar at the bottom
- ImGui::SetNextWindowSize(ImVec2(ofGetWidth(), STATUSBAR_HEIGHT)); // Set the height of the status bar
+	ImGui::SetNextWindowPos(ImVec2(0, ofGetHeight() - STATUSBAR_HEIGHT)); // Position the status bar at the bottom
+	ImGui::SetNextWindowSize(ImVec2(ofGetWidth(), STATUSBAR_HEIGHT)); // Set the height of the status bar
 
- ImGui::Begin("Status Bar", nullptr,
-  ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+	ImGui::Begin("Status Bar", nullptr,
+		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
- ImGui::Text("");
- ImGui::SameLine(ImGui::GetWindowWidth() - 100);
- ImGui::Text("FPS: %.1f", ofGetFrameRate());
- ImGui::End();
+	ImGui::Text("");
+	ImGui::SameLine(ImGui::GetWindowWidth() - 100);
+	ImGui::Text("FPS: %.1f", ofGetFrameRate());
+	ImGui::End();
 
 }
 
@@ -358,21 +358,22 @@ void UserInterface::drawStatus() {
  */
 void UserInterface::drawViewports() {
 
- if (m_onlyOneCamera) {
-  float cameraSizeFirstWidth = (float) (ofGetWidth() - LEFTPANEL_WIDTH - 4);
-  float cameraSizeFirstHeight = (float) ofGetHeight() - ImGui::GetFrameHeight() - STATUSBAR_HEIGHT - TOOLBAR_HEIGHT - 8;
-  drawViewport("Main Camera", 0, ImVec2(LEFTPANEL_WIDTH + 2, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImVec2(cameraSizeFirstWidth, cameraSizeFirstHeight));
+	if (m_onlyOneCamera) {
+		float cameraSizeFirstWidth = (float)(ofGetWidth() - LEFTPANEL_WIDTH - 4);
+		float cameraSizeFirstHeight = (float)ofGetHeight() - ImGui::GetFrameHeight() - STATUSBAR_HEIGHT - TOOLBAR_HEIGHT - 8;
+		drawViewport("Main Camera", 0, ImVec2(LEFTPANEL_WIDTH + 2, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImVec2(cameraSizeFirstWidth, cameraSizeFirstHeight));
 
- } else {
-  float cameraSizeFirstHeight = (float) ofGetHeight() - ImGui::GetFrameHeight() - STATUSBAR_HEIGHT - TOOLBAR_HEIGHT - 8;
-  float cameraSizeSecond = ((float) ofGetHeight() - ImGui::GetFrameHeight() - STATUSBAR_HEIGHT - TOOLBAR_HEIGHT - 8) / 2.0;
-  float cameraSizeThird = cameraSizeSecond;
-  float cameraSizeFirstWidth = (float) (ofGetWidth() - cameraSizeSecond - LEFTPANEL_WIDTH - 4);
+	}
+	else {
+		float cameraSizeFirstHeight = (float)ofGetHeight() - ImGui::GetFrameHeight() - STATUSBAR_HEIGHT - TOOLBAR_HEIGHT - 8;
+		float cameraSizeSecond = ((float)ofGetHeight() - ImGui::GetFrameHeight() - STATUSBAR_HEIGHT - TOOLBAR_HEIGHT - 8) / 2.0;
+		float cameraSizeThird = cameraSizeSecond;
+		float cameraSizeFirstWidth = (float)(ofGetWidth() - cameraSizeSecond - LEFTPANEL_WIDTH - 4);
 
-  drawViewport("Main Camera", 0, ImVec2(LEFTPANEL_WIDTH + 2, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImVec2(cameraSizeFirstWidth, cameraSizeFirstHeight));
-  drawViewport("Second Camera", 1, ImVec2(LEFTPANEL_WIDTH + 4 + cameraSizeFirstWidth, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImVec2(cameraSizeSecond, cameraSizeSecond));
-  drawViewport("Third Camera", 2, ImVec2(LEFTPANEL_WIDTH + 4 + cameraSizeFirstWidth, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 7 + cameraSizeSecond), ImVec2(cameraSizeThird, cameraSizeThird));
- }
+		drawViewport("Main Camera", 0, ImVec2(LEFTPANEL_WIDTH + 2, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImVec2(cameraSizeFirstWidth, cameraSizeFirstHeight));
+		drawViewport("Second Camera", 1, ImVec2(LEFTPANEL_WIDTH + 4 + cameraSizeFirstWidth, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImVec2(cameraSizeSecond, cameraSizeSecond));
+		drawViewport("Third Camera", 2, ImVec2(LEFTPANEL_WIDTH + 4 + cameraSizeFirstWidth, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 7 + cameraSizeSecond), ImVec2(cameraSizeThird, cameraSizeThird));
+	}
 
 }
 
@@ -380,94 +381,95 @@ void UserInterface::drawViewports() {
 /**
  * Draw a specific viewport (each viewport have a camera associated with)
  */
-void UserInterface::drawViewport(const std::string &name, int index, const ImVec2 &position, const ImVec2 &size) {
+void UserInterface::drawViewport(const std::string& name, int index, const ImVec2& position, const ImVec2& size) {
 
- // Convert from float to integers
- int size_x = (int) size.x;
- int size_y = (int) size.y;
+	// Convert from float to integers
+	int size_x = (int)size.x;
+	int size_y = (int)size.y;
 
- // If a viewport changed size, resize the associated FBO (also prevent float comparison)
- auto fbo = Global::m_cameras[index].getFbo();
- auto pickingFbo = Global::m_cameras[index].getPickingFbo();
- auto camera = Global::m_cameras[index].getCamera();
+	// I
+	//               f a viewport changed size, resize the associated FBO (also prevent float comparison)
+	auto fbo = Global::m_cameras[index].getFbo();
+	auto pickingFbo = Global::m_cameras[index].getPickingFbo();
+	auto camera = Global::m_cameras[index].getCamera();
 
- Global::m_cameras[index].setViewportSize(size_x, size_y);
-
-
- ImGui::SetNextWindowPos(position); // Position the status bar at the bottom
- ImGui::SetNextWindowSize(size); // Set the height of the status bar
-
- ImGui::Begin(name.c_str(), nullptr,
-  ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing);
-
- ImVec2 windowSize = ImGui::GetContentRegionAvail();
- auto textureID = reinterpret_cast<ImTextureID>(fbo.getTexture().getTextureData().textureID);
- auto cursorScreenPos = ImGui::GetCursorScreenPos();
- ImGui::Image(textureID, windowSize);
-
- if (ImGui::IsWindowHovered()) {
-  m_hoveredWindow = name;
- }
-
- if (ImGui::IsWindowFocused()) {
-
-  m_selectedWindow = name;
-
-  // Check if an object is clicked
-  if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-
-   ImVec2 imagePos = cursorScreenPos;  // Image top-left position
-
-   // Get mouse position relative to the image
-   ImVec2 mousePos = ImGui::GetMousePos();
-   auto mouseX = static_cast<size_t>(mousePos.x - imagePos.x);
-   auto mouseY = static_cast<size_t>(mousePos.y - imagePos.y);
-
-   ofPixels pixels;
-   pickingFbo.readToPixels(pixels);  // Read the entire FBO content to pixels
-
-   // Get the color of the clicked pixel
-   int pickedObjectId = Global::colorToId(pixels.getColor(mouseX, mouseY));
-
-   if (pickedObjectId != 0) {
-    // Verify if the object exists (just in case)
-    if (Global::m_level.getTree()->findNode(pickedObjectId) != nullptr) {
-
-     if (m_selectedNode != -1) {
-      Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(false);
-     }
-
-     m_selectedNode = pickedObjectId;
-     ofLog() << "New selected node:" << m_selectedNode;
-     Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(true);
-
-    }
-   }
-
-  }
-
-  // Draw axis arrows
-  float axisLength = 40.0f;
-
-  ofVec3f rightDirection = camera.getXAxis();  // Right direction
-  ofVec3f upDirection = camera.getYAxis();     // Up direction
-  ofVec3f forwardDirection = camera.getZAxis(); // Forward direction
-
-  rightDirection *= axisLength;
-  upDirection *= axisLength;
-  forwardDirection *= axisLength;
-
-  ImVec2 startPos = position + ImVec2(50,70);
-  ImDrawList* drawList = ImGui::GetWindowDrawList();
-  drawList->AddLine(startPos, startPos + ImVec2(rightDirection.x, rightDirection.y), IM_COL32(255, 0, 0, 255), 2.0f); // Red X-axis
-  drawList->AddLine(startPos, startPos + ImVec2(upDirection.x, upDirection.y), IM_COL32(0, 255, 0, 255), 2.0f);    // Green Y-axis
-  drawList->AddLine(startPos, startPos + ImVec2(forwardDirection.x, forwardDirection.y), IM_COL32(0, 0, 255, 255), 2.0f); // Blue Z-axis
+	Global::m_cameras[index].setViewportSize(size_x, size_y);
 
 
+	ImGui::SetNextWindowPos(position); // Position the status bar at the bottom
+	ImGui::SetNextWindowSize(size); // Set the height of the status bar
 
- }
+	ImGui::Begin(name.c_str(), nullptr,
+		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing);
 
- ImGui::End();
+	ImVec2 windowSize = ImGui::GetContentRegionAvail();
+	auto textureID = reinterpret_cast<ImTextureID>(fbo.getTexture().getTextureData().textureID);
+	auto cursorScreenPos = ImGui::GetCursorScreenPos();
+	ImGui::Image(textureID, windowSize);
+
+	if (ImGui::IsWindowHovered()) {
+		m_hoveredWindow = name;
+	}
+
+	if (ImGui::IsWindowFocused()) {
+
+		m_selectedWindow = name;
+
+		// Check if an object is clicked
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+
+			ImVec2 imagePos = cursorScreenPos;  // Image top-left position
+
+			// Get mouse position relative to the image
+			ImVec2 mousePos = ImGui::GetMousePos();
+			auto mouseX = static_cast<size_t>(mousePos.x - imagePos.x);
+			auto mouseY = static_cast<size_t>(mousePos.y - imagePos.y);
+
+			ofPixels pixels;
+			pickingFbo.readToPixels(pixels);  // Read the entire FBO content to pixels
+
+			// Get the color of the clicked pixel
+			int pickedObjectId = Global::colorToId(pixels.getColor(mouseX, mouseY));
+
+			if (pickedObjectId != 0) {
+				// Verify if the object exists (just in case)
+				if (Global::m_level.getTree()->findNode(pickedObjectId) != nullptr) {
+
+					if (m_selectedNode != -1) {
+						Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(false);
+					}
+
+					m_selectedNode = pickedObjectId;
+					ofLog() << "New selected node:" << m_selectedNode;
+					Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(true);
+
+				}
+			}
+
+		}
+
+		// Draw axis arrows
+		float axisLength = 40.0f;
+
+		ofVec3f rightDirection = camera.getXAxis();  // Right direction
+		ofVec3f upDirection = camera.getYAxis();     // Up direction
+		ofVec3f forwardDirection = camera.getZAxis(); // Forward direction
+
+		rightDirection *= axisLength;
+		upDirection *= axisLength;
+		forwardDirection *= axisLength;
+
+		ImVec2 startPos = position + ImVec2(50, 70);
+		ImDrawList* drawList = ImGui::GetWindowDrawList();
+		drawList->AddLine(startPos, startPos + ImVec2(rightDirection.x, rightDirection.y), IM_COL32(255, 0, 0, 255), 2.0f); // Red X-axis
+		drawList->AddLine(startPos, startPos + ImVec2(upDirection.x, upDirection.y), IM_COL32(0, 255, 0, 255), 2.0f);    // Green Y-axis
+		drawList->AddLine(startPos, startPos + ImVec2(forwardDirection.x, forwardDirection.y), IM_COL32(0, 0, 255, 255), 2.0f); // Blue Z-axis
+
+
+
+	}
+
+	ImGui::End();
 }
 
 
@@ -476,7 +478,7 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
  * Callback function : Show about dialog
  */
 void UserInterface::onAboutProgram() {
- // TODO
+	// TODO
 }
 
 
@@ -484,7 +486,7 @@ void UserInterface::onAboutProgram() {
  * Callback function : New level
  */
 void UserInterface::onNewLevel() {
- // TODO
+	// TODO
 }
 
 
@@ -492,7 +494,7 @@ void UserInterface::onNewLevel() {
  * Callback function : load level
  */
 void UserInterface::onLoadLevel() {
- // TODO
+	// TODO
 }
 
 
@@ -500,7 +502,7 @@ void UserInterface::onLoadLevel() {
  * Callback function : Save level
  */
 void UserInterface::onSaveLevel() {
- // TODO
+	// TODO
 }
 
 
@@ -508,7 +510,7 @@ void UserInterface::onSaveLevel() {
  * Callback function : Generate atlas
  */
 void UserInterface::onGenerateAtlas() {
- // TODO
+	// TODO
 }
 
 
@@ -516,7 +518,7 @@ void UserInterface::onGenerateAtlas() {
  * Callback function : History undo
  */
 void UserInterface::onHistoryUndo() {
- // TODO
+	// TODO
 }
 
 
@@ -524,7 +526,7 @@ void UserInterface::onHistoryUndo() {
  * Callback function : History redo
  */
 void UserInterface::onHistoryRedo() {
- // TODO
+	// TODO
 }
 
 
@@ -532,5 +534,29 @@ void UserInterface::onHistoryRedo() {
  * Toggle 3 or 1 camera
  */
 void UserInterface::onToggleCameras() {
- m_onlyOneCamera = !m_onlyOneCamera;
+	m_onlyOneCamera = !m_onlyOneCamera;
+}
+
+
+/**
+ * Get selected window
+ */
+const std::string& UserInterface::getSelectedWindow() const {
+	return m_selectedWindow;
+}
+
+
+/**
+ * Get hovered window
+ */
+const std::string& UserInterface::getHoveredWindow() const {
+	return m_hoveredWindow;
+}
+
+
+/**
+ * Only one camera need to be shown
+ */
+bool UserInterface::onlyOneCamera() const {
+	return m_onlyOneCamera;
 }

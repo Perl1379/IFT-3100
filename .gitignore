@@ -1,2 +1,13 @@
 .idea
-
+.vs
+obj
+bin/fmod.dll
+bin/fmodL.dll
+bin/FreeImage.dll
+bin/IFT-3100_debug.exe
+bin/IFT-3100_debug.pdb
+bin/imgui.ini
+IFT-3100.sln
+IFT-3100.vcxproj
+IFT-3100.vcxproj.filters
+IFT-3100.vcxproj.user

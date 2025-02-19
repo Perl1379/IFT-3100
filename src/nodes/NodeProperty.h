@@ -11,10 +11,10 @@
 #include <string>
 
 enum PROPERTY_TYPE {
-  TEXT_FIELD,
-  VECTOR3,
-  COLOR_PICKER,
-  LABEL,
+	TEXT_FIELD,
+	VECTOR3,
+	COLOR_PICKER,
+	LABEL,
 };
 
 
@@ -22,16 +22,16 @@ class NodeProperty {
 
 private:
 
-    std::string m_name;
-    int m_type;
-    std::any m_value;
+	std::string m_name;
+	int m_type;
+	std::any m_value;
 
 public:
 
-    NodeProperty(std::string p_name, int p_type, std::any p_value);
-    const std::string getName();
-    const int getType();
-    const std::any getValue();
+	NodeProperty(std::string p_name, int p_type, std::any p_value);
+	const std::string getName();
+	const int getType();
+	const std::any getValue();
 
 };
 

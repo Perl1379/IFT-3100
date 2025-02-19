@@ -1,45 +1,82 @@
-//
-// Created by cobolfoo on 2/13/25.
-//
+/*****************************************************
+ * TP IFT3100H24 - Knight Maker
+ * by Team 12
+ *****************************************************
+ *
+ * Camera class implementation
+ *
+ *****************************************************/
 
 #include "Camera.h"
 
+ /**
+  * Setup camera with default values
+  */
+void Camera::setup(ofVec3f p_initialPosition, ofVec3f p_initialOrientation) {
+
+	m_initialPosition = p_initialPosition;
+	m_initialOrientation = p_initialOrientation;
+	m_fboTexture.allocate(32, 32, GL_RGB);
+	m_fboPickingTexture.allocate(32, 32, GL_RGB);
+
+	reset();
+}
+
+
 /**
-*
-*/
-void Camera::setup(ofVec3f p_initial_position, ofVec3f p_initial_orientation) {
-
-    m_initial_position = p_initial_position;
-    m_initial_orientation = p_initial_orientation;
-    m_fboTexture.allocate(32, 32, GL_RGB);
-    m_fboPickingTexture.allocate(32, 32, GL_RGB);
-
-    reset();
-}
-
-
+ * Reset camera state
+ */
 void Camera::reset() {
-    m_camera.setPosition(m_initial_position);
-    m_camera.lookAt(m_initial_orientation);
+	m_camera.setPosition(m_initialPosition);
+	m_camera.lookAt(m_initialOrientation);
 
 }
 
 
+/**
+ * Resize FBO texture to match viewport size
+ */
 void Camera::resizeTextureIfNeeded() {
 
-    if (m_viewport_width == 0) return;
-    if (m_viewport_height == 0) return;
+	if (m_viewportWidth == 0) return;
+	if (m_viewportHeight == 0) return;
 
-    int tw = (int) m_fboTexture.getWidth();
-    int th = (int) m_fboTexture.getHeight();
-    if (m_viewport_width != tw || m_viewport_height != th) {
-        m_fboTexture.allocate(m_viewport_width, m_viewport_height, GL_RGB);
-        m_fboPickingTexture.allocate(m_viewport_width, m_viewport_height, GL_RGB);
-    }
+	int tw = (int)m_fboTexture.getWidth();
+	int th = (int)m_fboTexture.getHeight();
+	if (m_viewportWidth != tw || m_viewportHeight != th) {
+		m_fboTexture.allocate(m_viewportWidth, m_viewportHeight, GL_RGB);
+		m_fboPickingTexture.allocate(m_viewportWidth, m_viewportHeight, GL_RGB);
+	}
 }
 
 
+/**
+ * Set viewport size
+ */
 void Camera::setViewportSize(int width, int height) {
-    m_viewport_width = width;
-    m_viewport_height = height;
+	m_viewportWidth = width;
+	m_viewportHeight = height;
+}
+
+/**
+ * Retrieve FBO texture
+ */
+ofFbo& Camera::getFbo() {
+	return m_fboTexture;
+}
+
+
+/**
+ * Retrieve FBO texture (Object picking)
+ */
+ofFbo& Camera::getPickingFbo() {
+	return m_fboPickingTexture;
+}
+
+
+/**
+ * Retrieve camera object
+ */
+ofCamera& Camera::getCamera() {
+	return m_camera;
 }

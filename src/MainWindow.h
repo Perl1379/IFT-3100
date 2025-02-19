@@ -14,36 +14,36 @@ class MainWindow : public ofBaseApp {
 
 private:
 
-    UserInterface ui;
+	UserInterface ui;
 
-    // This light is just temporary
-    ofLight light;
-    ofMaterial material;
+	// This light is just temporary
+	ofLight light;
+	ofMaterial material;
 
-    bool isMiddleMousePressed = false;
-    ofVec3f cameraMovement;
-    float cameraRotation = 0.0f;
-    float lastUpdateTime = 0;
-    ofVec2f lastMousePosition;
+	bool isMiddleMousePressed = false;
+	ofVec3f cameraMovement;
+	float cameraRotation = 0.0f;
+	float lastUpdateTime = 0;
+	ofVec2f lastMousePosition;
 
-    void resetCameraMovement();
-    void cameraDraw(int index);
-    void handleCameraInput(bool pressed, ofKeyEventArgs &key, int index);
-    void updateCamera(int index, float deltaTime);
-    int getCurrentCameraIndex(bool hovered);
+	void resetCameraMovement();
+	void cameraDraw(int index);
+	void handleCameraInput(bool pressed, ofKeyEventArgs& key, int index);
+	void updateCamera(int index, float deltaTime);
+	int getCurrentCameraIndex(bool hovered);
 
 public:
 
-    void setup() override;
-    void draw() override;
-    void update() override;
-    void exit() override;
-    void keyPressed(ofKeyEventArgs &key) override;
-    void keyReleased(ofKeyEventArgs &key) override;
-    void mousePressed(int x, int y, int button) override;
-    void mouseReleased(int x, int y, int button) override;
-    void mouseDragged(int x, int y, int button) override;
-    void mouseScrolled(ofMouseEventArgs &args) override;
+	void setup() override;
+	void draw() override;
+	void update() override;
+	void exit() override;
+	void keyPressed(ofKeyEventArgs& key) override;
+	void keyReleased(ofKeyEventArgs& key) override;
+	void mousePressed(int x, int y, int button) override;
+	void mouseReleased(int x, int y, int button) override;
+	void mouseDragged(int x, int y, int button) override;
+	void mouseScrolled(ofMouseEventArgs& args) override;
 };
 
 

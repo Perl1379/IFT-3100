@@ -9,11 +9,11 @@
 
 #pragma once
 
-/**
- * Application : The main application class
- */
+ /**
+  * Application : The main application class
+  */
 class Application {
-   public:
-     void start();
+public:
+	void start();
 };
 

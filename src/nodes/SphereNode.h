@@ -16,12 +16,12 @@ class SphereNode : public BaseNode {
 
 private:
 
- ofSpherePrimitive m_primitive;
+	ofSpherePrimitive m_primitive;
 
 
 public:
- explicit SphereNode(const std::string& p_name);
- void draw(bool objectPicking) override;
- void setRadius(float radius);
+	explicit SphereNode(const std::string& p_name);
+	void draw(bool objectPicking) override;
+	void setRadius(float radius);
 
 };

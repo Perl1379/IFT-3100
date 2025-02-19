@@ -13,21 +13,21 @@
 #include <ofAppRunner.h>
 
 
-/**
- * Start application
- */
+ /**
+  * Start application
+  */
 void Application::start() {
 
- ofGLWindowSettings settings;
- settings.setGLVersion(3, 3);
- settings.setSize(1440, 900);
- settings.windowMode = OF_WINDOW;
+	ofGLWindowSettings settings;
+	settings.setGLVersion(3, 3);
+	settings.setSize(1440, 900);
+	settings.windowMode = OF_WINDOW;
 
- // Disable rectangle textures
- ofDisableArbTex();
+	// Disable rectangle textures
+	ofDisableArbTex();
 
- ofCreateWindow(settings);
- ofRunApp(new MainWindow);
+	ofCreateWindow(settings);
+	ofRunApp(new MainWindow);
 
 }
 
@@ -37,7 +37,7 @@ void Application::start() {
  */
 int main() {
 
- Application app;
- app.start();
+	Application app;
+	app.start();
 
 }

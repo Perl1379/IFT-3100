@@ -29,16 +29,9 @@ public:
     int m_selectedNode = -1;
     std::string m_hoveredWindow;
 
-    // Getters
-    const std::string& getSelectedWindow() const {
-        return m_selectedWindow;
-    }
-
-    const std::string& getHoveredWindow() const {
-        return m_hoveredWindow;
-    }
-
-    bool onlyOneCamera() const { return m_onlyOneCamera; }
+	const std::string& getSelectedWindow() const;
+	const std::string& getHoveredWindow() const;
+	bool onlyOneCamera() const;
 
 
 private:
