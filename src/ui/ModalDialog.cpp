@@ -10,9 +10,9 @@
 
 #include <imgui.h>
 
-/**
- * Dialog constructor
- */
+ /**
+  * Dialog constructor
+  */
 ModalDialog::ModalDialog() : m_isOpen(false) {
 
 }
@@ -22,7 +22,7 @@ ModalDialog::ModalDialog() : m_isOpen(false) {
 */
 void ModalDialog::setTitle(const std::string& p_title) {
 
- m_title = p_title;
+	m_title = p_title;
 
 }
 
@@ -32,8 +32,8 @@ void ModalDialog::setTitle(const std::string& p_title) {
  */
 void ModalDialog::openDialog() {
 
-  ImGui::OpenPopup(m_title.c_str());
-  m_isOpen = true;
+	ImGui::OpenPopup(m_title.c_str());
+	m_isOpen = true;
 }
 
 
@@ -42,27 +42,27 @@ void ModalDialog::openDialog() {
  */
 void ModalDialog::draw() {
 
- if (ImGui::BeginPopupModal(m_title.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
- {
-  ImGui::Text("This is a reusable modal dialog.");
-  ImGui::Separator();
+	if (ImGui::BeginPopupModal(m_title.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::Text("This is a reusable modal dialog.");
+		ImGui::Separator();
 
-  if (ImGui::Button("OK"))
-  {
-   ImGui::CloseCurrentPopup();
-   m_isOpen = false;
-  }
+		if (ImGui::Button("OK"))
+		{
+			ImGui::CloseCurrentPopup();
+			m_isOpen = false;
+		}
 
-  ImGui::SameLine();
+		ImGui::SameLine();
 
-  if (ImGui::Button("Cancel"))
-  {
-   ImGui::CloseCurrentPopup();
-   m_isOpen = false;
-  }
+		if (ImGui::Button("Cancel"))
+		{
+			ImGui::CloseCurrentPopup();
+			m_isOpen = false;
+		}
 
-  ImGui::EndPopup();
- }
+		ImGui::EndPopup();
+	}
 }
 
 
@@ -70,6 +70,6 @@ void ModalDialog::draw() {
  *  Check if the dialog is already open
  */
 bool ModalDialog::isOpen() {
-  return m_isOpen;
+	return m_isOpen;
 }
 

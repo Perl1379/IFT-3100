@@ -10,23 +10,23 @@
 #include "Global.h"
 
 
-// Declare GUI elements
+ // Declare GUI elements
 
-/**
- * Main window setup (title, menu and various visual elements)
- */
+ /**
+  * Main window setup (title, menu and various visual elements)
+  */
 void MainWindow::setup() {
 
- ofSetWindowTitle("Knight Maker");
- ofSetVerticalSync(false);
+	ofSetWindowTitle("Knight Maker");
+	ofSetVerticalSync(false);
 
- Global::setup();
- ui.setup();
+	Global::setup();
+	ui.setup();
 
- // To be removed
- ofEnableDepthTest();  // Enable depth for 3D rendering
- light.setup();
- light.setPosition(100, 200, 100);  // Set light position
+	// To be removed
+	ofEnableDepthTest();  // Enable depth for 3D rendering
+	light.setup();
+	light.setPosition(100, 200, 100);  // Set light position
 
 }
 
@@ -36,15 +36,17 @@ void MainWindow::setup() {
  */
 void MainWindow::draw() {
 
- ofBackground(0);
+	ofBackground(0);
 
- // We render three times
- for (int i=0;i<3;i++) {
-  cameraDraw(i);
-  if (ui.onlyOneCamera()) break;
- }
+	// We render three times
+	for (int i = 0; i < 3; i++) {
 
- ui.draw();
+		// Render only if camera moved or scene changed
+		cameraDraw(i);
+		if (ui.onlyOneCamera()) break;
+	}
+
+	ui.draw();
 
 }
 
@@ -54,29 +56,29 @@ void MainWindow::draw() {
 */
 void MainWindow::cameraDraw(int index) {
 
- auto fbo = Global::m_cameras[index].getFbo();
- auto camera = Global::m_cameras[index].getCamera();
- Global::m_cameras[index].resizeTextureIfNeeded();
+	auto fbo = Global::m_cameras[index].getFbo();
+	auto camera = Global::m_cameras[index].getCamera();
+	Global::m_cameras[index].resizeTextureIfNeeded();
 
- fbo.begin();
- camera.begin();
- ofBackground(0);
- ofEnableLighting();
- light.enable();
- ofSetColor(255);
- Global::m_level.draw(false);
- light.disable();
- ofDisableLighting();
- camera.end();
- fbo.end();
+	fbo.begin();
+	camera.begin();
+	ofBackground(0);
+	ofEnableLighting();
+	light.enable();
+	ofSetColor(255);
+	Global::m_level.draw(false);
+	light.disable();
+	ofDisableLighting();
+	camera.end();
+	fbo.end();
 
- auto fboPicking = Global::m_cameras[index].getPickingFbo();
- fboPicking.begin();
- camera.begin();
- ofBackground(0);
- Global::m_level.draw(true);
- camera.end();
- fboPicking.end();
+	auto fboPicking = Global::m_cameras[index].getPickingFbo();
+	fboPicking.begin();
+	camera.begin();
+	ofBackground(0);
+	Global::m_level.draw(true);
+	camera.end();
+	fboPicking.end();
 
 }
 
@@ -84,15 +86,15 @@ void MainWindow::cameraDraw(int index) {
 /**
  * Callback function for handling key pressed events
  */
-void MainWindow::keyPressed(ofKeyEventArgs &key) {
+void MainWindow::keyPressed(ofKeyEventArgs& key) {
 
- int index = getCurrentCameraIndex(false);
- if (index == -1) {
-  cameraMovement.set(0, 0, 0);
-  return;
- }
+	int index = getCurrentCameraIndex(false);
+	if (index == -1) {
+		cameraMovement.set(0, 0, 0);
+		return;
+	}
 
- handleCameraInput(true, key, index);
+	handleCameraInput(true, key, index);
 
 }
 
@@ -100,15 +102,15 @@ void MainWindow::keyPressed(ofKeyEventArgs &key) {
 /**
  * Callback function for handling key released events
  */
-void MainWindow::keyReleased(ofKeyEventArgs &key) {
+void MainWindow::keyReleased(ofKeyEventArgs& key) {
 
- int index = getCurrentCameraIndex(false);
- if (index == -1) {
-  resetCameraMovement();
-  return;
- }
+	int index = getCurrentCameraIndex(false);
+	if (index == -1) {
+		resetCameraMovement();
+		return;
+	}
 
- handleCameraInput(false, key, index);
+	handleCameraInput(false, key, index);
 }
 
 
@@ -116,118 +118,121 @@ void MainWindow::keyReleased(ofKeyEventArgs &key) {
  * Reset camera movement
  */
 void MainWindow::resetCameraMovement() {
- cameraMovement.set(0, 0, 0);
- cameraRotation = 0.0;
+	cameraMovement.set(0, 0, 0);
+	cameraRotation = 0.0;
 }
 
 /**
  * Handle key presses for camera control
  */
-void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs &key, int index) {
+void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs& key, int index) {
 
 
- if (!pressed) {
+	if (!pressed) {
 
-  // Handle reset
-  if (key.key == OF_KEY_HOME) {
-   Global::m_cameras[index].reset();
-   resetCameraMovement();
-   return;
-  }
+		// Handle reset
+		if (key.key == OF_KEY_HOME) {
+			Global::m_cameras[index].reset();
+			resetCameraMovement();
+			return;
+		}
 
-  // Toggle ortho projection
-  if (key.key == 'o') {
-   if (Global::m_cameras[index].getCamera().getOrtho()) {
-    Global::m_cameras[index].getCamera().disableOrtho();
-   } else {
-    Global::m_cameras[index].getCamera().enableOrtho();
+		// Toggle ortho projection
+		if (key.key == 'o') {
+			if (Global::m_cameras[index].getCamera().getOrtho()) {
+				Global::m_cameras[index].getCamera().disableOrtho();
+			}
+			else {
+				Global::m_cameras[index].getCamera().enableOrtho();
 
-   }
+			}
 
-  }
+		}
 
-  // Swap cameras
-  if (key.key == OF_KEY_INSERT) {
-   if (index != 0) {
+		// Swap cameras
+		if (key.key == OF_KEY_INSERT) {
+			if (index != 0) {
 
-    // Retrieve position and orientation of main camera
-    glm::vec3 firstPosition = Global::m_cameras[0].getCamera().getPosition();
-    glm::vec3 firstDirection = Global::m_cameras[0].getCamera().getLookAtDir();
-    bool firstOrtho = Global::m_cameras[0].getCamera().getOrtho();
+				// Retrieve position and orientation of main camera
+				glm::vec3 firstPosition = Global::m_cameras[0].getCamera().getPosition();
+				glm::vec3 firstDirection = Global::m_cameras[0].getCamera().getLookAtDir();
+				bool firstOrtho = Global::m_cameras[0].getCamera().getOrtho();
 
-    // Retrieve position of current camera
-    glm::vec3 currentPosition = Global::m_cameras[index].getCamera().getPosition();
-    glm::vec3 currentDirection = Global::m_cameras[index].getCamera().getLookAtDir();
-    bool currentOrtho = Global::m_cameras[index].getCamera().getOrtho();
+				// Retrieve position of current camera
+				glm::vec3 currentPosition = Global::m_cameras[index].getCamera().getPosition();
+				glm::vec3 currentDirection = Global::m_cameras[index].getCamera().getLookAtDir();
+				bool currentOrtho = Global::m_cameras[index].getCamera().getOrtho();
 
-    // Set main camera to current camera
-    Global::m_cameras[index].getCamera().setPosition(firstPosition);
-    Global::m_cameras[index].getCamera().lookAt(firstDirection);
-    if (firstOrtho) {
-     Global::m_cameras[index].getCamera().enableOrtho();
-    } else {
-     Global::m_cameras[index].getCamera().disableOrtho();
-    }
+				// Set main camera to current camera
+				Global::m_cameras[index].getCamera().setPosition(firstPosition);
+				Global::m_cameras[index].getCamera().lookAt(firstDirection);
+				if (firstOrtho) {
+					Global::m_cameras[index].getCamera().enableOrtho();
+				}
+				else {
+					Global::m_cameras[index].getCamera().disableOrtho();
+				}
 
-    // Set current camera to main
-    Global::m_cameras[0].getCamera().setPosition(currentPosition);
-    Global::m_cameras[0].getCamera().lookAt(currentDirection);
-    if (currentOrtho) {
-     Global::m_cameras[0].getCamera().enableOrtho();
-    } else {
-     Global::m_cameras[0].getCamera().disableOrtho();
-    }
+				// Set current camera to main
+				Global::m_cameras[0].getCamera().setPosition(currentPosition);
+				Global::m_cameras[0].getCamera().lookAt(currentDirection);
+				if (currentOrtho) {
+					Global::m_cameras[0].getCamera().enableOrtho();
+				}
+				else {
+					Global::m_cameras[0].getCamera().disableOrtho();
+				}
 
-    ImGui::SetWindowFocus("Main Camera");
+				ImGui::SetWindowFocus("Main Camera");
 
-   }
-   return;
-  }
- }
+			}
+			return;
+		}
+	}
 
- // Handle rotation along forward vector
- if (key.key == 'q' || key.key == 'e') {
-  if (!pressed) {
-   cameraRotation = 0.0;
-   return;
-  }
-  cameraRotation = (key.key == 'q' ? 1.0f : -1.0f);
- }
+	// Handle rotation along forward vector
+	if (key.key == 'q' || key.key == 'e') {
+		if (!pressed) {
+			cameraRotation = 0.0;
+			return;
+		}
+		cameraRotation = (key.key == 'q' ? 1.0f : -1.0f);
+	}
 
- // Handle longitudinal movements
- if (key.key == 'w' || key.key == 's') {
+	// Handle longitudinal movements
+	if (key.key == 'w' || key.key == 's') {
 
-  if (!pressed) {
-   cameraMovement.z = 0;
-   return;
-  }
+		if (!pressed) {
+			cameraMovement.z = 0;
+			return;
+		}
 
-  cameraMovement.z =  (key.key == 'w' ? -1.0f : 1.0f);
-  return;
- }
+		cameraMovement.z = (key.key == 'w' ? -1.0f : 1.0f);
+		return;
+	}
 
- // Handle lateral movements
- if (key.key == 'a' || key.key == 'd') {
+	// Handle lateral movements
+	if (key.key == 'a' || key.key == 'd') {
 
-  if (!pressed) {
-   cameraMovement.x = 0;
-   return;
-  }
+		if (!pressed) {
+			cameraMovement.x = 0;
+			return;
+		}
 
-  cameraMovement.x =  (key.key == 'a' ? -1.0f : 1.0f);
-  return;
- }
+		cameraMovement.x = (key.key == 'a' ? -1.0f : 1.0f);
+		return;
+	}
 
- // Handle vertical movements
- if (key.key == ' ' || key.key == 'z') {
+	// Handle vertical movements
+	if (key.key == ' ' || key.key == 'z') {
 
-  if (!pressed) {
-   cameraMovement.y = 0;
-   return;
-  }
+		if (!pressed) {
+			cameraMovement.y = 0;
+			return;
+		}
 
-  cameraMovement.y =  (key.key == ' ' ? 1.0f : -1.0f);
- }
+		cameraMovement.y = (key.key == ' ' ? 1.0f : -1.0f);
+	}
 
 }
 
@@ -237,14 +242,14 @@ void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs &key, int index)
  */
 void MainWindow::update() {
 
- // Calculate delta
-  float currentTime = ofGetElapsedTimef();
-  float deltaTime = currentTime - lastUpdateTime;
-  lastUpdateTime = currentTime;
+	// Calculate delta
+	float currentTime = ofGetElapsedTimef();
+	float deltaTime = currentTime - lastUpdateTime;
+	lastUpdateTime = currentTime;
 
-  int index = getCurrentCameraIndex(false);
-  if (index == -1) return;
-  updateCamera(index, deltaTime);
+	int index = getCurrentCameraIndex(false);
+	if (index == -1) return;
+	updateCamera(index, deltaTime);
 
 }
 
@@ -254,13 +259,13 @@ void MainWindow::update() {
  */
 void MainWindow::updateCamera(int index, float deltaTime) {
 
- float cameraSpeed = 50.0f;
+	float cameraSpeed = 50.0f;
 
- ofCamera* camera = &Global::m_cameras[index].getCamera();
- camera->dolly(cameraMovement.z * cameraSpeed * deltaTime);  // Move forward/backward
- camera->truck(cameraMovement.x * cameraSpeed * deltaTime);  // Move left/right
- camera->boom(cameraMovement.y * cameraSpeed * deltaTime);   // Move up/down
- camera->rollDeg(cameraRotation * cameraSpeed * deltaTime);  // Rotate along forward vector
+	ofCamera* camera = &Global::m_cameras[index].getCamera();
+	camera->dolly(cameraMovement.z * cameraSpeed * deltaTime);  // Move forward/backward
+	camera->truck(cameraMovement.x * cameraSpeed * deltaTime);  // Move left/right
+	camera->boom(cameraMovement.y * cameraSpeed * deltaTime);   // Move up/down
+	camera->rollDeg(cameraRotation * cameraSpeed * deltaTime);  // Rotate along forward vector
 
 }
 
@@ -270,24 +275,27 @@ void MainWindow::updateCamera(int index, float deltaTime) {
  */
 int MainWindow::getCurrentCameraIndex(bool hovered) {
 
- std::string windowName;
+	std::string windowName;
 
- if (hovered) {
-  windowName = ui.getHoveredWindow();
- } else {
-  windowName = ui.getSelectedWindow();
- }
+	if (hovered) {
+		windowName = ui.getHoveredWindow();
+	}
+	else {
+		windowName = ui.getSelectedWindow();
+	}
 
- int index = -1;
+	int index = -1;
 
- if (windowName == "Main Camera") {
-  index = 0;
- } else if (windowName == "Second Camera") {
-  index = 1;
- } else if (windowName == "Third Camera") {
-  index = 2;
- }
- return index;
+	if (windowName == "Main Camera") {
+		index = 0;
+	}
+	else if (windowName == "Second Camera") {
+		index = 1;
+	}
+	else if (windowName == "Third Camera") {
+		index = 2;
+	}
+	return index;
 }
 
 
@@ -295,7 +303,7 @@ int MainWindow::getCurrentCameraIndex(bool hovered) {
  * Called when the application is about to exit
  */
 void MainWindow::exit() {
- // Do nothing for now
+	// Do nothing for now
 }
 
 
@@ -304,10 +312,10 @@ void MainWindow::exit() {
  * Callback function for handling mouse pressed events
  */
 void MainWindow::mousePressed(int x, int y, int button) {
- if (button == OF_MOUSE_BUTTON_MIDDLE) {
-  isMiddleMousePressed = true;
-  lastMousePosition.set(x ,y);
- }
+	if (button == OF_MOUSE_BUTTON_MIDDLE) {
+		isMiddleMousePressed = true;
+		lastMousePosition.set(x, y);
+	}
 }
 
 
@@ -316,9 +324,9 @@ void MainWindow::mousePressed(int x, int y, int button) {
  */
 void MainWindow::mouseReleased(int x, int y, int button) {
 
- if (button == OF_MOUSE_BUTTON_MIDDLE) {
-  isMiddleMousePressed = false;
- }
+	if (button == OF_MOUSE_BUTTON_MIDDLE) {
+		isMiddleMousePressed = false;
+	}
 }
 
 
@@ -327,37 +335,37 @@ void MainWindow::mouseReleased(int x, int y, int button) {
  */
 void MainWindow::mouseDragged(int x, int y, int button) {
 
- int index = getCurrentCameraIndex(true);
- if (index == -1) return;
- if (isMiddleMousePressed && button == OF_MOUSE_BUTTON_MIDDLE) {
+	int index = getCurrentCameraIndex(true);
+	if (index == -1) return;
+	if (isMiddleMousePressed && button == OF_MOUSE_BUTTON_MIDDLE) {
 
-  auto mx = static_cast<float>(x);
-  auto my = static_cast<float>(y);
+		auto mx = static_cast<float>(x);
+		auto my = static_cast<float>(y);
 
-  float sensitivity = 0.2f; // Rotation speed
+		float sensitivity = 0.2f; // Rotation speed
 
-  float deltaX = mx - lastMousePosition.x;
-  float deltaY = my - lastMousePosition.y;
+		float deltaX = mx - lastMousePosition.x;
+		float deltaY = my - lastMousePosition.y;
 
-  ofCamera* camera = &Global::m_cameras[index].getCamera();
-  camera->panDeg(-deltaX * sensitivity);  // Rotate horizontally
-  camera->tiltDeg(-deltaY * sensitivity); // Rotate vertically
+		ofCamera* camera = &Global::m_cameras[index].getCamera();
+		camera->panDeg(-deltaX * sensitivity);  // Rotate horizontally
+		camera->tiltDeg(-deltaY * sensitivity); // Rotate vertically
 
-  lastMousePosition.set(mx, my);
- }
+		lastMousePosition.set(mx, my);
+	}
 }
 
 
 /**
  * Callback function for handling mouse scrolled events
  */
-void MainWindow::mouseScrolled(ofMouseEventArgs &args) {
+void MainWindow::mouseScrolled(ofMouseEventArgs& args) {
 
- int index = getCurrentCameraIndex(true);
- if (index == -1) return;
+	int index = getCurrentCameraIndex(true);
+	if (index == -1) return;
 
- float zoomSpeed = 5.0f;  // Zoom speed
+	float zoomSpeed = 5.0f;  // Zoom speed
 
- ofCamera* camera = &Global::m_cameras[index].getCamera();
- camera->dolly(-args.scrollY * zoomSpeed);
+	ofCamera* camera = &Global::m_cameras[index].getCamera();
+	camera->dolly(-args.scrollY * zoomSpeed);
 }

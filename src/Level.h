@@ -13,17 +13,17 @@
 class Level {
 
 private:
-  BaseNode* tree;
+	BaseNode* m_tree;
 
 public:
-  Level();
+	Level();
 
-  BaseNode* getTree();
+	BaseNode* getTree();
 
-  void reset();
-  bool loadFromFile(const char* filename);
-  bool saveToFile(const char* filename);
-  void draw(bool objectPicking);
+	void reset();
+	bool loadFromFile(const std::string& p_filename);
+	bool saveToFile(const std::string& p_filename);
+	void draw(bool p_objectPicking);
 
 };
 

@@ -6,12 +6,12 @@
  * NodeProperty class implementation
  *
  *****************************************************/
- #include "NodeProperty.h"
+#include "NodeProperty.h"
 
 
-/**
- * Constructor, receive 3 parameters (name, type and value)
- */
+ /**
+  * Constructor, receive 3 parameters (name, type and value)
+  */
 NodeProperty::NodeProperty(std::string p_name, int p_type, std::any p_value) : m_name(p_name), m_type(p_type), m_value(p_value) {
 }
 
@@ -20,7 +20,7 @@ NodeProperty::NodeProperty(std::string p_name, int p_type, std::any p_value) : m
  * Retrieve name
  */
 const std::string NodeProperty::getName() {
- return m_name;
+	return m_name;
 }
 
 
@@ -28,7 +28,7 @@ const std::string NodeProperty::getName() {
  * Retrieve type
  */
 const int NodeProperty::getType() {
-  return m_type;
+	return m_type;
 }
 
 
@@ -36,5 +36,5 @@ const int NodeProperty::getType() {
  * Retrieve value
  */
 const std::any NodeProperty::getValue() {
-  return m_value;
+	return m_value;
 }

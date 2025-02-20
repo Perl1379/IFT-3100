@@ -1,3 +1,11 @@
+/*****************************************************
+ * TP IFT3100H24 - Knight Maker
+ * by Team 12
+ *****************************************************
+ *
+ * Camera class definition
+ *
+ *****************************************************/
 #pragma once
 #include <ofCamera.h>
 #include <ofFbo.h>
@@ -5,35 +13,28 @@
 
 class Camera {
 
-  private:
+private:
 
-    ofVec3f m_initial_position;
-    ofVec3f m_initial_orientation;
+	ofVec3f m_initialPosition;
+	ofVec3f m_initialOrientation;
 
-    ofFbo m_fboTexture;
-    ofFbo m_fboPickingTexture;
-    ofCamera m_camera;
-    int m_viewport_width = 0;
-    int m_viewport_height = 0;
+	ofFbo m_fboTexture;
+	ofFbo m_fboPickingTexture;
+	ofCamera m_camera;
+	int m_viewportWidth = 0;
+	int m_viewportHeight = 0;
 
 
 public:
 
-    void setup(ofVec3f p_initial_position, ofVec3f p_initial_orientation);
-    void reset();
-    void setViewportSize(int width, int height);
-    void resizeTextureIfNeeded();
+	void setup(ofVec3f p_initial_position, ofVec3f p_initial_orientation);
+	void reset();
+	void setViewportSize(int p_width, int p_height);
+	void resizeTextureIfNeeded();
 
-    ofFbo & getFbo() {
-        return m_fboTexture;
-    }
+	ofFbo& getFbo();
+	ofFbo& getPickingFbo();
+	ofCamera& getCamera();
 
-    ofFbo & getPickingFbo() {
-        return m_fboPickingTexture;
-    }
-
-    ofCamera & getCamera() {
-        return m_camera;
-    }
 
 };
