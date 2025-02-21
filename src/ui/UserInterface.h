@@ -10,6 +10,7 @@
 #include <BaseNode.h>
 #include <ofxImGui.h>
 #include "Vector3Dialog.h"
+#include "ColorDialog.h"
 
 
 class UserInterface {
@@ -47,6 +48,7 @@ private:
     bool m_initialDraw = true;
     bool m_onlyOneCamera = false;
     Vector3Dialog m_vec3Dialog;
+	ColorDialog m_colorDialog;
 
     // Draw functions
 

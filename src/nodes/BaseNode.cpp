@@ -16,7 +16,6 @@ BaseNode::BaseNode(const std::string& p_name) : m_name(p_name) {
 
 	static int id_next = 1;
 	m_id = id_next++;
-
 	m_materialBoundingBox.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0)); // Full red emission
 	m_materialBoundingBox.setAmbientColor(ofFloatColor(1.0, 0.0, 0.0));  // Red base color
 	m_materialBoundingBox.setDiffuseColor(ofFloatColor(0.0));            // No diffuse
