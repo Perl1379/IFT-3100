@@ -1,10 +1,10 @@
-#include "ColorConverterCYMK.h"
+#include "ColorConverterCMYK.h"
 
-ColorConverterCYMK::ColorConverterCYMK() {
-	m_name = "CYMK";
+ColorConverterCMYK::ColorConverterCMYK() {
+	m_name = "CMYK";
 }
 
-ColorRGB ColorConverterCYMK::TransformToRGB(Color p_currentColor) {
+ColorRGB ColorConverterCMYK::TransformToRGB(Color p_currentColor) {
 	float black = (1 - p_currentColor.getValue4() / 100);
 	int r = (int)(255 * (1 - p_currentColor.getValue1() / 100) * black);
 	int g = (int)(255 * (1 - p_currentColor.getValue2() / 100) * black);
@@ -13,7 +13,7 @@ ColorRGB ColorConverterCYMK::TransformToRGB(Color p_currentColor) {
 	return arc;
 }
 
-Color ColorConverterCYMK::TransformFromRGB(ColorRGB p_currentColor) {
+Color ColorConverterCMYK::TransformFromRGB(ColorRGB p_currentColor) {
 	float black = 1 - (std::max(std::max(p_currentColor.getRed(), p_currentColor.getGreen()), 
 		p_currentColor.getBlue()) / static_cast<float>(255));
 	float cyan = (1 - p_currentColor.getRed() / static_cast<float>(255) - black) / (1 - black);
@@ -27,17 +27,17 @@ Color ColorConverterCYMK::TransformFromRGB(ColorRGB p_currentColor) {
 	return ac;
 }
 
-ofFloatColor ColorConverterCYMK::GetColor(Color p_currentColor) {
+ofFloatColor ColorConverterCMYK::GetColor(Color p_currentColor) {
 	ColorRGB rgb = TransformToRGB(p_currentColor);
 	return ofFloatColor(rgb.getRed(), rgb.getGreen(), rgb.getBlue(), rgb.getAlpha());
 }
 
-std::vector<ofParameter<float>> ColorConverterCYMK::getParameters(Color currentKnightColor) {
-	std::vector<ofParameter<float>> params;
-	params.push_back(ofParameter<float>("Cyan", currentKnightColor.getValue1(), 0.0f, 100.0f));
-	params.push_back(ofParameter<float>("Yellow", currentKnightColor.getValue2(), 0.0f, 100.0f));
-	params.push_back(ofParameter<float>("Magenta", currentKnightColor.getValue3(), 0.0f, 100.0f));
-	params.push_back(ofParameter<float>("Black", currentKnightColor.getValue3(), 0.0f, 100.0f));
-	params.push_back(ofParameter<float>("Alpha", currentKnightColor.getAlpha(), 0.0f, 100.0f));
+std::vector<ofParameter<int>> ColorConverterCMYK::getParameters(Color p_currentColor) {
+	std::vector<ofParameter<int>> params;
+	params.push_back(ofParameter<int>("Cyan", p_currentColor.getValue1(), 0, 100));
+	params.push_back(ofParameter<int>("Magenta", p_currentColor.getValue2(), 0, 100));
+	params.push_back(ofParameter<int>("Yellow", p_currentColor.getValue3(), 0, 100));
+	params.push_back(ofParameter<int>("Black", p_currentColor.getValue4(), 0, 100));
+	params.push_back(ofParameter<int>("Alpha", p_currentColor.getAlpha(), 0, 255));
 	return params;
 }

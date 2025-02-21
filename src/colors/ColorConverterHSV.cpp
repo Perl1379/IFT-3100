@@ -93,11 +93,11 @@ ofFloatColor ColorConverterHSV::GetColor(Color p_currentColor) {
 	return ofFloatColor::fromHsb(p_currentColor.getValue1(), p_currentColor.getValue2(), p_currentColor.getValue3(), p_currentColor.getAlpha());
 }
 
-std::vector<ofParameter<float>> ColorConverterHSV::getParameters(Color currentKnightColor) {
-	std::vector<ofParameter<float>> params;
-	params.push_back(ofParameter<float>("Hue", currentKnightColor.getValue1(), 0.0f, 100.0f));
-	params.push_back(ofParameter<float>("Saturation", currentKnightColor.getValue2(), 0.0f, 100.0f));
-	params.push_back(ofParameter<float>("Value", currentKnightColor.getValue3(), 0.0f, 100.0f));
-	params.push_back(ofParameter<float>("Alpha", currentKnightColor.getAlpha(), 0.0f, 100.0f));
+std::vector<ofParameter<int>> ColorConverterHSV::getParameters(Color currentKnightColor) {
+	std::vector<ofParameter<int>> params;
+	params.push_back(ofParameter<int>("Hue", currentKnightColor.getValue1(), 0, 360));
+	params.push_back(ofParameter<int>("Saturation", currentKnightColor.getValue2(), 0,100));
+	params.push_back(ofParameter<int>("Value", currentKnightColor.getValue3(), 0, 100));
+	params.push_back(ofParameter<int>("Alpha", currentKnightColor.getAlpha(), 0, 255));
 	return params;
 }

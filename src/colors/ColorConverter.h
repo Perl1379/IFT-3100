@@ -14,7 +14,7 @@ public:
 	virtual ColorRGB TransformToRGB(Color p_currentColor) = 0;
 	virtual Color TransformFromRGB(ColorRGB p_currentColor) = 0;
 	virtual ofFloatColor GetColor(Color p_currentColor) = 0;
-	virtual std::vector<ofParameter<float>> getParameters(Color p_currentColor) = 0;
+	virtual std::vector<ofParameter<int>> getParameters(Color p_currentColor) = 0;
 	std::string getName() const;
 };
 

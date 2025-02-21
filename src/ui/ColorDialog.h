@@ -2,7 +2,7 @@
 
 #include <BaseNode.h>
 #include "colors/ColorConverterRGB.h"
-#include "colors/ColorConverterCYMK.h"
+#include "colors/ColorConverterCMYK.h"
 #include "colors/ColorConverterHSV.h"
 #include "ModalDialog.h"
 class ColorDialog :
@@ -15,10 +15,10 @@ private:
 
 	ColorConverter* converter = new ColorConverterRGB();
 	ColorRGB currentColorRGB;
-	std::vector<ofParameter<float>> colorParameters;
+	std::vector<ofParameter<int>> colorParameters;
 
-	//void change_color_converter(KnightColorConverter* knightColorConverter);
-	std::vector<float> getColorParameterValues() const;
+	void changeColorConverter(ColorConverter* colorConverter);
+	std::vector<int> getColorParameterValues() const;
 public:
 	ColorDialog();
 	void useProperty(BaseNode* p_node, const std::string& p_name, ofFloatColor p_value);

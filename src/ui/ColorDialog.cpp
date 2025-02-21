@@ -31,35 +31,23 @@ void ColorDialog::draw() {
 	{
 		ImGui::BeginGroup();
 		if (ImGui::Button("RGB")) {
-			converter = new ColorConverterRGB();
-			Color c = converter->TransformFromRGB(currentColorRGB);
-			currentColorRGB = converter->TransformToRGB(c);
-			colorParameters.clear();
-			colorParameters = converter->getParameters(c);
+			changeColorConverter(new ColorConverterRGB());
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("HSV")) {
-			converter = new ColorConverterHSV();
-			Color c = converter->TransformFromRGB(currentColorRGB);
-			currentColorRGB = converter->TransformToRGB(c);
-			colorParameters.clear();
-			colorParameters = converter->getParameters(c);
+			changeColorConverter(new ColorConverterHSV());
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("CYMK")) {
-			converter = new ColorConverterCYMK();
-			Color c = converter->TransformFromRGB(currentColorRGB);
-			currentColorRGB = converter->TransformToRGB(c);
-			colorParameters.clear();
-			colorParameters = converter->getParameters(c);
+		if (ImGui::Button("CMYK")) {
+			changeColorConverter(new ColorConverterCMYK());
 		}
 		ImGui::EndGroup();
 		for (auto& param : colorParameters) {
-			float value = param.get();
-			ImGui::SliderFloat(param.getName().c_str(), &value, param.getMin(), param.getMax());
+			int value = param.get();
+			ImGui::SliderInt(param.getName().c_str(), &value, param.getMin(), param.getMax());
 			param.set(value);
 		}
-		std::vector<float> colorValues = getColorParameterValues();
+		std::vector<int> colorValues = getColorParameterValues();
 		Color c = Color(colorValues[0], colorValues[1], colorValues[2], colorValues[3], colorValues[4]);
 		currentColorRGB = converter->TransformToRGB(c);
 
@@ -90,8 +78,16 @@ void ColorDialog::draw() {
 	}
 }
 
-std::vector<float> ColorDialog::getColorParameterValues() const {
-	std::vector<float> values;
+void ColorDialog::changeColorConverter(ColorConverter* colorConverter) {
+	converter = colorConverter;
+	Color c = converter->TransformFromRGB(currentColorRGB);
+	currentColorRGB = converter->TransformToRGB(c);
+	colorParameters.clear();
+	colorParameters = converter->getParameters(c);
+}
+
+std::vector<int> ColorDialog::getColorParameterValues() const {
+	std::vector<int> values;
 	for (const auto& param : colorParameters) {
 		values.push_back(param.get());
 	}

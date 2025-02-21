@@ -21,11 +21,11 @@ ofFloatColor ColorConverterRGB::GetColor(Color p_currentColor) {
 	return ofFloatColor(p_currentColor.getValue1(), p_currentColor.getValue2(), p_currentColor.getValue3(), p_currentColor.getAlpha());
 }
 
-std::vector<ofParameter<float>> ColorConverterRGB::getParameters(Color currentKnightColor) {
-	std::vector<ofParameter<float>> params;
-	params.push_back(ofParameter<float>("Red", currentKnightColor.getValue1(), 0.0f, 255.0f));
-	params.push_back(ofParameter<float>("Green", currentKnightColor.getValue2(), 0.0f, 255.0f));
-	params.push_back(ofParameter<float>("Blue", currentKnightColor.getValue3(), 0.0f, 255.0f));
-	params.push_back(ofParameter<float>("Alpha", currentKnightColor.getAlpha(), 0.0f, 255.0f));
+std::vector<ofParameter<int>> ColorConverterRGB::getParameters(Color p_currentColor) {
+	std::vector<ofParameter<int>> params;
+	params.push_back(ofParameter<int>("Red", p_currentColor.getValue1(), 0,255));
+	params.push_back(ofParameter<int>("Green", p_currentColor.getValue2(), 0, 255));
+	params.push_back(ofParameter<int>("Blue", p_currentColor.getValue3(), 0, 255));
+	params.push_back(ofParameter<int>("Alpha", p_currentColor.getAlpha(), 0, 255));
 	return params;
 }
