@@ -26,7 +26,7 @@ enum TRANSFORM_PIXEL_COLOR {
 class TransformTools {
 
     private:
-        int m_transformMode = TRANSFORM_MODE::SCALE;
+        int m_transformMode = TRANSFORM_MODE::TRANSLATE;
         int m_currentTransformPixelColor = -1;
         int m_camera_index = 0;
         ImVec2 m_previousMousePosition;

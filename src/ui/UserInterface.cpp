@@ -284,10 +284,10 @@ void UserInterface::drawProperties() {
 		{
 			ImGui::Text(property.getName().c_str());
 			auto color = std::any_cast<ofFloatColor>(property.getValue());
+			ImGui::SameLine(110);
+
 			ImVec4 imColor = color;
-
-
-			if (ImGui::ColorButton(("...##" + std::to_string(count)).c_str(), imColor, 0, ImVec2(140, 16))) {
+			if (ImGui::ColorButton(("...##" + std::to_string(count)).c_str(), imColor, 0, ImVec2(272, 16))) {
 				m_colorDialog.setTitle("Change " + property.getName());
 				m_colorDialog.useProperty(selectedNode, property.getName(), color);
 				m_colorDialog.openDialog();
