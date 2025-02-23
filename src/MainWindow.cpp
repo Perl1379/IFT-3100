@@ -67,6 +67,8 @@ void MainWindow::cameraDraw(int index) {
 	light.enable();
 	ofSetColor(255);
 	Global::m_level.draw(false);
+	Global::m_transformTools.draw(false);
+
 	light.disable();
 	ofDisableLighting();
 	camera.end();
@@ -77,6 +79,7 @@ void MainWindow::cameraDraw(int index) {
 	camera.begin();
 	ofBackground(0);
 	Global::m_level.draw(true);
+	Global::m_transformTools.draw(true);
 	camera.end();
 	fboPicking.end();
 
@@ -250,6 +253,7 @@ void MainWindow::update() {
 	int index = getCurrentCameraIndex(false);
 	if (index == -1) return;
 	updateCamera(index, deltaTime);
+	Global::m_transformTools.setCameraIndex(index);
 
 }
 

@@ -20,14 +20,18 @@ protected:
 	int m_id = 0;
 	bool m_displayBoundingBox = false;
 	ofMaterial m_materialNode;
-	ofMaterial m_materialBoundingBox;
-
+	ofMaterial m_materialUnlit;
+	void beginDraw(bool p_objectPicking);
+	void endDraw(bool p_objectPicking);
+	void drawBoundingBox();
 
 public:
 	virtual ~BaseNode() = default;
 
 	explicit BaseNode(const std::string& p_name);
-	virtual void draw(bool objectPicking);
+	virtual void draw(bool p_objectPicking);
+	virtual ofVec3f getBoundingBox();
+
 	void addChild(BaseNode* p_child);
 
 	void removeChild(int p_index);
