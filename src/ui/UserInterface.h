@@ -22,12 +22,11 @@ public:
     // Some useful definitions
     static const int        TOOLBAR_HEIGHT        = 60;
     static const int        STATUSBAR_HEIGHT      = 30;
-    static const int        LEFTPANEL_WIDTH       = 256;
+    static const int        LEFTPANEL_WIDTH       = 300;
     static const int        TREEVIEW_HEIGHT       = 240;
     static constexpr float  CAMERA_ASPECT_RATIO   = 16.0f / 9.0f;
 
     std::string m_selectedWindow;
-    int m_selectedNode = -1;
     std::string m_hoveredWindow;
 
 	const std::string& getSelectedWindow() const;

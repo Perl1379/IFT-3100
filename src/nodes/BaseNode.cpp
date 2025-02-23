@@ -8,18 +8,24 @@
  *****************************************************/
 #include "BaseNode.h"
 
+#include <Global.h>
+#include <of3dGraphics.h>
+#include <ofGraphics.h>
 
- /**
+
+/**
   * Constructor
   */
 BaseNode::BaseNode(const std::string& p_name) : m_name(p_name) {
 
 	static int id_next = 1;
 	m_id = id_next++;
-	m_materialBoundingBox.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0)); // Full red emission
-	m_materialBoundingBox.setAmbientColor(ofFloatColor(1.0, 0.0, 0.0));  // Red base color
-	m_materialBoundingBox.setDiffuseColor(ofFloatColor(0.0));            // No diffuse
-	m_materialBoundingBox.setSpecularColor(ofFloatColor(0.0));           // No specular
+
+	m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 1.0, 0.0));
+	m_materialUnlit.setAmbientColor(ofFloatColor(0.0, 0.0, 0.0));
+	m_materialUnlit.setDiffuseColor(ofFloatColor(0.0));
+	m_materialUnlit.setSpecularColor(ofFloatColor(0.0));
+
 	m_materialNode.setShininess(100);  // Controls specular reflection
 	m_materialNode.setSpecularColor(ofColor(255, 255, 255));  // Highlights
 
@@ -29,15 +35,11 @@ BaseNode::BaseNode(const std::string& p_name) : m_name(p_name) {
 /**
  * Draw node content
  */
-void BaseNode::draw(bool objectPicking) {
+void BaseNode::draw(bool p_objectPicking) {
 
-	m_transform.transformGL();
-
-	for (BaseNode* child : m_children) {
-		child->draw(objectPicking);
-	}
-
-	m_transform.restoreTransformGL();
+	beginDraw(p_objectPicking);
+	// Nothing to render
+	endDraw(p_objectPicking);
 
 }
 
@@ -62,7 +64,7 @@ void BaseNode::displayBoundingBox(bool display) {
  * Add child node
  */
 void BaseNode::addChild(BaseNode* p_child) {
-
+	p_child->m_transform.setParent(m_transform);
 	m_children.push_back(p_child);
 }
 
@@ -128,7 +130,6 @@ void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 }
 
 
-
 /**
 * Find node (recursive search) by ID
 */
@@ -142,3 +143,59 @@ BaseNode* BaseNode::findNode(int p_id) {
 	return nullptr;
 }
 
+
+/**
+ * Begin draw context
+ */
+void BaseNode::beginDraw(bool p_objectPicking) {
+
+	if (!p_objectPicking) {
+		m_materialNode.begin();
+	}
+	else {
+		ofSetColor(Global::idToColor(m_id));
+	}
+
+}
+
+
+/**
+ * End draw context
+ */
+void BaseNode::endDraw(bool p_objectPicking) {
+	if (!p_objectPicking) {
+		m_materialNode.end();
+
+		if (m_displayBoundingBox) {
+			m_materialUnlit.begin();
+			drawBoundingBox();
+			m_materialUnlit.end();
+		}
+	}
+
+	for (BaseNode* child : m_children) {
+		child->draw(p_objectPicking);
+	}
+
+}
+
+
+/**
+ * Get bounding box for current node
+ */
+ofVec3f BaseNode::getBoundingBox() {
+	return {1.0, 1.0, 1.0};
+}
+
+
+/**
+ * Draw bounding box
+ */
+void BaseNode::drawBoundingBox() {
+	ofVec3f boundingBox = getBoundingBox();
+	ofNoFill();
+	m_transform.transformGL();
+	ofDrawBox(glm::vec3(0, 0, 0), boundingBox.x, boundingBox.y, boundingBox.z);
+	m_transform.restoreTransformGL();
+
+}

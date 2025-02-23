@@ -8,13 +8,12 @@
  *****************************************************/
 #include "Global.h"
 #include <Level.h>
-#include <ofAppRunner.h>
 
- // Static allocation
+// Static allocation
 std::array<Camera, 3> Global::m_cameras;
-
 Level Global::m_level;
-
+int Global::m_selectedNode = -1;
+TransformTools Global::m_transformTools;
 
 /**
  * Setup global singleton object
@@ -43,8 +42,9 @@ ofColor Global::idToColor(int id) {
 
 
 /**
-* Decode color to retrive node ID
+* Decode color to retrieve node ID
 */
 int Global::colorToId(ofColor color) {
 	return (color.r * (256 * 256)) + (color.g * 256) + color.b;
 }
+

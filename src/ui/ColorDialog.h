@@ -5,6 +5,7 @@
 #include "colors/ColorConverterCMYK.h"
 #include "colors/ColorConverterHSV.h"
 #include "ModalDialog.h"
+
 class ColorDialog :
 	public ModalDialog
 {

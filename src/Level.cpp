@@ -23,7 +23,10 @@ Level::Level() {
  * Draw node tree
  */
 void Level::draw(bool objectPicking) {
+
+	m_tree->getTransform().transformGL();
 	m_tree->draw(objectPicking);
+	m_tree->getTransform().restoreTransformGL();
 }
 
 
@@ -64,8 +67,10 @@ void test_spawn_sphere(BaseNode* tree, int sphere_count, float sphere_spacing, f
 
 			float ox = -((float)sphere_count * sphere_spacing) / 4.0f;
 			float oy = -((float)sphere_count * sphere_spacing) / 4.0f;
-			node->getTransform().setPosition(ox + ((float)x * sphere_spacing), oy + ((float)y * sphere_spacing), z);
 			tree->addChild(node);
+			float xx = ox + ((float)x * sphere_spacing);
+			float yy = oy + ((float)y * sphere_spacing);
+			node->getTransform().setPosition(xx, yy, z);
 
 			if (depth == 0) {
 				node->setRadius(5.0f);

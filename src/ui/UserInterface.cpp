@@ -7,6 +7,8 @@
  *
  *****************************************************/
 #include "UserInterface.h"
+
+#include <imgui_internal.h>
 #include <ofAppRunner.h>
 #include <ofGraphics.h>
 #include "Global.h"
@@ -205,7 +207,7 @@ void UserInterface::drawTreeElement(BaseNode* node) {
 		flags |= ImGuiTreeNodeFlags_Leaf;
 	}
 
-	if (m_selectedNode == node->getId()) {
+	if (Global::m_selectedNode == node->getId()) {
 		flags |= ImGuiTreeNodeFlags_Selected;
 	}
 
@@ -214,12 +216,11 @@ void UserInterface::drawTreeElement(BaseNode* node) {
 		if (ImGui::IsItemClicked()) {
 			ofLog() << "Item selected:" << node->getName();
 
-			if (m_selectedNode != -1) {
-				ofLog() << "Selected node:" << m_selectedNode << " :" << Global::m_level.getTree()->findNode(m_selectedNode);
-				Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(false);
+			if (Global::m_selectedNode != -1) {
+				Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
 			}
-			m_selectedNode = node->getId();
-			Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(true);
+			Global::m_selectedNode = node->getId();
+			Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(true);
 		}
 
 
@@ -245,12 +246,12 @@ void UserInterface::drawProperties() {
 
 	ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
-	if (m_selectedNode == -1) {
+	if (Global::m_selectedNode == -1) {
 		ImGui::End();
 		return;
 	}
 
-	BaseNode* selectedNode = Global::m_level.getTree()->findNode(m_selectedNode);
+	BaseNode* selectedNode = Global::m_level.getTree()->findNode(Global::m_selectedNode);
 	if (selectedNode == nullptr) {
 		ImGui::End();
 		return;
@@ -283,10 +284,10 @@ void UserInterface::drawProperties() {
 		{
 			ImGui::Text(property.getName().c_str());
 			auto color = std::any_cast<ofFloatColor>(property.getValue());
+			ImGui::SameLine(110);
+
 			ImVec4 imColor = color;
-			
-			
-			if (ImGui::ColorButton(("...##" + std::to_string(count)).c_str(), imColor, 0, ImVec2(140, 16))) {
+			if (ImGui::ColorButton(("...##" + std::to_string(count)).c_str(), imColor, 0, ImVec2(272, 16))) {
 				m_colorDialog.setTitle("Change " + property.getName());
 				m_colorDialog.useProperty(selectedNode, property.getName(), color);
 				m_colorDialog.openDialog();
@@ -306,10 +307,8 @@ void UserInterface::drawProperties() {
 			ImGui::Text(property.getName().c_str());
 			ImGui::SameLine(110);
 			glm::vec3 value = std::any_cast<glm::vec3>(property.getValue());
-			std::ostringstream oss;
-			oss << value.x << "," << value.y << "," << value.z;
-			ImGui::Text(oss.str().c_str());
-			ImGui::SameLine(224);
+			ImGui::Text("%.02f, %.02f, %.02f", value.x, value.y, value.z);
+			ImGui::SameLine(272);
 
 			if (ImGui::Button(("...##" + std::to_string(count)).c_str())) {
 				m_vec3Dialog.setTitle("Change " + property.getName());
@@ -389,28 +388,26 @@ void UserInterface::drawViewports() {
 void UserInterface::drawViewport(const std::string& name, int index, const ImVec2& position, const ImVec2& size) {
 
 	// Convert from float to integers
-	int size_x = (int)size.x;
-	int size_y = (int)size.y;
+	int size_x = static_cast<int>(size.x);
+	int size_y = static_cast<int>(size.y);
 
-	// I
-	//               f a viewport changed size, resize the associated FBO (also prevent float comparison)
 	auto fbo = Global::m_cameras[index].getFbo();
 	auto pickingFbo = Global::m_cameras[index].getPickingFbo();
 	auto camera = Global::m_cameras[index].getCamera();
 
 	Global::m_cameras[index].setViewportSize(size_x, size_y);
 
-
-	ImGui::SetNextWindowPos(position); // Position the status bar at the bottom
-	ImGui::SetNextWindowSize(size); // Set the height of the status bar
+	ImGui::SetNextWindowPos(position);
+	ImGui::SetNextWindowSize(size);
 
 	ImGui::Begin(name.c_str(), nullptr,
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing);
 
 	ImVec2 windowSize = ImGui::GetContentRegionAvail();
 	auto textureID = reinterpret_cast<ImTextureID>(fbo.getTexture().getTextureData().textureID);
-	auto cursorScreenPos = ImGui::GetCursorScreenPos();
+	ImVec2 imagePos = ImGui::GetCursorScreenPos();
 	ImGui::Image(textureID, windowSize);
+	ImVec2 transformButtonsPosition = ImVec2(size.x - 232, 26);
 
 	if (ImGui::IsWindowHovered()) {
 		m_hoveredWindow = name;
@@ -419,35 +416,69 @@ void UserInterface::drawViewport(const std::string& name, int index, const ImVec
 	if (ImGui::IsWindowFocused()) {
 
 		m_selectedWindow = name;
+		ImVec2 mousePos = ImGui::GetMousePos();
 
 		// Check if an object is clicked
+		if (ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
+			Global::m_transformTools.onMouseDrag(mousePos);
+		}
+
+		if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+			Global::m_transformTools.onMouseButtonReleased(mousePos);
+
+		}
 		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 
-			ImVec2 imagePos = cursorScreenPos;  // Image top-left position
+			ImVec2 realSize = ImGui::GetItemRectSize();
+			float localX = mousePos.x - imagePos.x;
+			float localY = mousePos.y - imagePos.y;
 
-			// Get mouse position relative to the image
-			ImVec2 mousePos = ImGui::GetMousePos();
-			auto mouseX = static_cast<size_t>(mousePos.x - imagePos.x);
-			auto mouseY = static_cast<size_t>(mousePos.y - imagePos.y);
+			// Adjust for DPI scaling if needed
+			float scaleFactor = ImGui::GetIO().DisplayFramebufferScale.x;
+			localX /= scaleFactor;
+			localY /= scaleFactor;
 
-			ofPixels pixels;
-			pickingFbo.readToPixels(pixels);  // Read the entire FBO content to pixels
+			// Also adjust if the image in the viewport is not the same size as the texture size
+			float scaleX = realSize.x / size.x;
+			float scaleY = realSize.y / size.y;
+			localX /= scaleX;
+			localY /= scaleY;
 
-			// Get the color of the clicked pixel
-			int pickedObjectId = Global::colorToId(pixels.getColor(mouseX, mouseY));
+			auto pixelX = static_cast<int>(localX);
+			auto pixelY = static_cast<int>(localY);
 
-			if (pickedObjectId != 0) {
-				// Verify if the object exists (just in case)
-				if (Global::m_level.getTree()->findNode(pickedObjectId) != nullptr) {
+			// Ignore clicks on translate buttons area
+			ImRect rect(ImVec2(transformButtonsPosition.x,0), transformButtonsPosition + ImVec2(300, 20));
+			if (!rect.Contains(ImVec2(static_cast<float>(pixelX), static_cast<float>(pixelY)))) {
 
-					if (m_selectedNode != -1) {
-						Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(false);
+				ofPixels pixels;
+				pickingFbo.readToPixels(pixels);  // Read the entire FBO content to pixels
+
+				// Get the color of the clicked pixel
+				int pickedObjectId = Global::colorToId(pixels.getColor(pixelX, pixelY));
+				//ofLog() << "picked:" << pixels.getColor(pixelX, pixelY) << " Object:" << pickedObjectId;
+				if (pickedObjectId != 0) {
+
+					if (pickedObjectId >= TRANSLATE_X) {
+						Global::m_transformTools.onMouseButtonPressed(pickedObjectId, mousePos);
+					} else {
+						// Verify if the object exists (just in case)
+						if (Global::m_level.getTree()->findNode(pickedObjectId) != nullptr) {
+
+							if (Global::m_selectedNode != -1) {
+								Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
+							}
+
+							Global::m_selectedNode = pickedObjectId;
+							Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(true);
+
+						}
 					}
-
-					m_selectedNode = pickedObjectId;
-					ofLog() << "New selected node:" << m_selectedNode;
-					Global::m_level.getTree()->findNode(m_selectedNode)->displayBoundingBox(true);
-
+				} else {
+					if (Global::m_selectedNode != -1) {
+						Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
+					}
+					Global::m_selectedNode = -1;
 				}
 			}
 
@@ -470,8 +501,24 @@ void UserInterface::drawViewport(const std::string& name, int index, const ImVec
 		drawList->AddLine(startPos, startPos + ImVec2(upDirection.x, upDirection.y), IM_COL32(0, 255, 0, 255), 2.0f);    // Green Y-axis
 		drawList->AddLine(startPos, startPos + ImVec2(forwardDirection.x, forwardDirection.y), IM_COL32(0, 0, 255, 255), 2.0f); // Blue Z-axis
 
+	}
 
-
+	if (index == 0) {
+		// Draw transform buttons
+		ImGui::SetCursorPos(transformButtonsPosition);
+		ImGui::BeginGroup();
+		if (ImGui::RadioButton("Translate", Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::TRANSLATE)) {
+			Global::m_transformTools.setTransformMode(TRANSFORM_MODE::TRANSLATE);
+		}
+		ImGui::SameLine(90);
+		if (ImGui::RadioButton("Rotate", Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::ROTATE)) {
+			Global::m_transformTools.setTransformMode(TRANSFORM_MODE::ROTATE);
+		}
+		ImGui::SameLine(160);
+		if (ImGui::RadioButton("Scale", Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::SCALE)) {
+			Global::m_transformTools.setTransformMode(TRANSFORM_MODE::SCALE);
+		}
+		ImGui::EndGroup();
 	}
 
 	ImGui::End();

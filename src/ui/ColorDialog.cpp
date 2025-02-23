@@ -25,6 +25,9 @@ void ColorDialog::useProperty(BaseNode* p_node, const std::string& p_name, ofFlo
 
 }
 
+/**
+ * Draw color picker dialog
+ */
 void ColorDialog::draw() {
 
 	if (ImGui::BeginPopupModal(m_title.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
@@ -78,6 +81,10 @@ void ColorDialog::draw() {
 	}
 }
 
+
+/**
+ *  Change current color converter
+ */
 void ColorDialog::changeColorConverter(ColorConverter* colorConverter) {
 	converter = colorConverter;
 	Color c = converter->TransformFromRGB(currentColorRGB);
@@ -86,6 +93,9 @@ void ColorDialog::changeColorConverter(ColorConverter* colorConverter) {
 	colorParameters = converter->getParameters(c);
 }
 
+/**
+ * Get color parameters
+ */
 std::vector<int> ColorDialog::getColorParameterValues() const {
 	std::vector<int> values;
 	for (const auto& param : colorParameters) {

@@ -9,6 +9,7 @@
 #pragma once
 #include <ofMain.h>
 #include "ui/UserInterface.h"
+#include "ui/TransformTools.h"
 
 class MainWindow : public ofBaseApp {
 
