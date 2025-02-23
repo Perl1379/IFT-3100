@@ -8,6 +8,11 @@
 #   The location of your root openFrameworks installation
 #       (default) OF_ROOT = ../../../of 
 ################################################################################
+
+# Windows (Tout le monde)
+#OF_ROOT = ../..
+
+# Linux (Yanick)
 OF_ROOT = /p/of
 
 ################################################################################

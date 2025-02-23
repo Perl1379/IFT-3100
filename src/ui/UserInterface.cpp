@@ -283,12 +283,14 @@ void UserInterface::drawProperties() {
 		case PROPERTY_TYPE::COLOR_PICKER:
 		{
 			ImGui::Text(property.getName().c_str());
-			ImGui::SameLine(110);
 			auto color = std::any_cast<ofFloatColor>(property.getValue());
-
 			ImVec4 imColor = color;
-			if (ImGui::ColorButton(("...##" + std::to_string(count)).c_str(), imColor, 0, ImVec2(190, 16))) {
-				// TODO: Handle color picker here
+
+
+			if (ImGui::ColorButton(("...##" + std::to_string(count)).c_str(), imColor, 0, ImVec2(140, 16))) {
+				m_colorDialog.setTitle("Change " + property.getName());
+				m_colorDialog.useProperty(selectedNode, property.getName(), color);
+				m_colorDialog.openDialog();
 			}
 		}
 		break;
@@ -325,6 +327,9 @@ void UserInterface::drawProperties() {
 
 	if (m_vec3Dialog.isOpen()) {
 		m_vec3Dialog.draw();
+	}
+	else if (m_colorDialog.isOpen()) {
+		m_colorDialog.draw();
 	}
 
 	ImGui::End();
