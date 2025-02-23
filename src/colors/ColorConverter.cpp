@@ -6,7 +6,6 @@
  * ColorConverter class implementation
  *
  *****************************************************/
-
 #include "ColorConverter.h"
 
 ColorConverter::ColorConverter()

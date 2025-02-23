@@ -1,5 +1,14 @@
+/*****************************************************
+* TP IFT3100H25 - Knight Maker
+ * by Team 12
+ *****************************************************
+ *
+ * ColorConverterHSV class definition
+ *
+ *****************************************************/
 #pragma once
 #include "ColorConverter.h"
+
 class ColorConverterHSV :
     public ColorConverter
 {

@@ -48,6 +48,7 @@ void Vector3Dialog::draw() {
 		ImGui::Dummy(ImVec2(0.0f, 5.0f));
 		ImGui::Separator();
 		ImGui::Dummy(ImVec2(0.0f, 5.0f));
+		ImGui::SetCursorPosX(80.0f);
 
 		if (ImGui::Button("Apply Changes"))
 		{

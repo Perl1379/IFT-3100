@@ -1,7 +1,15 @@
-
+/*****************************************************
+* TP IFT3100H25 - Knight Maker
+ * by Team 12
+ *****************************************************
+ *
+ * Color class definition
+ *
+ *****************************************************/
+#pragma once
 #include <string>
 #include <iostream>
-#pragma once
+
 class Color
 {
 public:
