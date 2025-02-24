@@ -25,7 +25,6 @@ void Application::start() {
 
 	// Disable rectangle textures
 	ofDisableArbTex();
-
 	ofCreateWindow(settings);
 	ofRunApp(new MainWindow);
 

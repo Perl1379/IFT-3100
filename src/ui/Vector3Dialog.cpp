@@ -7,6 +7,8 @@
  *
  *****************************************************/
 #include "Vector3Dialog.h"
+
+#include <Global.h>
 #include <imgui.h>
 
 
@@ -25,6 +27,7 @@ void Vector3Dialog::useProperty(BaseNode* p_node, const std::string& p_name, glm
 	m_node = p_node;
 	m_name = p_name;
 	m_value = p_value;
+	m_Origvalue = m_value;
 
 }
 
@@ -48,17 +51,18 @@ void Vector3Dialog::draw() {
 		ImGui::Dummy(ImVec2(0.0f, 5.0f));
 		ImGui::Separator();
 		ImGui::Dummy(ImVec2(0.0f, 5.0f));
+		ImGui::SetCursorPosX(80.0f);
 
 		if (ImGui::Button("Apply Changes"))
 		{
 			if (m_title == "Change Position") {
-				m_node->setProperty("Position", m_value);
+				Global::m_actions.addAction(m_node, "Position", m_Origvalue, m_value);
 			}
 			else if (m_title == "Change Orientation") {
-				m_node->setProperty("Orientation", m_value);
+				Global::m_actions.addAction(m_node, "Orientation", m_Origvalue, m_value);
 			}
 			else if (m_title == "Change Scale") {
-				m_node->setProperty("Scale", m_value);
+				Global::m_actions.addAction(m_node, "Scale", m_Origvalue, m_value);
 			}
 			ImGui::CloseCurrentPopup();
 			m_isOpen = false;

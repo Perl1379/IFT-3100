@@ -14,6 +14,7 @@ std::array<Camera, 3> Global::m_cameras;
 Level Global::m_level;
 int Global::m_selectedNode = -1;
 TransformTools Global::m_transformTools;
+ActionManager Global::m_actions;
 
 /**
  * Setup global singleton object

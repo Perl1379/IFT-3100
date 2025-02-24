@@ -116,6 +116,10 @@ void UserInterface::drawMenu() {
 		}
 
 		if (ImGui::BeginMenu("Help")) {
+			if (ImGui::MenuItem("Key Bindings")) {
+				onShowKeyBindings();
+			}
+
 			if (ImGui::MenuItem("About Knight Maker")) {
 				onAboutProgram();
 			}
@@ -141,7 +145,8 @@ void UserInterface::drawToolbar() {
 		ImGuiWindowFlags_NoCollapse |
 		ImGuiWindowFlags_NoScrollbar;
 
-	if (ImGui::Begin("Toolbar", nullptr, toolbarFlags)) {
+	bool isWindowOpen = true;
+	if (ImGui::Begin("Toolbar", &isWindowOpen, toolbarFlags)) {
 
 		if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarNewLevel.getTextureData().textureID), ImVec2(48, 48))) {
 			onNewLevel();
@@ -181,7 +186,8 @@ void UserInterface::drawTree() {
 	ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImGuiCond_Always);
 	ImGui::SetNextWindowSize(ImVec2(LEFTPANEL_WIDTH, TREEVIEW_HEIGHT), ImGuiCond_Always);
 
-	if (ImGui::Begin("Level", nullptr,
+	bool isWindowOpen = true;
+	if (ImGui::Begin("Level", &isWindowOpen,
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse)) {
 
 		ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Always);
@@ -244,7 +250,8 @@ void UserInterface::drawProperties() {
 	ImGui::SetNextWindowPos(ImVec2(0, posY));
 	ImGui::SetNextWindowSize(ImVec2(LEFTPANEL_WIDTH, ofGetHeight() - STATUSBAR_HEIGHT - posY - 2));
 
-	ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+	bool isWindowOpen = true;
+	ImGui::Begin("Properties", &isWindowOpen, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
 	if (Global::m_selectedNode == -1) {
 		ImGui::End();
@@ -346,7 +353,8 @@ void UserInterface::drawStatus() {
 	ImGui::SetNextWindowPos(ImVec2(0, ofGetHeight() - STATUSBAR_HEIGHT)); // Position the status bar at the bottom
 	ImGui::SetNextWindowSize(ImVec2(ofGetWidth(), STATUSBAR_HEIGHT)); // Set the height of the status bar
 
-	ImGui::Begin("Status Bar", nullptr,
+	bool isWindowOpen = true;
+	ImGui::Begin("Status Bar", &isWindowOpen,
 		ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
 	ImGui::Text("");
@@ -400,14 +408,16 @@ void UserInterface::drawViewport(const std::string& name, int index, const ImVec
 	ImGui::SetNextWindowPos(position);
 	ImGui::SetNextWindowSize(size);
 
-	ImGui::Begin(name.c_str(), nullptr,
+	bool isWindowOpen = true;
+
+	ImGui::Begin(name.c_str(), &isWindowOpen,
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing);
 
 	ImVec2 windowSize = ImGui::GetContentRegionAvail();
 	auto textureID = reinterpret_cast<ImTextureID>(fbo.getTexture().getTextureData().textureID);
 	ImVec2 imagePos = ImGui::GetCursorScreenPos();
 	ImGui::Image(textureID, windowSize);
-	ImVec2 transformButtonsPosition = ImVec2(size.x - 232, 26);
+	ImVec2 transformButtonsPosition = ImVec2(size.x - 192, 30);
 
 	if (ImGui::IsWindowHovered()) {
 		m_hoveredWindow = name;
@@ -507,17 +517,53 @@ void UserInterface::drawViewport(const std::string& name, int index, const ImVec
 		// Draw transform buttons
 		ImGui::SetCursorPos(transformButtonsPosition);
 		ImGui::BeginGroup();
-		if (ImGui::RadioButton("Translate", Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::TRANSLATE)) {
-			Global::m_transformTools.setTransformMode(TRANSFORM_MODE::TRANSLATE);
+		if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::TRANSLATE) {
+			ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+			if (ImGui::Button("Translate")) {
+				Global::m_transformTools.setTransformMode(TRANSFORM_MODE::TRANSLATE);
+			}
+			ImGui::PopStyleColor(2);
+		} else {
+			if (ImGui::Button("Translate")) {
+				Global::m_transformTools.setTransformMode(TRANSFORM_MODE::TRANSLATE);
+			}
 		}
-		ImGui::SameLine(90);
-		if (ImGui::RadioButton("Rotate", Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::ROTATE)) {
-			Global::m_transformTools.setTransformMode(TRANSFORM_MODE::ROTATE);
+
+
+		ImGui::SameLine(76);
+
+		if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::ROTATE) {
+			ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+
+			if (ImGui::Button("Rotate")) {
+				Global::m_transformTools.setTransformMode(TRANSFORM_MODE::ROTATE);
+			}
+			ImGui::PopStyleColor(2);
+		} else {
+			if (ImGui::Button("Rotate")) {
+				Global::m_transformTools.setTransformMode(TRANSFORM_MODE::ROTATE);
+			}
 		}
-		ImGui::SameLine(160);
-		if (ImGui::RadioButton("Scale", Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::SCALE)) {
-			Global::m_transformTools.setTransformMode(TRANSFORM_MODE::SCALE);
+		ImGui::SameLine(130);
+
+		if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::SCALE) {
+			ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+
+			if (ImGui::Button("Scale")) {
+				Global::m_transformTools.setTransformMode(TRANSFORM_MODE::SCALE);
+			}
+			ImGui::PopStyleColor(2);
+
+		} else {
+			if (ImGui::Button("Scale")) {
+				Global::m_transformTools.setTransformMode(TRANSFORM_MODE::SCALE);
+			}
+
 		}
+
 		ImGui::EndGroup();
 	}
 
@@ -567,10 +613,18 @@ void UserInterface::onGenerateAtlas() {
 
 
 /**
+ * Display key bindings
+ */
+void UserInterface::onShowKeyBindings() {
+
+}
+
+
+/**
  * Callback function : History undo
  */
 void UserInterface::onHistoryUndo() {
-	// TODO
+	Global::m_actions.undo();
 }
 
 
@@ -578,7 +632,7 @@ void UserInterface::onHistoryUndo() {
  * Callback function : History redo
  */
 void UserInterface::onHistoryRedo() {
-	// TODO
+	Global::m_actions.redo();
 }
 
 
@@ -612,3 +666,5 @@ const std::string& UserInterface::getHoveredWindow() const {
 bool UserInterface::onlyOneCamera() const {
 	return m_onlyOneCamera;
 }
+
+

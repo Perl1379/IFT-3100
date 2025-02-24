@@ -227,7 +227,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
     // Get difference between previous mouse position and current one
     glm::vec2 diff = mousePosition - m_previousMousePosition;
     m_previousMousePosition = mousePosition;
-    float mouseSpeed = 0.05f;
+    float mouseSpeedTranslate = 0.05f;
+    float mouseSpeedRotate = 0.25f;
+    float mouseSpeedScale = 0.01f;
 
     BaseNode* node = Global::m_level.getTree()->findNode(Global::m_selectedNode);
 
@@ -241,27 +243,27 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
     switch(m_currentTransformPixelColor) {
         case TRANSLATE_X: {
             if (cameraRight.x < 0) {
-                node->getTransform().truck(-diff.x * mouseSpeed);
+                node->getTransform().truck(-diff.x * mouseSpeedTranslate);
             } else {
-                node->getTransform().truck(diff.x * mouseSpeed);
+                node->getTransform().truck(diff.x * mouseSpeedTranslate);
             }
         }
         break;
 
         case TRANSLATE_Y: {
             if (cameraUp.y < 0) {
-                node->getTransform().boom(diff.y * mouseSpeed);
+                node->getTransform().boom(diff.y * mouseSpeedTranslate);
             } else {
-                node->getTransform().boom(-diff.y * mouseSpeed);
+                node->getTransform().boom(-diff.y * mouseSpeedTranslate);
             }
         }
         break;
 
         case TRANSLATE_Z: {
             if (cameraForward.y < 0) {
-                node->getTransform().dolly(diff.x * mouseSpeed);
+                node->getTransform().dolly(diff.x * mouseSpeedTranslate);
             } else {
-                node->getTransform().dolly(-diff.x * mouseSpeed);
+                node->getTransform().dolly(-diff.x * mouseSpeedTranslate);
             }
         }
         break;
@@ -269,27 +271,27 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
         case ROTATE_X: {
 
             if (cameraRight.x < 0) {
-                node->getTransform().rotateDeg(diff.x * mouseSpeed, node->getTransform().getZAxis());
+                node->getTransform().rotateDeg(-diff.x * mouseSpeedRotate, node->getTransform().getZAxis());
             } else {
-                node->getTransform().rotateDeg(-diff.x * mouseSpeed, node->getTransform().getZAxis());
+                node->getTransform().rotateDeg(diff.x * mouseSpeedRotate, node->getTransform().getZAxis());
             }
         }
         break;
 
         case ROTATE_Y: {
             if (cameraUp.y < 0) {
-                node->getTransform().rotateDeg(diff.x * mouseSpeed, node->getTransform().getXAxis());
+                node->getTransform().rotateDeg(-diff.y * mouseSpeedRotate, node->getTransform().getXAxis());
             } else {
-                node->getTransform().rotateDeg(-diff.x * mouseSpeed, node->getTransform().getXAxis());
+                node->getTransform().rotateDeg(diff.y * mouseSpeedRotate, node->getTransform().getXAxis());
             }
         }
         break;
 
         case ROTATE_Z: {
             if (cameraForward.y < 0) {
-                node->getTransform().rotateDeg(diff.x * mouseSpeed, node->getTransform().getYAxis());
+                node->getTransform().rotateDeg(-diff.x * mouseSpeedRotate, node->getTransform().getYAxis());
             } else {
-                node->getTransform().rotateDeg(-diff.x * mouseSpeed, node->getTransform().getYAxis());
+                node->getTransform().rotateDeg(diff.x * mouseSpeedRotate, node->getTransform().getYAxis());
             }
         }
         break;
@@ -298,9 +300,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
 
            glm::vec3 scale = node->getTransform().getScale();
             if (cameraRight.x < 0) {
-                scale.x -= diff.x * mouseSpeed;
+                scale.x -= diff.x * mouseSpeedScale;
             } else {
-                scale.x += diff.x * mouseSpeed;
+                scale.x += diff.x * mouseSpeedScale;
             }
             node->getTransform().setScale(scale);
         }
@@ -309,9 +311,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
         case SCALE_Y: {
            glm::vec3 scale = node->getTransform().getScale();
             if (cameraUp.y < 0) {
-                scale.y += diff.y * mouseSpeed;
+                scale.y += diff.y * mouseSpeedScale;
             } else {
-                scale.y -= diff.y * mouseSpeed;
+                scale.y -= diff.y * mouseSpeedScale;
             }
             node->getTransform().setScale(scale);
         }
@@ -320,9 +322,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
         case SCALE_Z: {
            glm::vec3 scale = node->getTransform().getScale();
             if (cameraForward.y < 0) {
-                scale.z += diff.x * mouseSpeed;
+                scale.z += diff.x * mouseSpeedScale;
             } else {
-                scale.z -= diff.x * mouseSpeed;
+                scale.z -= diff.x * mouseSpeedScale;
             }
             node->getTransform().setScale(scale);
         }
@@ -331,9 +333,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
         case SCALE_ALL: {
             glm::vec3 scale = node->getTransform().getScale();
             if (cameraForward.y < 0) {
-                scale += diff.x * mouseSpeed;
+                scale += diff.x * mouseSpeedScale;
             } else {
-                scale -= diff.x * mouseSpeed;
+                scale -= diff.x * mouseSpeedScale;
             }
             node->getTransform().setScale(scale);
         }
@@ -346,6 +348,26 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
  * Complete transformation
  */
 void TransformTools::onMouseButtonReleased(ImVec2 mousePosition) {
+    if (m_currentTransformPixelColor == -1) return;
+
+    BaseNode* node = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+    switch (m_transformMode) {
+
+        case TRANSLATE: {
+            Global::m_actions.addAction(node, "Position", m_initialNodePosition, node->getTransform().getPosition());
+        }
+        break;
+
+        case ROTATE: {
+            Global::m_actions.addAction(node, "Orientation", m_initialNodeOrientation, node->getTransform().getOrientationEulerDeg());
+        }
+        break;
+
+        case SCALE: {
+            Global::m_actions.addAction(node, "Scale", m_initialNodeScale, node->getTransform().getScale());
+        }
+        break;
+    }
     m_currentTransformPixelColor = -1;
 }
 

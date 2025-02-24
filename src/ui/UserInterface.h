@@ -70,7 +70,7 @@ private:
     void onHistoryUndo();
     void onHistoryRedo();
     void onToggleCameras();
-
+	void onShowKeyBindings();
 
 };
 

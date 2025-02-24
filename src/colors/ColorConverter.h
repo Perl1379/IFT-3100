@@ -1,10 +1,18 @@
+/*****************************************************
+* TP IFT3100H25 - Knight Maker
+ * by Team 12
+ *****************************************************
+ *
+ * ColorConverter class definition
+ *
+ *****************************************************/
+#pragma once
 #include "Color.h"
 #include "ColorRGB.h"
 #include <ofxImGui.h>
 #include <ofColor.h>
-#include <cmath>
 #include <vector>
-#pragma once
+
 class ColorConverter
 {
 protected:

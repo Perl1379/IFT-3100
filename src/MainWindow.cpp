@@ -97,7 +97,8 @@ void MainWindow::keyPressed(ofKeyEventArgs& key) {
 		return;
 	}
 
-	handleCameraInput(true, key, index);
+	if (!key.hasModifier(OF_KEY_CONTROL))
+		handleCameraInput(true, key, index);
 
 }
 
@@ -113,7 +114,18 @@ void MainWindow::keyReleased(ofKeyEventArgs& key) {
 		return;
 	}
 
-	handleCameraInput(false, key, index);
+	if (!key.hasModifier(OF_KEY_CONTROL))
+		handleCameraInput(false, key, index);
+
+	// Handle history
+	if (key.hasModifier(OF_KEY_CONTROL) && (key.key == 'z')) {
+		Global::m_actions.undo();
+	}
+
+	if (key.hasModifier(OF_KEY_CONTROL) && (key.key == 'r')) {
+		Global::m_actions.redo();
+	}
+
 }
 
 
