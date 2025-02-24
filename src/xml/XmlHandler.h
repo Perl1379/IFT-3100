@@ -15,6 +15,7 @@ private:
 	void setFilePath(string path);
 
 public:
+	XmlHandler(const XmlHandler& obj) = delete;
 	static XmlHandler* getInstance();
 
 	ofxXmlSettings XML;
@@ -50,8 +51,7 @@ public:
 	ofVec3f getThirdCameraOrientation();
 	bool getThirdCameraOrtho();
 
-
-	XmlHandler(const XmlHandler& obj) = delete;
+	// Fin des fonctions lié au caméra
 
 };
 
