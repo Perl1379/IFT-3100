@@ -9,7 +9,7 @@
 #include "Color.h"
 
 /**
-* Copy constructor
+* Constructor
 */
 Color::Color(float p_v1, float p_v2, float p_v3, float p_v4, float p_a) : m_value1(p_v1), m_value2(p_v2), m_value3(p_v3), m_value4(p_v4), m_alpha(p_a) {
 }

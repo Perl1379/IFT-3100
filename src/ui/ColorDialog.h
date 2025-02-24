@@ -19,6 +19,7 @@ class ColorDialog :	public ModalDialog
 private:
 	BaseNode* m_node;
 	std::string m_name;
+	ofFloatColor m_OrigValue;
 	ofFloatColor m_value;
 
 	ColorConverterRGB m_converterRGB;

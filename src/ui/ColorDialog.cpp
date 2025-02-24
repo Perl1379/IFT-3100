@@ -7,6 +7,8 @@
  *
  *****************************************************/
 #include "ColorDialog.h"
+
+#include <Global.h>
 #include <imgui.h>
 
 
@@ -25,6 +27,8 @@ void ColorDialog::useProperty(BaseNode* p_node, const std::string& p_name, ofFlo
 	m_node = p_node;
 	m_name = p_name;
 	m_value = p_value;
+	m_OrigValue = p_value;
+
 	Color c = Color(m_value.r*255, m_value.g * 255, m_value.b * 255 ,0.00f, m_value.a * 255);
 	m_currentColorRGB = m_converter->TransformToRGB(c);
 	m_colorParameters.clear();
@@ -131,7 +135,7 @@ void ColorDialog::draw() {
 		{
 			std::string parameterName = m_title;
 			parameterName.erase(0,7);
-			m_node->setProperty(parameterName,ofFloatColor(color[0], color[1], color[2], color[3]));
+			Global::m_actions.addAction(m_node, parameterName, m_OrigValue, ofFloatColor(color[0], color[1], color[2], color[3]));
 			ImGui::CloseCurrentPopup();
 			m_isOpen = false;
 		}

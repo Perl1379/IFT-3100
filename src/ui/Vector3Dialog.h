@@ -11,6 +11,7 @@ private:
 	BaseNode* m_node;
 	std::string m_name;
 	glm::vec3 m_value;
+	glm::vec3 m_Origvalue;
 
 
 

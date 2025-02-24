@@ -8,6 +8,8 @@
  *****************************************************/
 #pragma once
 
+#include <ActionManager.h>
+
 #include "Level.h"
 #include <array>
 #include <Camera.h>
@@ -22,6 +24,7 @@ public:
 	static Level m_level;
 	static int m_selectedNode;
 	static TransformTools m_transformTools;
+	static ActionManager m_actions;
 
 	static void setup();
 	static ofColor idToColor(int id);
