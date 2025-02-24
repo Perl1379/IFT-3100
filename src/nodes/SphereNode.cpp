@@ -49,7 +49,41 @@ void SphereNode::setRadius(float p_radius) {
 /**
  * Get bounding box
  */
-ofVec3f SphereNode::getBoundingBox() {
+ofVec3f SphereNode::getBoundingBox() const {
 	const float size = m_primitive.getRadius() * 2.0f;
 	return {size, size, size};
+}
+
+/**
+ * Get properties
+ */
+std::vector<NodeProperty> SphereNode::getProperties() const {
+    auto properties = BaseNode::getProperties();
+    properties.emplace_back("Radius", PROPERTY_TYPE::FLOAT, m_primitive.getRadius());
+    properties.emplace_back("Resolution", PROPERTY_TYPE::INTEGER, m_primitive.getResolution());
+    return properties;
+}
+
+/**
+ * Set property
+ */
+void SphereNode::setProperty(const std::string &p_name, std::any p_value) {
+    if (p_name == "Radius") {
+        m_primitive.setRadius(std::any_cast<float>(p_value));
+        return;
+    }
+
+    if (p_name == "Resolution") {
+        m_primitive.setResolution(std::any_cast<int>(p_value));
+        return;
+    }
+
+    BaseNode::setProperty(p_name, std::any(p_value));
+}
+
+/**
+ * Set resolution
+ */
+void SphereNode::setResolution(int p_resolution) {
+    m_primitive.setResolution(p_resolution);
 }

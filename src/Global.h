@@ -23,6 +23,7 @@ public:
 	static std::array<Camera, 3> m_cameras;
 	static Level m_level;
 	static int m_selectedNode;
+	static bool m_selectedFromViewport;
 	static TransformTools m_transformTools;
 	static ActionManager m_actions;
 

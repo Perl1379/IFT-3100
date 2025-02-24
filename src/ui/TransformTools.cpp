@@ -210,9 +210,11 @@ void TransformTools::onMouseButtonPressed(int p_transformPixelColor, ImVec2 mous
     m_previousMousePosition = mousePosition;
     m_currentTransformPixelColor = p_transformPixelColor;
     BaseNode* node = Global::m_level.getTree()->findNode(Global::m_selectedNode);
-    m_initialNodePosition = node->getTransform().getPosition();
-    m_initialNodeOrientation = node->getTransform().getOrientationEulerDeg();
-    m_initialNodeScale = node->getTransform().getScale();
+    if (node != nullptr) {
+        m_initialNodePosition = node->getTransform().getPosition();
+        m_initialNodeOrientation = node->getTransform().getOrientationEulerDeg();
+        m_initialNodeScale = node->getTransform().getScale();
+    }
 
 }
 
@@ -351,22 +353,24 @@ void TransformTools::onMouseButtonReleased(ImVec2 mousePosition) {
     if (m_currentTransformPixelColor == -1) return;
 
     BaseNode* node = Global::m_level.getTree()->findNode(Global::m_selectedNode);
-    switch (m_transformMode) {
+    if (node != nullptr) {
+        switch (m_transformMode) {
 
-        case TRANSLATE: {
-            Global::m_actions.addAction(node, "Position", m_initialNodePosition, node->getTransform().getPosition());
-        }
-        break;
+            case TRANSLATE: {
+                Global::m_actions.addAction(node, "Position", m_initialNodePosition, node->getTransform().getPosition());
+            }
+            break;
 
-        case ROTATE: {
-            Global::m_actions.addAction(node, "Orientation", m_initialNodeOrientation, node->getTransform().getOrientationEulerDeg());
-        }
-        break;
+            case ROTATE: {
+                Global::m_actions.addAction(node, "Orientation", m_initialNodeOrientation, node->getTransform().getOrientationEulerDeg());
+            }
+            break;
 
-        case SCALE: {
-            Global::m_actions.addAction(node, "Scale", m_initialNodeScale, node->getTransform().getScale());
+            case SCALE: {
+                Global::m_actions.addAction(node, "Scale", m_initialNodeScale, node->getTransform().getScale());
+            }
+            break;
         }
-        break;
     }
     m_currentTransformPixelColor = -1;
 }

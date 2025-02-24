@@ -15,6 +15,7 @@ Level Global::m_level;
 int Global::m_selectedNode = -1;
 TransformTools Global::m_transformTools;
 ActionManager Global::m_actions;
+bool Global::m_selectedFromViewport = false;
 
 /**
  * Setup global singleton object

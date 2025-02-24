@@ -42,7 +42,7 @@ void ModalDialog::openDialog() {
  */
 void ModalDialog::draw() {
 
-	if (ImGui::BeginPopupModal(m_title.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	if (ImGui::BeginPopupModal(m_title.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		ImGui::Text("This is a reusable modal dialog.");
 		ImGui::Separator();
