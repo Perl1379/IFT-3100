@@ -161,3 +161,14 @@ void XmlHandler::setThirdCameraOrtho(bool isOrtho)
 {
 	XML.setValue("CAMERA:THIRD:ORTHO", isOrtho);
 }
+
+
+void XmlHandler::setNodeProperty(int p_id, string p_name, string p_value)
+{
+	XML.setValue("NODE:" + to_string(p_id) + ":" + p_name, p_value);
+}
+
+string XmlHandler::getNodeProperty(int p_id, string p_name)
+{
+	return XML.getValue("NODE:" + to_string(p_id) + ":" + p_name, "NULL");
+}
