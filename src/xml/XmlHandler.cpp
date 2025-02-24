@@ -65,6 +65,11 @@ ofVec3f XmlHandler::getFirstCameraOrientation()
 	return ofVec3f(XML.getValue("CAMERA:FIRST:ORIENTATION:X", 0), XML.getValue("CAMERA:FIRST:ORIENTATION:Y", 0), XML.getValue("CAMERA:FIRST:ORIENTATION:Z", 0));
 }
 
+bool XmlHandler::getFirstCameraOrtho()
+{
+	return XML.getValue("CAMERA:FIRST:ORTHO", 0);
+}
+
 
 ofVec3f XmlHandler::getSecondCameraPosition()
 {
@@ -76,6 +81,11 @@ ofVec3f XmlHandler::getSecondCameraOrientation()
 	return ofVec3f(XML.getValue("CAMERA:SECOND:ORIENTATION:X", 0), XML.getValue("CAMERA:SECOND:ORIENTATION:Y", 0), XML.getValue("CAMERA:SECOND:ORIENTATION:Z", 0));
 }
 
+bool XmlHandler::getSecondCameraOrtho()
+{
+	return XML.getValue("CAMERA:SECOND:ORTHO", 0);
+}
+
 
 ofVec3f XmlHandler::getThirdCameraPosition()
 {
@@ -85,6 +95,11 @@ ofVec3f XmlHandler::getThirdCameraPosition()
 ofVec3f XmlHandler::getThirdCameraOrientation()
 {
 	return ofVec3f(XML.getValue("CAMERA:THIRD:ORIENTATION:X", 0), XML.getValue("CAMERA:THIRD:ORIENTATION:Y", 0), XML.getValue("CAMERA:THIRD:ORIENTATION:Z", 0));
+}
+
+bool XmlHandler::getThirdCameraOrtho()
+{
+	return XML.getValue("CAMERA:THIRD:ORTHO", 0);
 }
 
 
@@ -102,6 +117,11 @@ void XmlHandler::setFirstCameraOrientation(int x, int y, int z)
 	XML.setValue("CAMERA:FIRST:ORIENTATION:Z", z);
 }
 
+void XmlHandler::setFirstCameraOrtho(bool isOrtho)
+{
+	XML.setValue("CAMERA:FIRST:ORTHO", isOrtho);
+}
+
 
 void XmlHandler::setSecondCameraPosition(int x, int y, int z)
 {
@@ -117,6 +137,11 @@ void XmlHandler::setSecondCameraOrientation(int x, int y, int z)
 	XML.setValue("CAMERA:SECOND:ORIENTATION:Z", z);
 }
 
+void XmlHandler::setSecondCameraOrtho(bool isOrtho)
+{
+	XML.setValue("CAMERA:SECOND:ORTHO", isOrtho);
+}
+
 
 void XmlHandler::setThirdCameraPosition(int x, int y, int z)
 {
@@ -130,4 +155,9 @@ void XmlHandler::setThirdCameraOrientation(int x, int y, int z)
 	XML.setValue("CAMERA:THIRD:ORIENTATION:X", x);
 	XML.setValue("CAMERA:THIRD:ORIENTATION:Y", y);
 	XML.setValue("CAMERA:THIRD:ORIENTATION:Z", z);
+}
+
+void XmlHandler::setThirdCameraOrtho(bool isOrtho)
+{
+	XML.setValue("CAMERA:THIRD:ORTHO", isOrtho);
 }

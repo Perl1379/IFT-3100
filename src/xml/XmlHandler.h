@@ -28,21 +28,27 @@ public:
 
 	void setFirstCameraPosition(int x, int y, int z);
 	void setFirstCameraOrientation(int x, int y, int z);
+	void setFirstCameraOrtho(bool isOrtho);
 
 	void setSecondCameraPosition(int x, int y, int z);
 	void setSecondCameraOrientation(int x, int y, int z);
+	void setSecondCameraOrtho(bool isOrtho);
 
 	void setThirdCameraPosition(int x, int y, int z);
 	void setThirdCameraOrientation(int x, int y, int z);
+	void setThirdCameraOrtho(bool isOrtho);
 
 	ofVec3f getFirstCameraPosition();
 	ofVec3f getFirstCameraOrientation();
+	bool getFirstCameraOrtho();
 
 	ofVec3f getSecondCameraPosition();
 	ofVec3f getSecondCameraOrientation();
+	bool getSecondCameraOrtho();
 
 	ofVec3f getThirdCameraPosition();
 	ofVec3f getThirdCameraOrientation();
+	bool getThirdCameraOrtho();
 
 
 	XmlHandler(const XmlHandler& obj) = delete;
