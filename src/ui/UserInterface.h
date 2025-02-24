@@ -7,6 +7,7 @@
  *
  *****************************************************/
 #pragma once
+#include <AddNodeDialog.h>
 #include <BaseNode.h>
 #include <ofxImGui.h>
 #include "Vector3Dialog.h"
@@ -20,14 +21,16 @@ public:
     void draw();
 
     // Some useful definitions
-    static const int        TOOLBAR_HEIGHT        = 60;
-    static const int        STATUSBAR_HEIGHT      = 30;
-    static const int        LEFTPANEL_WIDTH       = 300;
-    static const int        TREEVIEW_HEIGHT       = 240;
-    static constexpr float  CAMERA_ASPECT_RATIO   = 16.0f / 9.0f;
+    static const int        TOOLBAR_HEIGHT          = 60;
+    static const int        STATUSBAR_HEIGHT        = 30;
+    static const int        LEFTPANEL_WIDTH         = 300;
+    static const int        TREEVIEW_HEIGHT         = 240;
+    static const int        TREEVIEW_ACTIONS_HEIGHT = 32;
+    static constexpr float  CAMERA_ASPECT_RATIO     = 16.0f / 9.0f;
 
     std::string m_selectedWindow;
     std::string m_hoveredWindow;
+    int m_previousNodeSelection = -1;
 
 	const std::string& getSelectedWindow() const;
 	const std::string& getHoveredWindow() const;
@@ -48,6 +51,7 @@ private:
     bool m_onlyOneCamera = false;
     Vector3Dialog m_vec3Dialog;
 	ColorDialog m_colorDialog;
+	AddNodeDialog m_addNodeDialog;
 
     // Draw functions
 
@@ -55,6 +59,7 @@ private:
     void drawToolbar();
     void drawTree();
     void drawTreeElement(BaseNode* node);
+    void drawTreeActions();
     void drawStatus();
     void drawProperties();
     void drawViewports();

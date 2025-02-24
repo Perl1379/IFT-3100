@@ -183,7 +183,7 @@ void BaseNode::endDraw(bool p_objectPicking) {
 /**
  * Get bounding box for current node
  */
-ofVec3f BaseNode::getBoundingBox() {
+ofVec3f BaseNode::getBoundingBox() const {
 	return {1.0, 1.0, 1.0};
 }
 
