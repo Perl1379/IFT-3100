@@ -25,7 +25,7 @@ public:
 	void load(string path);
 	void createNewFile(string path);
 
-	// Fonction lié au attribut caméra avec XML
+	// Début des fonctions lié au attribut caméra avec XML
 
 	void setFirstCameraPosition(int x, int y, int z);
 	void setFirstCameraOrientation(int x, int y, int z);
@@ -53,6 +53,12 @@ public:
 
 	// Fin des fonctions lié au caméra
 
+	// Début des fonctions lié au Node
+		
+	void setNodeProperty(int p_id, string p_name, string p_value);
+	string getNodeProperty(int p_id, string p_name);
+
+	// Fin des fonctions lié au Node
 };
 
 XmlHandler* XmlHandler::instancePtr = nullptr;
