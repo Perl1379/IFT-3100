@@ -22,9 +22,9 @@ bool Global::m_selectedFromViewport = false;
  */
 void Global::setup() {
 
-	m_cameras[0].setup(ofVec3f(0, 0, 100), ofVec3f(0, 0, 0));
-	m_cameras[1].setup(ofVec3f(0, 100, 0), ofVec3f(0, 0, 0));
-	m_cameras[2].setup(ofVec3f(100, 0, 0), ofVec3f(0, 0, 0));
+	m_cameras[0].setup(ofVec3f(0, 300, 1500), ofVec3f(0, 300, 0));
+	m_cameras[1].setup(ofVec3f(0, 2000, 0), ofVec3f(0, 0, 0));
+	m_cameras[2].setup(ofVec3f(1500, 300, 0), ofVec3f(0, 300, 0));
 
 	m_level.reset();
 
