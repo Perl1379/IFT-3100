@@ -1,0 +1,15 @@
+ImVec2 mousePos = ImGui::GetMousePos();
+ImGui::GetForegroundDrawList()->AddImage(
+	(void*)(intptr_t)cursorImage.getTexture().getTextureData().textureID,
+	mousePos,
+	ImVec2(mousePos.x + cursorImage.getWidth(), mousePos.y + cursorImage.getHeight())
+);
+
+
+	cursorImage.load("images/ui/cursors/hand.png");
+
+	// Désactiver le curseur par défaut
+	ofHideCursor();
+
+
+    ofImage cursorImage;

@@ -44,6 +44,11 @@ void UserInterface::setup() {
     ofImage imgToolbarToggleCamerasPressed;
     imgToolbarToggleCamerasPressed.load("images/ui/toolbar_buttons/toggle_cameras_pressed.png");
     m_textureToolbarToggleCamerasPressed = imgToolbarToggleCamerasPressed.getTexture();
+
+    currentCursor = "cursor";
+
+	changeCursor();
+    ofHideCursor();
 }
 
 
@@ -68,7 +73,7 @@ void UserInterface::draw() {
         m_initialDraw = false;
         ImGui::SetWindowFocus("Main Camera");
     }
-
+    drawCursor();
     m_gui.end();
 }
 
@@ -362,7 +367,7 @@ void UserInterface::drawProperties() {
             }
             break;
 
-            case PROPERTY_TYPE::FLOAT:
+            case PROPERTY_TYPE::FLOAT_TYPE:
             {
 
                 ImGui::Text(property.getName().c_str());
@@ -434,6 +439,40 @@ void UserInterface::drawStatus() {
     ImGui::End();
 }
 
+void UserInterface::drawCursor() {
+    ImVec2 mousePos = ImGui::GetMousePos();
+    ImGui::GetForegroundDrawList()->AddImage(
+        (void*)(intptr_t)cursorImage.getTexture().getTextureData().textureID,
+        mousePos,
+        ImVec2(mousePos.x + cursorImage.getWidth(), mousePos.y + cursorImage.getHeight())
+    );
+
+}
+
+void UserInterface::changeCursor()
+{
+    ofImage img;
+    img.load("images/ui/cursors/" + currentCursor + ".png");
+
+    // Accéder aux pixels de l'image
+    ofPixels& pixels = img.getPixels();
+
+    // Parcourir tous les pixels et changer leur couleur
+    for (int y = 0; y < img.getHeight(); ++y) {
+        for (int x = 0; x < img.getWidth(); ++x) {
+            ofColor color = pixels.getColor(x, y);
+            if (color.a > 0) { // Si le pixel n'est pas transparent
+                color = ofColor(255, 255, 255, color.a); // Changer la couleur en blanc tout en conservant l'alpha d'origine
+                pixels.setColor(x, y, color);
+            }
+        }
+    }
+
+    // Mettre à jour la texture de l'image
+    img.update();
+    cursorImage = img;
+}
+
 
 /**
  * Draw viewports
@@ -471,6 +510,7 @@ void UserInterface::drawViewports() {
  */
 void UserInterface::drawViewport(const std::string &name, int index, const ImVec2 &position, const ImVec2 &size) {
     // Convert from float to integers
+    std::string oldCursor = currentCursor;
     int size_x = static_cast<int>(size.x);
     int size_y = static_cast<int>(size.y);
 
@@ -553,14 +593,35 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
                 }
             }
         }
+        if (Global::m_selectedNode != -1)
+        {
+            currentCursor = "hand";
+        }
+        else {
+            currentCursor = "cursor";
+        }
     }
-
+    else{
+        currentCursor = "cursor";
+    }
+    
+    
     if (ImGui::IsWindowFocused()) {
         ImVec2 mousePos = ImGui::GetMousePos();
 
         // Check if an object is clicked
         if (ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
             Global::m_transformTools.onMouseDrag(mousePos);
+            if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::TRANSLATE) {
+                currentCursor = "move";
+            }
+            else if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::ROTATE) {
+                currentCursor = "rotate";
+            }
+            else if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::SCALE) {
+				currentCursor = "scale";
+            }
+            
         }
 
 
@@ -596,6 +657,7 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
             ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
             if (ImGui::Button("Translate")) {
                 Global::m_transformTools.setTransformMode(TRANSFORM_MODE::TRANSLATE);
+               
             }
             ImGui::PopStyleColor(2);
         } else {
@@ -638,7 +700,9 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
 
         ImGui::EndGroup();
     }
-
+	if (oldCursor != currentCursor) {
+        changeCursor();
+	}
     ImGui::End();
 }
 

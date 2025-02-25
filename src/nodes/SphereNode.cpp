@@ -59,7 +59,7 @@ ofVec3f SphereNode::getBoundingBox() const {
  */
 std::vector<NodeProperty> SphereNode::getProperties() const {
     auto properties = BaseNode::getProperties();
-    properties.emplace_back("Radius", PROPERTY_TYPE::FLOAT, m_primitive.getRadius());
+    properties.emplace_back("Radius", PROPERTY_TYPE::FLOAT_TYPE, m_primitive.getRadius());
     properties.emplace_back("Resolution", PROPERTY_TYPE::INTEGER, m_primitive.getResolution());
     return properties;
 }

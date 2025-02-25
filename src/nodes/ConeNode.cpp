@@ -67,8 +67,8 @@ ofVec3f ConeNode::getBoundingBox() const {
  */
 std::vector<NodeProperty> ConeNode::getProperties() const {
     auto properties = BaseNode::getProperties();
-    properties.emplace_back("Radius", PROPERTY_TYPE::FLOAT, m_primitive.getRadius());
-    properties.emplace_back("Height", PROPERTY_TYPE::FLOAT, m_primitive.getHeight());
+    properties.emplace_back("Radius", PROPERTY_TYPE::FLOAT_TYPE, m_primitive.getRadius());
+    properties.emplace_back("Height", PROPERTY_TYPE::FLOAT_TYPE, m_primitive.getHeight());
     properties.emplace_back("Resolution R", PROPERTY_TYPE::INTEGER, m_primitive.getResolutionRadius());
     properties.emplace_back("Resolution H", PROPERTY_TYPE::INTEGER, m_primitive.getResolutionHeight());
     return properties;

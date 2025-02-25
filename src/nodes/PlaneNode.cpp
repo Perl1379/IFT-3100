@@ -73,8 +73,8 @@ ofVec3f PlaneNode::getBoundingBox() const {
  */
 std::vector<NodeProperty> PlaneNode::getProperties() const {
     auto properties = BaseNode::getProperties();
-    properties.emplace_back("Width", PROPERTY_TYPE::FLOAT, m_primitive.getWidth());
-    properties.emplace_back("Height", PROPERTY_TYPE::FLOAT, m_primitive.getHeight());
+    properties.emplace_back("Width", PROPERTY_TYPE::FLOAT_TYPE, m_primitive.getWidth());
+    properties.emplace_back("Height", PROPERTY_TYPE::FLOAT_TYPE, m_primitive.getHeight());
     properties.emplace_back("Resolution", PROPERTY_TYPE::INTEGER, static_cast<int>(m_primitive.getResolution().x));
     return properties;
 }

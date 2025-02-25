@@ -19,6 +19,7 @@ class UserInterface {
 public:
     void setup();
     void draw();
+    
 
     // Some useful definitions
     static const int        TOOLBAR_HEIGHT          = 60;
@@ -37,9 +38,11 @@ public:
 	bool onlyOneCamera() const;
 
 
+
 private:
     ofxImGui::Gui m_gui;
-
+    ofImage cursorImage;
+    std::string currentCursor;
     ofTexture m_textureToolbarNewLevel;
     ofTexture m_textureToolbarLoadLevel;
     ofTexture m_textureToolbarSaveLevel;
@@ -53,6 +56,7 @@ private:
 	ColorDialog m_colorDialog;
 	AddNodeDialog m_addNodeDialog;
 
+
     // Draw functions
 
     void drawMenu();
@@ -64,6 +68,8 @@ private:
     void drawProperties();
     void drawViewports();
     void drawViewport(const std::string& name, int index, const ImVec2& position, const ImVec2& size);
+    void drawCursor();
+    void changeCursor();
 
     // Callback functions
 
