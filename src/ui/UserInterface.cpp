@@ -321,7 +321,7 @@ void UserInterface::drawProperties() {
                 std::strncpy(buffer, value.c_str(), sizeof(buffer) - 1); // Copy with limit
                 buffer[sizeof(buffer) - 1] = '\0';
 
-                if (ImGui::InputText("", buffer, IM_ARRAYSIZE(buffer))) {
+                if (ImGui::InputText(("##" + std::to_string(count)).c_str(), buffer, IM_ARRAYSIZE(buffer))) {
                     selectedNode->setProperty(property.getName(), std::string(buffer));
                 }
             }
