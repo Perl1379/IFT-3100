@@ -14,7 +14,7 @@
 #include <array>
 #include <Camera.h>
 #include <TransformTools.h>
-
+#include "Skybox.h"
 
 class Global {
 
@@ -28,7 +28,7 @@ public:
 	static bool m_selectedFromViewport;
 	static TransformTools m_transformTools;
 	static ActionManager m_actions;
-
+	static Skybox m_skybox;
 	static void setup();
 	static ofColor idToColor(int id);
 	static int colorToId(ofColor color);

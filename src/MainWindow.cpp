@@ -23,12 +23,12 @@ void MainWindow::setup() {
 	ofSetVerticalSync(false);
 
 	Global::setup();
-	ui.setup();
+	m_ui.setup();
 
 	// To be removed
 	ofEnableDepthTest();  // Enable depth for 3D rendering
-	light.setup();
-	light.setPosition(0, 0, 2000);  // Set light position
+	m_light.setup();
+	m_light.setPosition(0, 1000, 2000);  // Set light position
 
 }
 
@@ -49,10 +49,10 @@ void MainWindow::draw() {
 	for (int i = 0; i < 3; i++) {
 
 		cameraDraw(i);
-		if (ui.onlyOneCamera()) break;
+		if (m_ui.onlyOneCamera()) break;
 	}
 
-	ui.draw();
+	m_ui.draw();
 
 }
 
@@ -68,14 +68,20 @@ void MainWindow::cameraDraw(int index) {
 	Global::m_cameras[index].resizeTextureIfNeeded();
 
 	fbo->begin();
+
+
 	camera->begin();
 	ofBackground(0);
+
+	// We render skybox first
+	Global::m_skybox.draw(camera->getPosition());
+
 	ofEnableLighting();
-	light.enable();
+	m_light.enable();
 	ofSetColor(255);
 	Global::m_countNodeRender[index] = Global::m_level.draw(false, &Global::m_cameras[index]);
 	Global::m_transformTools.draw(false);
-	light.disable();
+	m_light.disable();
 	ofDisableLighting();
 	camera->end();
 	fbo->end();
@@ -103,7 +109,7 @@ void MainWindow::keyPressed(ofKeyEventArgs& key) {
 
 	int index = getCurrentCameraIndex(false);
 	if (index == -1) {
-		cameraMovement.set(0, 0, 0);
+		m_cameraMovement.set(0, 0, 0);
 		return;
 	}
 
@@ -143,8 +149,8 @@ void MainWindow::keyReleased(ofKeyEventArgs& key) {
  * Reset camera movement
  */
 void MainWindow::resetCameraMovement() {
-	cameraMovement.set(0, 0, 0);
-	cameraRotation = 0.0;
+	m_cameraMovement.set(0, 0, 0);
+	m_cameraRotation = 0.0;
 }
 
 /**
@@ -223,21 +229,21 @@ void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs& key, int index)
 	// Handle rotation along forward vector
 	if (key.key == 'q' || key.key == 'e') {
 		if (!pressed) {
-			cameraRotation = 0.0;
+			m_cameraRotation = 0.0;
 			return;
 		}
-		cameraRotation = (key.key == 'q' ? 1.0f : -1.0f);
+		m_cameraRotation = (key.key == 'q' ? 1.0f : -1.0f);
 	}
 
 	// Handle longitudinal movements
 	if (key.key == 'w' || key.key == 's') {
 
 		if (!pressed) {
-			cameraMovement.z = 0;
+			m_cameraMovement.z = 0;
 			return;
 		}
 
-		cameraMovement.z = (key.key == 'w' ? -1.0f : 1.0f);
+		m_cameraMovement.z = (key.key == 'w' ? -1.0f : 1.0f);
 		return;
 	}
 
@@ -245,11 +251,11 @@ void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs& key, int index)
 	if (key.key == 'a' || key.key == 'd') {
 
 		if (!pressed) {
-			cameraMovement.x = 0;
+			m_cameraMovement.x = 0;
 			return;
 		}
 
-		cameraMovement.x = (key.key == 'a' ? -1.0f : 1.0f);
+		m_cameraMovement.x = (key.key == 'a' ? -1.0f : 1.0f);
 		return;
 	}
 
@@ -257,11 +263,11 @@ void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs& key, int index)
 	if (key.key == ' ' || key.key == 'z') {
 
 		if (!pressed) {
-			cameraMovement.y = 0;
+			m_cameraMovement.y = 0;
 			return;
 		}
 
-		cameraMovement.y = (key.key == ' ' ? 1.0f : -1.0f);
+		m_cameraMovement.y = (key.key == ' ' ? 1.0f : -1.0f);
 	}
 
 }
@@ -274,8 +280,8 @@ void MainWindow::update() {
 
 	// Calculate delta
 	float currentTime = ofGetElapsedTimef();
-	float deltaTime = currentTime - lastUpdateTime;
-	lastUpdateTime = currentTime;
+	float deltaTime = currentTime - m_lastUpdateTime;
+	m_lastUpdateTime = currentTime;
 
 	int index = getCurrentCameraIndex(false);
 	if (index == -1) return;
@@ -298,15 +304,15 @@ void MainWindow::updateCamera(int index, float deltaTime) {
 
 	// Allow only if not in ortho mode
 	if (!camera->getOrtho()) {
-		camera->dolly(cameraMovement.z * cameraMoveSpeed * deltaTime);  // Move forward/backward
+		camera->dolly(m_cameraMovement.z * cameraMoveSpeed * deltaTime);  // Move forward/backward
 	} else {
 		// Set zoom
-		camera->setOrthoZoom(camera->getOrthoZoom() - (cameraMovement.z * cameraOrthoZoomSpeed * deltaTime));
+		camera->setOrthoZoom(camera->getOrthoZoom() - (m_cameraMovement.z * cameraOrthoZoomSpeed * deltaTime));
 	}
 
-	camera->truck(cameraMovement.x * cameraMoveSpeed * deltaTime);  // Move left/right
-	camera->boom(cameraMovement.y * cameraMoveSpeed * deltaTime);   // Move up/down
-	camera->rollDeg(cameraRotation * cameraRotationSpeed * deltaTime);  // Rotate along forward vector
+	camera->truck(m_cameraMovement.x * cameraMoveSpeed * deltaTime);  // Move left/right
+	camera->boom(m_cameraMovement.y * cameraMoveSpeed * deltaTime);   // Move up/down
+	camera->rollDeg(m_cameraRotation * cameraRotationSpeed * deltaTime);  // Rotate along forward vector
 
 }
 
@@ -319,10 +325,10 @@ int MainWindow::getCurrentCameraIndex(bool hovered) {
 	std::string windowName;
 
 	if (hovered) {
-		windowName = ui.getHoveredWindow();
+		windowName = m_ui.getHoveredWindow();
 	}
 	else {
-		windowName = ui.getSelectedWindow();
+		windowName = m_ui.getSelectedWindow();
 	}
 
 	int index = -1;
@@ -354,8 +360,12 @@ void MainWindow::exit() {
  */
 void MainWindow::mousePressed(int x, int y, int button) {
 	if (button == OF_MOUSE_BUTTON_MIDDLE) {
-		isMiddleMousePressed = true;
-		lastMousePosition.set(x, y);
+		m_isMiddleMousePressed = true;
+		m_lastMousePosition.set(x, y);
+		int index = getCurrentCameraIndex(true);
+		if (index == -1) return;
+		Global::m_cameras[index].setUpVector(Global::m_cameras[index].getCamera()->getUpDir());
+
 	}
 }
 
@@ -366,7 +376,10 @@ void MainWindow::mousePressed(int x, int y, int button) {
 void MainWindow::mouseReleased(int x, int y, int button) {
 
 	if (button == OF_MOUSE_BUTTON_MIDDLE) {
-		isMiddleMousePressed = false;
+		m_isMiddleMousePressed = false;
+		int index = getCurrentCameraIndex(true);
+		if (index == -1) return;
+		Global::m_cameras[index].setUpVector(Global::m_cameras[index].getCamera()->getUpDir());
 	}
 }
 
@@ -378,21 +391,30 @@ void MainWindow::mouseDragged(int x, int y, int button) {
 
 	int index = getCurrentCameraIndex(true);
 	if (index == -1) return;
-	if (isMiddleMousePressed && button == OF_MOUSE_BUTTON_MIDDLE) {
+	if (m_isMiddleMousePressed && button == OF_MOUSE_BUTTON_MIDDLE) {
 
 		auto mx = static_cast<float>(x);
 		auto my = static_cast<float>(y);
 
 		float sensitivity = 0.2f; // Rotation speed
 
-		float deltaX = mx - lastMousePosition.x;
-		float deltaY = my - lastMousePosition.y;
+		float deltaX = mx - m_lastMousePosition.x;
+		float deltaY = my - m_lastMousePosition.y;
 
 		ofCamera* camera = Global::m_cameras[index].getCamera();
-		camera->panDeg(-deltaX * sensitivity);  // Rotate horizontally
-		camera->tiltDeg(-deltaY * sensitivity); // Rotate vertically
+		float xdiff = -deltaX * sensitivity;
+		float ydiff = -deltaY * sensitivity;
 
-		lastMousePosition.set(mx, my);
+		ofVec3f upvec = Global::m_cameras[index].getUpVector();
+		ofVec3f sidev = camera->getSideDir();
+
+		camera->rotate(ydiff, sidev);
+		camera->rotate(xdiff, upvec);
+
+		//camera->tiltDeg(-deltaY * sensitivity);
+		//camera->panDeg(-deltaX * sensitivity);
+
+		m_lastMousePosition.set(mx, my);
 	}
 }
 

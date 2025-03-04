@@ -42,7 +42,7 @@ public:
 
 private:
     ofxImGui::Gui m_gui;
-    ofImage cursorImage;
+    ofImage m_cursorImage;
     std::string currentCursor;
     ofTexture m_textureToolbarNewLevel;
     ofTexture m_textureToolbarLoadLevel;
@@ -51,6 +51,8 @@ private:
     ofTexture m_textureToolbarToggleCameras;
     ofTexture m_textureToolbarToggleCamerasPressed;
     ofTexture m_textureNotVisible;
+    std::vector<std::string> m_availableSkyboxes;
+    std::string m_currentSkyboxName = "";
 
     bool m_initialDraw = true;
     bool m_onlyOneCamera = false;

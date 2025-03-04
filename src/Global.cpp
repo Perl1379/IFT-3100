@@ -12,6 +12,7 @@
 // Static allocation
 std::array<Camera, 3> Global::m_cameras;
 int Global::m_countNodeRender[3];
+Skybox Global::m_skybox;
 Level Global::m_level;
 int Global::m_selectedNode = -1;
 TransformTools Global::m_transformTools;

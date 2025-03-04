@@ -125,6 +125,7 @@ std::vector<NodeProperty> BaseNode::getProperties() const {
 	properties.emplace_back("Ambient Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getAmbientColor());
 	properties.emplace_back("Emissive Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getEmissiveColor());
 	properties.emplace_back("Specular Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getSpecularColor());
+	properties.emplace_back("Shininess", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getShininess());
 
 	return properties;
 
@@ -171,6 +172,11 @@ void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 	if (p_name == "Specular Color") {
 		m_materialNode.setSpecularColor(std::any_cast<ofFloatColor>(p_value));
 	}
+
+	if (p_name == "Shininess") {
+		m_materialNode.setShininess(std::any_cast<float>(p_value));
+	}
+
 }
 
 

@@ -175,6 +175,21 @@ void AddNodeDialog::draw() {
             ImGui::CloseCurrentPopup();
             m_isOpen = false;
 
+            BaseNode* parent;
+            if (Global::m_selectedNode == -1) {
+                parent = Global::m_level.getTree();
+            } else {
+                parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+            }
+            ModelNode* childNode = new ModelNode("Model", "Kaykit/Characters/gltf/Mage.glb");
+            parent->addChild(childNode);
+
+            if (Global::m_selectedNode != -1) {
+                Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
+            }
+            childNode->displayBoundingBox(true);
+            Global::m_selectedNode = childNode->getId();
+            Global::m_selectedFromViewport = true;
         }
 
 		ImGui::Dummy(ImVec2(0.0f, 5.0f));
