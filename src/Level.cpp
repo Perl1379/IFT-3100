@@ -10,6 +10,7 @@
 
 #include <GroupNode.h>
 #include <imgui.h>
+#include <TerrainNode.h>
 
 #include "SphereNode.h"
 #include "ModelNode.h"
@@ -94,6 +95,12 @@ void test_spawn_sphere(BaseNode* tree, int sphere_count, float sphere_spacing, f
  * Reset level
  */
 void Level::reset() {
+
+
+
+	TerrainNode* terrain = new TerrainNode("Terrain");
+	terrain->getTransform().setPosition(0, -500, 0);
+	m_tree->addChild(terrain);
 
 	//
 	// GroupNode* node = new GroupNode("Group");

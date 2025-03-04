@@ -28,7 +28,7 @@ void MainWindow::setup() {
 	// To be removed
 	ofEnableDepthTest();  // Enable depth for 3D rendering
 	m_light.setup();
-	m_light.setPosition(0, 0, 2000);  // Set light position
+	m_light.setPosition(0, 1000, 2000);  // Set light position
 
 }
 
@@ -362,6 +362,10 @@ void MainWindow::mousePressed(int x, int y, int button) {
 	if (button == OF_MOUSE_BUTTON_MIDDLE) {
 		m_isMiddleMousePressed = true;
 		m_lastMousePosition.set(x, y);
+		int index = getCurrentCameraIndex(true);
+		if (index == -1) return;
+		Global::m_cameras[index].setUpVector(Global::m_cameras[index].getCamera()->getUpDir());
+
 	}
 }
 
@@ -373,6 +377,9 @@ void MainWindow::mouseReleased(int x, int y, int button) {
 
 	if (button == OF_MOUSE_BUTTON_MIDDLE) {
 		m_isMiddleMousePressed = false;
+		int index = getCurrentCameraIndex(true);
+		if (index == -1) return;
+		Global::m_cameras[index].setUpVector(Global::m_cameras[index].getCamera()->getUpDir());
 	}
 }
 
@@ -395,8 +402,17 @@ void MainWindow::mouseDragged(int x, int y, int button) {
 		float deltaY = my - m_lastMousePosition.y;
 
 		ofCamera* camera = Global::m_cameras[index].getCamera();
-		camera->panDeg(-deltaX * sensitivity);  // Rotate horizontally
-		camera->tiltDeg(-deltaY * sensitivity); // Rotate vertically
+		float xdiff = -deltaX * sensitivity;
+		float ydiff = -deltaY * sensitivity;
+
+		ofVec3f upvec = Global::m_cameras[index].getUpVector();
+		ofVec3f sidev = camera->getSideDir();
+
+		camera->rotate(ydiff, sidev);
+		camera->rotate(xdiff, upvec);
+
+		//camera->tiltDeg(-deltaY * sensitivity);
+		//camera->panDeg(-deltaX * sensitivity);
 
 		m_lastMousePosition.set(mx, my);
 	}

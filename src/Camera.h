@@ -36,6 +36,7 @@ private:
 	};
 	std::array<Plane,6> m_frustumPlanes;
 
+	ofVec3f m_upVector = ofVec3f(0,1,0);
 	ofVec3f m_initialPosition;
 	ofVec3f m_initialOrientation;
 	float m_initialFOV;
@@ -58,7 +59,12 @@ public:
 	void update();
 	void setViewportSize(int p_width, int p_height);
 	void resizeTextureIfNeeded();
-
+	void setUpVector(ofVec3f p_upVector) {
+		m_upVector = p_upVector;
+	}
+	ofVec3f getUpVector() {
+		return m_upVector;
+	}
 
 	bool testVisibility(const ofVec3f &p_position, const ofVec3f &p_boundingBox);
 	bool isInsideFrustum(const ofVec3f& ofPosition, const ofVec3f& p_boundingBox);
