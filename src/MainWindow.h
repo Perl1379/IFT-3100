@@ -15,17 +15,16 @@ class MainWindow : public ofBaseApp {
 
 private:
 
-	UserInterface ui;
+	UserInterface m_ui;
 
 	// This light is just temporary
-	ofLight light;
-	ofMaterial material;
-
-	bool isMiddleMousePressed = false;
-	ofVec3f cameraMovement;
-	float cameraRotation = 0.0f;
-	float lastUpdateTime = 0;
-	ofVec2f lastMousePosition;
+	ofLight m_light;
+	ofMaterial m_material;
+	bool m_isMiddleMousePressed = false;
+	ofVec3f m_cameraMovement;
+	float m_cameraRotation = 0.0f;
+	float m_lastUpdateTime = 0;
+	ofVec2f m_lastMousePosition;
 
 	void resetCameraMovement();
 	void cameraDraw(int index);

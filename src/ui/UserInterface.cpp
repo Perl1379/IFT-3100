@@ -53,6 +53,19 @@ void UserInterface::setup() {
 
 	changeCursor();
     ofHideCursor();
+
+    // Load skybox names
+    ofDirectory dirSkybox;
+    dirSkybox.listDir("skybox/images/");
+
+    for (int i=0;i<dirSkybox.size();i++) {
+        m_availableSkyboxes.push_back(dirSkybox.getName(i));
+    }
+
+    std::sort(m_availableSkyboxes.begin(), m_availableSkyboxes.end());
+    m_currentSkyboxName = m_availableSkyboxes[0];
+    Global::m_skybox.setup(m_currentSkyboxName);
+
 }
 
 
@@ -137,6 +150,15 @@ void UserInterface::drawMenu() {
                 Global::m_cameras[2].setOcclusion(FRUSTUM_CULLING);
             }
 
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("Skybox")) {
+            for (int i=0;i<m_availableSkyboxes.size();i++) {
+                if (ImGui::MenuItem(m_availableSkyboxes[i].c_str())) {
+                    Global::m_skybox.setup(m_availableSkyboxes[i]);
+                }
+            }
             ImGui::EndMenu();
         }
 
@@ -512,9 +534,9 @@ void UserInterface::drawStatus() {
 void UserInterface::drawCursor() {
     ImVec2 mousePos = ImGui::GetMousePos();
     ImGui::GetForegroundDrawList()->AddImage(
-        (void*)(intptr_t)cursorImage.getTexture().getTextureData().textureID,
+        (void*)(intptr_t)m_cursorImage.getTexture().getTextureData().textureID,
         mousePos,
-        ImVec2(mousePos.x + cursorImage.getWidth(), mousePos.y + cursorImage.getHeight())
+        ImVec2(mousePos.x + m_cursorImage.getWidth(), mousePos.y + m_cursorImage.getHeight())
     );
 
 }
@@ -540,7 +562,7 @@ void UserInterface::changeCursor()
 
     // Update image
     img.update();
-    cursorImage = img;
+    m_cursorImage = img;
 }
 
 

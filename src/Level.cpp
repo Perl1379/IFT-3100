@@ -95,16 +95,16 @@ void test_spawn_sphere(BaseNode* tree, int sphere_count, float sphere_spacing, f
  */
 void Level::reset() {
 
-
-	GroupNode* node = new GroupNode("Group");
-	node->getTransform().setPosition(0, 0, 0);
-	m_tree->addChild(node);
-
-	int sphere_count = 10;
-	float sphere_spacing = 320.0f;
-	for (int z = 0; z < 1; z++) {
-	  	test_spawn_sphere(node, sphere_count, sphere_spacing, z * sphere_spacing, 0);
-	 }
+	//
+	// GroupNode* node = new GroupNode("Group");
+	// node->getTransform().setPosition(0, 0, 0);
+	// m_tree->addChild(node);
+	//
+	// int sphere_count = 5;
+	// float sphere_spacing = 320.0f;
+	// for (int z = 0; z < 1; z++) {
+	//    	test_spawn_sphere(node, sphere_count, sphere_spacing, z * sphere_spacing, 0);
+	// }
 
 	// ModelNode* node_skeleton = new ModelNode("Skeleton", "Skeletons/characters/gltf/Skeleton_Warrior.glb");
 	// node_skeleton->getModel().setAnimation(67);
