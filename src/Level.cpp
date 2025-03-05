@@ -16,6 +16,7 @@
 #include "SphereNode.h"
 #include "ModelNode.h"
 #include "CylinderNode.h"
+#include "ConeNode.h"
 
  /**
   * Constructor
@@ -105,64 +106,74 @@ void test_print_modelNode_positions(ModelNode* p_node)
  */
 void Level::reset() {
 
+	//--- Group of 5 adventurers. 
+	// The user can add the knight via the "Add Node" button (it's more insteresting to use if they are not addding a duplicate)
 	GroupNode* adventurer_group = new GroupNode("Adventurers");
-	adventurer_group->getTransform().setPosition(0, -390, 0);
+	adventurer_group->getTransform().setOrientation(glm::vec3(180, 0, 0));
 	m_tree->addChild(adventurer_group);
 
 	ModelNode* node_rogue = new ModelNode("Rogue", "Kaykit/Characters/gltf/Rogue.glb");
 	adventurer_group->addChild(node_rogue);
-	node_rogue->getModel().setRotation(0, 180, 1, 0, 0);
+	node_rogue->setProperty("Animation", 11);
 
 	ModelNode* node_barbarian = new ModelNode("Barbarian", "Kaykit/Characters/gltf/Barbarian.glb");
 	adventurer_group->addChild(node_barbarian);
-	node_barbarian->setPosition(50, 0, 1330);
-	node_barbarian->getModel().setRotation(0, 180, 1, 0, 0);
-	node_barbarian->getTransform().setOrientation(glm::vec3(0,-136,0));
+	node_barbarian->setPosition(-600, 0, -75);
+	node_barbarian->getTransform().setOrientation(glm::vec3(0,-25,0));
 
 	ModelNode* node_mage = new ModelNode("Mage", "Kaykit/Characters/gltf/Mage.glb");
 	adventurer_group->addChild(node_mage);
-	node_mage->setPosition(1050, 0, 1335);
-	node_mage->getModel().setRotation(0, 180, 1, 0, 0);
-	node_mage->getTransform().setOrientation(glm::vec3(0,-136,0));
+	node_mage->setPosition(-1200, 0, -200);
+	node_mage->getTransform().setOrientation(glm::vec3(0, -45, 0));
+	node_mage->setProperty("Animation", 13);
 
 	ModelNode* node_engineer = new ModelNode("Engineer", "Kaykit/Characters/gltf/Engineer.glb");
 	adventurer_group->addChild(node_engineer);
-	node_engineer->setPosition(600, 0, 0);
-	node_engineer->getModel().setRotation(0, 180, 1, 0, 0);
+	node_engineer->setPosition(600, 0, -75);
+	node_engineer->getTransform().setOrientation(glm::vec3(0, 25, 0));
 
 	ModelNode* node_druid = new ModelNode("Druid", "Kaykit/Characters/gltf/Druid.glb");
 	adventurer_group->addChild(node_druid);
-	node_druid->setPosition(1200, 0, 0);
-	node_druid->getModel().setRotation(0, 180, 1, 0, 0);
+	node_druid->setPosition(1200, 0, -200);
+	node_druid->getTransform().setOrientation(glm::vec3(0, 45, 0));
+	node_druid->setProperty("Animation", 0);
 
-	ModelNode* node_knight = new ModelNode("Druid", "Kaykit/Characters/gltf/Knight.glb");
-	adventurer_group->addChild(node_knight);
-	node_knight->setPosition(1800, 0, 0);
-	node_knight->getModel().setRotation(0, 180, 1, 0, 0);
+	//--- A pine tree made of primitives
+	GroupNode* tree_group = new GroupNode("Pine Tree");
+	tree_group->getTransform().setPosition(300, 300, -1200);
+	m_tree->addChild(tree_group);
 
-	CylinderNode* node_cylinder = new CylinderNode("Cylinder");
-	m_tree->addChild(node_cylinder);
-	node_cylinder->getTransform().setScale(3,12,3);
-	node_cylinder->getTransform().setPosition(300, 0, -1200);
-	node_cylinder->setProperty("Diffuse Color", ofFloatColor((float)0.48, (float)0.84, (float)0.66));
+	CylinderNode* node_cylinder = new CylinderNode("Trunk");
+	tree_group->addChild(node_cylinder);
+	node_cylinder->getTransform().setScale(3,4,3);
+	node_cylinder->setProperty("Diffuse Color", ofFloatColor(0.5, 0.31, 0.07));
 
+	ConeNode* node_cone = new ConeNode("Foliage");
+	tree_group->addChild(node_cone);
+	node_cone->getTransform().rotateDeg(180.0,glm::vec3(0,0,1));
+	node_cone->getTransform().setPosition(0, 600, 0);
+	node_cone->getTransform().setScale(10, 7, 10);
+	node_cone->setProperty("Diffuse Color", ofFloatColor(0.08, 0.28, 0.20));
+
+	//--- Ground and water
 	TerrainNode* terrain = new TerrainNode("Terrain");
-	terrain->getTransform().setPosition(0, -100, 0);
+	terrain->getTransform().setPosition(0, 300, 0);
 	terrain->getTransform().setScale(2.0, 1.0, 2.0);
 	terrain->setTerrainName("plains_with_mountains");
 	terrain->loadTerrain();
 	m_tree->addChild(terrain);
-	terrain->setProperty("Diffuse Color", ofFloatColor((float)0.78, (float)0.53, (float)0.36));
+	terrain->setProperty("Diffuse Color", ofFloatColor(0.78, 0.53, 0.36));
 
 	PlaneNode* plane = new PlaneNode("Water");
-	plane->getTransform().setPosition(0, -550, 0);
+	plane->getTransform().setPosition(0, -50, 0);
 	plane->getTransform().setOrientation(glm::vec3(-90, 0, 0));
 	plane->getTransform().setScale(2.0, 2.0, 1.0);
 	plane->setWidth(5000);
 	plane->setHeight(5000);
-	plane->getMaterial().setDiffuseColor(ofFloatColor(0.0, 0.0, 1.0));
+	plane->getMaterial().setDiffuseColor(ofFloatColor(0.27, 0.73, 1.0));
 	m_tree->addChild(plane);
 
+	//--- Group node of spheres. This showcases the "Display" feature
 	GroupNode* node = new GroupNode("Group");
 	node->getTransform().setPosition(0, 0, 0);
 	m_tree->addChild(node);

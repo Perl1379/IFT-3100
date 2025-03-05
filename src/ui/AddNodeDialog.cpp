@@ -189,7 +189,7 @@ void AddNodeDialog::draw() {
             } else {
                 parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
             }
-            ModelNode* childNode = new ModelNode("Model", "Kaykit/Characters/gltf/Mage.glb");
+            ModelNode* childNode = new ModelNode("Model", "Kaykit/Characters/gltf/Knight.glb");
             parent->addChild(childNode);
 
             if (Global::m_selectedNode != -1) {
