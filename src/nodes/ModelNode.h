@@ -10,7 +10,7 @@
 
 #include "BaseNode.h"
 #include "ofMain.h"
-#include "ofxAssimpModelLoader.h"
+#include "ofxCustomAssimpModelLoader.h"
 #include "Global.h"
 #include <vector>
 
@@ -27,7 +27,7 @@ struct ModelNodeAnimationData
 class ModelNode : public BaseNode {
 
 private:
-	ofxAssimpModelLoader m_model;
+	ofxCustomAssimpModelLoader m_model;
 	ofVec3f m_bounds;
 	bool m_playAnimation = true;
 	bool m_loopAnimation = false;

@@ -22,6 +22,8 @@ void Skybox::setup(const std::string& p_theme) {
         m_shader.load("skybox/shaders/skybox.vert", "skybox/shaders/skybox.frag");
     }
 
+    m_currentSkybox = p_theme;
+
     std::string faces[6] = {
         "skybox/images/" + p_theme + "/right.png", "skybox/images/" + p_theme + "/left.png",
         "skybox/images/" + p_theme + "/top.png", "skybox/images/" + p_theme + "/bottom.png",
@@ -35,9 +37,6 @@ void Skybox::setup(const std::string& p_theme) {
             ofExit(-1);
         }
     }
-
-
-    m_box.set(512); // Set the size of the skybox
 
     float size = 500;  // Size of the cube
 
@@ -118,11 +117,18 @@ void Skybox::draw(const ofVec3f& cameraPosition) {
     for (int i = 0; i < 6; i++) {
         m_shader.setUniformTexture("Tex" + ofToString(i), m_textures[i], i);
     }
-    //m_box.setPosition(cameraPosition);
-    //m_box.draw();
     ofTranslate(cameraPosition);
     skyboxMesh.draw();
     ofTranslate(-cameraPosition);
     m_shader.end();
     ofEnableDepthTest();
 }
+
+
+/**
+ * Get current skybox name
+ */
+std::string Skybox::getCurrentSkybox() const {
+    return m_currentSkybox;
+}
+

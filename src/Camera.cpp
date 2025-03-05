@@ -61,7 +61,7 @@ void Camera::setup(ofVec3f p_initialPosition, ofVec3f p_initialOrientation) {
 	m_fboPickingTexture.allocate(32, 32, GL_RGB);
 	m_initialFOV = 70;
 	m_initialzNear = 1.0f;
-	m_initialzFar = 10000.0f;
+	m_initialzFar = 20000.0f;
 
 	reset();
 }

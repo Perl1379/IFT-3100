@@ -18,17 +18,36 @@
  * Constructor
  */
 TerrainNode::TerrainNode(const std::string& p_name) : BaseNode(p_name) {
+    // Load terrain names
+    ofDirectory dirTerrains;
+    dirTerrains.listDir("images/terrains/");
+
+    for (int i=0;i<dirTerrains.size();i++) {
+        std::string name = dirTerrains.getFile(i).getBaseName();
+        m_terrainNames.push_back(name);
+    }
+
+    sort(m_terrainNames.begin(), m_terrainNames.end());
+    m_terrainNames.push_back("0");
+}
+
+
+/**
+ * Lodd terrain
+ */
+void TerrainNode::loadTerrain() {
 
     ofPixels heightmap;
     int width, height;
-    float scale = 20.0;  // Height scale factor
+    float scale = 60.0;  // Height scale factor
     float vertexScale = 20.0f;
 
-    ofLoadImage(heightmap, "images/terrains/default.png");
+    ofLoadImage(heightmap, "images/terrains/" + m_terrainName + ".png");
 
-    width = heightmap.getWidth();
-    height = heightmap.getHeight();
+    width = heightmap.getWidth()-1;
+    height = heightmap.getHeight()-1;
 
+    m_meshTerrain.clear();
     m_meshTerrain.setMode(OF_PRIMITIVE_TRIANGLES);
     // Create vertices
     for (int y = 0; y < height; y++) {
@@ -122,9 +141,7 @@ TerrainNode::TerrainNode(const std::string& p_name) : BaseNode(p_name) {
     // Compute center
     m_boundingBox = maxBound - minBound;
     m_boundingBox.rotate(90,0,0);
-
 }
-
 
 /**
  * Draw node content
@@ -153,4 +170,56 @@ int TerrainNode::draw(bool p_objectPicking, Camera* p_camera) {
  */
 ofVec3f TerrainNode::getBoundingBox() const {
     return m_boundingBox;
+}
+
+
+/**
+ * Set terrain name
+ */
+void TerrainNode::setTerrainName(const std::string& p_name) {
+    ofLog() << "Set terrain name";
+    m_terrainName = p_name;
+
+    for (int i=0;i<m_terrainNames.size()-1;i++) {
+        if (m_terrainNames[i] == p_name) {
+            m_terrainNames.back() = std::to_string(i);
+            break;
+        }
+    }
+}
+
+
+/**
+ * Get terrain name
+ */
+std::string TerrainNode::getTerrainName() const {
+    return m_terrainName;
+}
+
+
+
+/**
+ * Get properties
+ */
+std::vector<NodeProperty> TerrainNode::getProperties() const {
+    auto properties = BaseNode::getProperties();
+    properties.emplace_back("Terrain parameters", PROPERTY_TYPE::LABEL, nullptr);
+    properties.emplace_back("TerrainName", PROPERTY_TYPE::ITEM_LIST, m_terrainNames);
+    return properties;
+}
+
+/**
+ * Set property
+ */
+void TerrainNode::setProperty(const std::string &p_name, std::any p_value) {
+
+    if (p_name == "TerrainName") {
+        int index = std::any_cast<int>(p_value);
+        setTerrainName(m_terrainNames[index]);
+        loadTerrain();;
+        return;
+    }
+
+
+    BaseNode::setProperty(p_name, std::any(p_value));
 }

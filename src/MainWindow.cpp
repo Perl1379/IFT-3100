@@ -87,7 +87,7 @@ void MainWindow::cameraDraw(int index) {
 	fbo->end();
 
 	// Generate Object picking FBO only for hovered camera viewport
-	if (getCurrentCameraIndex(true) == index) {
+	if (getCurrentCameraIndex() == index) {
 		auto fboPicking = Global::m_cameras[index].getPickingFbo();
 		fboPicking->begin();
 		camera->begin();
@@ -107,7 +107,7 @@ void MainWindow::cameraDraw(int index) {
 void MainWindow::keyPressed(ofKeyEventArgs& key) {
 
 
-	int index = getCurrentCameraIndex(false);
+	int index = getCurrentCameraIndex();
 	if (index == -1) {
 		m_cameraMovement.set(0, 0, 0);
 		return;
@@ -124,7 +124,7 @@ void MainWindow::keyPressed(ofKeyEventArgs& key) {
  */
 void MainWindow::keyReleased(ofKeyEventArgs& key) {
 
-	int index = getCurrentCameraIndex(false);
+	int index = getCurrentCameraIndex();
 	if (index == -1) {
 		resetCameraMovement();
 		return;
@@ -283,7 +283,7 @@ void MainWindow::update() {
 	float deltaTime = currentTime - m_lastUpdateTime;
 	m_lastUpdateTime = currentTime;
 
-	int index = getCurrentCameraIndex(false);
+	int index = getCurrentCameraIndex();
 	if (index == -1) return;
 	updateCamera(index, deltaTime);
 	Global::m_transformTools.setCameraIndex(index);
@@ -320,16 +320,10 @@ void MainWindow::updateCamera(int index, float deltaTime) {
 /**
  * Get the currenty selected viewport camera
  */
-int MainWindow::getCurrentCameraIndex(bool hovered) {
+int MainWindow::getCurrentCameraIndex() {
 
-	std::string windowName;
 
-	if (hovered) {
-		windowName = m_ui.getHoveredWindow();
-	}
-	else {
-		windowName = m_ui.getSelectedWindow();
-	}
+	std::string	windowName = m_ui.getHoveredWindow();
 
 	int index = -1;
 
@@ -362,7 +356,7 @@ void MainWindow::mousePressed(int x, int y, int button) {
 	if (button == OF_MOUSE_BUTTON_MIDDLE) {
 		m_isMiddleMousePressed = true;
 		m_lastMousePosition.set(x, y);
-		int index = getCurrentCameraIndex(true);
+		int index = getCurrentCameraIndex();
 		if (index == -1) return;
 		Global::m_cameras[index].setUpVector(Global::m_cameras[index].getCamera()->getUpDir());
 
@@ -377,7 +371,7 @@ void MainWindow::mouseReleased(int x, int y, int button) {
 
 	if (button == OF_MOUSE_BUTTON_MIDDLE) {
 		m_isMiddleMousePressed = false;
-		int index = getCurrentCameraIndex(true);
+		int index = getCurrentCameraIndex();
 		if (index == -1) return;
 		Global::m_cameras[index].setUpVector(Global::m_cameras[index].getCamera()->getUpDir());
 	}
@@ -389,7 +383,7 @@ void MainWindow::mouseReleased(int x, int y, int button) {
  */
 void MainWindow::mouseDragged(int x, int y, int button) {
 
-	int index = getCurrentCameraIndex(true);
+	int index = getCurrentCameraIndex();
 	if (index == -1) return;
 	if (m_isMiddleMousePressed && button == OF_MOUSE_BUTTON_MIDDLE) {
 
@@ -411,9 +405,6 @@ void MainWindow::mouseDragged(int x, int y, int button) {
 		camera->rotate(ydiff, sidev);
 		camera->rotate(xdiff, upvec);
 
-		//camera->tiltDeg(-deltaY * sensitivity);
-		//camera->panDeg(-deltaX * sensitivity);
-
 		m_lastMousePosition.set(mx, my);
 	}
 }
@@ -424,7 +415,7 @@ void MainWindow::mouseDragged(int x, int y, int button) {
  */
 void MainWindow::mouseScrolled(ofMouseEventArgs& args) {
 
-	int index = getCurrentCameraIndex(true);
+	int index = getCurrentCameraIndex();
 	if (index == -1) return;
 
 	float zoomSpeed = 50.0f;

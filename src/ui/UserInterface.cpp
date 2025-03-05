@@ -13,8 +13,6 @@
 #include <ofGraphics.h>
 #include "Global.h"
 
-bool myCheckbox = false;
-
 /**
  * Setup user interface
  */
@@ -64,8 +62,7 @@ void UserInterface::setup() {
     }
 
     std::sort(m_availableSkyboxes.begin(), m_availableSkyboxes.end());
-    m_currentSkyboxName = m_availableSkyboxes[4]; //4 = lightsky 
-    Global::m_skybox.setup(m_currentSkyboxName);
+    Global::m_skybox.setup(m_availableSkyboxes[4]);
 
 }
 
@@ -76,7 +73,6 @@ void UserInterface::setup() {
 void UserInterface::draw() {
     m_gui.begin();
 
-    m_selectedWindow = "";
     m_hoveredWindow = "";
 
     drawMenu();
@@ -156,8 +152,15 @@ void UserInterface::drawMenu() {
 
         if (ImGui::BeginMenu("Skybox")) {
             for (int i=0;i<m_availableSkyboxes.size();i++) {
-                if (ImGui::MenuItem(m_availableSkyboxes[i].c_str())) {
-                    Global::m_skybox.setup(m_availableSkyboxes[i]);
+                bool selected = false;
+                if (Global::m_skybox.getCurrentSkybox() == m_availableSkyboxes[i]) {
+                    selected = true;
+                }
+
+                if (ImGui::MenuItem(m_availableSkyboxes[i].c_str(), nullptr, &selected)) {
+
+                    Global::m_actions.addAction(nullptr, "skybox_change",
+                    Global::m_skybox.getCurrentSkybox(), m_availableSkyboxes[i]);
                 }
             }
             ImGui::EndMenu();
@@ -769,6 +772,7 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
                 }
             }
         }
+
         if (Global::m_selectedNode != -1)
         {
             currentCursor = "hand";
@@ -776,14 +780,6 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
         else {
             currentCursor = "cursor";
         }
-    }
-    else{
-        currentCursor = "cursor";
-    }
-
-
-    if (ImGui::IsWindowFocused()) {
-        ImVec2 mousePos = ImGui::GetMousePos();
 
         // Check if an object is clicked
         if (ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
@@ -795,13 +791,10 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
                 currentCursor = "rotate";
             }
             else if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::SCALE) {
-				currentCursor = "scale";
+                currentCursor = "scale";
             }
 
         }
-
-
-        m_selectedWindow = name;
 
         // Draw axis arrows
         float axisLength = 40.0f;
@@ -821,7 +814,15 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
         drawList->AddLine(startPos, startPos + ImVec2(upDirection.x, upDirection.y), IM_COL32(0, 255, 0, 255), 2.0f);
         drawList->AddLine(startPos, startPos + ImVec2(forwardDirection.x, forwardDirection.y), IM_COL32(0, 0, 255, 255),
                           2.0f);
+
+
+
     }
+    else{
+        currentCursor = "cursor";
+    }
+
+
 
     drawViewportOverlay(index, position, size_x, overlayItemHeight);
 
@@ -1045,13 +1046,6 @@ void UserInterface::onToggleCameras() {
     m_onlyOneCamera = !m_onlyOneCamera;
 }
 
-
-/**
- * Get selected window
- */
-const std::string &UserInterface::getSelectedWindow() const {
-    return m_selectedWindow;
-}
 
 
 /**

@@ -10,6 +10,7 @@
 
 #include <GroupNode.h>
 #include <imgui.h>
+#include <PlaneNode.h>
 #include <TerrainNode.h>
 
 #include "SphereNode.h"
@@ -105,7 +106,7 @@ void test_print_modelNode_positions(ModelNode* p_node)
 void Level::reset() {
 
 	GroupNode* adventurer_group = new GroupNode("Adventurers");
-	adventurer_group->getTransform().setPosition(0, 0, 0);
+	adventurer_group->getTransform().setPosition(0, -390, 0);
 	m_tree->addChild(adventurer_group);
 
 	ModelNode* node_rogue = new ModelNode("Rogue", "Kaykit/Characters/gltf/Rogue.glb");
@@ -114,13 +115,15 @@ void Level::reset() {
 
 	ModelNode* node_barbarian = new ModelNode("Barbarian", "Kaykit/Characters/gltf/Barbarian.glb");
 	adventurer_group->addChild(node_barbarian);
-	node_barbarian->setPosition(-600, 0, 0);
+	node_barbarian->setPosition(50, 0, 1330);
 	node_barbarian->getModel().setRotation(0, 180, 1, 0, 0);
+	node_barbarian->getTransform().setOrientation(glm::vec3(0,-136,0));
 
 	ModelNode* node_mage = new ModelNode("Mage", "Kaykit/Characters/gltf/Mage.glb");
 	adventurer_group->addChild(node_mage);
-	node_mage->setPosition(-1200, 0, 0);
+	node_mage->setPosition(1050, 0, 1335);
 	node_mage->getModel().setRotation(0, 180, 1, 0, 0);
+	node_mage->getTransform().setOrientation(glm::vec3(0,-136,0));
 
 	ModelNode* node_engineer = new ModelNode("Engineer", "Kaykit/Characters/gltf/Engineer.glb");
 	adventurer_group->addChild(node_engineer);
@@ -132,6 +135,11 @@ void Level::reset() {
 	node_druid->setPosition(1200, 0, 0);
 	node_druid->getModel().setRotation(0, 180, 1, 0, 0);
 
+	ModelNode* node_knight = new ModelNode("Druid", "Kaykit/Characters/gltf/Knight.glb");
+	adventurer_group->addChild(node_knight);
+	node_knight->setPosition(1800, 0, 0);
+	node_knight->getModel().setRotation(0, 180, 1, 0, 0);
+
 	CylinderNode* node_cylinder = new CylinderNode("Cylinder");
 	m_tree->addChild(node_cylinder);
 	node_cylinder->getTransform().setScale(3,12,3);
@@ -139,9 +147,21 @@ void Level::reset() {
 	node_cylinder->setProperty("Diffuse Color", ofFloatColor((float)0.48, (float)0.84, (float)0.66));
 
 	TerrainNode* terrain = new TerrainNode("Terrain");
-	terrain->getTransform().setPosition(0, -300, 0);
+	terrain->getTransform().setPosition(0, -100, 0);
+	terrain->getTransform().setScale(2.0, 1.0, 2.0);
+	terrain->setTerrainName("plains_with_mountains");
+	terrain->loadTerrain();
 	m_tree->addChild(terrain);
 	terrain->setProperty("Diffuse Color", ofFloatColor((float)0.78, (float)0.53, (float)0.36));
+
+	PlaneNode* plane = new PlaneNode("Water");
+	plane->getTransform().setPosition(0, -550, 0);
+	plane->getTransform().setOrientation(glm::vec3(-90, 0, 0));
+	plane->getTransform().setScale(2.0, 2.0, 1.0);
+	plane->setWidth(5000);
+	plane->setHeight(5000);
+	plane->getMaterial().setDiffuseColor(ofFloatColor(0.0, 0.0, 1.0));
+	m_tree->addChild(plane);
 
 	GroupNode* node = new GroupNode("Group");
 	node->getTransform().setPosition(0, 0, 0);
