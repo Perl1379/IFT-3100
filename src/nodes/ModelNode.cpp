@@ -12,8 +12,7 @@
  /**
   * Constructor
   */
-ModelNode::ModelNode(const std::string& p_name, const std::string& p_filePath) : BaseNode(p_name)
-{
+ModelNode::ModelNode(const std::string& p_name, const std::string& p_filePath) : BaseNode(p_name) {
 	// 1 - load the model
 	m_model.loadModel(p_filePath);
 
@@ -59,7 +58,20 @@ int ModelNode::draw(bool p_objectPicking, Camera* p_camera)
 		{
 			m_model.update();
 		}
+		if (p_objectPicking) {
+			m_model.disableMaterials();
+			m_model.disableNormals();
+			m_model.disableTextures();
+		}
+
 		m_model.drawFaces();
+
+		if (p_objectPicking) {
+			m_model.enableMaterials();
+			m_model.enableNormals();
+			m_model.enableTextures();
+		}
+
 		m_transform.restoreTransformGL();
 		count++;
 	}
@@ -152,9 +164,11 @@ void ModelNode::setProperty(const std::string& p_name, std::any p_value)
 {
 	if (p_name == "Play") {
 		m_playAnimation = std::any_cast<bool>(p_value);
+		return;
 	}
 	if (p_name == "Loop") {
 		m_loopAnimation = std::any_cast<bool>(p_value);
+		return;
 
 	}
 	if (p_name == "Animation") {
@@ -166,10 +180,14 @@ void ModelNode::setProperty(const std::string& p_name, std::any p_value)
 		{
 			setCurrentAnimation(getAnimFromRestricted(std::any_cast<int>(p_value)));
 		}
+		return;
 	}
 	if (p_name == "Show all") {
 		m_showAllAnimations = std::any_cast<bool>(p_value);
+		return;
 	}
+
+	BaseNode::setProperty(p_name, p_value);
 }
 
 
@@ -402,6 +420,7 @@ int ModelNode::getAnimFromRestricted(int p_index)
 			return anim->m_animationID;
 		}
 	}
+	return -1;
 }
 
 

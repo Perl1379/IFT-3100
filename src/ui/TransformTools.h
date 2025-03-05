@@ -34,6 +34,7 @@ enum TRANSFORM_PIXEL_COLOR {
 class TransformTools {
 
     private:
+        ofNode m_transform;
         int m_transformMode = TRANSFORM_MODE::TRANSLATE;
         int m_currentTransformPixelColor = -1;
         int m_camera_index = 0;
@@ -45,7 +46,7 @@ class TransformTools {
         // Tweak size of gizmos here
         float m_conePrimitivesScale = 1.2;
         float m_spherePrimitivesScale = 1.2;
-        float m_cubePrimitivesScale = 0.8;
+        float m_cubePrimitivesScale = 0.6;
 
         ofMaterial m_materialUnlit;
         ofConePrimitive m_conePrimitives[3];

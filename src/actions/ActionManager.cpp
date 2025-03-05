@@ -8,6 +8,8 @@
  *****************************************************/
 #include "ActionManager.h"
 
+#include <Global.h>
+
 
 /**
  * Undo last action
@@ -59,5 +61,10 @@ void ActionManager::addAction(BaseNode *p_node, const std::string &p_property_na
 void ActionManager::performAction(BaseNode *p_node, const std::string &p_property_name, std::any p_new_value) {
     if (p_node != nullptr) {
         p_node->setProperty(p_property_name, p_new_value);
+    } else {
+        if (p_property_name == "skybox_change") {
+            Global::m_skybox.setup(std::any_cast<std::string>(p_new_value));
+
+        }
     }
 }

@@ -30,11 +30,9 @@ public:
     static const int        TREEVIEW_ACTIONS_HEIGHT = 32;
     static constexpr float  CAMERA_ASPECT_RATIO     = 16.0f / 9.0f;
 
-    std::string m_selectedWindow;
     std::string m_hoveredWindow;
     int m_previousNodeSelection = -1;
 
-	const std::string& getSelectedWindow() const;
 	const std::string& getHoveredWindow() const;
 	bool onlyOneCamera() const;
 
@@ -52,7 +50,6 @@ private:
     ofTexture m_textureToolbarToggleCamerasPressed;
     ofTexture m_textureNotVisible;
     std::vector<std::string> m_availableSkyboxes;
-    std::string m_currentSkyboxName = "";
 
     bool m_initialDraw = true;
     bool m_onlyOneCamera = false;

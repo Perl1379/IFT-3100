@@ -26,9 +26,9 @@ TooltipMessages Global::m_tooltipMessages;
 void Global::setup() {
 
 
-	m_cameras[0].setup(ofVec3f(0, 300, 1800), ofVec3f(0, 300, 0));
-	m_cameras[1].setup(ofVec3f(0, 2000, 0), ofVec3f(0, 0, 0));
-	m_cameras[2].setup(ofVec3f(2000, 300, 0), ofVec3f(0, 300, 0));
+	m_cameras[0].setup(ofVec3f(-2500, 500, 500), ofVec3f(0, 0, 500));
+	m_cameras[1].setup(ofVec3f(0, 3000, 0), ofVec3f(0, 0, 0));
+	m_cameras[2].setup(ofVec3f(3000, 300, 0), ofVec3f(0, 300, 0));
 
 	m_level.reset();
 

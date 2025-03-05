@@ -48,7 +48,9 @@ public:
     void swapChildOrder(BaseNode* p_child1, BaseNode* p_child2);
     void removeChild(int p_index);
 
-    ofNode &getTransform() { return m_transform; };
+    ofNode &getTransform() { return m_transform; }
+    ofMaterial &getMaterial() { return m_materialNode; }
+
     void setName(const std::string &p_name) { m_name = p_name; };
     const std::string &getName() { return m_name; }
 

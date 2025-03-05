@@ -30,7 +30,7 @@ private:
 	void cameraDraw(int index);
 	void handleCameraInput(bool pressed, ofKeyEventArgs& key, int index);
 	void updateCamera(int index, float deltaTime);
-	int getCurrentCameraIndex(bool hovered);
+	int getCurrentCameraIndex();
 
 public:
 

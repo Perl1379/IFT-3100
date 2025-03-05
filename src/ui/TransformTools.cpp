@@ -47,7 +47,11 @@ void TransformTools::draw(bool p_objectPicking) {
     BaseNode* node = Global::m_level.getTree()->findNode(Global::m_selectedNode);
     m_materialUnlit.begin();
     ofDisableDepthTest();
-    node->getTransform().transformGL();
+
+    m_transform.transformGL();
+    m_transform.setOrientation(node->getTransform().getOrientationEulerDeg());
+    m_transform.setPosition(node->getTransform().getPosition());
+
 
     switch(m_transformMode) {
         case TRANSLATE:
@@ -62,7 +66,7 @@ void TransformTools::draw(bool p_objectPicking) {
 
     }
 
-    node->getTransform().restoreTransformGL();
+    m_transform.restoreTransformGL();
     ofEnableDepthTest();
     m_materialUnlit.end();
 
@@ -75,15 +79,16 @@ void TransformTools::draw(bool p_objectPicking) {
 void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
 
     glm::vec3 pos(0,0,0);
-    glm::vec3 length = node->getBoundingBox() * 0.5;
+    auto scale = node->getTransform().getScale();
+    auto length = node->getBoundingBox() * 0.5;
 
     if (p_objectPicking) {
         m_materialUnlit.setEmissiveColor(Global::idToColor(TRANSLATE_X));
     } else {
         m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
     }
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(abs(length[0]), 0.0, 0.0));
-    m_conePrimitives[0].setPosition(pos + glm::vec3(abs(length[0]), 0.0, 0.0));
+    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(abs(length[0] * scale.x), 0.0, 0.0));
+    m_conePrimitives[0].setPosition(pos + glm::vec3(abs(length[0] * scale.x), 0.0, 0.0));
     m_conePrimitives[0].draw();
 
     if (p_objectPicking) {
@@ -92,8 +97,8 @@ void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 1.0, 0.0));
     }
 
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, abs(length[1]), 0.0));
-    m_conePrimitives[1].setPosition(pos + glm::vec3(0, abs(length[1]), 0.0));
+    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, abs(length[1] * scale.y), 0.0));
+    m_conePrimitives[1].setPosition(pos + glm::vec3(0, abs(length[1] * scale.y), 0.0));
     m_conePrimitives[1].draw();
 
     if (p_objectPicking) {
@@ -102,8 +107,8 @@ void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 0.0, 1.0));
     }
 
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, abs(length[2])));
-    m_conePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, abs(length[2])));
+    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, abs(length[2] * scale.z)));
+    m_conePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, abs(length[2] * scale.z)));
     m_conePrimitives[2].draw();
 
 }
@@ -116,7 +121,8 @@ void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
 void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
 
     glm::vec3 pos(0,0,0);
-    glm::vec3 length = node->getBoundingBox() * 0.5;
+    auto scale = node->getTransform().getScale();
+    auto length = node->getBoundingBox() * 0.5;
 
     if (p_objectPicking) {
         m_materialUnlit.setEmissiveColor(Global::idToColor(ROTATE_X));
@@ -124,10 +130,10 @@ void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
     }
     if (!p_objectPicking) {
-        ofDrawCircle(pos, length[0]);
+        ofDrawCircle(pos, length[0] * scale.x);
     }
 
-    m_spherePrimitives[0].setPosition(pos + glm::vec3(length[0], 0.0, 0.0));
+    m_spherePrimitives[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
     m_spherePrimitives[0].draw();
 
     if (p_objectPicking) {
@@ -139,10 +145,10 @@ void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
     if (!p_objectPicking) {
        ofPushMatrix();
        ofRotateYDeg(90);
-       ofDrawCircle(pos, length[1]);
+       ofDrawCircle(pos, length[1] * scale.y);
        ofPopMatrix();;
     }
-    m_spherePrimitives[1].setPosition(pos + glm::vec3(0, length[1], 0.0));
+    m_spherePrimitives[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
     m_spherePrimitives[1].draw();
 
     if (p_objectPicking) {
@@ -154,10 +160,10 @@ void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
     if (!p_objectPicking) {
         ofPushMatrix();
         ofRotateXDeg(90);
-        ofDrawCircle(pos, length[2]);
+        ofDrawCircle(pos, length[2] * scale.z);
         ofPopMatrix();;
     }
-    m_spherePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2]));
+    m_spherePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
     m_spherePrimitives[2].draw();
 
 }
@@ -169,15 +175,16 @@ void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
 void TransformTools::drawScale(bool p_objectPicking, BaseNode* node)  {
 
     glm::vec3 pos(0,0,0);
-    glm::vec3 length = node->getBoundingBox() * 0.5;
+    auto scale = node->getTransform().getScale();
+    auto length = node->getBoundingBox() * 0.5;
 
     if (p_objectPicking) {
         m_materialUnlit.setEmissiveColor(Global::idToColor(SCALE_X));
     } else {
         m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
     }
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(length[0], 0.0, 0.0));
-    m_cubePrimitives[0].setPosition(pos + glm::vec3(length[0], 0.0, 0.0));
+    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
+    m_cubePrimitives[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
     m_cubePrimitives[0].draw();
 
     if (p_objectPicking) {
@@ -186,8 +193,8 @@ void TransformTools::drawScale(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 1.0, 0.0));
     }
 
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, length[1], 0.0));
-    m_cubePrimitives[1].setPosition(pos + glm::vec3(0, length[1], 0.0));
+    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, length[1] * scale.y, 0.0));
+    m_cubePrimitives[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
     m_cubePrimitives[1].draw();
 
     if (p_objectPicking) {
@@ -196,8 +203,8 @@ void TransformTools::drawScale(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 0.0, 1.0));
     }
 
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, length[2]));
-    m_cubePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2]));
+    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
+    m_cubePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
     m_cubePrimitives[2].draw();
 
     if (p_objectPicking) {
@@ -239,7 +246,7 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
     // Get difference between previous mouse position and current one
     glm::vec2 diff = mousePosition - m_previousMousePosition;
     m_previousMousePosition = mousePosition;
-    float mouseSpeedTranslate = 0.5f;
+    float mouseSpeedTranslate = 5.0f;
     float mouseSpeedRotate = 0.5f;
     float mouseSpeedScale = 0.025f;
 

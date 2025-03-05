@@ -56,7 +56,7 @@ void PlaneNode::setWidth(float p_width) {
  * Set box height
  */
 void PlaneNode::setHeight(float p_height) {
-    m_primitive.setWidth(p_height);
+    m_primitive.setHeight(p_height);
 }
 
 
