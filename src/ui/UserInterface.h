@@ -13,6 +13,7 @@
 #include "Vector3Dialog.h"
 #include "ColorDialog.h"
 #include "DeleteNodeDialog.h"
+#include "HistogramDialog.h"
 
 
 class UserInterface {
@@ -57,6 +58,7 @@ private:
 	ColorDialog m_colorDialog;
 	AddNodeDialog m_addNodeDialog;
 	DeleteNodeDialog m_deleteNodeDialog;
+    HistogramDialog m_histogramDialog;
 
 
     // Draw functions
