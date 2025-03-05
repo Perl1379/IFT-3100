@@ -194,28 +194,28 @@ void UserInterface::drawToolbar() {
 
     if (ImGui::Begin("Toolbar", nullptr, toolbarFlags)) {
         if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarNewLevel.getTextureData().textureID),
-                               ImVec2(48, 48))) {
+            ImVec2(48, 48))) {
             onNewLevel();
         }
         if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_new);
         ImGui::SameLine();
 
         if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarLoadLevel.getTextureData().textureID),
-                               ImVec2(48, 48))) {
+            ImVec2(48, 48))) {
             onLoadLevel();
         }
         if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_load);
         ImGui::SameLine();
 
         if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarSaveLevel.getTextureData().textureID),
-                               ImVec2(48, 48))) {
+            ImVec2(48, 48))) {
             onSaveLevel();
         }
         if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_save);
         ImGui::SameLine();
 
         if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarGenerateAtlas.getTextureData().textureID),
-                               ImVec2(48, 48))) {
+            ImVec2(48, 48))) {
             onGenerateAtlas();
         }
         if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_generate);
@@ -223,12 +223,24 @@ void UserInterface::drawToolbar() {
 
         if (ImGui::ImageButton(
             reinterpret_cast<ImTextureID>(m_onlyOneCamera
-                                              ? m_textureToolbarToggleCamerasPressed.getTextureData().textureID
-                                              : m_textureToolbarToggleCameras.getTextureData().textureID),
+                ? m_textureToolbarToggleCamerasPressed.getTextureData().textureID
+                : m_textureToolbarToggleCameras.getTextureData().textureID),
             ImVec2(48, 48))) {
             onToggleCameras();
         }
         if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_toggleCam);
+        ImGui::SameLine();
+
+        if (ImGui::Button("Histogram")) {
+            m_histogramDialog.m_onlyOneCamera = m_onlyOneCamera;
+            m_histogramDialog.openDialog();
+        }
+        if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_histogram);
+        ImGui::SameLine();
+        if (m_histogramDialog.isOpen()) {
+            m_histogramDialog.draw();
+        }
+
         ImGui::End();
     }
 }
