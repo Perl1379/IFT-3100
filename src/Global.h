@@ -14,6 +14,7 @@
 #include <array>
 #include <Camera.h>
 #include <TransformTools.h>
+#include "TooltipMessages.hpp"
 #include "Skybox.h"
 
 class Global {
@@ -33,6 +34,7 @@ public:
 	static ofColor idToColor(int id);
 	static int colorToId(ofColor color);
 
+	static TooltipMessages m_tooltipMessages;
 
 };
 

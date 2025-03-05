@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H24 - Knight Maker
+* TP IFT3100H25 - Knight Maker
  * by Team 12
  *****************************************************
  *
@@ -73,6 +73,7 @@ ofVec3f ConeNode::getBoundingBox() const {
  */
 std::vector<NodeProperty> ConeNode::getProperties() const {
     auto properties = BaseNode::getProperties();
+    properties.emplace_back("Cone parameters", PROPERTY_TYPE::LABEL, nullptr);
     properties.emplace_back("Radius", PROPERTY_TYPE::FLOAT_FIELD, m_primitive.getRadius());
     properties.emplace_back("Height", PROPERTY_TYPE::FLOAT_FIELD, m_primitive.getHeight());
     properties.emplace_back("Resolution R", PROPERTY_TYPE::INT_FIELD, m_primitive.getResolutionRadius());

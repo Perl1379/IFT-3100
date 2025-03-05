@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H24 - Knight Maker
+* TP IFT3100H25 - Knight Maker
  * by Team 12
  *****************************************************
  *
@@ -64,6 +64,7 @@ ofVec3f SphereNode::getBoundingBox() const {
  */
 std::vector<NodeProperty> SphereNode::getProperties() const {
     auto properties = BaseNode::getProperties();
+    properties.emplace_back("Sphere parameters", PROPERTY_TYPE::LABEL, nullptr);
     properties.emplace_back("Radius", PROPERTY_TYPE::FLOAT_FIELD, m_primitive.getRadius());
     properties.emplace_back("Resolution", PROPERTY_TYPE::INT_FIELD, m_primitive.getResolution());
     return properties;

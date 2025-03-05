@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H24 - Knight Maker
+* TP IFT3100H25 - Knight Maker
  * by Team 12
  *****************************************************
  *
@@ -13,6 +13,7 @@
 #include <ofGraphics.h>
 #include "Global.h"
 
+bool myCheckbox = false;
 
 /**
  * Setup user interface
@@ -25,22 +26,22 @@ void UserInterface::setup() {
     imgToolbarNewLevel.load("images/ui/toolbar_buttons/new_level.png");
     m_textureToolbarNewLevel = imgToolbarNewLevel.getTexture();
 
-    ofImage imgToolbarLoadLevel;
+        ofImage imgToolbarLoadLevel;
     imgToolbarLoadLevel.load("images/ui/toolbar_buttons/load_level.png");
     m_textureToolbarLoadLevel = imgToolbarLoadLevel.getTexture();
-
-    ofImage imgToolbarSaveLevel;
+    
+        ofImage imgToolbarSaveLevel;
     imgToolbarSaveLevel.load("images/ui/toolbar_buttons/save_level.png");
     m_textureToolbarSaveLevel = imgToolbarSaveLevel.getTexture();
-
+    
     ofImage imgToolbarGenerateAtlas;
     imgToolbarGenerateAtlas.load("images/ui/toolbar_buttons/generate_atlas.png");
     m_textureToolbarGenerateAtlas = imgToolbarGenerateAtlas.getTexture();
-
-    ofImage imgToolbarToggleCameras;
+    
+        ofImage imgToolbarToggleCameras;
     imgToolbarToggleCameras.load("images/ui/toolbar_buttons/toggle_cameras.png");
     m_textureToolbarToggleCameras = imgToolbarToggleCameras.getTexture();
-
+    
     ofImage imgToolbarToggleCamerasPressed;
     imgToolbarToggleCamerasPressed.load("images/ui/toolbar_buttons/toggle_cameras_pressed.png");
     m_textureToolbarToggleCamerasPressed = imgToolbarToggleCamerasPressed.getTexture();
@@ -63,7 +64,7 @@ void UserInterface::setup() {
     }
 
     std::sort(m_availableSkyboxes.begin(), m_availableSkyboxes.end());
-    m_currentSkyboxName = m_availableSkyboxes[0];
+    m_currentSkyboxName = m_availableSkyboxes[4]; //4 = lightsky 
     Global::m_skybox.setup(m_currentSkyboxName);
 
 }
@@ -196,24 +197,28 @@ void UserInterface::drawToolbar() {
                                ImVec2(48, 48))) {
             onNewLevel();
         }
+        if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_new);
         ImGui::SameLine();
 
         if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarLoadLevel.getTextureData().textureID),
                                ImVec2(48, 48))) {
             onLoadLevel();
         }
+        if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_load);
         ImGui::SameLine();
 
         if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarSaveLevel.getTextureData().textureID),
                                ImVec2(48, 48))) {
             onSaveLevel();
         }
+        if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_save);
         ImGui::SameLine();
 
         if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarGenerateAtlas.getTextureData().textureID),
                                ImVec2(48, 48))) {
             onGenerateAtlas();
         }
+        if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_generate);
         ImGui::SameLine();
 
         if (ImGui::ImageButton(
@@ -223,7 +228,7 @@ void UserInterface::drawToolbar() {
             ImVec2(48, 48))) {
             onToggleCameras();
         }
-
+        if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_toggleCam);
         ImGui::End();
     }
 }
@@ -270,12 +275,14 @@ void UserInterface::drawTreeActions() {
         if (ImGui::Button("Add Node")) {
             m_addNodeDialog.openDialog();
         }
+        if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.level_addNode);
         ImGui::SameLine();
 
         if (Global::m_selectedNode != -1) {
             if (ImGui::Button("Delete")) {
             m_deleteNodeDialog.openDialog();
             }
+            if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.level_delete);
 
             ImGui::SameLine();
 
@@ -286,6 +293,7 @@ void UserInterface::drawTreeActions() {
                     node->getParent()->swapChildOrder(node, prev);
                 }
             }
+            if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.level_up);
 
             ImGui::SameLine();
 
@@ -296,6 +304,7 @@ void UserInterface::drawTreeActions() {
                     node->getParent()->swapChildOrder(node, next);
                 }
             }
+            if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.level_down);
         }
 
 
@@ -383,7 +392,7 @@ void UserInterface::drawProperties() {
         return;
     }
 
-    auto properties = selectedNode->getProperties();
+    std::vector<NodeProperty> properties = selectedNode->getProperties();
     int count = 0;
     for (auto property: properties) {
         switch (property.getType()) {
@@ -399,6 +408,12 @@ void UserInterface::drawProperties() {
                 if (ImGui::InputText(("##" + std::to_string(count)).c_str(), buffer, IM_ARRAYSIZE(buffer))) {
                     selectedNode->setProperty(property.getName(), std::string(buffer));
                 }
+                if (!property.getTooltip().empty()) {
+                    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+                    {
+                        ImGui::SetTooltip(property.getTooltip().c_str());
+                    }
+                }
             }
             break;
 
@@ -413,12 +428,24 @@ void UserInterface::drawProperties() {
                     m_colorDialog.useProperty(selectedNode, property.getName(), color);
                     m_colorDialog.openDialog();
                 }
+                if (!property.getTooltip().empty()) {
+                    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+                    {
+                        ImGui::SetTooltip(property.getTooltip().c_str());
+                    }
+                }
             }
             break;
 
             case PROPERTY_TYPE::LABEL: {
                 ImGui::Dummy(ImVec2(0, 5));
                 ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), property.getName().c_str());
+                if (!property.getTooltip().empty()) {
+                    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+                    {
+                        ImGui::SetTooltip(property.getTooltip().c_str());
+                    }
+                }
             }
             break;
 
@@ -434,6 +461,12 @@ void UserInterface::drawProperties() {
                     m_vec3Dialog.useProperty(selectedNode, property.getName(), value);
                     m_vec3Dialog.openDialog();
                 }
+                if (!property.getTooltip().empty()) {
+                    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+                    {
+                        ImGui::SetTooltip(property.getTooltip().c_str());
+                    }
+                }
             }
             break;
 
@@ -448,6 +481,12 @@ void UserInterface::drawProperties() {
                 ImGui::PushItemWidth(186.0f);
                 if (ImGui::InputFloat(("##Float_" + std::to_string(count)).c_str(), &value, 0.5f, 1.0f, "%.3f", ImGuiInputTextFlags_EnterReturnsTrue)) {
                     Global::m_actions.addAction(selectedNode, property.getName(), initialValue, value);
+                }
+                if (!property.getTooltip().empty()) {
+                    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+                    {
+                        ImGui::SetTooltip(property.getTooltip().c_str());
+                    }
                 }
                 ImGui::PopItemWidth();
 
@@ -467,6 +506,12 @@ void UserInterface::drawProperties() {
                 if (ImGui::InputInt(("##Integer_" + std::to_string(count)).c_str(), &value, 1, ImGuiInputTextFlags_EnterReturnsTrue)) {
                     Global::m_actions.addAction(selectedNode, property.getName(), initialValue, value);
                 }
+                if (!property.getTooltip().empty()) {
+                    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+                    {
+                        ImGui::SetTooltip(property.getTooltip().c_str());
+                    }
+                }
                 ImGui::PopItemWidth();
 
 
@@ -485,11 +530,50 @@ void UserInterface::drawProperties() {
                 if (ImGui::Checkbox(("##Boolean_" + std::to_string(count)).c_str(), &value)) {
                     Global::m_actions.addAction(selectedNode, property.getName(), initialValue, value);
                 }
+                if (!property.getTooltip().empty()) {
+                    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+                    {
+                        ImGui::SetTooltip(property.getTooltip().c_str());
+                    }
+                }
                 ImGui::PopItemWidth();
 
 
             }
             break;
+
+            case PROPERTY_TYPE::ITEM_LIST:
+            {
+
+                ImGui::Text(property.getName().c_str());
+                ImGui::SameLine(110);
+                auto value = std::any_cast<std::vector<std::string>>(property.getValue());
+
+                int initialSelection = stoi(value.back()); //get the index at the back of the vector
+                int currentItem = initialSelection;
+
+                // Doing -1 to remove the index (the 'initialSelection')
+                std::vector<char*> cstrings{};
+                cstrings.reserve(value.size() - 1);
+                for (size_t i = 0; i < value.size() - 1 ; ++i) {
+                    cstrings.push_back(const_cast<char*>(value[i].c_str()));
+                }
+
+                ImGui::PushItemWidth(186.0f);
+                if (ImGui::Combo(("##List_" + std::to_string(count)).c_str(), &currentItem, cstrings.data(), cstrings.size()))
+                {
+                    Global::m_actions.addAction(selectedNode, property.getName(), initialSelection, currentItem);
+                }
+                if (!property.getTooltip().empty()) {
+                    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+                    {
+                        ImGui::SetTooltip(property.getTooltip().c_str());
+                    }
+                }
+
+            }
+            break;
+
         }
 
         count++;
@@ -780,7 +864,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2& position, int a
             camera->setOrthoZoom(zoomFactor);
         }
         if (ImGui::IsItemHovered()) {
-            ImGui::SetTooltip("Orthographic zoom factor");
+            ImGui::SetTooltip(Global::m_tooltipMessages.camera_orthoZoom);
         }
 
     } else {
@@ -792,7 +876,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2& position, int a
 
         }
         if (ImGui::IsItemHovered()) {
-            ImGui::SetTooltip("Field of view (in degrees)");
+            ImGui::SetTooltip(Global::m_tooltipMessages.camera_FOVDeg);
         }
 
     }
@@ -806,7 +890,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2& position, int a
 
     }
     if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("Near clipping plane");
+        ImGui::SetTooltip(Global::m_tooltipMessages.camera_nearClip);
     }
 
     ImGui::SameLine();
@@ -818,12 +902,15 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2& position, int a
         camera->setFarClip(zFar);
     }
     if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("Far clipping plane");
+        ImGui::SetTooltip(Global::m_tooltipMessages.camera_farClip);
     }
 
     ImGui::SameLine();
     if (ImGui::Button("Reset")) {
         Global::m_cameras[index].reset();
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip(Global::m_tooltipMessages.camera_reset);
     }
     ImGui::SameLine();
 

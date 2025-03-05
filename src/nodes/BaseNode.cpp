@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H24 - Knight Maker
+* TP IFT3100H25 - Knight Maker
  * by Team 12
  *****************************************************
  *
@@ -68,6 +68,11 @@ int BaseNode::getId() const {
 	return m_id;
 }
 
+void BaseNode::setDisplayNode(bool p_displayNode)
+{
+	m_displayNode = p_displayNode;
+}
+
 
 /**
 * Toggle display of a red bounding box, drawing is honored in draw function
@@ -115,7 +120,7 @@ std::vector<NodeProperty> BaseNode::getProperties() const {
 
 	std::vector<NodeProperty> properties;
 	properties.emplace_back("Name", PROPERTY_TYPE::TEXT_FIELD, m_name);
-	properties.emplace_back("Display",PROPERTY_TYPE::BOOLEAN_FIELD, m_displayNode);
+	properties.emplace_back("Display",PROPERTY_TYPE::BOOLEAN_FIELD, m_displayNode, "If ticked, the node is rendered to the screen. \nUntick to hide the node.");
 	properties.emplace_back("Transform", PROPERTY_TYPE::LABEL, nullptr);
 	properties.emplace_back("Position", PROPERTY_TYPE::VECTOR3, m_transform.getPosition());
 	properties.emplace_back("Orientation", PROPERTY_TYPE::VECTOR3, m_transform.getOrientationEulerDeg());

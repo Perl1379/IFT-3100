@@ -59,8 +59,12 @@ void AddNodeDialog::draw() {
             Global::m_selectedFromViewport = true;
         }
 
+        // Primitives
+        ImGui::Dummy(ImVec2(0, 5));
+        ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), "Primitives");
+
         // Add Sphere
-        if (ImGui::Button("Primitive : Sphere", ImVec2(200,20))) {
+        if (ImGui::Button("Sphere", ImVec2(200,20))) {
             ImGui::CloseCurrentPopup();
             m_isOpen = false;
 
@@ -82,7 +86,7 @@ void AddNodeDialog::draw() {
         }
 
         // Add cube
-        if (ImGui::Button("Primitive : Box", ImVec2(200,20))) {
+        if (ImGui::Button("Box", ImVec2(200,20))) {
             ImGui::CloseCurrentPopup();
             m_isOpen = false;
 
@@ -105,7 +109,7 @@ void AddNodeDialog::draw() {
         }
 
         // Add cylinder
-        if (ImGui::Button("Primitive : Cylinder", ImVec2(200,20))) {
+        if (ImGui::Button("Cylinder", ImVec2(200,20))) {
             ImGui::CloseCurrentPopup();
             m_isOpen = false;
 
@@ -127,7 +131,7 @@ void AddNodeDialog::draw() {
         }
 
         // Add cone
-        if (ImGui::Button("Primitive : Cone", ImVec2(200,20))) {
+        if (ImGui::Button("Cone", ImVec2(200,20))) {
             ImGui::CloseCurrentPopup();
             m_isOpen = false;
 
@@ -149,7 +153,7 @@ void AddNodeDialog::draw() {
         }
 
         // Add plane
-        if (ImGui::Button("Primitive : Plane", ImVec2(200,20))) {
+        if (ImGui::Button("Plane", ImVec2(200,20))) {
             ImGui::CloseCurrentPopup();
             m_isOpen = false;
 
@@ -169,6 +173,10 @@ void AddNodeDialog::draw() {
             Global::m_selectedNode = childNode->getId();
             Global::m_selectedFromViewport = true;
         }
+
+        // Primitives
+        ImGui::Dummy(ImVec2(0, 5));
+        ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), "Models");
 
         // Add model
         if (ImGui::Button("Model", ImVec2(200,20))) {
