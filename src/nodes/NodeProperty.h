@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H24 - Knight Maker
+* TP IFT3100H25 - Knight Maker
  * by Team 12
  *****************************************************
  *
@@ -17,7 +17,8 @@ enum PROPERTY_TYPE {
 	FLOAT_FIELD,
 	LABEL,
 	BOOLEAN_FIELD,
-	INT_FIELD
+	INT_FIELD,
+	ITEM_LIST
 };
 
 
@@ -28,13 +29,15 @@ private:
 	std::string m_name;
 	int m_type;
 	std::any m_value;
+	std::string m_tooltip;
 
 public:
 
-	NodeProperty(std::string p_name, int p_type, std::any p_value);
+	NodeProperty(std::string p_name, int p_type, std::any p_value, std::string p_tooltip = "");
 	const std::string getName();
 	const int getType();
 	const std::any getValue();
+	const std::string getTooltip();
 
 };
 

@@ -53,6 +53,7 @@ public:
     const std::string &getName() { return m_name; }
 
     int getId() const;
+    void setDisplayNode(bool p_displayNode);
     bool getDisplayNode() const;
 
     void displayNode(bool p_display);

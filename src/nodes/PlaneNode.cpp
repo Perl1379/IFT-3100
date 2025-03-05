@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H24 - Knight Maker
+* TP IFT3100H25 - Knight Maker
  * by Team 12
  *****************************************************
  *
@@ -82,6 +82,7 @@ ofVec3f PlaneNode::getBoundingBox() const {
  */
 std::vector<NodeProperty> PlaneNode::getProperties() const {
     auto properties = BaseNode::getProperties();
+    properties.emplace_back("Plane parameters", PROPERTY_TYPE::LABEL, nullptr);
     properties.emplace_back("Width", PROPERTY_TYPE::FLOAT_FIELD, m_primitive.getWidth());
     properties.emplace_back("Height", PROPERTY_TYPE::FLOAT_FIELD, m_primitive.getHeight());
     properties.emplace_back("Resolution", PROPERTY_TYPE::INT_FIELD, static_cast<int>(m_primitive.getResolution().x));

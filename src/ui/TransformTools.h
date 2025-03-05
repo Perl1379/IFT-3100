@@ -1,3 +1,11 @@
+/*****************************************************
+* TP IFT3100H25 - Knight Maker
+ * by Team 12
+ *****************************************************
+ *
+ * TransformTools class implementation
+ *
+ *****************************************************/
 #pragma once
 #include <BaseNode.h>
 #include <imgui.h>
@@ -33,6 +41,11 @@ class TransformTools {
         glm::vec3 m_initialNodePosition;
         glm::vec3 m_initialNodeOrientation;
         glm::vec3 m_initialNodeScale;
+
+        // Tweak size of gizmos here
+        float m_conePrimitivesScale = 1.2;
+        float m_spherePrimitivesScale = 1.2;
+        float m_cubePrimitivesScale = 0.8;
 
         ofMaterial m_materialUnlit;
         ofConePrimitive m_conePrimitives[3];

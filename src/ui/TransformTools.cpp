@@ -1,3 +1,11 @@
+/*****************************************************
+* TP IFT3100H25 - Knight Maker
+ * by Team 12
+ *****************************************************
+ *
+ * TransformTools class implementation
+ *
+ *****************************************************/
 #include "TransformTools.h"
 #include <Global.h>
 #include <ofGraphics.h>
@@ -12,19 +20,21 @@ TransformTools::TransformTools() {
     m_materialUnlit.setAmbientColor(ofFloatColor(0.0, 0.0, 0.0));
     m_materialUnlit.setDiffuseColor(ofFloatColor(0.0));
     m_materialUnlit.setSpecularColor(ofFloatColor(0.0));
-    m_conePrimitives[0].setScale(0.3);
+    
+    //"conePrimitives" are the points of the translation gizmo's arrows
+    m_conePrimitives[0].setScale(m_conePrimitivesScale);
     m_conePrimitives[0].setOrientation(glm::vec3(0, 0, 90));
-    m_conePrimitives[1].setScale(0.3);
+    m_conePrimitives[1].setScale(m_conePrimitivesScale);
     m_conePrimitives[1].setOrientation(glm::vec3(180, 0, 0));
-    m_conePrimitives[2].setScale(0.3);
+    m_conePrimitives[2].setScale(m_conePrimitivesScale);
     m_conePrimitives[2].setOrientation(glm::vec3(-90, 0, 0));
-    m_spherePrimitives[0].setScale(0.3);
-    m_spherePrimitives[1].setScale(0.3);
-    m_spherePrimitives[2].setScale(0.3);
-    m_cubePrimitives[0].setScale(0.15);
-    m_cubePrimitives[1].setScale(0.15);
-    m_cubePrimitives[2].setScale(0.15);
-    m_cubePrimitives[3].setScale(0.15);
+    m_spherePrimitives[0].setScale(m_spherePrimitivesScale);
+    m_spherePrimitives[1].setScale(m_spherePrimitivesScale);
+    m_spherePrimitives[2].setScale(m_spherePrimitivesScale);
+    m_cubePrimitives[0].setScale(m_cubePrimitivesScale);
+    m_cubePrimitives[1].setScale(m_cubePrimitivesScale);
+    m_cubePrimitives[2].setScale(m_cubePrimitivesScale);
+    m_cubePrimitives[3].setScale(m_cubePrimitivesScale);
 
 }
 
@@ -72,8 +82,8 @@ void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
     } else {
         m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
     }
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(length[0], 0.0, 0.0));
-    m_conePrimitives[0].setPosition(pos + glm::vec3(length[0], 0.0, 0.0));
+    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(abs(length[0]), 0.0, 0.0));
+    m_conePrimitives[0].setPosition(pos + glm::vec3(abs(length[0]), 0.0, 0.0));
     m_conePrimitives[0].draw();
 
     if (p_objectPicking) {
@@ -82,8 +92,8 @@ void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 1.0, 0.0));
     }
 
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, length[1], 0.0));
-    m_conePrimitives[1].setPosition(pos + glm::vec3(0, length[1], 0.0));
+    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, abs(length[1]), 0.0));
+    m_conePrimitives[1].setPosition(pos + glm::vec3(0, abs(length[1]), 0.0));
     m_conePrimitives[1].draw();
 
     if (p_objectPicking) {
@@ -92,8 +102,8 @@ void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 0.0, 1.0));
     }
 
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, length[2]));
-    m_conePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2]));
+    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, abs(length[2])));
+    m_conePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, abs(length[2])));
     m_conePrimitives[2].draw();
 
 }
@@ -154,7 +164,7 @@ void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
 
 
 /**
- * Draw scale arrows
+ * Draw scale cubes
  */
 void TransformTools::drawScale(bool p_objectPicking, BaseNode* node)  {
 
