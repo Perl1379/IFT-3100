@@ -1,5 +1,5 @@
 /*****************************************************
- * TP IFT3100H24 - Knight Maker
+ * TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -19,7 +19,7 @@ void MainWindow::setup() {
 
 	ofSetEscapeQuitsApp(false);  // Disable ESC quitting
 
-	ofSetWindowTitle("Knight Maker");
+	ofSetWindowTitle("Adventure Party Maker");
 	ofSetVerticalSync(false);
 
 	Global::setup();
@@ -41,7 +41,7 @@ void MainWindow::draw() {
 	ofBackground(0);
 
 	// Reset render stats
-	for (int i=0;i<3;i++) {
+	for (int i = 0;i < 3;i++) {
 		Global::m_countNodeRender[i] = 0;
 	}
 
@@ -101,6 +101,9 @@ void MainWindow::cameraDraw(int index) {
 }
 
 
+
+
+
 /**
  * Callback function for handling key pressed events
  */
@@ -123,24 +126,29 @@ void MainWindow::keyPressed(ofKeyEventArgs& key) {
  * Callback function for handling key released events
  */
 void MainWindow::keyReleased(ofKeyEventArgs& key) {
-
-	int index = getCurrentCameraIndex();
-	if (index == -1) {
-		resetCameraMovement();
-		return;
-	}
-
 	if (!key.hasModifier(OF_KEY_CONTROL))
+	{
+		int index = getCurrentCameraIndex();
+		if (index == -1) {
+			resetCameraMovement();
+			return;
+		}
+
 		handleCameraInput(false, key, index);
+	}
+	else {
+		// Handle history
 
-	// Handle history
-	if (key.hasModifier(OF_KEY_CONTROL) && (key.key == 'z')) {
-		Global::m_actions.undo();
+		if (key.keycode == 'z' || key.keycode == 'Z') {
+			Global::m_actions.undo();
+		}
+
+		if (key.keycode == 'r' || key.keycode == 'R') {
+			Global::m_actions.redo();
+		}
+
 	}
 
-	if (key.hasModifier(OF_KEY_CONTROL) && (key.key == 'r')) {
-		Global::m_actions.redo();
-	}
 
 }
 
@@ -169,12 +177,12 @@ void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs& key, int index)
 		}
 
 		// Print debug information
-		if (key.key == 'p') {
+		if (key.keycode  == 'P') {
 			Global::m_cameras[index].debug();
 		}
 
 		// Toggle ortho projection
-		if (key.key == 'o') {
+		if (key.keycode == 'O') {
 			if (Global::m_cameras[index].getCamera()->getOrtho()) {
 				Global::m_cameras[index].getCamera()->disableOrtho();
 			}
@@ -227,47 +235,47 @@ void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs& key, int index)
 	}
 
 	// Handle rotation along forward vector
-	if (key.key == 'q' || key.key == 'e') {
+	if (key.keycode == 'Q' || key.keycode == 'E') {
 		if (!pressed) {
 			m_cameraRotation = 0.0;
 			return;
 		}
-		m_cameraRotation = (key.key == 'q' ? 1.0f : -1.0f);
+		m_cameraRotation = (key.keycode == 'Q' ? 1.0f : -1.0f);
 	}
 
 	// Handle longitudinal movements
-	if (key.key == 'w' || key.key == 's') {
+	if (key.keycode == 'W' || key.keycode == 'S') {
 
 		if (!pressed) {
 			m_cameraMovement.z = 0;
 			return;
 		}
 
-		m_cameraMovement.z = (key.key == 'w' ? -1.0f : 1.0f);
+		m_cameraMovement.z = (key.keycode == 'W' ? -1.0f : 1.0f);
 		return;
 	}
 
 	// Handle lateral movements
-	if (key.key == 'a' || key.key == 'd') {
+	if (key.keycode == 'A' || key.keycode == 'D') {
 
 		if (!pressed) {
 			m_cameraMovement.x = 0;
 			return;
 		}
 
-		m_cameraMovement.x = (key.key == 'a' ? -1.0f : 1.0f);
+		m_cameraMovement.x = (key.keycode == 'A' ? -1.0f : 1.0f);
 		return;
 	}
 
 	// Handle vertical movements
-	if (key.key == ' ' || key.key == 'z') {
+	if (key.keycode == ' ' || key.keycode == 'Z') {
 
 		if (!pressed) {
 			m_cameraMovement.y = 0;
 			return;
 		}
 
-		m_cameraMovement.y = (key.key == ' ' ? 1.0f : -1.0f);
+		m_cameraMovement.y = (key.keycode == ' ' ? 1.0f : -1.0f);
 	}
 
 }
@@ -305,7 +313,8 @@ void MainWindow::updateCamera(int index, float deltaTime) {
 	// Allow only if not in ortho mode
 	if (!camera->getOrtho()) {
 		camera->dolly(m_cameraMovement.z * cameraMoveSpeed * deltaTime);  // Move forward/backward
-	} else {
+	}
+	else {
 		// Set zoom
 		camera->setOrthoZoom(camera->getOrthoZoom() - (m_cameraMovement.z * cameraOrthoZoomSpeed * deltaTime));
 	}
@@ -427,7 +436,8 @@ void MainWindow::mouseScrolled(ofMouseEventArgs& args) {
 	// Allow only if not in ortho mode
 	if (!camera->getOrtho()) {
 		camera->dolly(-args.scrollY * zoomSpeed);
-	} else {
+	}
+	else {
 		// Set zoom
 		camera->setOrthoZoom(camera->getOrthoZoom() - (args.scrollY * cameraOrthoZoomSpeed));
 	}

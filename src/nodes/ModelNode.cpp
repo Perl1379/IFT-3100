@@ -1,5 +1,5 @@
 /*****************************************************
- * TP IFT3100H25 - Knight Maker
+ * TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -15,6 +15,7 @@
 ModelNode::ModelNode(const std::string& p_name, const std::string& p_filePath) : BaseNode(p_name) {
 	// 1 - load the model
 	m_model.loadModel(p_filePath);
+	m_model.setRotation(0, 180, 1, 0, 0);
 
 	// 2- setup animations
 	initHardcodedList();

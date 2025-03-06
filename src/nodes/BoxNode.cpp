@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Knight Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -38,7 +38,7 @@ int BoxNode::draw(bool p_objectPicking, Camera* p_camera) {
         m_transform.restoreTransformGL();
         count++;
     }
-    count = endDraw(p_objectPicking, p_camera);
+    count += endDraw(p_objectPicking, p_camera);
     return count;
 }
 

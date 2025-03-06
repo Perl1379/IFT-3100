@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Knight Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -33,7 +33,7 @@ struct TooltipMessages {
 	const char* toolbar_new = "New level \n(not implemented)";
 	const char* toolbar_load = "Load level \n(not implemented)";
 	const char* toolbar_save = "Save level \n(not implemented)";
-	const char* toolbar_generate = "Generate a triptych image with the three viewports \n(not implemented)";
+	const char* toolbar_generate = "Generate a triptych image with the three viewports";
 	const char* toolbar_toggleCam = "Toggle between 3 viewports and 1 viewport";
 	const char* toolbar_histogram = "Color histogram tool";
 

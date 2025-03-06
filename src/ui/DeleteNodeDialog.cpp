@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H24 - Knight Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -39,12 +39,11 @@ void DeleteNodeDialog::draw() {
             ImGui::CloseCurrentPopup();
             m_isOpen = false;
 
-            ofLog() << "Get selected node: " << Global::m_selectedNode;
+           
             BaseNode* node = Global::m_level.getTree()->findNode(Global::m_selectedNode);
             BaseNode* parent = node->getParent();
 
-            ofLog() << "Node:" << node->getId() << " = " << node->getName();
-            ofLog() << "Parent:" << parent->getId() << " = " << parent->getName();
+           
             parent->removeChild(Global::m_selectedNode);
             Global::m_selectedNode = -1;
 

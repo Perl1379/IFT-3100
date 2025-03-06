@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H24 - Knight Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -177,7 +177,7 @@ ofVec3f TerrainNode::getBoundingBox() const {
  * Set terrain name
  */
 void TerrainNode::setTerrainName(const std::string& p_name) {
-    ofLog() << "Set terrain name";
+   
     m_terrainName = p_name;
 
     for (int i=0;i<m_terrainNames.size()-1;i++) {
