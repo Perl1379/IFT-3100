@@ -158,7 +158,6 @@ void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 	}
 
 	if (p_name == "Scale") {
-		ofLog() << "Scale:" << std::any_cast<glm::vec3>(p_value).x;
 		m_transform.setScale(std::any_cast<glm::vec3>(p_value));
 	}
 
