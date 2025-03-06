@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Knight Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -47,11 +47,17 @@ class TransformTools {
         float m_conePrimitivesScale = 1.2;
         float m_spherePrimitivesScale = 1.2;
         float m_cubePrimitivesScale = 0.6;
+        float m_conePrimitivesScaleObjectPicking = 2.4;
+        float m_spherePrimitivesScaleObjectPicking = 2.4;
+        float m_cubePrimitivesScaleObjectPicking = 1.2;
 
         ofMaterial m_materialUnlit;
         ofConePrimitive m_conePrimitives[3];
         ofSpherePrimitive m_spherePrimitives[3];
         ofBoxPrimitive m_cubePrimitives[4];
+    ofConePrimitive m_conePrimitivesObjectPicking[3];
+    ofSpherePrimitive m_spherePrimitivesObjectPicking[3];
+    ofBoxPrimitive m_cubePrimitivesObjectPicking[4];
 
     public:
         TransformTools();

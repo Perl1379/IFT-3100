@@ -1,5 +1,5 @@
 /*****************************************************
- * TP IFT3100H24 - Knight Maker
+ * TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -19,7 +19,7 @@ void MainWindow::setup() {
 
 	ofSetEscapeQuitsApp(false);  // Disable ESC quitting
 
-	ofSetWindowTitle("Knight Maker");
+	ofSetWindowTitle("Adventure Party Maker");
 	ofSetVerticalSync(false);
 
 	Global::setup();
@@ -123,24 +123,27 @@ void MainWindow::keyPressed(ofKeyEventArgs& key) {
  * Callback function for handling key released events
  */
 void MainWindow::keyReleased(ofKeyEventArgs& key) {
+	if (!key.hasModifier(OF_KEY_CONTROL)) {
+		int index = getCurrentCameraIndex();
+		if (index == -1) {
+			resetCameraMovement();
+			return;
+		}
 
-	int index = getCurrentCameraIndex();
-	if (index == -1) {
-		resetCameraMovement();
-		return;
-	}
-
-	if (!key.hasModifier(OF_KEY_CONTROL))
 		handleCameraInput(false, key, index);
-
+	} else {
 	// Handle history
-	if (key.hasModifier(OF_KEY_CONTROL) && (key.key == 'z')) {
-		Global::m_actions.undo();
+
+		if (key.key == 'z' || key.key == 'Z') {
+			Global::m_actions.undo();
+		}
+
+		if (key.key == 'r' || key.key == 'R') {
+			Global::m_actions.redo();
+		}
+
 	}
 
-	if (key.hasModifier(OF_KEY_CONTROL) && (key.key == 'r')) {
-		Global::m_actions.redo();
-	}
 
 }
 
@@ -169,12 +172,12 @@ void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs& key, int index)
 		}
 
 		// Print debug information
-		if (key.key == 'p') {
+		if ((key.key == 'p') || (key.key == 'P')) {
 			Global::m_cameras[index].debug();
 		}
 
 		// Toggle ortho projection
-		if (key.key == 'o') {
+		if ((key.key == 'o') || (key.key == 'O')) {
 			if (Global::m_cameras[index].getCamera()->getOrtho()) {
 				Global::m_cameras[index].getCamera()->disableOrtho();
 			}
@@ -227,7 +230,7 @@ void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs& key, int index)
 	}
 
 	// Handle rotation along forward vector
-	if (key.key == 'q' || key.key == 'e') {
+	if ((key.key == 'q' || key.key == 'Q') || (key.key == 'e' || key.key == 'E')) {
 		if (!pressed) {
 			m_cameraRotation = 0.0;
 			return;
@@ -236,31 +239,31 @@ void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs& key, int index)
 	}
 
 	// Handle longitudinal movements
-	if (key.key == 'w' || key.key == 's') {
+	if ((key.key == 'w' || key.key == 'W') || (key.key == 's' || key.key == 'S')) {
 
 		if (!pressed) {
 			m_cameraMovement.z = 0;
 			return;
 		}
 
-		m_cameraMovement.z = (key.key == 'w' ? -1.0f : 1.0f);
+		m_cameraMovement.z = ((key.key == 'w' || key.key == 'W') ? -1.0f : 1.0f);
 		return;
 	}
 
 	// Handle lateral movements
-	if (key.key == 'a' || key.key == 'd') {
+	if ((key.key == 'a' || key.key == 'A') || (key.key == 'd' || key.key == 'D')) {
 
 		if (!pressed) {
 			m_cameraMovement.x = 0;
 			return;
 		}
 
-		m_cameraMovement.x = (key.key == 'a' ? -1.0f : 1.0f);
+		m_cameraMovement.x = ((key.key == 'a' || key.key == 'A') ? -1.0f : 1.0f);
 		return;
 	}
 
 	// Handle vertical movements
-	if (key.key == ' ' || key.key == 'z') {
+	if (key.key == ' ' || key.key == 'z' || key.key == 'Z') {
 
 		if (!pressed) {
 			m_cameraMovement.y = 0;

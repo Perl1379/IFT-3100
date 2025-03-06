@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Knight Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -33,10 +33,14 @@ void UserInterface::setup() {
     m_textureToolbarSaveLevel = imgToolbarSaveLevel.getTexture();
     
     ofImage imgToolbarGenerateAtlas;
-    imgToolbarGenerateAtlas.load("images/ui/toolbar_buttons/generate_atlas.png");
-    m_textureToolbarGenerateAtlas = imgToolbarGenerateAtlas.getTexture();
-    
-        ofImage imgToolbarToggleCameras;
+    imgToolbarGenerateAtlas.load("images/ui/toolbar_buttons/generate.png");
+    m_textureToolbarGenerateBigTexture = imgToolbarGenerateAtlas.getTexture();
+
+    ofImage imgToolbarHistogram;
+    imgToolbarHistogram.load("images/ui/toolbar_buttons/histogram.png");
+    m_textureToolbarHistogram = imgToolbarHistogram.getTexture();
+
+    ofImage imgToolbarToggleCameras;
     imgToolbarToggleCameras.load("images/ui/toolbar_buttons/toggle_cameras.png");
     m_textureToolbarToggleCameras = imgToolbarToggleCameras.getTexture();
     
@@ -164,16 +168,16 @@ void UserInterface::drawMenu() {
             ImGui::EndMenu();
         }
 
-        if (ImGui::BeginMenu("Help")) {
-            if (ImGui::MenuItem("Key Bindings")) {
-                onShowKeyBindings();
-            }
-
-            if (ImGui::MenuItem("About Knight Maker")) {
-                onAboutProgram();
-            }
-            ImGui::EndMenu();
-        }
+        // if (ImGui::BeginMenu("Help")) {
+        //     if (ImGui::MenuItem("Key Bindings")) {
+        //         onShowKeyBindings();
+        //     }
+        //
+        //     if (ImGui::MenuItem("About Adventure Party Maker")) {
+        //         onAboutProgram();
+        //     }
+        //     ImGui::EndMenu();
+        // }
 
         ImGui::EndMainMenuBar(); // End the menu bar
     }
@@ -201,26 +205,37 @@ void UserInterface::drawToolbar() {
         if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_new);
         ImGui::SameLine();
 
-        if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarLoadLevel.getTextureData().textureID),
-            ImVec2(48, 48))) {
-            onLoadLevel();
-        }
-        if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_load);
-        ImGui::SameLine();
+         if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarLoadLevel.getTextureData().textureID),
+             ImVec2(48, 48))) {
+             onLoadLevel();
+         }
+         if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_load);
+         ImGui::SameLine();
 
-        if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarSaveLevel.getTextureData().textureID),
-            ImVec2(48, 48))) {
-            onSaveLevel();
-        }
+         if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarSaveLevel.getTextureData().textureID),
+             ImVec2(48, 48))) {
+             onSaveLevel();
+         }
         if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_save);
         ImGui::SameLine();
 
-        if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarGenerateAtlas.getTextureData().textureID),
+        if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarGenerateBigTexture.getTextureData().textureID),
             ImVec2(48, 48))) {
             onGenerateAtlas();
         }
         if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_generate);
         ImGui::SameLine();
+
+        if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(m_textureToolbarHistogram.getTextureData().textureID),
+            ImVec2(48, 48))) {
+            m_histogramDialog.m_onlyOneCamera = m_onlyOneCamera;
+            m_histogramDialog.openDialog();
+        }
+        if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_histogram);
+        ImGui::SameLine();
+        if (m_histogramDialog.isOpen()) {
+            m_histogramDialog.draw();
+        }
 
         if (ImGui::ImageButton(
             reinterpret_cast<ImTextureID>(m_onlyOneCamera
@@ -232,15 +247,6 @@ void UserInterface::drawToolbar() {
         if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_toggleCam);
         ImGui::SameLine();
 
-        if (ImGui::Button("Histogram")) {
-            m_histogramDialog.m_onlyOneCamera = m_onlyOneCamera;
-            m_histogramDialog.openDialog();
-        }
-        if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_histogram);
-        ImGui::SameLine();
-        if (m_histogramDialog.isOpen()) {
-            m_histogramDialog.draw();
-        }
 
         ImGui::End();
     }

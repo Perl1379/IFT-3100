@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H24 - Knight Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -10,13 +10,8 @@
 #include "BaseNode.h"
 
 class GroupNode : public BaseNode {
-
 public:
-
- explicit GroupNode(const std::string &p_name);
- std::vector<NodeProperty> getProperties() const override;
- ofVec3f getBoundingBox() const override;
-
+    explicit GroupNode(const std::string &p_name);
+    std::vector<NodeProperty> getProperties() const override;
+    ofVec3f getBoundingBox() const override;
 };
-
-

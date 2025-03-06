@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H24 - Knight Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -44,9 +44,10 @@ private:
     ofTexture m_textureToolbarNewLevel;
     ofTexture m_textureToolbarLoadLevel;
     ofTexture m_textureToolbarSaveLevel;
-    ofTexture m_textureToolbarGenerateAtlas;
+    ofTexture m_textureToolbarGenerateBigTexture;
     ofTexture m_textureToolbarToggleCameras;
     ofTexture m_textureToolbarToggleCamerasPressed;
+    ofTexture m_textureToolbarHistogram;
     ofTexture m_textureNotVisible;
     std::vector<std::string> m_availableSkyboxes;
 
