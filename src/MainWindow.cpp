@@ -139,11 +139,11 @@ void MainWindow::keyReleased(ofKeyEventArgs& key) {
 	else {
 		// Handle history
 
-		if (key.key == 'z' || key.key == 'Z') {
+		if (key.keycode == 'z' || key.keycode == 'Z') {
 			Global::m_actions.undo();
 		}
 
-		if (key.key == 'r' || key.key == 'R') {
+		if (key.keycode == 'r' || key.keycode == 'R') {
 			Global::m_actions.redo();
 		}
 
@@ -177,12 +177,12 @@ void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs& key, int index)
 		}
 
 		// Print debug information
-		if ((key.key == 'p') || (key.key == 'P')) {
+		if (key.keycode  == 'P') {
 			Global::m_cameras[index].debug();
 		}
 
 		// Toggle ortho projection
-		if ((key.key == 'o') || (key.key == 'O')) {
+		if (key.keycode == 'O') {
 			if (Global::m_cameras[index].getCamera()->getOrtho()) {
 				Global::m_cameras[index].getCamera()->disableOrtho();
 			}
@@ -235,47 +235,47 @@ void MainWindow::handleCameraInput(bool pressed, ofKeyEventArgs& key, int index)
 	}
 
 	// Handle rotation along forward vector
-	if ((key.key == 'q' || key.key == 'Q') || (key.key == 'e' || key.key == 'E')) {
+	if (key.keycode == 'Q' || key.keycode == 'E') {
 		if (!pressed) {
 			m_cameraRotation = 0.0;
 			return;
 		}
-		m_cameraRotation = (key.key == 'q' ? 1.0f : -1.0f);
+		m_cameraRotation = (key.keycode == 'Q' ? 1.0f : -1.0f);
 	}
 
 	// Handle longitudinal movements
-	if ((key.key == 'w' || key.key == 'W') || (key.key == 's' || key.key == 'S')) {
+	if (key.keycode == 'W' || key.keycode == 'S') {
 
 		if (!pressed) {
 			m_cameraMovement.z = 0;
 			return;
 		}
 
-		m_cameraMovement.z = ((key.key == 'w' || key.key == 'W') ? -1.0f : 1.0f);
+		m_cameraMovement.z = (key.keycode == 'W' ? -1.0f : 1.0f);
 		return;
 	}
 
 	// Handle lateral movements
-	if ((key.key == 'a' || key.key == 'A') || (key.key == 'd' || key.key == 'D')) {
+	if (key.keycode == 'A' || key.keycode == 'D') {
 
 		if (!pressed) {
 			m_cameraMovement.x = 0;
 			return;
 		}
 
-		m_cameraMovement.x = ((key.key == 'a' || key.key == 'A') ? -1.0f : 1.0f);
+		m_cameraMovement.x = (key.keycode == 'A' ? -1.0f : 1.0f);
 		return;
 	}
 
 	// Handle vertical movements
-	if (key.key == ' ' || key.key == 'z' || key.key == 'Z') {
+	if (key.keycode == ' ' || key.keycode == 'Z') {
 
 		if (!pressed) {
 			m_cameraMovement.y = 0;
 			return;
 		}
 
-		m_cameraMovement.y = (key.key == ' ' ? 1.0f : -1.0f);
+		m_cameraMovement.y = (key.keycode == ' ' ? 1.0f : -1.0f);
 	}
 
 }
