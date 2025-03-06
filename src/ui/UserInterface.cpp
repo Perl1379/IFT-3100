@@ -48,9 +48,7 @@ void UserInterface::setup() {
     imgNotVisible.load("images/ui/not_visible.png");
     m_textureNotVisible = imgNotVisible.getTexture();
 
-    currentCursor = "cursor";
-
-	changeCursor();
+	//changeCursor();
     ofHideCursor();
 
     // Load skybox names
@@ -74,7 +72,7 @@ void UserInterface::draw() {
     m_gui.begin();
 
     m_hoveredWindow = "";
-
+	Global::m_cursorManager.change("cursor");
     drawMenu();
     drawToolbar();
     drawTree();
@@ -87,7 +85,7 @@ void UserInterface::draw() {
         m_initialDraw = false;
         ImGui::SetWindowFocus("Main Camera");
     }
-    drawCursor();
+    Global::m_cursorManager.draw();
     m_gui.end();
 }
 
@@ -630,41 +628,6 @@ void UserInterface::drawStatus() {
     ImGui::End();
 }
 
-void UserInterface::drawCursor() {
-    ImVec2 mousePos = ImGui::GetMousePos();
-    ImGui::GetForegroundDrawList()->AddImage(
-        (void*)(intptr_t)m_cursorImage.getTexture().getTextureData().textureID,
-        mousePos,
-        ImVec2(mousePos.x + m_cursorImage.getWidth(), mousePos.y + m_cursorImage.getHeight())
-    );
-
-}
-
-void UserInterface::changeCursor()
-{
-    ofImage img;
-    img.load("images/ui/cursors/" + currentCursor + ".png");
-
-    // Retrieve piexels
-    ofPixels& pixels = img.getPixels();
-
-    // Go through all pixels
-    for (int y = 0; y < img.getHeight(); ++y) {
-        for (int x = 0; x < img.getWidth(); ++x) {
-            ofColor color = pixels.getColor(x, y);
-            if (color.a > 0) { // Si le pixel n'est pas transparent
-                color = ofColor(255, 255, 255, color.a); // Swtich color to white while keeping original alpha value
-                pixels.setColor(x, y, color);
-            }
-        }
-    }
-
-    // Update image
-    img.update();
-    m_cursorImage = img;
-}
-
-
 /**
  * Draw viewports
  */
@@ -701,7 +664,6 @@ void UserInterface::drawViewports() {
  */
 void UserInterface::drawViewport(const std::string &name, int index, const ImVec2 &position, const ImVec2 &size) {
     // Convert from float to integers
-    std::string oldCursor = currentCursor;
     int size_x = static_cast<int>(size.x);
     int size_y = static_cast<int>(size.y);
 
@@ -785,29 +747,30 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
             }
         }
 
-        if (Global::m_selectedNode != -1)
+        if (Global::m_selectedNode == -1)
         {
-            currentCursor = "hand";
+            Global::m_cursorManager.change("hand");
         }
         else {
-            currentCursor = "cursor";
+            if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::TRANSLATE) {
+                Global::m_cursorManager.change("move");
+            }
+            else if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::ROTATE) {
+                Global::m_cursorManager.change("rotate");
+            }
+            else if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::SCALE) {
+                Global::m_cursorManager.change("scale");
+            }
         }
+       
 
         // Check if an object is clicked
         if (ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
             Global::m_transformTools.onMouseDrag(mousePos);
-            if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::TRANSLATE) {
-                currentCursor = "move";
-            }
-            else if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::ROTATE) {
-                currentCursor = "rotate";
-            }
-            else if (Global::m_transformTools.getTransformMode() == TRANSFORM_MODE::SCALE) {
-                currentCursor = "scale";
-            }
+           
 
         }
-
+       
         // Draw axis arrows
         float axisLength = 40.0f;
 
@@ -830,17 +793,10 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
 
 
     }
-    else{
-        currentCursor = "cursor";
-    }
-
-
 
     drawViewportOverlay(index, position, size_x, overlayItemHeight);
 
-	if (oldCursor != currentCursor) {
-        changeCursor();
-	}
+
     ImGui::End();
 }
 
@@ -939,12 +895,13 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2& position, int a
             ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
             if (ImGui::Button("Translate")) {
                 Global::m_transformTools.setTransformMode(TRANSFORM_MODE::TRANSLATE);
-
+                
             }
             ImGui::PopStyleColor(2);
         } else {
             if (ImGui::Button("Translate")) {
                 Global::m_transformTools.setTransformMode(TRANSFORM_MODE::TRANSLATE);
+               
             }
         }
 
@@ -957,11 +914,13 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2& position, int a
 
             if (ImGui::Button("Rotate")) {
                 Global::m_transformTools.setTransformMode(TRANSFORM_MODE::ROTATE);
+               
             }
             ImGui::PopStyleColor(2);
         } else {
             if (ImGui::Button("Rotate")) {
                 Global::m_transformTools.setTransformMode(TRANSFORM_MODE::ROTATE);
+                
             }
         }
         ImGui::SameLine();
@@ -972,11 +931,13 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2& position, int a
 
             if (ImGui::Button("Scale")) {
                 Global::m_transformTools.setTransformMode(TRANSFORM_MODE::SCALE);
+               
             }
             ImGui::PopStyleColor(2);
         } else {
             if (ImGui::Button("Scale")) {
                 Global::m_transformTools.setTransformMode(TRANSFORM_MODE::SCALE);
+               
             }
         }
 

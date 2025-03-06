@@ -25,10 +25,12 @@ void CursorManager::addCursor(const std::string& p_cursor)
 void CursorManager::draw()
 {
 	ImVec2 mousePos = ImGui::GetMousePos();
+	int offsetX = mousePos.x - m_currentCursor.getTexture().getWidth()/2;
+	int offsetY = mousePos.y - m_currentCursor.getTexture().getHeight() / 2;
 	ImGui::GetForegroundDrawList()->AddImage(
-		(void*)(intptr_t)m_currentCursor.getImage().getTextureData().textureID,
-		mousePos,
-		ImVec2(mousePos.x + m_currentCursor.getImage().getWidth(), mousePos.y + m_currentCursor.getImage().getHeight())
+		(void*)(intptr_t)m_currentCursor.getTexture().getTextureData().textureID,
+		ImVec2(offsetX,offsetY),
+		ImVec2(offsetX + m_currentCursor.getTexture().getWidth(), offsetY + m_currentCursor.getTexture().getHeight())
 	);
 }
 

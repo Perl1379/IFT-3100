@@ -19,6 +19,7 @@ TransformTools Global::m_transformTools;
 ActionManager Global::m_actions;
 bool Global::m_selectedFromViewport = false;
 TooltipMessages Global::m_tooltipMessages;
+CursorManager Global::m_cursorManager;
 
 /**
  * Setup global singleton object
@@ -31,6 +32,7 @@ void Global::setup() {
 	m_cameras[2].setup(ofVec3f(2400, 300, 200), ofVec3f(0, 300, 200));
 
 	m_level.reset();
+	m_cursorManager.setup();
 
 }
 

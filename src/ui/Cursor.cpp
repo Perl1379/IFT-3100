@@ -1,6 +1,6 @@
 #include "Cursor.h"
-#include <ofGraphics.h>
-#include "Global.h"
+#include <ofImage.h>
+
 Cursor::Cursor()
 {
 }
@@ -10,12 +10,12 @@ Cursor::Cursor(std::string p_name)
 	m_name = p_name;
 	ofImage img;
 	img.load("images/ui/cursors/" + p_name + ".png");
-	m_image = img.getTexture();
+	m_texture = img.getTexture();
 }
 
-const ofTexture& Cursor::getImage() const
+const ofTexture& Cursor::getTexture() const
 {
-	return m_image;
+	return m_texture;
 }
 
 const std::string& Cursor::getName() const

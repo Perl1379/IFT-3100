@@ -16,6 +16,7 @@
 #include <TransformTools.h>
 #include "TooltipMessages.hpp"
 #include "Skybox.h"
+#include "CursorManager.h"
 
 class Global {
 
@@ -33,6 +34,7 @@ public:
 	static void setup();
 	static ofColor idToColor(int id);
 	static int colorToId(ofColor color);
+	static CursorManager m_cursorManager;
 
 	static TooltipMessages m_tooltipMessages;
 

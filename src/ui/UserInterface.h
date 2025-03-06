@@ -41,8 +41,6 @@ public:
 
 private:
     ofxImGui::Gui m_gui;
-    ofImage m_cursorImage;
-    std::string currentCursor;
     ofTexture m_textureToolbarNewLevel;
     ofTexture m_textureToolbarLoadLevel;
     ofTexture m_textureToolbarSaveLevel;
@@ -73,8 +71,6 @@ private:
     void drawViewports();
     void drawViewport(const std::string& name, int index, const ImVec2& position, const ImVec2& size);
 	void drawViewportOverlay(int index, const ImVec2& position, int availableWidth, int verticalOffset);
-    void drawCursor();
-    void changeCursor();
 
     // Callback functions
 
