@@ -58,6 +58,8 @@ private:
 	AddNodeDialog m_addNodeDialog;
 	DeleteNodeDialog m_deleteNodeDialog;
     HistogramDialog m_histogramDialog;
+    bool m_showSuccessMessage = false;
+	std::string m_successMessage;
 
 
     // Draw functions
@@ -72,14 +74,19 @@ private:
     void drawViewports();
     void drawViewport(const std::string& name, int index, const ImVec2& position, const ImVec2& size);
 	void drawViewportOverlay(int index, const ImVec2& position, int availableWidth, int verticalOffset);
+    void captureFramebuffer(int index, ofPixels& pixels);
 
+    void drawSuccessMessage();
+
+    void showSuccessMessage(const std::string& message);
+    
     // Callback functions
 
     void onAboutProgram();
     void onNewLevel();
     void onLoadLevel();
     void onSaveLevel();
-    void onGenerateAtlas();
+    void onGenerateTriptych();
     void onHistoryUndo();
     void onHistoryRedo();
     void onToggleCameras();

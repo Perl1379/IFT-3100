@@ -41,7 +41,7 @@ void MainWindow::draw() {
 	ofBackground(0);
 
 	// Reset render stats
-	for (int i=0;i<3;i++) {
+	for (int i = 0;i < 3;i++) {
 		Global::m_countNodeRender[i] = 0;
 	}
 
@@ -101,6 +101,9 @@ void MainWindow::cameraDraw(int index) {
 }
 
 
+
+
+
 /**
  * Callback function for handling key pressed events
  */
@@ -123,7 +126,8 @@ void MainWindow::keyPressed(ofKeyEventArgs& key) {
  * Callback function for handling key released events
  */
 void MainWindow::keyReleased(ofKeyEventArgs& key) {
-	if (!key.hasModifier(OF_KEY_CONTROL)) {
+	if (!key.hasModifier(OF_KEY_CONTROL))
+	{
 		int index = getCurrentCameraIndex();
 		if (index == -1) {
 			resetCameraMovement();
@@ -131,8 +135,9 @@ void MainWindow::keyReleased(ofKeyEventArgs& key) {
 		}
 
 		handleCameraInput(false, key, index);
-	} else {
-	// Handle history
+	}
+	else {
+		// Handle history
 
 		if (key.key == 'z' || key.key == 'Z') {
 			Global::m_actions.undo();
@@ -308,7 +313,8 @@ void MainWindow::updateCamera(int index, float deltaTime) {
 	// Allow only if not in ortho mode
 	if (!camera->getOrtho()) {
 		camera->dolly(m_cameraMovement.z * cameraMoveSpeed * deltaTime);  // Move forward/backward
-	} else {
+	}
+	else {
 		// Set zoom
 		camera->setOrthoZoom(camera->getOrthoZoom() - (m_cameraMovement.z * cameraOrthoZoomSpeed * deltaTime));
 	}
@@ -430,7 +436,8 @@ void MainWindow::mouseScrolled(ofMouseEventArgs& args) {
 	// Allow only if not in ortho mode
 	if (!camera->getOrtho()) {
 		camera->dolly(-args.scrollY * zoomSpeed);
-	} else {
+	}
+	else {
 		// Set zoom
 		camera->setOrthoZoom(camera->getOrthoZoom() - (args.scrollY * cameraOrthoZoomSpeed));
 	}
