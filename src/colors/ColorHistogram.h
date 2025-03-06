@@ -11,17 +11,15 @@
 #include "ofMain.h"
 #include "Global.h"
 
-namespace Histo {
-	const int INTENSITY_SPLIT = 10;
-	std::array<int, INTENSITY_SPLIT> intensitySplits{ {25, 50, 75, 100, 125, 150, 175, 200, 225, 250} };
-}
+constexpr auto INTENSITY_SPLIT = 10;
 
 struct ColorStat {
+	std::array<int, INTENSITY_SPLIT> intensitySplits{ {25, 50, 75, 100, 125, 150, 175, 200, 225, 250} };
 	unsigned char totalColors = 37;
 
-	std::array<std::pair<unsigned long int, double>, Histo::INTENSITY_SPLIT> domReds = { { {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}} };
-	std::array<std::pair<unsigned long int, double>, Histo::INTENSITY_SPLIT> domGreens = { { {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}} };
-	std::array<std::pair<unsigned long int, double>, Histo::INTENSITY_SPLIT> domBlues = { { {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}} };
+	std::array<std::pair<unsigned long int, double>, INTENSITY_SPLIT> domReds = { { {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}} };
+	std::array<std::pair<unsigned long int, double>, INTENSITY_SPLIT> domGreens = { { {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}} };
+	std::array<std::pair<unsigned long int, double>, INTENSITY_SPLIT> domBlues = { { {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}, {0,0.0}} };
 
 	unsigned long int reds = 0; //red higher than others
 	unsigned long int blues = 0;
@@ -62,7 +60,7 @@ private:
 	ofFbo m_histogramFbo;
 	ofPixels m_pixels;
 
-	unsigned long int fillArray(std::array<std::pair<unsigned long int, double>, Histo::INTENSITY_SPLIT>& cA, unsigned char val);
+	unsigned long int fillArray(std::array<std::pair<unsigned long int, double>, INTENSITY_SPLIT>& cA, unsigned char val);
 	bool isBiggest(unsigned char c1, unsigned char c2, unsigned char c3);
 	bool isInThreshold(unsigned char c);
 

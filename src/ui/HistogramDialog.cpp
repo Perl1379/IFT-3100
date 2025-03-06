@@ -32,13 +32,12 @@ void HistogramDialog::draw() {
 	if (ImGui::BeginPopupModal(m_title.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 	{
         ImGui::Dummy(ImVec2(0, 5));
-        ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), "This tool counts full colors, not individual channels like one would expect. \nHope you find it fun nonetheless!");
+        ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), "For each pixel, this tool counts which of red, blue, or green is the dominant color. \nIt does not count individual channels like one would expect. \nHope you find it fun nonetheless!");
 
         if (ImGui::Button("Main Camera")) {
 			m_colorStats = m_histograms.at(0).reGenerateHistogram(0);
 			drawHistogram();
 			makeResultText();
-			//m_histogramFbo = m_histograms.at(0).getHistogram();
         }
 		if (!m_onlyOneCamera)
 		{
@@ -47,14 +46,12 @@ void HistogramDialog::draw() {
 				m_colorStats = m_histograms.at(1).reGenerateHistogram(1);
 				drawHistogram();
 				makeResultText();
-				//m_histogramFbo = m_histograms.at(0).getHistogram();
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Camera 3")) {
 				m_colorStats = m_histograms.at(2).reGenerateHistogram(2);
 				drawHistogram();
 				makeResultText();
-				//m_histogramFbo = m_histograms.at(1).getHistogram();
 			}
 		}
 
@@ -109,18 +106,18 @@ void HistogramDialog::drawHistogram()
 	ofDrawRectangle(m_baseX, m_height, m_width, m_height);
 
 	m_dX = 0;
-	for (int c = 0; c < Histo::INTENSITY_SPLIT; c++) {
-		ofSetColor(Histo::intensitySplits.at(c), 0, 0);
+	for (int c = 0; c < INTENSITY_SPLIT; c++) {
+		ofSetColor(m_colorStats.intensitySplits.at(c), 0, 0);
 		ofFill();
 		ofDrawRectangle(m_baseX + (m_dX++ * m_columnW), 0, m_columnW, (m_colorStats.domReds.at(c).second * m_height));
 	}
-	for (int c = 0; c < Histo::INTENSITY_SPLIT; c++) {
-		ofSetColor(0, Histo::intensitySplits.at(c), 0);
+	for (int c = 0; c < INTENSITY_SPLIT; c++) {
+		ofSetColor(0, m_colorStats.intensitySplits.at(c), 0);
 		ofFill();
 		ofDrawRectangle(m_baseX + (m_dX++ * m_columnW), 0, m_columnW, (m_colorStats.domGreens.at(c).second * m_height));
 	}
-	for (int c = 0; c < Histo::INTENSITY_SPLIT; c++) {
-		ofSetColor(0, 0, Histo::intensitySplits.at(c));
+	for (int c = 0; c < INTENSITY_SPLIT; c++) {
+		ofSetColor(0, 0, m_colorStats.intensitySplits.at(c));
 		ofFill();
 		ofDrawRectangle(m_baseX + (m_dX++ * m_columnW), 0, m_columnW, (m_colorStats.domBlues.at(c).second * m_height));
 	}
@@ -145,16 +142,16 @@ void HistogramDialog::makeResultText()
 {
 	clearResultText();
 	m_histogramRedsInfo << "--- dominant reds total : " << m_colorStats.reds << std::endl;
-	for (int i = 0; i < Histo::INTENSITY_SPLIT; i++) {
-		m_histogramRedsInfo << "    < " << Histo::intensitySplits.at(i) << ": " << m_colorStats.domReds.at(i).first << " (" << m_colorStats.domReds.at(i).second << ")" << std::endl;
+	for (int i = 0; i < INTENSITY_SPLIT; i++) {
+		m_histogramRedsInfo << "    < " << m_colorStats.intensitySplits.at(i) << ": " << m_colorStats.domReds.at(i).first << " (" << m_colorStats.domReds.at(i).second << ")" << std::endl;
 	}
 	m_histogramGreensInfo << "| --- dominant greens total : " << m_colorStats.greens << std::endl;
-	for (int i = 0; i < Histo::INTENSITY_SPLIT; i++) {
-		m_histogramGreensInfo << "|      < " << Histo::intensitySplits.at(i) << ": " << m_colorStats.domGreens.at(i).first << " (" << m_colorStats.domGreens.at(i).second << ")" << std::endl;
+	for (int i = 0; i < INTENSITY_SPLIT; i++) {
+		m_histogramGreensInfo << "|      < " << m_colorStats.intensitySplits.at(i) << ": " << m_colorStats.domGreens.at(i).first << " (" << m_colorStats.domGreens.at(i).second << ")" << std::endl;
 	}
 	m_histogramBluesInfo << std::endl << "--- dominant blues total : " << m_colorStats.blues << std::endl;
-	for (int i = 0; i < Histo::INTENSITY_SPLIT; i++) {
-		m_histogramBluesInfo << "    < " << Histo::intensitySplits.at(i) << ": " << m_colorStats.domBlues.at(i).first << " (" << m_colorStats.domBlues.at(i).second << ")" << std::endl;
+	for (int i = 0; i < INTENSITY_SPLIT; i++) {
+		m_histogramBluesInfo << "    < " << m_colorStats.intensitySplits.at(i) << ": " << m_colorStats.domBlues.at(i).first << " (" << m_colorStats.domBlues.at(i).second << ")" << std::endl;
 	}
 	m_histogramInfo << std::endl;
 	m_histogramInfo << "| --- pure black : " << m_colorStats.blacks << " (" << m_colorStats.blacksP << ")" << std::endl;

@@ -112,7 +112,7 @@ ColorStat Histogram::reGenerateHistogram(int viewport)
 /**
 * Record the dominant color value
 */
-unsigned long int Histogram::fillArray(std::array<std::pair<unsigned long int, double>, Histo::INTENSITY_SPLIT>& cA, unsigned char val) {
+unsigned long int Histogram::fillArray(std::array<std::pair<unsigned long int, double>, INTENSITY_SPLIT>& cA, unsigned char val) {
 	if (val < 25) {
 		return cA.at(0).first++;
 	}
