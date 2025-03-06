@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Knight Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -35,5 +35,6 @@ std::vector<NodeProperty> GroupNode::getProperties() const {
  * Get bounding box for current node
  */
 ofVec3f GroupNode::getBoundingBox() const {
-    return {10.0, 10.0, 10.0};
+    return {500.0, 500.0, 500.0};
 }
+

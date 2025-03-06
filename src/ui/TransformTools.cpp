@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Knight Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -36,6 +36,20 @@ TransformTools::TransformTools() {
     m_cubePrimitives[2].setScale(m_cubePrimitivesScale);
     m_cubePrimitives[3].setScale(m_cubePrimitivesScale);
 
+    m_conePrimitivesObjectPicking[0].setScale(m_conePrimitivesScaleObjectPicking);
+    m_conePrimitivesObjectPicking[0].setOrientation(glm::vec3(0, 0, 90));
+    m_conePrimitivesObjectPicking[1].setScale(m_conePrimitivesScaleObjectPicking);
+    m_conePrimitivesObjectPicking[1].setOrientation(glm::vec3(180, 0, 0));
+    m_conePrimitivesObjectPicking[2].setScale(m_conePrimitivesScaleObjectPicking);
+    m_conePrimitivesObjectPicking[2].setOrientation(glm::vec3(-90, 0, 0));
+    m_spherePrimitivesObjectPicking[0].setScale(m_spherePrimitivesScaleObjectPicking);
+    m_spherePrimitivesObjectPicking[1].setScale(m_spherePrimitivesScaleObjectPicking);
+    m_spherePrimitivesObjectPicking[2].setScale(m_spherePrimitivesScaleObjectPicking);
+    m_cubePrimitivesObjectPicking[0].setScale(m_cubePrimitivesScaleObjectPicking);
+    m_cubePrimitivesObjectPicking[1].setScale(m_cubePrimitivesScaleObjectPicking);
+    m_cubePrimitivesObjectPicking[2].setScale(m_cubePrimitivesScaleObjectPicking);
+    m_cubePrimitivesObjectPicking[3].setScale(m_cubePrimitivesScaleObjectPicking);
+
 }
 
 /**
@@ -49,8 +63,8 @@ void TransformTools::draw(bool p_objectPicking) {
     ofDisableDepthTest();
 
     m_transform.transformGL();
-    m_transform.setOrientation(node->getTransform().getOrientationEulerDeg());
-    m_transform.setPosition(node->getTransform().getPosition());
+    m_transform.setOrientation(node->getTransform().getGlobalOrientation());
+    m_transform.setPosition(node->getTransform().getGlobalPosition());
 
 
     switch(m_transformMode) {
@@ -79,7 +93,7 @@ void TransformTools::draw(bool p_objectPicking) {
 void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
 
     glm::vec3 pos(0,0,0);
-    auto scale = node->getTransform().getScale();
+    auto scale = node->getTransform().getGlobalScale();
     auto length = node->getBoundingBox() * 0.5;
 
     if (p_objectPicking) {
@@ -87,9 +101,15 @@ void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
     } else {
         m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
     }
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(abs(length[0] * scale.x), 0.0, 0.0));
-    m_conePrimitives[0].setPosition(pos + glm::vec3(abs(length[0] * scale.x), 0.0, 0.0));
-    m_conePrimitives[0].draw();
+
+    if (p_objectPicking) {
+        m_conePrimitivesObjectPicking[0].setPosition(pos + glm::vec3(abs(length[0] * scale.x), 0.0, 0.0));
+        m_conePrimitivesObjectPicking[0].draw();
+    } else {
+        ofDrawLine(pos, pos + glm::vec3(abs(length[0] * scale.x), 0.0, 0.0));
+        m_conePrimitives[0].setPosition(pos + glm::vec3(abs(length[0] * scale.x), 0.0, 0.0));
+        m_conePrimitives[0].draw();
+    }
 
     if (p_objectPicking) {
         m_materialUnlit.setEmissiveColor(Global::idToColor(TRANSLATE_Y));
@@ -97,9 +117,14 @@ void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 1.0, 0.0));
     }
 
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, abs(length[1] * scale.y), 0.0));
-    m_conePrimitives[1].setPosition(pos + glm::vec3(0, abs(length[1] * scale.y), 0.0));
-    m_conePrimitives[1].draw();
+    if (p_objectPicking) {
+        m_conePrimitivesObjectPicking[1].setPosition(pos + glm::vec3(0, abs(length[1] * scale.y), 0.0));
+        m_conePrimitivesObjectPicking[1].draw();
+    } else {
+        ofDrawLine(pos, pos + glm::vec3(0.0, abs(length[1] * scale.y), 0.0));
+        m_conePrimitives[1].setPosition(pos + glm::vec3(0, abs(length[1] * scale.y), 0.0));
+        m_conePrimitives[1].draw();
+    }
 
     if (p_objectPicking) {
         m_materialUnlit.setEmissiveColor(Global::idToColor(TRANSLATE_Z));
@@ -107,9 +132,15 @@ void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 0.0, 1.0));
     }
 
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, abs(length[2] * scale.z)));
-    m_conePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, abs(length[2] * scale.z)));
-    m_conePrimitives[2].draw();
+    if (p_objectPicking) {
+        m_conePrimitivesObjectPicking[2].setPosition(pos + glm::vec3(0.0, 0.0, abs(length[2] * scale.z)));
+        m_conePrimitivesObjectPicking[2].draw();
+    } else {
+        ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, abs(length[2] * scale.z)));
+        m_conePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, abs(length[2] * scale.z)));
+        m_conePrimitives[2].draw();
+
+    }
 
 }
 
@@ -129,12 +160,16 @@ void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
     } else {
         m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
     }
-    if (!p_objectPicking) {
-        ofDrawCircle(pos, length[0] * scale.x);
-    }
 
-    m_spherePrimitives[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
-    m_spherePrimitives[0].draw();
+    if (p_objectPicking) {
+        m_spherePrimitivesObjectPicking[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
+        m_spherePrimitivesObjectPicking[0].draw();
+
+    } else {
+        ofDrawCircle(pos, length[0] * scale.x);
+        m_spherePrimitives[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
+        m_spherePrimitives[0].draw();
+    }
 
     if (p_objectPicking) {
         m_materialUnlit.setEmissiveColor(Global::idToColor(ROTATE_Y));
@@ -142,14 +177,18 @@ void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 1.0, 0.0));
     }
 
-    if (!p_objectPicking) {
-       ofPushMatrix();
-       ofRotateYDeg(90);
-       ofDrawCircle(pos, length[1] * scale.y);
-       ofPopMatrix();;
+    if (p_objectPicking) {
+        m_spherePrimitivesObjectPicking[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
+        m_spherePrimitivesObjectPicking[1].draw();
+    } else {
+        ofPushMatrix();
+        ofRotateYDeg(90);
+        ofDrawCircle(pos, length[1] * scale.y);
+        ofPopMatrix();;
+        m_spherePrimitives[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
+        m_spherePrimitives[1].draw();
+
     }
-    m_spherePrimitives[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
-    m_spherePrimitives[1].draw();
 
     if (p_objectPicking) {
         m_materialUnlit.setEmissiveColor(Global::idToColor(ROTATE_Z));
@@ -157,14 +196,17 @@ void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 0.0, 1.0));
     }
 
-    if (!p_objectPicking) {
+    if (p_objectPicking) {
+        m_spherePrimitivesObjectPicking[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
+        m_spherePrimitivesObjectPicking[2].draw();
+    } else {
         ofPushMatrix();
         ofRotateXDeg(90);
         ofDrawCircle(pos, length[2] * scale.z);
         ofPopMatrix();;
+        m_spherePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
+        m_spherePrimitives[2].draw();
     }
-    m_spherePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
-    m_spherePrimitives[2].draw();
 
 }
 
@@ -183,9 +225,15 @@ void TransformTools::drawScale(bool p_objectPicking, BaseNode* node)  {
     } else {
         m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
     }
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
-    m_cubePrimitives[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
-    m_cubePrimitives[0].draw();
+
+    if (p_objectPicking) {
+        m_cubePrimitivesObjectPicking[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
+        m_cubePrimitivesObjectPicking[0].draw();
+    } else {
+        ofDrawLine(pos, pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
+        m_cubePrimitives[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
+        m_cubePrimitives[0].draw();
+    }
 
     if (p_objectPicking) {
         m_materialUnlit.setEmissiveColor(Global::idToColor(SCALE_Y));
@@ -193,9 +241,14 @@ void TransformTools::drawScale(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 1.0, 0.0));
     }
 
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, length[1] * scale.y, 0.0));
-    m_cubePrimitives[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
-    m_cubePrimitives[1].draw();
+    if (p_objectPicking) {
+        m_cubePrimitivesObjectPicking[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
+        m_cubePrimitivesObjectPicking[1].draw();
+    } else {
+        ofDrawLine(pos, pos + glm::vec3(0.0, length[1] * scale.y, 0.0));
+        m_cubePrimitives[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
+        m_cubePrimitives[1].draw();
+    }
 
     if (p_objectPicking) {
         m_materialUnlit.setEmissiveColor(Global::idToColor(SCALE_Z));
@@ -203,9 +256,14 @@ void TransformTools::drawScale(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 0.0, 1.0));
     }
 
-    if (!p_objectPicking) ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
-    m_cubePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
-    m_cubePrimitives[2].draw();
+    if (p_objectPicking) {
+        m_cubePrimitivesObjectPicking[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
+        m_cubePrimitivesObjectPicking[2].draw();
+    } else {
+        ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
+        m_cubePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
+        m_cubePrimitives[2].draw();
+    }
 
     if (p_objectPicking) {
         m_materialUnlit.setEmissiveColor(Global::idToColor(SCALE_ALL));
@@ -213,8 +271,13 @@ void TransformTools::drawScale(bool p_objectPicking, BaseNode* node)  {
         m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 1.0));
     }
 
-    m_cubePrimitives[2].setPosition(pos);
-    m_cubePrimitives[2].draw();
+    if (p_objectPicking) {
+        m_cubePrimitivesObjectPicking[2].setPosition(pos);
+        m_cubePrimitivesObjectPicking[2].draw();
+    } else {
+        m_cubePrimitives[2].setPosition(pos);
+        m_cubePrimitives[2].draw();
+    }
 
 }
 
@@ -256,98 +319,75 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
     glm::vec3 cameraRight = Global::m_cameras[m_camera_index].getCamera()->getXAxis();
     glm::vec3 cameraUp = Global::m_cameras[m_camera_index].getCamera()->getYAxis();
     glm::vec3 cameraForward = Global::m_cameras[m_camera_index].getCamera()->getZAxis();
+    glm::vec3 nodeUp = node->getTransform().getYAxis();
+    glm::vec3 nodeRight = node->getTransform().getXAxis();
+    glm::vec3 nodeForward = node->getTransform().getZAxis();
 
 
     // Depending on the selected axis, update the position
     switch(m_currentTransformPixelColor) {
         case TRANSLATE_X: {
-            if (cameraRight.x < 0) {
-                node->getTransform().truck(-diff.x * mouseSpeedTranslate);
-            } else {
-                node->getTransform().truck(diff.x * mouseSpeedTranslate);
-            }
+            float rightDirection = glm::dot(nodeRight, cameraRight);
+            node->getTransform().truck(diff.x * mouseSpeedTranslate * glm::sign(rightDirection));
         }
         break;
 
         case TRANSLATE_Y: {
-            if (cameraUp.y < 0) {
-                node->getTransform().boom(diff.y * mouseSpeedTranslate);
-            } else {
-                node->getTransform().boom(-diff.y * mouseSpeedTranslate);
-            }
+
+            float upDirection = glm::dot(nodeUp, cameraUp);
+            node->getTransform().boom(-diff.y * mouseSpeedTranslate * glm::sign(upDirection));
+
         }
         break;
 
         case TRANSLATE_Z: {
-            if (cameraForward.y < 0) {
-                node->getTransform().dolly(diff.x * mouseSpeedTranslate);
-            } else {
-                node->getTransform().dolly(-diff.x * mouseSpeedTranslate);
-            }
+            float forwardDirection = glm::dot(nodeForward, cameraForward);
+            node->getTransform().dolly(diff.x * mouseSpeedTranslate * glm::sign(forwardDirection));
         }
         break;
 
         case ROTATE_X: {
 
-            if (cameraRight.x < 0) {
-                node->getTransform().rotateDeg(-diff.x * mouseSpeedRotate, node->getTransform().getZAxis());
-            } else {
-                node->getTransform().rotateDeg(diff.x * mouseSpeedRotate, node->getTransform().getZAxis());
-            }
+            float rightDirection = glm::dot(cameraRight, nodeForward);
+            node->getTransform().rotateDeg(glm::sign(rightDirection) * -diff.x * mouseSpeedRotate, nodeForward);
+
         }
         break;
-
         case ROTATE_Y: {
-            if (cameraUp.y < 0) {
-                node->getTransform().rotateDeg(-diff.y * mouseSpeedRotate, node->getTransform().getXAxis());
-            } else {
-                node->getTransform().rotateDeg(diff.y * mouseSpeedRotate, node->getTransform().getXAxis());
-            }
+
+            float upDirection = glm::dot(cameraUp, nodeRight);
+            node->getTransform().rotateDeg(glm::sign(upDirection) * -diff.y * mouseSpeedRotate, nodeRight);
         }
         break;
 
         case ROTATE_Z: {
-            if (cameraForward.y < 0) {
-                node->getTransform().rotateDeg(-diff.x * mouseSpeedRotate, node->getTransform().getYAxis());
-            } else {
-                node->getTransform().rotateDeg(diff.x * mouseSpeedRotate, node->getTransform().getYAxis());
-            }
+            float forwardDirection = glm::dot(cameraForward, nodeUp);
+            node->getTransform().rotateDeg(glm::sign(forwardDirection) * -diff.x * mouseSpeedRotate, nodeUp);
         }
         break;
 
         case SCALE_X: {
-
-           glm::vec3 scale = node->getTransform().getScale();
-            if (cameraRight.x < 0) {
-                scale.x -= diff.x * mouseSpeedScale;
-            } else {
-                scale.x += diff.x * mouseSpeedScale;
-            }
+            float rightDirection = glm::dot(cameraRight, nodeRight);
+            glm::vec3 scale = node->getTransform().getScale();
+            scale.x += glm::sign(rightDirection) * diff.x * mouseSpeedScale;
             node->getTransform().setScale(scale);
         }
         break;
 
         case SCALE_Y: {
-           glm::vec3 scale = node->getTransform().getScale();
-            if (cameraUp.y < 0) {
-                scale.y += diff.y * mouseSpeedScale;
-            } else {
-                scale.y -= diff.y * mouseSpeedScale;
-            }
+            float upDirection = glm::dot(cameraUp, nodeUp);
+            glm::vec3 scale = node->getTransform().getScale();
+            scale.y += glm::sign(upDirection) * diff.y * mouseSpeedScale;
             node->getTransform().setScale(scale);
         }
         break;
 
         case SCALE_Z: {
-           glm::vec3 scale = node->getTransform().getScale();
-            if (cameraForward.y < 0) {
-                scale.z += diff.x * mouseSpeedScale;
-            } else {
-                scale.z -= diff.x * mouseSpeedScale;
-            }
+            float forwardDirection = glm::dot(cameraForward, nodeForward);
+            glm::vec3 scale = node->getTransform().getScale();
+            scale.z += glm::sign(forwardDirection) * diff.x * mouseSpeedScale;
             node->getTransform().setScale(scale);
         }
-        break;
 
         case SCALE_ALL: {
             glm::vec3 scale = node->getTransform().getScale();

@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Knight Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -291,7 +291,7 @@ void BaseNode::displayNode(bool p_display) {
  * Get bounding box for current node
  */
 ofVec3f BaseNode::getBoundingBox() const {
-	return {10.0, 10.0, 10.0};
+	return {100.0, 100.0, 100.0};
 }
 
 

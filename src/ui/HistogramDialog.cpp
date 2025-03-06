@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Knight Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -33,6 +33,7 @@ void HistogramDialog::draw() {
 	{
         ImGui::Dummy(ImVec2(0, 5));
         ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), "For each pixel, this tool counts which of red, blue, or green is the dominant color. \nIt does not count individual channels like one would expect. \nHope you find it fun nonetheless!");
+		ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
         if (ImGui::Button("Main Camera")) {
 			m_colorStats = m_histograms.at(0).reGenerateHistogram(0);
@@ -54,6 +55,7 @@ void HistogramDialog::draw() {
 				makeResultText();
 			}
 		}
+        ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
 		ImGui::SetNextItemWidth((float)200.0);
 		ImGui::Image((ImTextureID)(intptr_t)m_histogramFbo.getTexture().getTextureData().textureID, ImVec2(m_guiWidth, m_guiHeight));
@@ -74,8 +76,7 @@ void HistogramDialog::draw() {
         ImGui::Dummy(ImVec2(0.0f, 5.0f));
         ImGui::Separator();
         ImGui::Dummy(ImVec2(0.0f, 5.0f));
-        ImGui::SetCursorPosX(100);
-        ImGui::SameLine();
+		ImGui::SetCursorPosX(280);
 
         if (ImGui::Button("Close"))
         {
@@ -93,6 +94,10 @@ void HistogramDialog::draw() {
 	}
 }
 
+
+/**
+ * Draw histogram
+ */
 void HistogramDialog::drawHistogram()
 {
 	m_histogramFbo.begin();
@@ -138,6 +143,10 @@ void HistogramDialog::drawHistogram()
 	m_histogramFbo.end();
 }
 
+
+/**
+ * Make result (texte)
+ */
 void HistogramDialog::makeResultText()
 {
 	clearResultText();
