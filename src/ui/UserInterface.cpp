@@ -11,6 +11,8 @@
 #include <imgui_internal.h>
 #include <ofAppRunner.h>
 #include <ofGraphics.h>
+#include <sys/stat.h>
+
 #include "Global.h"
 
  /**
@@ -270,13 +272,18 @@ void UserInterface::drawToolbar() {
 			if (Global::m_sequenceCount == -1) {
 
 				Global::m_sequenceCount = 0;
+				Global::m_sequenceName = "record_" + ofGetTimestampString("%y%m%d-%H%M%S-%i");
+				std::string filePath = ofToDataPath("output/" + Global::m_sequenceName, true);
+				mkdir(filePath.c_str(), 0777);
+
+				Global::m_sequenceTotalDelta = 0.0f;
 
 			} else {
 				Global::m_sequenceCount = -1;
 			}
 
-
 		}
+
 		if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(sequence_tooltip);
 		ImGui::SameLine();
 

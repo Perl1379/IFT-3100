@@ -296,6 +296,9 @@ void MainWindow::update() {
 	updateCamera(index, deltaTime);
 	Global::m_transformTools.setCameraIndex(index);
 
+	// Record main camera
+
+
 }
 
 
