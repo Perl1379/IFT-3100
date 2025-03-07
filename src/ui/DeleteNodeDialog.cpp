@@ -28,6 +28,7 @@ DeleteNodeDialog::DeleteNodeDialog() : ModalDialog() {
 void DeleteNodeDialog::draw() {
     if (ImGui::BeginPopupModal(m_title.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize))
     {
+        ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), "Warning: this action cannot be undone!");
         ImGui::Text("Are you sure you want to continue?");
 
         ImGui::Dummy(ImVec2(0.0f, 5.0f));
