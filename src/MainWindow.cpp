@@ -296,6 +296,21 @@ void MainWindow::update() {
 	updateCamera(index, deltaTime);
 	Global::m_transformTools.setCameraIndex(index);
 
+	// Record main camera
+	if (Global::m_sequenceCount != -1) {
+		Global::m_sequenceTotalDelta += deltaTime;
+		if (Global::m_sequenceTotalDelta >= Global::m_sequenceInterval) {
+			Global::m_sequenceTotalDelta -= Global::m_sequenceInterval;
+			ofPixels pixels;
+			Global::m_cameras[0].getFbo()->readToPixels(pixels);
+			ofSaveImage(pixels,	"output/" + Global::m_sequenceName + "/" + std::to_string(Global::m_sequenceCount) + ".png");
+			Global::m_sequenceCount++;
+			if (Global::m_sequenceCount == 60) {
+				Global::m_sequenceCount = -1;
+			}
+		}
+	}
+
 }
 
 
