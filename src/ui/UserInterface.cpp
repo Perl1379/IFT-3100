@@ -349,10 +349,7 @@ void UserInterface::drawTreeActions() {
 */
 void UserInterface::drawTreeElement(BaseNode* node) {
 	ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Always);
-	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Bullet;
-	if (node->getChildren().size() == 0) {
-		flags |= ImGuiTreeNodeFlags_Leaf;
-	}
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_Leaf;
 
 	if (Global::m_selectedNode == node->getId()) {
 		flags |= ImGuiTreeNodeFlags_Selected;
@@ -444,7 +441,7 @@ void UserInterface::drawProperties() {
 			ImGui::SameLine(110);
 
 			ImVec4 imColor = color;
-			if (ImGui::ColorButton(("...##" + std::to_string(count)).c_str(), imColor, 0, ImVec2(272, 16))) {
+			if (ImGui::ColorButton(("...##" + std::to_string(count)).c_str(), imColor, ImGuiColorEditFlags_AlphaPreview, ImVec2(272, 16))) {
 				m_colorDialog.setTitle("Change " + property.getName());
 				m_colorDialog.useProperty(selectedNode, property.getName(), color);
 				m_colorDialog.openDialog();
