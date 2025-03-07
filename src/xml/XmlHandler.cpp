@@ -31,7 +31,7 @@ void XmlHandler::load(string path)
 {
 
 	if (XML.loadFile(path)) {
-		// Le fichier XML a été loader avec succès
+		// Le fichier XML a ete loader avec succes
 	}
 	else {
 		// Le fichier XML n'existe pas
@@ -42,9 +42,13 @@ void XmlHandler::load(string path)
 
 void XmlHandler::createNewFile(string path)
 {
+	if (path.empty()) {
+		path = "Default.xml";
+	}
+	XML.clear();
 	setFilePath(path);
 	if (XML.loadFile(filePath)) {
-		// Le fichier XML a été loader avec succès donc un XML existait déjà. Vidons le pour qu'il soit à nouveau vide.
+		// Le fichier XML a ete loader avec succes donc un XML existait deja. Vidons le pour qu'il soit a nouveau vide.
 		XML.clear();
 		save();
 	}
@@ -103,14 +107,14 @@ bool XmlHandler::getThirdCameraOrtho()
 }
 
 
-void XmlHandler::setFirstCameraPosition(int x, int y, int z)
+void XmlHandler::setFirstCameraPosition(float x, float y, float z)
 {
 	XML.setValue("CAMERA:FIRST:POSITION:X", x);
 	XML.setValue("CAMERA:FIRST:POSITION:Y", y);
 	XML.setValue("CAMERA:FIRST:POSITION:Z", z);
 }
 
-void XmlHandler::setFirstCameraOrientation(int x, int y, int z)
+void XmlHandler::setFirstCameraOrientation(float x, float y, float z)
 {
 	XML.setValue("CAMERA:FIRST:ORIENTATION:X", x);
 	XML.setValue("CAMERA:FIRST:ORIENTATION:Y", y);
@@ -123,14 +127,14 @@ void XmlHandler::setFirstCameraOrtho(bool isOrtho)
 }
 
 
-void XmlHandler::setSecondCameraPosition(int x, int y, int z)
+void XmlHandler::setSecondCameraPosition(float x, float y, float z)
 {
 	XML.setValue("CAMERA:SECOND:POSITION:X", x);
 	XML.setValue("CAMERA:SECOND:POSITION:Y", y);
 	XML.setValue("CAMERA:SECOND:POSITION:Z", z);
 }
 
-void XmlHandler::setSecondCameraOrientation(int x, int y, int z)
+void XmlHandler::setSecondCameraOrientation(float x, float y, float z)
 {
 	XML.setValue("CAMERA:SECOND:ORIENTATION:X", x);
 	XML.setValue("CAMERA:SECOND:ORIENTATION:Y", y);
@@ -143,14 +147,14 @@ void XmlHandler::setSecondCameraOrtho(bool isOrtho)
 }
 
 
-void XmlHandler::setThirdCameraPosition(int x, int y, int z)
+void XmlHandler::setThirdCameraPosition(float x, float y, float z)
 {
 	XML.setValue("CAMERA:THIRD:POSITION:X", x);
 	XML.setValue("CAMERA:THIRD:POSITION:Y", y);
 	XML.setValue("CAMERA:THIRD:POSITION:Z", z);
 }
 
-void XmlHandler::setThirdCameraOrientation(int x, int y, int z)
+void XmlHandler::setThirdCameraOrientation(float x, float y, float z)
 {
 	XML.setValue("CAMERA:THIRD:ORIENTATION:X", x);
 	XML.setValue("CAMERA:THIRD:ORIENTATION:Y", y);
@@ -162,13 +166,89 @@ void XmlHandler::setThirdCameraOrtho(bool isOrtho)
 	XML.setValue("CAMERA:THIRD:ORTHO", isOrtho);
 }
 
-
-void XmlHandler::setNodeProperty(int p_id, string p_name, string p_value)
+void XmlHandler::setNodesProperties()
 {
-	XML.setValue("NODE:" + to_string(p_id) + ":" + p_name, p_value);
+	XML.addTag("Nodes");
+	XML.pushTag("Nodes");
+	for (BaseNode* child : Global::m_level.getTree()->getChildren()) {
+		addNodeProperties(child);
+	} 
+	XML.popTag();
 }
 
-string XmlHandler::getNodeProperty(int p_id, string p_name)
+void XmlHandler::addChild(BaseNode* parent) 
 {
-	return XML.getValue("NODE:" + to_string(p_id) + ":" + p_name, "NULL");
+	for (BaseNode* child : parent->getChildren()) {
+		addNodeProperties(child);
+	}
+}
+
+void XmlHandler::addNodeProperties(BaseNode* child) {
+	int which = XML.addTag("Node");
+	XML.pushTag("Node", which);
+	XML.addTag("Properties");
+	XML.pushTag("Properties");
+	auto properties = child->getProperties();
+	for (NodeProperty property : properties) {
+		int x = XML.addTag("Property");
+		XML.pushTag("Property", x);
+		XML.addValue("Name", property.getName());
+		XML.addValue("Type", property.getType());
+		setNodePropertyValue(property);
+
+		XML.popTag();
+	}
+	XML.popTag();
+	if (!child->getChildren().empty()) {
+		int x = XML.addTag("Childrens");
+		XML.pushTag("Childrens", x);
+		addChild(child);
+		XML.popTag();
+	}
+	else {
+		XML.addTag("Childrens");
+	}
+
+	XML.popTag();
+}
+
+void XmlHandler::setNodePropertyValue(NodeProperty property) {
+	if (property.getType() == PROPERTY_TYPE::TEXT_FIELD) {
+		XML.addValue("Value", std::any_cast<string> (property.getValue()));
+	}
+
+	if (property.getType() == PROPERTY_TYPE::VECTOR3) {
+		auto value = std::any_cast<glm::vec3>(property.getValue());
+		XML.addValue("Value", to_string(value.x) + "," + to_string(value.y) + "," + to_string(value.z));
+	}
+
+	if (property.getType() == PROPERTY_TYPE::COLOR_PICKER) {
+		auto value = std::any_cast<ofFloatColor>(property.getValue());
+		XML.addValue("Value", to_string(value.r) + "," + to_string(value.g) + "," + to_string(value.b) + "," + to_string(value.a));
+	}
+
+	if (property.getType() == PROPERTY_TYPE::FLOAT_FIELD) {
+		XML.addValue("Value", std::any_cast<float>(property.getValue()));
+	}
+
+	if (property.getType() == PROPERTY_TYPE::LABEL) {
+		XML.addValue("Value", "");
+	}
+
+	if (property.getType() == PROPERTY_TYPE::BOOLEAN_FIELD) {
+		XML.addValue("Value", std::any_cast<bool>(property.getValue()));
+	}
+
+	if (property.getType() == PROPERTY_TYPE::INT_FIELD) {
+		XML.addValue("Value", std::any_cast<int>(property.getValue()));
+	}
+
+	if (property.getType() == PROPERTY_TYPE::ITEM_LIST) {
+		auto value = std::any_cast<std::vector<std::string>>(property.getValue());
+
+		int initialSelection = stoi(value.back());
+		int currentItem = initialSelection;
+
+		XML.addValue("Value", currentItem);
+	}
 }

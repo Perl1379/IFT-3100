@@ -3,6 +3,8 @@
 #include "ofxXmlSettings.h"
 #include "iostream"
 #include "mutex"
+#include <BaseNode.h>
+#include <Global.h>
 
 class XmlHandler
 {
@@ -13,6 +15,12 @@ private:
 
 	string filePath;
 	void setFilePath(string path);
+
+	void addChild(BaseNode* child);
+
+	void addNodeProperties(BaseNode* child);
+
+	void setNodePropertyValue(NodeProperty property);
 
 public:
 	XmlHandler(const XmlHandler& obj) = delete;
@@ -25,18 +33,18 @@ public:
 	void load(string path);
 	void createNewFile(string path);
 
-	// Début des fonctions lié au attribut caméra avec XML
+	// Dï¿½but des fonctions lie au attribut camï¿½ra avec XML
 
-	void setFirstCameraPosition(int x, int y, int z);
-	void setFirstCameraOrientation(int x, int y, int z);
+	void setFirstCameraPosition(float x, float y, float z);
+	void setFirstCameraOrientation(float x, float y, float z);
 	void setFirstCameraOrtho(bool isOrtho);
 
-	void setSecondCameraPosition(int x, int y, int z);
-	void setSecondCameraOrientation(int x, int y, int z);
+	void setSecondCameraPosition(float x, float y, float z);
+	void setSecondCameraOrientation(float x, float y, float z);
 	void setSecondCameraOrtho(bool isOrtho);
 
-	void setThirdCameraPosition(int x, int y, int z);
-	void setThirdCameraOrientation(int x, int y, int z);
+	void setThirdCameraPosition(float x, float y, float z);
+	void setThirdCameraOrientation(float x, float y, float z);
 	void setThirdCameraOrtho(bool isOrtho);
 
 	ofVec3f getFirstCameraPosition();
@@ -51,14 +59,13 @@ public:
 	ofVec3f getThirdCameraOrientation();
 	bool getThirdCameraOrtho();
 
-	// Fin des fonctions lié au caméra
+	// Fin des fonctions lie au camï¿½ra
 
-	// Début des fonctions lié au Node
-		
-	void setNodeProperty(int p_id, string p_name, string p_value);
-	string getNodeProperty(int p_id, string p_name);
+	// Dï¿½but des fonctions lie au Node
 
-	// Fin des fonctions lié au Node
+	void setNodesProperties();
+
+	// Fin des fonctions lie au Node
 };
 
 XmlHandler* XmlHandler::instancePtr = nullptr;

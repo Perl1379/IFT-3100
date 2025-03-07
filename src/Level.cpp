@@ -17,6 +17,7 @@
 #include "ModelNode.h"
 #include "CylinderNode.h"
 #include "ConeNode.h"
+#include "XmlHandler.h"
 
  /**
   * Constructor
@@ -62,7 +63,35 @@ bool Level::loadFromFile(const std::string& filename)
  */
 bool Level::saveToFile(const std::string& filename)
 {
-	return false;
+	XmlHandler* xmlHandler = XmlHandler::getInstance();
+	xmlHandler->createNewFile(filename);
+	int x = 0;
+	for (Camera camera : Global::m_cameras) {
+		auto position = camera.getCamera()->getPosition();
+		auto orientation = camera.getCamera()->getGlobalOrientation();
+		bool isOrtho = camera.getCamera()->getOrtho();
+		if (x == 0) {
+			xmlHandler->setFirstCameraPosition(position.x, position.y, position.z);
+			xmlHandler->setFirstCameraOrientation(orientation.x, orientation.y, orientation.z);
+			xmlHandler->setFirstCameraOrtho(isOrtho);
+		}
+		if (x == 1) {
+			xmlHandler->setSecondCameraPosition(position.x, position.y, position.z);
+			xmlHandler->setSecondCameraOrientation(orientation.x, orientation.y, orientation.z);
+			xmlHandler->setSecondCameraOrtho(isOrtho);
+		}
+		if (x == 2) {
+			xmlHandler->setThirdCameraPosition(position.x, position.y, position.z);
+			xmlHandler->setThirdCameraOrientation(orientation.x, orientation.y, orientation.z);
+			xmlHandler->setThirdCameraOrtho(isOrtho);
+		}
+
+		++x;
+	}
+	xmlHandler->setNodesProperties();
+	xmlHandler->save();
+
+	return true;
 }
 
 
