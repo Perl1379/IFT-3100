@@ -166,7 +166,9 @@ void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
         m_spherePrimitivesObjectPicking[0].draw();
 
     } else {
+        ofNoFill();
         ofDrawCircle(pos, length[0] * scale.x);
+        ofFill();
         m_spherePrimitives[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
         m_spherePrimitives[0].draw();
     }
@@ -183,7 +185,9 @@ void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
     } else {
         ofPushMatrix();
         ofRotateYDeg(90);
+        ofNoFill();
         ofDrawCircle(pos, length[1] * scale.y);
+        ofFill();
         ofPopMatrix();;
         m_spherePrimitives[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
         m_spherePrimitives[1].draw();
@@ -202,7 +206,9 @@ void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
     } else {
         ofPushMatrix();
         ofRotateXDeg(90);
+        ofNoFill();
         ofDrawCircle(pos, length[2] * scale.z);
+        ofFill();
         ofPopMatrix();;
         m_spherePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
         m_spherePrimitives[2].draw();

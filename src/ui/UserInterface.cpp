@@ -869,7 +869,17 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2& position, int a
 
 	float overlayWidth = 378.0f;
 	ImDrawList* drawList = ImGui::GetWindowDrawList();
+
+
 	drawList->AddRectFilled(position + ImVec2(10, verticalOffset - 2.0f), position + ImVec2(availableWidth - 10, verticalOffset + 21), IM_COL32(35, 35, 35, 255));
+
+
+	// Draw recording message
+	if ((index == 0) && (Global::m_sequenceCount != -1)) {
+		std::string recordMessage = "Recording ... (" + std::to_string(Global::m_sequenceCount) + "/60)";
+		drawList->AddRectFilled(position + ImVec2(10,43), position + ImVec2(168, 64), IM_COL32(35, 35, 35, 255));
+		drawList->AddText(position + ImVec2(17,47), ImColor(255, 0, 0), recordMessage.c_str() );
+	}
 
 	ImGui::SetCursorPos(ImVec2(availableWidth - overlayWidth, verticalOffset));
 	ImGui::BeginGroup();
@@ -944,6 +954,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2& position, int a
 		ImGui::SetTooltip(Global::m_tooltipMessages.camera_reset);
 	}
 	ImGui::SameLine();
+
 
 	// Draw transform buttons
 	if ((index == 0) && (Global::m_selectedNode != -1)) {

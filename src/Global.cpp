@@ -20,7 +20,7 @@ ActionManager Global::m_actions;
 bool Global::m_selectedFromViewport = false;
 TooltipMessages Global::m_tooltipMessages;
 CursorManager Global::m_cursorManager;
-float Global::m_sequenceInterval = 0.1;
+float Global::m_sequenceInterval = 0.5;
 int Global::m_sequenceCount = -1;
 std::string Global::m_sequenceName = "";
 float Global::m_sequenceTotalDelta = 0;
