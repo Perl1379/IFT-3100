@@ -162,7 +162,8 @@ void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 	}
 
 	if (p_name == "Diffuse Color") {
-		m_materialNode.setDiffuseColor(std::any_cast<ofFloatColor>(p_value));
+		ofFloatColor d = std::any_cast<ofFloatColor>(p_value);
+		m_materialNode.setDiffuseColor(d);
 	}
 
 	if (p_name == "Ambient Color") {
@@ -239,6 +240,8 @@ void BaseNode::removeChild(int p_index) {
 void BaseNode::beginDraw(bool p_objectPicking) {
 
 	if (!p_objectPicking) {
+		ofEnableAlphaBlending();
+	
 		m_materialNode.begin();
 	}
 	else {
@@ -255,7 +258,7 @@ int BaseNode::endDraw(bool p_objectPicking, Camera* p_camera) {
 	int count = 0;
 	if (!p_objectPicking) {
 		m_materialNode.end();
-
+		ofDisableAlphaBlending();
 		if (m_displayBoundingBox) {
 			m_materialUnlit.begin();
 			drawBoundingBox();
