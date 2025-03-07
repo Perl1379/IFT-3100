@@ -20,6 +20,8 @@ ActionManager Global::m_actions;
 bool Global::m_selectedFromViewport = false;
 TooltipMessages Global::m_tooltipMessages;
 CursorManager Global::m_cursorManager;
+float Global::m_sequenceInterval = 0.1;
+int Global::m_sequenceCount = -1;
 
 /**
  * Setup global singleton object
