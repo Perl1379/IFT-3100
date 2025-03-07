@@ -1014,7 +1014,7 @@ void UserInterface::onLoadLevel() {
  * Callback function : Save level
  */
 void UserInterface::onSaveLevel() {
-	// TODO
+	Global::m_level.saveToFile("Default.xml");
 }
 
 
