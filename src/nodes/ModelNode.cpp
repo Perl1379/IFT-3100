@@ -49,6 +49,8 @@ void ModelNode::setPosition(float p_x, float p_y, float p_z)
  */
 int ModelNode::draw(bool p_objectPicking, Camera* p_camera)
 {
+	if (!getDisplayNode()) return 0; //nothing to draw if the user hid the node
+
 	int count = 0;
 	beginDraw(p_objectPicking);
 	updateBoundingBox();
