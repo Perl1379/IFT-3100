@@ -154,6 +154,7 @@ void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
     glm::vec3 pos(0,0,0);
     auto scale = node->getTransform().getScale();
     auto length = node->getBoundingBox() * 0.5;
+    ofNoFill();
 
     if (p_objectPicking) {
         m_materialUnlit.setEmissiveColor(Global::idToColor(ROTATE_X));
