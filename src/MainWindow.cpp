@@ -370,6 +370,16 @@ void MainWindow::mousePressed(int x, int y, int button) {
 		Global::m_cameras[index].setUpVector(Global::m_cameras[index].getCamera()->getUpDir());
 
 	}
+
+	if (button == OF_MOUSE_BUTTON_RIGHT) {
+		m_isRightMousePressed = true;
+		m_lastMousePosition.set(x, y);
+		int index = getCurrentCameraIndex();
+		if (index == -1) return;
+		Global::m_cameras[index].setUpVector(Global::m_cameras[index].getCamera()->getUpDir());
+
+	}
+
 }
 
 
@@ -380,6 +390,13 @@ void MainWindow::mouseReleased(int x, int y, int button) {
 
 	if (button == OF_MOUSE_BUTTON_MIDDLE) {
 		m_isMiddleMousePressed = false;
+		int index = getCurrentCameraIndex();
+		if (index == -1) return;
+		Global::m_cameras[index].setUpVector(Global::m_cameras[index].getCamera()->getUpDir());
+	}
+
+	if (button == OF_MOUSE_BUTTON_RIGHT) {
+		m_isRightMousePressed = false;
 		int index = getCurrentCameraIndex();
 		if (index == -1) return;
 		Global::m_cameras[index].setUpVector(Global::m_cameras[index].getCamera()->getUpDir());
@@ -415,6 +432,51 @@ void MainWindow::mouseDragged(int x, int y, int button) {
 		camera->rotate(xdiff, upvec);
 
 		m_lastMousePosition.set(mx, my);
+	}
+
+	if (m_isRightMousePressed && button == OF_MOUSE_BUTTON_RIGHT) {
+		if (Global::m_selectedNode != -1) {
+			auto mx = static_cast<float>(x);
+			auto my = static_cast<float>(y);
+
+			float sensitivity = 0.2f; // Rotation speed
+
+			float deltaX = mx - m_lastMousePosition.x;
+			float deltaY = my - m_lastMousePosition.y;
+
+			BaseNode* node = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+			ofCamera* camera = Global::m_cameras[index].getCamera();
+			float xdiff = -deltaX * sensitivity;
+			float ydiff = -deltaY * sensitivity;
+
+			// Get camera current position relative to the node
+			ofVec3f camPos = camera->getPosition();
+			ofVec3f nodePos = node->getTransform().getGlobalPosition();
+			ofVec3f camOffset = camPos - nodePos; // Vector from node to camera
+
+			// Convert offset to spherical coordinates (radius, yaw, pitch)
+			float radius = camOffset.length();
+			float yaw = atan2(camOffset.z, camOffset.x);
+			float pitch = asin(camOffset.y / radius);
+
+			// Apply rotation
+			yaw += ofDegToRad(xdiff);
+			pitch += ofDegToRad(ydiff);
+
+			// Clamp to avoid flipping
+			float pitchLimit = ofDegToRad(85.0f);
+			pitch = glm::clamp(pitch, -pitchLimit, pitchLimit);
+
+			// Convert back to coordinates
+			float newX = radius * cos(pitch) * cos(yaw);
+			float newY = radius * sin(pitch);
+			float newZ = radius * cos(pitch) * sin(yaw);
+
+			camera->setPosition(nodePos + ofVec3f(newX, newY, newZ));
+			camera->lookAt(nodePos);
+
+			m_lastMousePosition.set(mx, my);
+		}
 	}
 }
 

@@ -14,7 +14,7 @@
 #include "ColorDialog.h"
 #include "DeleteNodeDialog.h"
 #include "HistogramDialog.h"
-
+#include "FileGeneratedDialog.h"
 
 class UserInterface {
 
@@ -33,7 +33,6 @@ public:
 
     std::string m_hoveredWindow;
     int m_previousNodeSelection = -1;
-
 	const std::string& getHoveredWindow() const;
 	bool onlyOneCamera() const;
 
@@ -47,7 +46,9 @@ private:
     ofTexture m_textureToolbarGenerateBigTexture;
     ofTexture m_textureToolbarToggleCameras;
     ofTexture m_textureToolbarToggleCamerasPressed;
-    ofTexture m_textureToolbarHistogram;
+	ofTexture m_textureToolbarSequence;
+	ofTexture m_textureToolbarSequencePressed;
+	ofTexture m_textureToolbarHistogram;
     ofTexture m_textureNotVisible;
     std::vector<std::string> m_availableSkyboxes;
 
@@ -58,8 +59,7 @@ private:
 	AddNodeDialog m_addNodeDialog;
 	DeleteNodeDialog m_deleteNodeDialog;
     HistogramDialog m_histogramDialog;
-    bool m_showSuccessMessage = false;
-	std::string m_successMessage;
+    FileGeneratedDialog m_fileGeneratedDialog;
 
 
     // Draw functions
@@ -78,7 +78,7 @@ private:
 
     void drawSuccessMessage();
 
-    void showSuccessMessage(const std::string& message);
+    void showSuccessMessage(const std::string& p_message, const std::string& p_filename);
     
     // Callback functions
 

@@ -9,8 +9,9 @@
 #include "ModalDialog.h"
 
 #include <imgui.h>
+#include <ofLog.h>
 
- /**
+/**
   * Dialog constructor
   */
 ModalDialog::ModalDialog() : m_isOpen(false) {

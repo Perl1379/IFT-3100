@@ -21,6 +21,7 @@ private:
 	ofLight m_light;
 	ofMaterial m_material;
 	bool m_isMiddleMousePressed = false;
+	bool m_isRightMousePressed = false;
 	ofVec3f m_cameraMovement;
 	float m_cameraRotation = 0.0f;
 	float m_lastUpdateTime = 0;
