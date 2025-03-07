@@ -68,6 +68,3 @@ public:
 	// Fin des fonctions lie au Node
 };
 
-XmlHandler* XmlHandler::instancePtr = nullptr;
-mutex XmlHandler::mtx;
-

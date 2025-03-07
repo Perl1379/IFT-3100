@@ -1,6 +1,12 @@
 
 #include "XmlHandler.h"
 
+
+XmlHandler* XmlHandler::instancePtr = nullptr;
+mutex XmlHandler::mtx;
+
+
+
 void XmlHandler::setFilePath(string path)
 {
 	filePath = path;
