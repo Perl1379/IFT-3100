@@ -19,6 +19,7 @@
 #include <ofLog.h>
 #include <PlaneNode.h>
 #include <SphereNode.h>
+#include <TerrainNode.h>
 
 
 /**
@@ -36,6 +37,10 @@ AddNodeDialog::AddNodeDialog() : ModalDialog() {
 void AddNodeDialog::draw() {
 
     if (ImGui::BeginPopupModal(m_title.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+        // Primitives
+        ImGui::Dummy(ImVec2(0, 5));
+        ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), "Utility");
 
         // Add group
         if (ImGui::Button("Group Node", ImVec2(200,20))) {
@@ -176,7 +181,7 @@ void AddNodeDialog::draw() {
 
         // Primitives
         ImGui::Dummy(ImVec2(0, 5));
-        ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), "Models");
+        ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), "Others");
 
         // Add model
         if (ImGui::Button("Model", ImVec2(200,20))) {
@@ -190,6 +195,32 @@ void AddNodeDialog::draw() {
                 parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
             }
             ModelNode* childNode = new ModelNode("Model", "Kaykit/Characters/gltf/Knight.glb");
+            parent->addChild(childNode);
+
+            if (Global::m_selectedNode != -1) {
+                Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
+            }
+            childNode->displayBoundingBox(true);
+            Global::m_selectedNode = childNode->getId();
+            Global::m_selectedFromViewport = true;
+        }
+
+        // Add terrain
+        if (ImGui::Button("Terrain", ImVec2(200, 20))) {
+            ImGui::CloseCurrentPopup();
+            m_isOpen = false;
+
+            BaseNode* parent;
+            if (Global::m_selectedNode == -1) {
+                parent = Global::m_level.getTree();
+            }
+            else {
+                parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+            }
+            TerrainNode* childNode = new TerrainNode("New Terrain");
+            childNode->getTransform().setScale(2.0, 1.0, 2.0);
+            childNode->setTerrainName("plains_with_mountains");
+            childNode->loadTerrain();
             parent->addChild(childNode);
 
             if (Global::m_selectedNode != -1) {

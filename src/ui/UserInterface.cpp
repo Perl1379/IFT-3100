@@ -11,7 +11,13 @@
 #include <imgui_internal.h>
 #include <ofAppRunner.h>
 #include <ofGraphics.h>
-#include <sys/stat.h>
+#ifdef _WIN32
+	#include <direct.h>
+	#define mkdir _mkdir
+#else
+	#include <sys/stat.h>
+	#include <sys/types.h>
+#endif
 
 #include "Global.h"
 
@@ -274,7 +280,11 @@ void UserInterface::drawToolbar() {
 				Global::m_sequenceCount = 0;
 				Global::m_sequenceName = "record_" + ofGetTimestampString("%y%m%d-%H%M%S-%i");
 				std::string filePath = ofToDataPath("output/" + Global::m_sequenceName, true);
-				mkdir(filePath.c_str(), 0777);
+				mkdir(filePath.c_str()
+				#ifndef _WIN32
+					, 0777
+				#endif
+				);
 
 				Global::m_sequenceTotalDelta = 0.0f;
 

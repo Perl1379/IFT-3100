@@ -147,23 +147,23 @@ void Level::reset() {
 
 	ModelNode* node_barbarian = new ModelNode("Barbarian", "Kaykit/Characters/gltf/Barbarian.glb");
 	adventurer_group->addChild(node_barbarian);
-	node_barbarian->setPosition(-600, 0, -75);
+	node_barbarian->setPosition(-600, 0, 75);
 	node_barbarian->getTransform().setOrientation(glm::vec3(0,25,0));
 
 	ModelNode* node_mage = new ModelNode("Mage", "Kaykit/Characters/gltf/Mage.glb");
 	adventurer_group->addChild(node_mage);
-	node_mage->setPosition(-1200, 0, -200);
+	node_mage->setPosition(-1200, 0, 200);
 	node_mage->getTransform().setOrientation(glm::vec3(0, 45, 0));
 	node_mage->setProperty("Animation", 13);
 
 	ModelNode* node_engineer = new ModelNode("Engineer", "Kaykit/Characters/gltf/Engineer.glb");
 	adventurer_group->addChild(node_engineer);
-	node_engineer->setPosition(600, 0, -75);
+	node_engineer->setPosition(600, 0, 75);
 	node_engineer->getTransform().setOrientation(glm::vec3(0, -25, 0));
 
 	ModelNode* node_druid = new ModelNode("Druid", "Kaykit/Characters/gltf/Druid.glb");
 	adventurer_group->addChild(node_druid);
-	node_druid->setPosition(1200, 0, -200);
+	node_druid->setPosition(1200, 0, 200);
 	node_druid->getTransform().setOrientation(glm::vec3(0, -45, 0));
 	node_druid->setProperty("Animation", 0);
 
