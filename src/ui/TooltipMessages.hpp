@@ -32,10 +32,12 @@ struct TooltipMessages {
 	// Tool bar buttons
 	const char* toolbar_new = "New level \n(not implemented)";
 	const char* toolbar_load = "Load level \n(not implemented)";
-	const char* toolbar_save = "Save level \n(not implemented)";
+	const char* toolbar_save = "Save level";
 	const char* toolbar_generate = "Generate a triptych image with the three viewports";
 	const char* toolbar_toggleCam = "Toggle between 3 viewports and 1 viewport";
 	const char* toolbar_histogram = "Color histogram tool";
+	const char* toolbar_sequence_start = "Start recording";
+	const char* toolbar_sequence_stop = "Stop recording";
 
 	// Level buttons
 	const char* level_addNode = "This will allow you to add a new node to the level. \n\n-> If you have a node selected, it will add the new node as a child; \nso to add a new parent node, make sure to deselect all nodes.";

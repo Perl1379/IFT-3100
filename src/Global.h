@@ -25,6 +25,9 @@ public:
 	static std::array<Camera, 3> m_cameras;
 	static int m_countNodeRender[3];
 
+	static float m_sequenceInterval;
+	static int m_sequenceCount;
+
 	static Level m_level;
 	static int m_selectedNode;
 	static bool m_selectedFromViewport;

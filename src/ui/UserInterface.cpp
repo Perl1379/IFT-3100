@@ -48,6 +48,14 @@ void UserInterface::setup() {
 	imgToolbarToggleCamerasPressed.load("images/ui/toolbar_buttons/toggle_cameras_pressed.png");
 	m_textureToolbarToggleCamerasPressed = imgToolbarToggleCamerasPressed.getTexture();
 
+	ofImage imgToolbarSequence;
+	imgToolbarSequence.load("images/ui/toolbar_buttons/sequence.png");
+	m_textureToolbarSequence = imgToolbarSequence.getTexture();
+
+	ofImage imgToolbarSequencePressed;
+	imgToolbarSequencePressed.load("images/ui/toolbar_buttons/sequence_pressed.png");
+	m_textureToolbarSequencePressed = imgToolbarSequencePressed.getTexture();
+
 	ofImage imgNotVisible;
 	imgNotVisible.load("images/ui/not_visible.png");
 	m_textureNotVisible = imgNotVisible.getTexture();
@@ -85,12 +93,13 @@ void UserInterface::draw() {
 	drawViewports();
 	drawStatus();
 
+
 	if (m_initialDraw) {
 		m_initialDraw = false;
 		ImGui::SetWindowFocus("Main Camera");
 	}
 	Global::m_cursorManager.draw();
-	drawSuccessMessage();
+
 	m_gui.end();
 
 }
@@ -181,6 +190,8 @@ void UserInterface::drawMenu() {
 		//     ImGui::EndMenu();
 		// }
 
+
+
 		ImGui::EndMainMenuBar(); // End the menu bar
 	}
 }
@@ -225,6 +236,12 @@ void UserInterface::drawToolbar() {
 			ImVec2(48, 48))) {
 			onGenerateTriptych();
 		}
+
+		if (m_fileGeneratedDialog.isOpen()) {
+			m_fileGeneratedDialog.draw();
+		}
+
+
 		if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_generate);
 		ImGui::SameLine();
 
@@ -233,11 +250,36 @@ void UserInterface::drawToolbar() {
 			m_histogramDialog.m_onlyOneCamera = m_onlyOneCamera;
 			m_histogramDialog.openDialog();
 		}
-		if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_histogram);
-		ImGui::SameLine();
+
 		if (m_histogramDialog.isOpen()) {
 			m_histogramDialog.draw();
 		}
+
+
+		if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_histogram);
+		ImGui::SameLine();
+
+		auto sequence_tooltip = Global::m_sequenceCount == -1 ? Global::m_tooltipMessages.toolbar_sequence_start :Global::m_tooltipMessages.toolbar_sequence_stop;
+
+		if (ImGui::ImageButton(
+			reinterpret_cast<ImTextureID>(Global::m_sequenceCount != -1
+				? m_textureToolbarSequencePressed.getTextureData().textureID
+				: m_textureToolbarSequence.getTextureData().textureID),
+			ImVec2(48, 48))) {
+
+			if (Global::m_sequenceCount == -1) {
+
+				Global::m_sequenceCount = 0;
+
+			} else {
+				Global::m_sequenceCount = -1;
+			}
+
+
+		}
+		if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(sequence_tooltip);
+		ImGui::SameLine();
+
 
 		if (ImGui::ImageButton(
 			reinterpret_cast<ImTextureID>(m_onlyOneCamera
@@ -245,7 +287,7 @@ void UserInterface::drawToolbar() {
 				: m_textureToolbarToggleCameras.getTextureData().textureID),
 			ImVec2(48, 48))) {
 			onToggleCameras();
-		}
+			}
 		if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.toolbar_toggleCam);
 		ImGui::SameLine();
 
@@ -270,6 +312,7 @@ void UserInterface::drawTree() {
 		for (BaseNode* child : Global::m_level.getTree()->getChildren()) {
 			drawTreeElement(child);
 		}
+
 
 		ImGui::End();
 	}
@@ -328,7 +371,6 @@ void UserInterface::drawTreeActions() {
 			if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) ImGui::SetTooltip(Global::m_tooltipMessages.level_down);
 		}
 
-
 		if (m_addNodeDialog.isOpen()) {
 			m_addNodeDialog.draw();
 		}
@@ -336,6 +378,7 @@ void UserInterface::drawTreeActions() {
 		if (m_deleteNodeDialog.isOpen()) {
 			m_deleteNodeDialog.draw();
 		}
+
 
 		ImGui::End();
 	}
@@ -630,6 +673,8 @@ void UserInterface::drawStatus() {
 
 	ImGui::SameLine(ImGui::GetWindowWidth() - textSize.x - 10);
 	ImGui::Text(line.c_str());
+
+
 	ImGui::End();
 }
 
@@ -961,29 +1006,15 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2& position, int a
 
 }
 
+
+/**
+ * Capture frame buffer
+ */
 void UserInterface::captureFramebuffer(int index, ofPixels& pixels) {
 	auto fbo = Global::m_cameras[index].getFbo();
 	fbo->readToPixels(pixels);
 }
 
-void UserInterface::drawSuccessMessage() {
-	if (m_showSuccessMessage) {
-		ImGui::OpenPopup("Success");
-		if (ImGui::BeginPopupModal("Success", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-			ImGui::Text("%s", m_successMessage.c_str());
-			if (ImGui::Button("OK")) {
-				ImGui::CloseCurrentPopup();
-				m_showSuccessMessage = false;
-			}
-			ImGui::EndPopup();
-		}
-	}
-}
-
-void UserInterface::showSuccessMessage(const std::string& message) {
-	m_showSuccessMessage = true;
-	m_successMessage = message;
-}
 
 
 /**
@@ -1014,7 +1045,7 @@ void UserInterface::onLoadLevel() {
  * Callback function : Save level
  */
 void UserInterface::onSaveLevel() {
-	// TODO
+	Global::m_level.saveToFile("Default.xml");
 }
 
 
@@ -1042,7 +1073,6 @@ void UserInterface::onGenerateTriptych() {
 	if (onlyOneCamera())
 	{
 		combinedPixels.allocate(width1, height1, OF_IMAGE_COLOR);
-
 
 		for (int y = 0; y < height1; ++y) {
 			for (int x = 0; x < width1; ++x) {
@@ -1088,15 +1118,18 @@ void UserInterface::onGenerateTriptych() {
 			}
 		}
 	}
-	// Enregistrez l'image combinée
+	// Save combined image
 	ofImage combinedImage;
 	combinedImage.setFromPixels(combinedPixels);
 	string time_stamp = ofGetTimestampString("-%y%m%d-%H%M%S-%i");
 
-	// générer un nom de fichier unique et ordonné
-	string file_name = "triptych" + time_stamp + ".png";
-	combinedImage.save(file_name);
-	showSuccessMessage("Image saved successfully as " + file_name);
+	// Generate unique name
+	string filename = "triptych" + time_stamp + ".png";
+	combinedImage.save("output/" + filename);
+
+	m_fileGeneratedDialog.setContent("Image successfully saved as:\n\n" + filename + "\n", filename);
+	m_fileGeneratedDialog.openDialog();
+
 }
 
 
