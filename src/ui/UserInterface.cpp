@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Adventure Party Maker
+ * TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -11,6 +11,7 @@
 #include <imgui_internal.h>
 #include <ofAppRunner.h>
 #include <ofGraphics.h>
+
 #ifdef _WIN32
 	#include <direct.h>
 	#define mkdir _mkdir
@@ -622,10 +623,9 @@ void UserInterface::drawProperties() {
 
 		case PROPERTY_TYPE::ITEM_LIST:
 		{
-
 			ImGui::Text(property.getName().c_str());
 			ImGui::SameLine(110);
-			auto value = std::any_cast<std::vector<std::string>>(property.getValue());
+			std::vector<std::string> value = std::any_cast<std::vector<std::string>>(property.getValue());
 
 			int initialSelection = stoi(value.back()); //get the index at the back of the vector
 			int currentItem = initialSelection;
@@ -641,6 +641,36 @@ void UserInterface::drawProperties() {
 			if (ImGui::Combo(("##List_" + std::to_string(count)).c_str(), &currentItem, cstrings.data(), cstrings.size()))
 			{
 				Global::m_actions.addAction(selectedNode, property.getName(), initialSelection, currentItem);
+			}
+			if (!property.getTooltip().empty()) {
+				if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+				{
+					ImGui::SetTooltip(property.getTooltip().c_str());
+				}
+			}
+
+		}
+		break;
+
+		case PROPERTY_TYPE::MODEL_LIST:
+		{
+			// Exclusively for listing models.
+			// Used by CharacterNodes and AssetNodes
+			// Gets the clist from the ModelManager
+			ImGui::Text(property.getName().c_str());
+			ImGui::SameLine(110);
+			std::pair<int, MODEL_TYPE>  value = std::any_cast<std::pair<int, MODEL_TYPE>>(property.getValue());
+			int currentItem = value.first;
+
+			ImGui::PushItemWidth(186.0f);
+			if (ImGui::Combo(
+				("##List_" + std::to_string(count)).c_str(),
+				&currentItem,
+				Global::m_modelManager.getCNames(value.second).data(),
+				Global::m_modelManager.getCNames(value.second).size())
+				)
+			{
+				Global::m_actions.addAction(selectedNode, property.getName(), value.first, currentItem);
 			}
 			if (!property.getTooltip().empty()) {
 				if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))

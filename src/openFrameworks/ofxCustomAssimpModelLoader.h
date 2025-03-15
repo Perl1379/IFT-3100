@@ -9,7 +9,7 @@ private:
     bool createEnabledMeshes();
 
 public:
-    bool loadModel(const std::string & p_filename);
+    bool load(const std::string & p_filename);
     void draw(ofPolyRenderMode renderType);
     void drawFaces();
     void setMeshEnabled(const std::string& p_meshName, bool p_value);

@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Adventure Party Maker
+ * TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -16,15 +16,17 @@
 #include <GroupNode.h>
 #include <imgui.h>
 #include <ModelNode.h>
+#include <CharacterNode.h>
+#include <AssetNode.h>
 #include <ofLog.h>
 #include <PlaneNode.h>
 #include <SphereNode.h>
 #include <TerrainNode.h>
 
 
-/**
- * Constructor
- */
+ /**
+  * Constructor
+  */
 AddNodeDialog::AddNodeDialog() : ModalDialog() {
 
     setTitle("Add Node");
@@ -179,22 +181,46 @@ void AddNodeDialog::draw() {
             Global::m_selectedFromViewport = true;
         }
 
-        // Primitives
+        // Models
         ImGui::Dummy(ImVec2(0, 5));
-        ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), "Others");
+        ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), "Models");
 
-        // Add model
-        if (ImGui::Button("Model", ImVec2(200,20))) {
+        // Add character
+        if (ImGui::Button("Character", ImVec2(200, 20))) {
             ImGui::CloseCurrentPopup();
             m_isOpen = false;
 
             BaseNode* parent;
             if (Global::m_selectedNode == -1) {
                 parent = Global::m_level.getTree();
-            } else {
+            }
+            else {
                 parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
             }
-            ModelNode* childNode = new ModelNode("Model", "Kaykit/Characters/gltf/Knight.glb");
+            CharacterNode* childNode = new CharacterNode();
+            parent->addChild(childNode);
+
+            if (Global::m_selectedNode != -1) {
+                Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
+            }
+            childNode->displayBoundingBox(true);
+            Global::m_selectedNode = childNode->getId();
+            Global::m_selectedFromViewport = true;
+        }
+
+        // Add asset
+        if (ImGui::Button("Asset", ImVec2(200, 20))) {
+            ImGui::CloseCurrentPopup();
+            m_isOpen = false;
+
+            BaseNode* parent;
+            if (Global::m_selectedNode == -1) {
+                parent = Global::m_level.getTree();
+            }
+            else {
+                parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+            }
+            AssetNode* childNode = new AssetNode();
             parent->addChild(childNode);
 
             if (Global::m_selectedNode != -1) {
@@ -206,6 +232,8 @@ void AddNodeDialog::draw() {
         }
 
         // Add terrain
+        ImGui::Dummy(ImVec2(0, 5));
+        ImGui::TextColored(ImVec4(1, 0.5, 0.5, 1), "Terrain");
         if (ImGui::Button("Terrain", ImVec2(200, 20))) {
             ImGui::CloseCurrentPopup();
             m_isOpen = false;
@@ -231,7 +259,7 @@ void AddNodeDialog::draw() {
             Global::m_selectedFromViewport = true;
         }
 
-		ImGui::Dummy(ImVec2(0.0f, 5.0f));
+        ImGui::Dummy(ImVec2(0.0f, 5.0f));
         ImGui::Separator();
         ImGui::Dummy(ImVec2(0.0f, 5.0f));
 

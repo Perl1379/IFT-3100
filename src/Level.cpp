@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Adventure Party Maker
+ * TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -15,6 +15,8 @@
 
 #include "SphereNode.h"
 #include "ModelNode.h"
+#include "AssetNode.h"
+#include "CharacterNode.h"
 #include "CylinderNode.h"
 #include "ConeNode.h"
 #include "XmlHandler.h"
@@ -138,34 +140,47 @@ void Level::reset() {
 	//--- Group of 5 adventurers. 
 	// The user can add the knight via the "Add Node" button (it's more insteresting to use if they are not addding a duplicate)
 	GroupNode* adventurer_group = new GroupNode("Adventurers");
-	adventurer_group->getTransform().setOrientation(glm::vec3(0, 0, 0));
+	//adventurer_group->getTransform().setOrientation(glm::vec3(0, 0, 0));
 	m_tree->addChild(adventurer_group);
 
-	ModelNode* node_rogue = new ModelNode("Rogue", "Kaykit/Characters/gltf/Rogue.glb");
+	CharacterNode* node_rogue = new CharacterNode("Rogue", "Rogue");
 	adventurer_group->addChild(node_rogue);
-	node_rogue->setProperty("Animation", 11);
+	node_rogue->setProperty("Animation", 6);
 
-	ModelNode* node_barbarian = new ModelNode("Barbarian", "Kaykit/Characters/gltf/Barbarian.glb");
+	CharacterNode* node_barbarian = new CharacterNode("Barbarian", "Barbarian");
 	adventurer_group->addChild(node_barbarian);
 	node_barbarian->setPosition(-600, 0, 75);
-	node_barbarian->getTransform().setOrientation(glm::vec3(0,25,0));
+	node_barbarian->getTransform().setOrientation(glm::vec3(0, 25, 0));
 
-	ModelNode* node_mage = new ModelNode("Mage", "Kaykit/Characters/gltf/Mage.glb");
+	CharacterNode* node_mage = new CharacterNode("Mage", "Mage");
 	adventurer_group->addChild(node_mage);
 	node_mage->setPosition(-1200, 0, 200);
 	node_mage->getTransform().setOrientation(glm::vec3(0, 45, 0));
-	node_mage->setProperty("Animation", 13);
+	node_mage->setProperty("Animation", 7);
 
-	ModelNode* node_engineer = new ModelNode("Engineer", "Kaykit/Characters/gltf/Engineer.glb");
+	CharacterNode* node_engineer = new CharacterNode("Engineer", "Engineer");
 	adventurer_group->addChild(node_engineer);
 	node_engineer->setPosition(600, 0, 75);
 	node_engineer->getTransform().setOrientation(glm::vec3(0, -25, 0));
 
-	ModelNode* node_druid = new ModelNode("Druid", "Kaykit/Characters/gltf/Druid.glb");
+	CharacterNode* node_druid = new CharacterNode("Druid", "Druid");
 	adventurer_group->addChild(node_druid);
 	node_druid->setPosition(1200, 0, 200);
 	node_druid->getTransform().setOrientation(glm::vec3(0, -45, 0));
 	node_druid->setProperty("Animation", 0);
+
+	//--- Some assets
+	GroupNode* loot_group = new GroupNode("Loot");
+	m_tree->addChild(loot_group);
+
+	AssetNode* chest_node = new AssetNode("Crate", "ammo_crate_withLid");
+	loot_group->addChild(chest_node);
+	chest_node->setPosition(-600, 0, -700);
+	chest_node->getTransform().setOrientation(glm::vec3(0, 5, 0));
+
+	AssetNode* potion_node = new AssetNode("Large blue potion", "potion_large_blue");
+	loot_group->addChild(potion_node);
+	potion_node->setPosition(1100, 425, -700);
 
 	//--- A pine tree made of primitives
 	GroupNode* tree_group = new GroupNode("Pine Tree");
@@ -174,12 +189,12 @@ void Level::reset() {
 
 	CylinderNode* node_cylinder = new CylinderNode("Trunk");
 	tree_group->addChild(node_cylinder);
-	node_cylinder->getTransform().setScale(3,4,3);
+	node_cylinder->getTransform().setScale(3, 4, 3);
 	node_cylinder->setProperty("Diffuse Color", ofFloatColor(0.5, 0.31, 0.07));
 
 	ConeNode* node_cone = new ConeNode("Foliage");
 	tree_group->addChild(node_cone);
-	node_cone->getTransform().rotateDeg(180.0,glm::vec3(0,0,1));
+	node_cone->getTransform().rotateDeg(180.0, glm::vec3(0, 0, 1));
 	node_cone->getTransform().setPosition(0, 600, 0);
 	node_cone->getTransform().setScale(10, 7, 10);
 	node_cone->setProperty("Diffuse Color", ofFloatColor(0.08, 0.28, 0.20));
@@ -210,7 +225,7 @@ void Level::reset() {
 	int sphere_count = 1;
 	float sphere_spacing = 320.0f;
 	for (int z = 0; z < 1; z++) {
-	    test_spawn_sphere(node, sphere_count, sphere_spacing, z * sphere_spacing, 0);
+		test_spawn_sphere(node, sphere_count, sphere_spacing, z * sphere_spacing, 0);
 	}
 	node->setDisplayNode(false);
 

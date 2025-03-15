@@ -1,5 +1,5 @@
-# Adventurer Party Maker
-Adventurer Party Maker is a fun little application that allows you to create scenes by moving characters around, assigning them animations, and using primitive building blocks and color tools to craft an environment. Export features allow for taking pictures and series of photos of your creations.
+# Adventure Party Maker
+Adventure Party Maker is a fun little application that allows you to create scenes by moving characters around, assigning them animations, and using primitive building blocks and color tools to craft an environment. Export features allow for taking pictures and series of photos of your creations.
 
 
 # Project Compilation Procedure on Windows
