@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Adventure Party Maker
+ * TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -18,7 +18,8 @@ enum PROPERTY_TYPE {
 	LABEL,
 	BOOLEAN_FIELD,
 	INT_FIELD,
-	ITEM_LIST
+	ITEM_LIST,
+	MODEL_LIST
 };
 
 

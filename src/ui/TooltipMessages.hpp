@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Adventure Party Maker
+ * TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -17,10 +17,10 @@ struct TooltipMessages {
 	// BaseNode
 	const char* node_display = "If ticked, the node is rendered to the screen. \nUntick to hide the node.";
 
-	// ModelNode
+	// Character, Asset, and Model Node
+	const char* node_model = "Change the model's visual.";
 	const char* node_playAnimation = "If ticked, the model will update their animation. \nWhen unticked, the animation stops updating \nleaving the character in its current pose.";
-	const char* node_loopAnimation = "If ticked, the model will play the currently \nassigned animation on a loop. \nMake sure 'Play' is ticked if you want it to play. \n\nTODO: refactor this to a button and make it work! :)";
-	const char* node_showAllAnimation = "If ticked, the list above will show all available animations \nfor the character, even those that are not looping.";
+	const char* node_showAllAnimation = "If ticked, the list above will show all \n available animations for the character";
 
 	//Camera options
 	const char* camera_orthoZoom = "Orthographic zoom factor";

@@ -66,15 +66,15 @@ void ofxCustomAssimpModelLoader::draw(ofPolyRenderMode renderType) {
         mesh.vbo.drawElements(GL_TRIANGLES,mesh.indices.size());
 #else
         switch(renderType){
-            case OF_MESH_FILL:
+        case OF_MESH_FILL:
                 mesh.vbo.drawElements(GL_TRIANGLES,mesh.indices.size());
             break;
-            case OF_MESH_WIREFRAME:
-                //note this won't look the same as on non ES renderers.
-                    //there is no easy way to convert GL_TRIANGLES to outlines for each triangle
+        case OF_MESH_WIREFRAME:
+            //note this won't look the same as on non ES renderers.
+                //there is no easy way to convert GL_TRIANGLES to outlines for each triangle
                         mesh.vbo.drawElements(GL_LINES,mesh.indices.size());
             break;
-            case OF_MESH_POINTS:
+        case OF_MESH_POINTS:
                 mesh.vbo.drawElements(GL_POINTS,mesh.indices.size());
             break;
         }
@@ -110,7 +110,7 @@ void ofxCustomAssimpModelLoader::draw(ofPolyRenderMode renderType) {
 
 
 /**
- * Called after load, we create our list of enable mesesh
+ * Called after load, we create our list of enable meshes
  */
 bool ofxCustomAssimpModelLoader::createEnabledMeshes() {
     bool result = ofxAssimpModelLoader::processScene();
@@ -148,14 +148,14 @@ void ofxCustomAssimpModelLoader::setMeshEnabled(int p_index, bool p_value) {
 /**
  * Load model and enable specific meshes
  */
-bool ofxCustomAssimpModelLoader::loadModel(const std::string & p_filename) {
-    bool result = ofxAssimpModelLoader::loadModel(p_filename);
+bool ofxCustomAssimpModelLoader::load(const std::string& p_filename) {
+    bool result = ofxAssimpModelLoader::load(p_filename, ofxAssimpModelLoader::OPTIMIZE_DEFAULT);
     createEnabledMeshes();
 
     ofFile file(p_filename + ".disabled");
     if (file.exists()) {
         ofBuffer buffer(file);
-        for (auto &line : buffer.getLines()) {
+        for (auto& line : buffer.getLines()) {
             setMeshEnabled(line, false);
         }
     }

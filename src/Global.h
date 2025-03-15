@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Adventure Party Maker
+ * TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -17,6 +17,7 @@
 #include "TooltipMessages.hpp"
 #include "Skybox.h"
 #include "CursorManager.h"
+#include "ModelManager.h"
 
 class Global {
 
@@ -25,9 +26,9 @@ public:
 	static std::array<Camera, 3> m_cameras;
 	static int m_countNodeRender[3];
 
-    // Sequence recording
-    static std::string m_sequenceName;
-    static float m_sequenceTotalDelta;
+	// Sequence recording
+	static std::string m_sequenceName;
+	static float m_sequenceTotalDelta;
 	static float m_sequenceInterval;
 	static int m_sequenceCount;
 
@@ -41,7 +42,7 @@ public:
 	static ofColor idToColor(int id);
 	static int colorToId(ofColor color);
 	static CursorManager m_cursorManager;
-
+	static ModelManager m_modelManager;
 	static TooltipMessages m_tooltipMessages;
 
 };
