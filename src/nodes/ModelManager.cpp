@@ -65,10 +65,8 @@ const std::vector<char*> ModelManager::getCNames(MODEL_TYPE p_type)
 	if (p_type == MODEL_TYPE::ASSET) {
 		return m_assetCNames;
 	}
-	if (p_type == MODEL_TYPE::CHARACTER) {
-		return m_characterCNames;
-	}
-	ofLog(OF_LOG_FATAL_ERROR) << "Unrecognised MODEL_TYPE.";
+	// MODEL_TYPE::CHARACTER
+	return m_characterCNames;
 }
 
 
@@ -81,12 +79,8 @@ std::string ModelManager::getModelPath(const std::string& p_name, MODEL_TYPE p_t
 	if (p_type == MODEL_TYPE::ASSET) {
 		return 	m_assetsPath + "/" + p_name + "." + m_assetsExtension;
 	}
-	else if (p_type == MODEL_TYPE::CHARACTER) {
-		return m_charactersPath + "/" + p_name + "." + m_charactersExtension;
-	}
-	else {
-		ofLog(OF_LOG_FATAL_ERROR) << "Unrecognised MODEL_TYPE.";
-	}
+	// MODEL_TYPE::CHARACTER
+	return m_charactersPath + "/" + p_name + "." + m_charactersExtension;
 }
 
 
@@ -101,13 +95,9 @@ std::string ModelManager::getModelPath(int p_cIndex, MODEL_TYPE p_type)
 		std::string sName(m_assetCNames.at(p_cIndex));
 		return getModelPath(sName, p_type);
 	}
-	else if (p_type == MODEL_TYPE::CHARACTER) {
-		std::string sName(m_characterCNames.at(p_cIndex));
-		return getModelPath(sName, p_type);
-	}
-	else {
-		ofLog(OF_LOG_FATAL_ERROR) << "Unrecognised MODEL_TYPE.";
-	}
+	// MODEL_TYPE::CHARACTER
+	std::string sName(m_characterCNames.at(p_cIndex));
+	return getModelPath(sName, p_type);
 }
 
 
@@ -119,12 +109,8 @@ std::string ModelManager::getModelName(int p_index, MODEL_TYPE p_type)
 	if (p_type == MODEL_TYPE::ASSET) {
 		return std::string(m_assetCNames[p_index]);
 	}
-	else if (p_type == MODEL_TYPE::CHARACTER) {
-		return std::string(m_characterCNames[p_index]);
-	}
-	else {
-		ofLog(OF_LOG_FATAL_ERROR) << "Unrecognised MODEL_TYPE.";
-	}
+	// MODEL_TYPE::CHARACTER
+	return std::string(m_characterCNames[p_index]);
 }
 
 
@@ -136,12 +122,8 @@ std::string ModelManager::getRandom(MODEL_TYPE p_type)
 	if (p_type == MODEL_TYPE::ASSET) {
 		return std::string(m_assetCNames[(rand() % m_assetCNames.size())]);
 	}
-	else if (p_type == MODEL_TYPE::CHARACTER) {
-		return std::string(m_characterCNames[(rand() % m_characterCNames.size())]);
-	}
-	else {
-		ofLog(OF_LOG_FATAL_ERROR) << "Unrecognised MODEL_TYPE.";
-	}
+	// MODEL_TYPE::CHARACTER
+	return std::string(m_characterCNames[(rand() % m_characterCNames.size())]);
 }
 
 
@@ -150,7 +132,6 @@ std::string ModelManager::getRandom(MODEL_TYPE p_type)
 */
 int ModelManager::getModelNo(const std::string& p_name, MODEL_TYPE p_type)
 {
-	//std::string name;
 	if (p_type == MODEL_TYPE::ASSET) {
 		for (int i = 0; i < m_assetCNames.size(); i++) {
 			std::string name(m_assetCNames[i]);
@@ -159,15 +140,13 @@ int ModelManager::getModelNo(const std::string& p_name, MODEL_TYPE p_type)
 			}
 		};
 	}
-	else if (p_type == MODEL_TYPE::CHARACTER) {
-		for (int i = 0; i < m_characterCNames.size(); i++) {
-			std::string name(m_characterCNames[i]);
-			if (name == p_name) {
-				return i;
-			}
-		};
-	}
-	else {
-		ofLog(OF_LOG_FATAL_ERROR) << "Unrecognised MODEL_TYPE.";
-	}
+	// MODEL_TYPE::CHARACTER
+	int i = 0;
+	for (; i < m_characterCNames.size(); i++) {
+		std::string name(m_characterCNames[i]);
+		if (name == p_name) {
+			break;
+		}
+	};
+	return i;
 }
