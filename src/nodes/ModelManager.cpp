@@ -13,10 +13,11 @@
 */
 void ModelManager::init()
 {
-	listNames(m_characterStrNames, m_charactersPath, m_charactersExtension);
-	listNames(m_assetStrNames, m_assetsPath, m_assetsExtension);
+	listNames(m_characterStrNames, m_CHARACTERS_PATH, m_CHARACTERS_EXTENSION);
+	listNames(m_assetStrNames, m_ASSETS_PATH, m_ASSETS_EXTENSION);
 	listCNames(m_characterStrNames, m_characterCNames);
 	listCNames(m_assetStrNames, m_assetCNames);
+	loadCharacterTextures();
 }
 
 
@@ -58,6 +59,31 @@ void ModelManager::listCNames(std::vector<std::string>& p_list, std::vector<char
 
 
 /**
+* Preload all textures, then all character models can reuse the same
+*/
+void ModelManager::loadCharacterTextures()
+{
+	for(int i = 0; i < m_characterStrNames.size(); i++)
+	{
+		std::array<ofTexture, 4> textureVariant;
+		for (int j = 0; j < m_CHARACTER_TEXTURE_FILE_NAMES.size(); j++)
+		{
+			// "Rogue" and its variant model "Rogue_Hooded" share the same "Rogue" texture files
+			std::string characterName = m_characterStrNames.at(i) == "Rogue_Hooded" ? "Rogue" : m_characterStrNames.at(i);
+
+			// Construct the path
+			std::string path = m_CHARACTER_TEXTURE_PATH + "/" + characterName + "_" + m_CHARACTER_TEXTURE_FILE_NAMES.at(j);
+			//ofLog() << "Loading path: " << path;
+			ofImage texturePNG;
+			texturePNG.load(path);
+			textureVariant.at(j) = texturePNG.getTexture();
+		}
+		m_characterTextures.emplace(i, textureVariant);
+	}
+}
+
+
+/**
 * Gets the names list. Use with ImGui Combo
 */
 const std::vector<char*> ModelManager::getCNames(MODEL_TYPE p_type)
@@ -71,16 +97,28 @@ const std::vector<char*> ModelManager::getCNames(MODEL_TYPE p_type)
 
 
 /**
+* Gets the texture names list. Use with ImGui Combo
+*/
+const std::vector<char*> ModelManager::getCTexNames(int p_index, MODEL_TYPE p_type)
+{
+	if (p_type != MODEL_TYPE::CHARACTER) {
+		ofLog(OF_LOG_FATAL_ERROR) << "getCTexNames is only available for our characters (we use the KayKit textures which have a shared naming convention).";
+	}
+	return m_CHARACTER_TEXTURE_NAMES.at(getModelName(p_index, p_type));
+}
+
+
+/**
 * Constructs and returns the model's file path
 * in: model's file base name (i.e.: "barbarian")
 */
 std::string ModelManager::getModelPath(const std::string& p_name, MODEL_TYPE p_type)
 {
 	if (p_type == MODEL_TYPE::ASSET) {
-		return 	m_assetsPath + "/" + p_name + "." + m_assetsExtension;
+		return 	m_ASSETS_PATH + "/" + p_name + "." + m_ASSETS_EXTENSION;
 	}
 	// MODEL_TYPE::CHARACTER
-	return m_charactersPath + "/" + p_name + "." + m_charactersExtension;
+	return m_CHARACTERS_PATH + "/" + p_name + "." + m_CHARACTERS_EXTENSION;
 }
 
 
@@ -149,4 +187,16 @@ int ModelManager::getModelNo(const std::string& p_name, MODEL_TYPE p_type)
 		}
 	};
 	return i;
+}
+
+
+/**
+* Returns a reference to a texture. Typically used by CharacterNode instances to bind the texture to their model
+*/
+const ofTexture& ModelManager::getTexture(int p_characterIndex, int p_textureIndex, MODEL_TYPE p_type)
+{
+	if (p_type != MODEL_TYPE::CHARACTER) {
+		ofLog(OF_LOG_FATAL_ERROR) << "getCTexNames is only available for our characters (we use the KayKit textures which have a shared naming convention).";
+	}
+	return m_characterTextures.at(p_characterIndex).at(p_textureIndex);
 }

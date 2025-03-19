@@ -32,23 +32,31 @@ int CharacterNode::draw(bool p_objectPicking, Camera* p_camera)
 	updateBoundingBox();
 
 	if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox())) {
-		if (m_playAnimation)
-		{
-			getModel().update();
-		}
 		m_transform.transformGL();
 		if (p_objectPicking) {
+			// p_objectPicking == true means we are drawing the object picking FBO
 			getModel().disableMaterials();
 			getModel().disableNormals();
 			getModel().disableTextures();
 		}
-
+		else {
+			// p_objectPicking == false means we are drawing the actual thing in the viewport
+			if (m_playAnimation)
+			{
+				getModel().update();
+			}
+			getModel().disableTextures(); //if it's not disabled constantly, openFrameworks resets it to the default a few seconds after boot
+			Global::m_modelManager.getTexture(m_modelNo, m_textureNo).bind();
+		}
 		getModel().drawFaces();
 
 		if (p_objectPicking) {
 			getModel().enableMaterials();
 			getModel().enableNormals();
 			getModel().enableTextures();
+		}
+		else {
+			Global::m_modelManager.getTexture(m_modelNo, m_textureNo).unbind();
 		}
 
 		m_transform.restoreTransformGL();
@@ -67,7 +75,11 @@ std::vector<NodeProperty> CharacterNode::getProperties() const
 {
 	std::vector<NodeProperty> properties = ModelNode::getProperties();
 
-	properties.emplace_back("Animation parameters", PROPERTY_TYPE::LABEL, nullptr);
+	//model property
+	properties.emplace_back("Texture", PROPERTY_TYPE::ITEM_CLIST, std::make_pair(m_textureNo, Global::m_modelManager.getCTexNames(m_modelNo)), Global::m_tooltipMessages.node_modelTexture);
+
+	//character specific animation parameters
+	properties.emplace_back("Animation", PROPERTY_TYPE::LABEL, nullptr);
 	properties.emplace_back("Play", PROPERTY_TYPE::BOOLEAN_FIELD, m_playAnimation, Global::m_tooltipMessages.node_playAnimation);
 	properties.emplace_back("Animation", PROPERTY_TYPE::ITEM_LIST, (m_showAllAnimations) ? m_animNamesFull : m_animNamesRestricted);
 	properties.emplace_back("Show all", PROPERTY_TYPE::BOOLEAN_FIELD, m_showAllAnimations, Global::m_tooltipMessages.node_showAllAnimation);
@@ -100,9 +112,17 @@ void CharacterNode::setProperty(const std::string& p_name, std::any p_value)
 		m_showAllAnimations = std::any_cast<bool>(p_value);
 		return;
 	}
+	if (p_name == "Texture")
+	{
+		m_textureNo = std::any_cast<int>(p_value);
+		return;
+	}
 
+
+
+	// first, udate stuff in the ModelNode or BaseNode
+	// then reset the animation if the model changed
 	ModelNode::setProperty(p_name, p_value);
-
 	if (p_name == "Model") {
 		resetAnimation();
 		return;

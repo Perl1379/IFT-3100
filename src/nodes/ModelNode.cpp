@@ -60,8 +60,8 @@ std::vector<NodeProperty> ModelNode::getProperties() const
 	//no material property for models
 
 	//model property
-	properties.emplace_back("Model parameter", PROPERTY_TYPE::LABEL, nullptr);
-	properties.emplace_back("Model", PROPERTY_TYPE::MODEL_LIST, std::make_pair(m_modelNo, m_modelType), Global::m_tooltipMessages.node_model);
+	properties.emplace_back("Model parameters", PROPERTY_TYPE::LABEL, nullptr);
+	properties.emplace_back("Model", PROPERTY_TYPE::ITEM_CLIST, std::make_pair(m_modelNo, Global::m_modelManager.getCNames(m_modelType)), Global::m_tooltipMessages.node_model);
 
 	return properties;
 }
