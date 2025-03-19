@@ -33,6 +33,7 @@ private:
 	std::vector<std::string> m_animNamesRestricted; // used for showing them to the user
 	std::vector<std::string> m_animNamesFull;
 	int m_currentAnimID;
+	int m_textureNo = 0;
 	
 public:
 	CharacterNode(const std::string& p_name = "New Character", const std::string& p_fileBaseName = "");

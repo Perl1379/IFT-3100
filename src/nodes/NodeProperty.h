@@ -18,8 +18,8 @@ enum PROPERTY_TYPE {
 	LABEL,
 	BOOLEAN_FIELD,
 	INT_FIELD,
-	ITEM_LIST,
-	MODEL_LIST
+	ITEM_LIST, //pass a std::vector<std::string> with the currentItem placed at the back
+	ITEM_CLIST, //pass a std::pair<int, std::vector<char*>>: first is the currenItem and second is the list of options
 };
 
 

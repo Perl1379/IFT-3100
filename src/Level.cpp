@@ -125,13 +125,6 @@ void test_spawn_sphere(BaseNode* tree, int sphere_count, float sphere_spacing, f
 }
 
 
-void test_print_modelNode_positions(ModelNode* p_node)
-{
-	ofLog() << p_node->getName() << " : " << p_node->getModel().getPosition().x << " : " << p_node->getModel().getPosition().y << " : " << p_node->getModel().getPosition().z;
-	ofLog() << p_node->getName() << " : " << p_node->getTransform().getPosition().x << " : " << p_node->getTransform().getPosition().y << " : " << p_node->getTransform().getPosition().z;
-}
-
-
 /**
  * Reset level
  */
@@ -140,7 +133,6 @@ void Level::reset() {
 	//--- Group of 5 adventurers. 
 	// The user can add the knight via the "Add Node" button (it's more insteresting to use if they are not addding a duplicate)
 	GroupNode* adventurer_group = new GroupNode("Adventurers");
-	//adventurer_group->getTransform().setOrientation(glm::vec3(0, 0, 0));
 	m_tree->addChild(adventurer_group);
 
 	CharacterNode* node_rogue = new CharacterNode("Rogue", "Rogue");

@@ -20,10 +20,11 @@ class ModelNode : public BaseNode {
 
 private:
 	ofxCustomAssimpModelLoader m_model;
-	const MODEL_TYPE m_modelType;
 	std::string m_fileBaseName;
-	int m_modelNo = 0;
 	ofVec3f m_bounds;
+protected:
+	int m_modelNo = 0;
+	const MODEL_TYPE m_modelType;
 
 public:
 	explicit ModelNode(const std::string& p_nodeName, const std::string& p_fileBaseName, MODEL_TYPE p_modelType);

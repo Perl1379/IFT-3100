@@ -652,22 +652,19 @@ void UserInterface::drawProperties() {
 		}
 		break;
 
-		case PROPERTY_TYPE::MODEL_LIST:
+		case PROPERTY_TYPE::ITEM_CLIST:
 		{
-			// Exclusively for listing models.
-			// Used by CharacterNodes and AssetNodes
-			// Gets the clist from the ModelManager
 			ImGui::Text(property.getName().c_str());
 			ImGui::SameLine(110);
-			std::pair<int, MODEL_TYPE>  value = std::any_cast<std::pair<int, MODEL_TYPE>>(property.getValue());
+			std::pair<int, std::vector<char*>> value = std::any_cast<std::pair<int, std::vector<char*>>>(property.getValue());
 			int currentItem = value.first;
 
 			ImGui::PushItemWidth(186.0f);
 			if (ImGui::Combo(
 				("##List_" + std::to_string(count)).c_str(),
 				&currentItem,
-				Global::m_modelManager.getCNames(value.second).data(),
-				Global::m_modelManager.getCNames(value.second).size())
+				value.second.data(),
+				value.second.size())
 				)
 			{
 				Global::m_actions.addAction(selectedNode, property.getName(), value.first, currentItem);

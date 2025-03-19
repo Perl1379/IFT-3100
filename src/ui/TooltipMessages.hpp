@@ -19,6 +19,7 @@ struct TooltipMessages {
 
 	// Character, Asset, and Model Node
 	const char* node_model = "Change the model's visual.";
+	const char* node_modelTexture = "Change the model's texture.";
 	const char* node_playAnimation = "If ticked, the model will update their animation. \nWhen unticked, the animation stops updating \nleaving the character in its current pose.";
 	const char* node_showAllAnimation = "If ticked, the list above will show all \n available animations for the character";
 
