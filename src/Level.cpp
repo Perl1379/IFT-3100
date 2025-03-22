@@ -19,6 +19,7 @@
 #include "CharacterNode.h"
 #include "CylinderNode.h"
 #include "ConeNode.h"
+#include "SplineNode.h"
 #include "XmlHandler.h"
 
  /**
@@ -209,6 +210,13 @@ void Level::reset() {
 	plane->getMaterial().setDiffuseColor(ofFloatColor(0.27, 0.73, 1.0));
 	m_tree->addChild(plane);
 
+	//--- Spline
+	SplineNode* spline = new SplineNode("Spline");
+	spline->init();
+	spline->getTransform().setPosition(glm::vec3(0.0, 50.0, 800.0));
+	spline->getMaterial().setDiffuseColor(ofFloatColor(0.0, 0.0, 1.0));
+	m_tree->addChild(spline);
+
 	//--- Group node of spheres. This showcases the "Display" feature
 	GroupNode* node = new GroupNode("Group");
 	node->getTransform().setPosition(0, 0, 0);
@@ -220,6 +228,5 @@ void Level::reset() {
 		test_spawn_sphere(node, sphere_count, sphere_spacing, z * sphere_spacing, 0);
 	}
 	node->setDisplayNode(false);
-
 
 }

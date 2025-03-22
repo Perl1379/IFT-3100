@@ -54,6 +54,9 @@ void AddNodeDialog::draw() {
                 parent = Global::m_level.getTree();
             } else {
                 parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+                if (!parent->userCanAddChild()) {
+                    parent = Global::m_level.getTree();
+                }
             }
             GroupNode* childNode = new GroupNode("Group");
             parent->addChild(childNode);
@@ -80,6 +83,9 @@ void AddNodeDialog::draw() {
                 parent = Global::m_level.getTree();
             } else {
                 parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+                if (!parent->userCanAddChild()) {
+                    parent = Global::m_level.getTree();
+                }
             }
             SphereNode* childNode = new SphereNode("Sphere");
             parent->addChild(childNode);
@@ -102,6 +108,9 @@ void AddNodeDialog::draw() {
                 parent = Global::m_level.getTree();
             } else {
                 parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+                if (!parent->userCanAddChild()) {
+                    parent = Global::m_level.getTree();
+                }
             }
             BoxNode* childNode = new BoxNode("Box");
             parent->addChild(childNode);
@@ -125,6 +134,9 @@ void AddNodeDialog::draw() {
                 parent = Global::m_level.getTree();
             } else {
                 parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+                if (!parent->userCanAddChild()) {
+                    parent = Global::m_level.getTree();
+                }
             }
             CylinderNode* childNode = new CylinderNode("Cylinder");
             parent->addChild(childNode);
@@ -147,6 +159,9 @@ void AddNodeDialog::draw() {
                 parent = Global::m_level.getTree();
             } else {
                 parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+                if (!parent->userCanAddChild()) {
+                    parent = Global::m_level.getTree();
+                }
             }
             ConeNode* childNode = new ConeNode("Cone");
             parent->addChild(childNode);
@@ -169,6 +184,9 @@ void AddNodeDialog::draw() {
                 parent = Global::m_level.getTree();
             } else {
                 parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+                if (!parent->userCanAddChild()) {
+                    parent = Global::m_level.getTree();
+                }
             }
             PlaneNode* childNode = new PlaneNode("Plane");
             parent->addChild(childNode);
@@ -196,6 +214,9 @@ void AddNodeDialog::draw() {
             }
             else {
                 parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+                if (!parent->userCanAddChild()) {
+                    parent = Global::m_level.getTree();
+                }
             }
             CharacterNode* childNode = new CharacterNode();
             parent->addChild(childNode);
@@ -219,6 +240,9 @@ void AddNodeDialog::draw() {
             }
             else {
                 parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+                if (!parent->userCanAddChild()) {
+                    parent = Global::m_level.getTree();
+                }
             }
             AssetNode* childNode = new AssetNode();
             parent->addChild(childNode);
@@ -244,6 +268,9 @@ void AddNodeDialog::draw() {
             }
             else {
                 parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+                if (!parent->userCanAddChild()) {
+                    parent = Global::m_level.getTree();
+                }
             }
             TerrainNode* childNode = new TerrainNode("New Terrain");
             childNode->getTransform().setScale(2.0, 1.0, 2.0);

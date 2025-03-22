@@ -22,6 +22,7 @@ protected:
     int m_id = 0;
     bool m_displayBoundingBox = false;
     bool m_displayNode = true;
+    bool m_userCanAddChild = true;
 
     ofMaterial m_materialNode;
     ofMaterial m_materialUnlit;
@@ -47,6 +48,7 @@ public:
     void addChild(BaseNode *p_child);
     void swapChildOrder(BaseNode* p_child1, BaseNode* p_child2);
     void removeChild(int p_index);
+    bool userCanAddChild() const;
 
     ofNode &getTransform() { return m_transform; }
     ofMaterial &getMaterial() { return m_materialNode; }
@@ -62,6 +64,9 @@ public:
     void displayBoundingBox(bool p_display);
 
     std::vector<BaseNode *> &getChildren() { return m_children; };
+
+        // called to alert another node of a change, optionally precising what changed
+    virtual void nodeChanged(const std::string& p_name = "", std::any p_value = nullptr) {};
 
     virtual std::vector<NodeProperty> getProperties() const;
     virtual void setProperty(const std::string &p_name, std::any p_value);

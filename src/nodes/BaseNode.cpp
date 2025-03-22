@@ -110,6 +110,17 @@ void BaseNode::swapChildOrder(BaseNode* p_child1, BaseNode* p_child2) {
 	}
 
 	m_children = temp_children;
+	nodeChanged("Child Order Swapped", std::make_pair(p_child1, p_child2));
+}
+
+
+/**
+ * Whether or not a user can use the the "Add Node" button to add children to a node (typically the currently selected node)
+ * If false, adding a node is allowed, but the new node is added to the root tree instead of the selected node.
+ */
+bool BaseNode::userCanAddChild() const
+{
+	return m_userCanAddChild;
 }
 
 
@@ -120,7 +131,7 @@ std::vector<NodeProperty> BaseNode::getProperties() const {
 
 	std::vector<NodeProperty> properties;
 	properties.emplace_back("Name", PROPERTY_TYPE::TEXT_FIELD, m_name);
-	properties.emplace_back("Display",PROPERTY_TYPE::BOOLEAN_FIELD, m_displayNode, "If ticked, the node is rendered to the screen. \nUntick to hide the node.");
+	properties.emplace_back("Display",PROPERTY_TYPE::BOOLEAN_FIELD, m_displayNode, Global::m_tooltipMessages.node_display);
 	properties.emplace_back("Transform", PROPERTY_TYPE::LABEL, nullptr);
 	properties.emplace_back("Position", PROPERTY_TYPE::VECTOR3, m_transform.getPosition());
 	properties.emplace_back("Orientation", PROPERTY_TYPE::VECTOR3, m_transform.getOrientationEulerDeg());
