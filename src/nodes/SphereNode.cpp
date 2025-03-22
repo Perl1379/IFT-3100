@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Adventure Party Maker
+ * TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -17,8 +17,8 @@
 /**
  * Constructor
  */
-SphereNode::SphereNode(const std::string& p_name) : BaseNode(p_name) {
-	m_primitive.setRadius(100.0);
+SphereNode::SphereNode(const std::string& p_name, float p_radius) : BaseNode(p_name) {
+	m_primitive.setRadius(p_radius);
 	m_primitive.setResolution(16.0);
 	m_primitive.setPosition(0, 0, 0);
 }

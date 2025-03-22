@@ -11,15 +11,16 @@
 #include <string>
 
 enum PROPERTY_TYPE {
-	TEXT_FIELD,
+	TEXT_FIELD, //An editable field in which the user can write text
 	VECTOR3,
 	COLOR_PICKER,
 	FLOAT_FIELD,
-	LABEL,
-	BOOLEAN_FIELD,
+	LABEL, //Use to organise properties into categories; a label is the title of a category
+	BOOLEAN_FIELD, //A checkbox that the user can tick
 	INT_FIELD,
-	ITEM_LIST, //pass a std::vector<std::string> with the currentItem placed at the back
-	ITEM_CLIST, //pass a std::pair<int, std::vector<char*>>: first is the currenItem and second is the list of options
+	ITEM_LIST, //Pass a std::vector<std::string> with the currentItem placed at the back
+	ITEM_CLIST, //Pass a std::pair<int, std::vector<char*>>: first is the currenItem and second is the list of options
+	TEXT_INFO, //Use to display information about the node, for example the value of a variable that the user can't directly modify (i.e.: the index of a spline control point)
 };
 
 

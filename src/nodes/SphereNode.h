@@ -1,5 +1,5 @@
 /*****************************************************
-* TP IFT3100H25 - Adventure Party Maker
+ * TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
@@ -20,7 +20,7 @@ private:
 
 
 public:
-	explicit SphereNode(const std::string& p_name);
+	explicit SphereNode(const std::string& p_name, float p_radius = 100.0f);
 	int draw(bool p_objectPicking, Camera* p_camera) override;
 	ofVec3f getBoundingBox() const override;
 	void setRadius(float p_radius);

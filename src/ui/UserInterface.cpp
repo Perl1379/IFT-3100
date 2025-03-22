@@ -494,7 +494,7 @@ void UserInterface::drawProperties() {
 				}
 			}
 		}
-									  break;
+		break;
 
 		case PROPERTY_TYPE::COLOR_PICKER: {
 			ImGui::Text(property.getName().c_str());
@@ -514,7 +514,7 @@ void UserInterface::drawProperties() {
 				}
 			}
 		}
-										break;
+		break;
 
 		case PROPERTY_TYPE::LABEL: {
 			ImGui::Dummy(ImVec2(0, 5));
@@ -526,7 +526,7 @@ void UserInterface::drawProperties() {
 				}
 			}
 		}
-								 break;
+		break;
 
 		case PROPERTY_TYPE::VECTOR3: {
 			ImGui::Text(property.getName().c_str());
@@ -547,7 +547,7 @@ void UserInterface::drawProperties() {
 				}
 			}
 		}
-								   break;
+		break;
 
 		case PROPERTY_TYPE::FLOAT_FIELD:
 		{
@@ -676,6 +676,20 @@ void UserInterface::drawProperties() {
 				}
 			}
 
+		}
+		break;
+
+		case PROPERTY_TYPE::TEXT_INFO:
+		{
+			ImGui::Text(property.getName().c_str());
+			ImGui::SameLine(110);
+			ImGui::TextWrapped(std::any_cast<std::string>(property.getValue()).data());
+			if (!property.getTooltip().empty()) {
+				if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+				{
+					ImGui::SetTooltip(property.getTooltip().c_str());
+				}
+			}
 		}
 		break;
 

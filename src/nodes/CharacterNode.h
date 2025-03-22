@@ -3,7 +3,7 @@
  * by Team 12
  *****************************************************
  *
- * ModelNode class implementation
+ * CharacterNode class definition
  *
  *****************************************************/
 #pragma once
