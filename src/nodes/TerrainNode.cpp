@@ -42,7 +42,10 @@ void TerrainNode::loadTerrain() {
     float scale = 60.0;  // Height scale factor
     float vertexScale = 20.0f;
 
-    ofLoadImage(heightmap, "images/terrains/" + m_terrainName + ".png");
+    if (!ofLoadImage(heightmap, "images/terrains/" + m_terrainName + ".png")) {
+        ofLogError("TerrainNode") << "Failed to load image " << m_terrainName + ".png";
+        ofExit(-1);
+    }
 
     width = heightmap.getWidth()-1;
     height = heightmap.getHeight()-1;

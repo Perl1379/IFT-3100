@@ -72,8 +72,8 @@ void ModelManager::loadCharacterTextures()
 			std::string characterName = m_characterStrNames.at(i) == "Rogue_Hooded" ? "Rogue" : m_characterStrNames.at(i);
 
 			// Construct the path
-			std::string path = m_CHARACTER_TEXTURE_PATH + "/" + characterName + "_" + m_CHARACTER_TEXTURE_FILE_NAMES.at(j);
-			//ofLog() << "Loading path: " << path;
+			std::string path = m_CHARACTER_TEXTURE_PATH + "/" + ofToLower(characterName) + "_" + m_CHARACTER_TEXTURE_FILE_NAMES.at(j);
+			ofLog() << "Loading path: " << path;
 			ofImage texturePNG;
 			texturePNG.load(path);
 			textureVariant.at(j) = texturePNG.getTexture();
