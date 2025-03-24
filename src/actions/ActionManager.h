@@ -25,7 +25,7 @@ class ActionManager {
     void undo();
     void redo();
     void addAction(BaseNode* p_node, const std::string& p_property_name, std::any p_oldValue, std::any p_newValue);
-
+    void removeNode(BaseNode* p_node);
 
 };
 

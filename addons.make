@@ -1,3 +1,2 @@
 ofxAssimpModelLoader
 ofxImGui
-ofxXmlSettings

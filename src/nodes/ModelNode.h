@@ -28,7 +28,7 @@ protected:
 
 public:
 	explicit ModelNode(const std::string& p_nodeName, const std::string& p_fileBaseName, MODEL_TYPE p_modelType);
-
+	std::string getClassName() override { return "ModelNode"; }
 protected:
 	void updateModel(int p_modelNo);
 	void updateModel(const std::string& p_modelName);

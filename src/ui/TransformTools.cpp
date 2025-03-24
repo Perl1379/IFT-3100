@@ -347,8 +347,10 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
         break;
 
         case TRANSLATE_Z: {
-            float forwardDirection = glm::dot(nodeForward, cameraForward);
-            node->getTransform().dolly(diff.x * mouseSpeedTranslate * glm::sign(forwardDirection));
+
+            float moveAmount = diff.y * mouseSpeedTranslate;
+            float direction = glm::dot(nodeForward, cameraForward);
+            node->getTransform().dolly(moveAmount * glm::sign(direction));
         }
         break;
 

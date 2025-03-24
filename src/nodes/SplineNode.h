@@ -16,6 +16,7 @@ class SplineNode : public BaseNode
 {
 public:
     explicit SplineNode(const std::string& p_nodeName);
+    std::string getClassName() override { return "SplineNode"; }
     void init(int p_controlPointsCount = 6);
 
 private:
@@ -34,6 +35,7 @@ public:
     void nodeChanged(const std::string& p_name = "", std::any p_value = nullptr) override;
 
     std::vector<NodeProperty> getProperties() const override;
+    void removeAllChildren() override {}; // This class uses his own housekeeping functions
     //void setProperty(const std::string& p_name, std::any p_value);
 };
 

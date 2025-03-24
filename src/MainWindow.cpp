@@ -22,13 +22,12 @@ void MainWindow::setup() {
 	ofSetWindowTitle("Adventure Party Maker");
 	ofSetVerticalSync(false);
 
-	Global::setup();
 	m_ui.setup();
+	Global::setup();
+
 
 	// To be removed
 	ofEnableDepthTest();  // Enable depth for 3D rendering
-	m_light.setup();
-	m_light.setPosition(0, 1000, 2000);  // Set light position
 
 }
 
@@ -77,11 +76,11 @@ void MainWindow::cameraDraw(int index) {
 	Global::m_skybox.draw(camera->getPosition());
 
 	ofEnableLighting();
-	m_light.enable();
+
 	ofSetColor(255);
 	Global::m_countNodeRender[index] = Global::m_level.draw(false, &Global::m_cameras[index]);
 	Global::m_transformTools.draw(false);
-	m_light.disable();
+
 	ofDisableLighting();
 	camera->end();
 	fbo->end();

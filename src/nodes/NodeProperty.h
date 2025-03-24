@@ -15,6 +15,7 @@ enum PROPERTY_TYPE {
 	VECTOR3,
 	COLOR_PICKER,
 	FLOAT_FIELD,
+	PRECISE_FLOAT_FIELD,
 	LABEL, //Use to organise properties into categories; a label is the title of a category
 	BOOLEAN_FIELD, //A checkbox that the user can tick
 	INT_FIELD,

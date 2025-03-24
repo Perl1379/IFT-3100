@@ -21,8 +21,6 @@ public:
 	BaseNode* getTree();
 
 	void reset();
-	bool loadFromFile(const std::string& p_filename);
-	bool saveToFile(const std::string& p_filename);
 	int draw(bool p_objectPicking, Camera* p_camera);
 
 };
