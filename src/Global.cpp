@@ -8,8 +8,9 @@
  *****************************************************/
 #include "Global.h"
 #include <Level.h>
+#include <LevelPersistence.h>
 
- // Static allocation
+// Static allocation
 std::array<Camera, 3> Global::m_cameras;
 int Global::m_countNodeRender[3];
 Skybox Global::m_skybox;
@@ -25,6 +26,7 @@ float Global::m_sequenceInterval = 0.5;
 int Global::m_sequenceCount = -1;
 std::string Global::m_sequenceName = "";
 float Global::m_sequenceTotalDelta = 0;
+LightSource Global::m_lights[8];
 
 /**
  * Setup global singleton object
@@ -39,8 +41,29 @@ void Global::setup() {
 	m_cameras[1].setup(ofVec3f(0, 3000, 0), ofVec3f(0, 0, 0));
 	m_cameras[2].setup(ofVec3f(2400, 300, 200), ofVec3f(0, 300, 200));
 
+	// Init lights
+	for (int i=0;i<8;i++) {
+		m_lights[i].setup();
+		m_lights[i].setLightType(POINT_LIGHT);
+		m_lights[i].setPosition(ofVec3f(0, 1000 - (i * 200), 2000));
+
+		if (i > 0) {
+			m_lights[i].setEnabled(false);
+		} else {
+			m_lights[i].setEnabled(true);
+
+		}
+	}
+
+
 	//Init scene
-	m_level.reset();
+	LevelPersistence lp;
+	ofFile file("levels/Default.xml");
+	if (file.exists()) {
+		lp.loadFromFile("levels/Default.xml");
+	} else {
+		m_level.reset();
+	}
 
 	//Setup cursors
 	m_cursorManager.setup();

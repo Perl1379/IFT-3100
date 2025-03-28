@@ -36,14 +36,6 @@ BaseNode::BaseNode(const std::string& p_name) : m_name(p_name) {
  * Destructor
  */
 BaseNode::~BaseNode() {
-
-	ofLog() << "Delete base node: " << m_name;
-	for (BaseNode* child : m_children) {
-		delete child;
-	}
-
-	m_children.clear();
-
 }
 
 
@@ -136,12 +128,15 @@ std::vector<NodeProperty> BaseNode::getProperties() const {
 	properties.emplace_back("Position", PROPERTY_TYPE::VECTOR3, m_transform.getPosition());
 	properties.emplace_back("Orientation", PROPERTY_TYPE::VECTOR3, m_transform.getOrientationEulerDeg());
 	properties.emplace_back("Scale", PROPERTY_TYPE::VECTOR3, m_transform.getScale());
-	properties.emplace_back("Material", PROPERTY_TYPE::LABEL, nullptr);
-	properties.emplace_back("Diffuse Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getDiffuseColor());
-	properties.emplace_back("Ambient Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getAmbientColor());
-	properties.emplace_back("Emissive Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getEmissiveColor());
-	properties.emplace_back("Specular Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getSpecularColor());
-	properties.emplace_back("Shininess", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getShininess());
+
+	if (m_useMaterial) {
+		properties.emplace_back("Material", PROPERTY_TYPE::LABEL, nullptr);
+		properties.emplace_back("Diffuse Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getDiffuseColor());
+		properties.emplace_back("Ambient Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getAmbientColor());
+		properties.emplace_back("Emissive Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getEmissiveColor());
+		properties.emplace_back("Specular Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getSpecularColor());
+		properties.emplace_back("Shininess", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getShininess());
+	}
 
 	return properties;
 
@@ -154,39 +149,48 @@ std::vector<NodeProperty> BaseNode::getProperties() const {
 void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 	if (p_name == "Name") {
 		m_name = std::any_cast<std::string>(p_value);
+		return;
 	}
 
 	if (p_name == "Display") {
 		m_displayNode = std::any_cast<bool>(p_value);
+		return;
 	}
 
 	if (p_name == "Position") {
 		m_transform.setPosition(std::any_cast<glm::vec3>(p_value));
+		return;
 	}
 
 	if (p_name == "Orientation") {
 		m_transform.setOrientation(std::any_cast<glm::vec3>(p_value));
+		return;
 	}
 
 	if (p_name == "Scale") {
 		m_transform.setScale(std::any_cast<glm::vec3>(p_value));
+		return;
 	}
 
 	if (p_name == "Diffuse Color") {
 		ofFloatColor d = std::any_cast<ofFloatColor>(p_value);
 		m_materialNode.setDiffuseColor(d);
+		return;
 	}
 
 	if (p_name == "Ambient Color") {
 		m_materialNode.setAmbientColor(std::any_cast<ofFloatColor>(p_value));
+		return;
 	}
 
 	if (p_name == "Emissive Color") {
 		m_materialNode.setEmissiveColor(std::any_cast<ofFloatColor>(p_value));
+		return;
 	}
 
 	if (p_name == "Specular Color") {
 		m_materialNode.setSpecularColor(std::any_cast<ofFloatColor>(p_value));
+		return;
 	}
 
 	if (p_name == "Shininess") {
@@ -234,13 +238,31 @@ void BaseNode::removeChild(int p_index) {
 	int index = 0;
 	for (BaseNode* child : m_children) {
 		if (child->getId() == p_index) {
+			child->removeAllChildren();
 			delete child;
+			Global::m_actions.removeNode(child);
 			m_children.erase(m_children.begin() + index);
 			return;
 		}
 		index++;
 	}
 
+
+}
+
+
+/**
+ * Remove all children
+ */
+void BaseNode::removeAllChildren() {
+
+	for (BaseNode* child : m_children) {
+		Global::m_actions.removeNode(child);
+		child->removeAllChildren();
+		delete child;
+	}
+
+	m_children.clear();
 
 }
 
@@ -349,4 +371,20 @@ BaseNode* BaseNode::getNextNode() {
 	}
 
 	return nullptr;
+}
+
+
+/**
+ * Is expanded
+ */
+bool BaseNode::isExpanded() {
+	return m_isExpanded;
+}
+
+
+/**
+ * Set expanded
+ */
+void BaseNode::setExpanded(bool p_expanded) {
+	m_isExpanded = p_expanded;
 }

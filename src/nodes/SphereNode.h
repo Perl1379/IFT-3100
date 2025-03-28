@@ -21,6 +21,7 @@ private:
 
 public:
 	explicit SphereNode(const std::string& p_name, float p_radius = 100.0f);
+	std::string getClassName() override { return "SphereNode"; }
 	int draw(bool p_objectPicking, Camera* p_camera) override;
 	ofVec3f getBoundingBox() const override;
 	void setRadius(float p_radius);

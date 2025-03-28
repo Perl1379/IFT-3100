@@ -18,12 +18,14 @@ protected:
 public:
 	SplineControlPoint(const std::string& p_name, const glm::vec3& p_pos);
 	~SplineControlPoint();
+	std::string getClassName() override { return "SplineControlPoint"; }
 
 	int getIndex() const								{ return m_index; };
 	void setIndex(int p_index)							{ m_index = p_index; };
 	void setPosition(float p_x, float p_y, float p_z)	{ setPosition(glm::vec3(p_x, p_y, p_z)); };
 	void setPosition(const glm::vec3& p_pos)			{ m_transform.setPosition(p_pos); };
 	glm::vec3 getPosition() const						{ return m_transform.getPosition(); };
+	bool isSerializable() { return false; }
 
 	std::vector<NodeProperty> getProperties() const override;
 	void setProperty(const std::string& p_name, std::any p_value);

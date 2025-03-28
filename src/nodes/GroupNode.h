@@ -10,8 +10,11 @@
 #include "BaseNode.h"
 
 class GroupNode : public BaseNode {
+
 public:
     explicit GroupNode(const std::string &p_name);
+    std::string getClassName() override { return "GroupNode"; }
     std::vector<NodeProperty> getProperties() const override;
     ofVec3f getBoundingBox() const override;
+
 };

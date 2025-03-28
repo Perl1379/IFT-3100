@@ -10,9 +10,7 @@
 #include <vector>
 #include <map>
 #include <string>
-#include <ofxXmlSettings.h>
 #include "ofMain.h"
-#include "ofxCustomAssimpModelLoader.h"
 
 
 enum class MODEL_TYPE {

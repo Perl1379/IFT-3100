@@ -37,6 +37,7 @@ private:
 	
 public:
 	CharacterNode(const std::string& p_name = "New Character", const std::string& p_fileBaseName = "");
+	std::string getClassName() override { return "CharacterNode"; }
 	int draw(bool p_objectPicking, Camera* p_camera) override;
 
 	std::vector<NodeProperty> getProperties() const override;

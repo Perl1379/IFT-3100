@@ -15,6 +15,7 @@
  * Undo last action
  */
 void ActionManager::undo() {
+
     if (m_nextAction == 0) {
         return;
     }
@@ -22,6 +23,7 @@ void ActionManager::undo() {
     EditorAction action = m_actions.at(m_nextAction-1);
     performAction(action.getNode(), action.getPropertyName(), action.getOrigValue());
     m_nextAction--;
+
 }
 
 
@@ -59,6 +61,7 @@ void ActionManager::addAction(BaseNode *p_node, const std::string &p_property_na
 * Perform action (set property)
 */
 void ActionManager::performAction(BaseNode *p_node, const std::string &p_property_name, std::any p_new_value) {
+
     if (p_node != nullptr) {
         p_node->setProperty(p_property_name, p_new_value);
     } else {
@@ -66,5 +69,19 @@ void ActionManager::performAction(BaseNode *p_node, const std::string &p_propert
             Global::m_skybox.setup(std::any_cast<std::string>(p_new_value));
 
         }
+    }
+}
+
+/**
+ * Replace a node with a null ptr
+ */
+void ActionManager::removeNode(BaseNode* p_node) {
+    for (int i=0;i<m_actions.size();i++) {
+        if (m_actions[i].getNode() == p_node) {
+            m_actions.erase(m_actions.begin() + i);
+            m_nextAction--;
+            return;
+        }
+
     }
 }

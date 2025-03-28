@@ -20,6 +20,7 @@ private:
 
 public:
     explicit ConeNode(const std::string& p_name);
+    std::string getClassName() override { return "ConeNode"; }
     int draw(bool p_objectPicking, Camera* p_camera) override;
     ofVec3f getBoundingBox() const override;
     void setRadius(float p_radius);

@@ -25,6 +25,7 @@ private:
 
 public:
     explicit TerrainNode(const std::string& p_name);
+    std::string getClassName() override { return "TerrainNode"; }
     int draw(bool p_objectPicking, Camera* p_camera) override;
     ofVec3f getBoundingBox() const override;
     void loadTerrain();

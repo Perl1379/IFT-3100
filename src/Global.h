@@ -18,6 +18,7 @@
 #include "Skybox.h"
 #include "CursorManager.h"
 #include "ModelManager.h"
+#include "LightSource.h"
 
 class Global {
 
@@ -25,6 +26,7 @@ public:
 
 	static std::array<Camera, 3> m_cameras;
 	static int m_countNodeRender[3];
+	static LightSource m_lights[8];
 
 	// Sequence recording
 	static std::string m_sequenceName;

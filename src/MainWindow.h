@@ -17,8 +17,6 @@ private:
 
 	UserInterface m_ui;
 
-	// This light is just temporary
-	ofLight m_light;
 	ofMaterial m_material;
 	bool m_isMiddleMousePressed = false;
 	bool m_isRightMousePressed = false;
