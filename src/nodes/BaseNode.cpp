@@ -276,6 +276,12 @@ void BaseNode::beginDraw(bool p_objectPicking) {
 		ofEnableAlphaBlending();
 	
 		m_materialNode.begin();
+		
+        if (m_textureNode.isAllocated())
+        {
+            m_textureNode.bind();
+        }
+		
 	}
 	else {
 		ofSetColor(Global::idToColor(m_id));
@@ -290,6 +296,10 @@ void BaseNode::beginDraw(bool p_objectPicking) {
 int BaseNode::endDraw(bool p_objectPicking, Camera* p_camera) {
 	int count = 0;
 	if (!p_objectPicking) {
+		if (m_textureNode.isAllocated())
+		{
+			m_textureNode.unbind();
+		}
 		m_materialNode.end();
 		ofDisableAlphaBlending();
 		if (m_displayBoundingBox) {
@@ -297,6 +307,7 @@ int BaseNode::endDraw(bool p_objectPicking, Camera* p_camera) {
 			drawBoundingBox();
 			m_materialUnlit.end();
 		}
+
 	}
 
 	for (BaseNode* child : m_children) {
@@ -387,4 +398,14 @@ bool BaseNode::isExpanded() {
  */
 void BaseNode::setExpanded(bool p_expanded) {
 	m_isExpanded = p_expanded;
+}
+
+void BaseNode::allocateTexture(ofImage p_image)
+{
+    m_textureNode.loadData(p_image.getPixels());
+
+    m_materialNode.setDiffuseColor(ofColor::white);
+    m_materialNode.setAmbientColor(ofColor::gray);
+    m_materialNode.setSpecularColor(ofColor::white);
+    m_materialNode.setShininess(64);
 }

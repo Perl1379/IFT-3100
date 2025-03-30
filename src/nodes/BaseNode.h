@@ -28,6 +28,7 @@ protected:
 
 
     ofMaterial m_materialNode;
+    ofTexture m_textureNode;
     ofMaterial m_materialUnlit;
 
     void beginDraw(bool p_objectPicking);
@@ -83,4 +84,6 @@ public:
 
     bool isExpanded();
     void setExpanded(bool p_expanded);
+
+    void allocateTexture(ofImage p_image);
 };
