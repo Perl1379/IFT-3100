@@ -5,7 +5,7 @@
 		<Camera position="0, 3000, 0" orientation="-90, 0, 0" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" />
 		<Camera position="1368.28, 1430.71, 2194.45" orientation="-26.652, 22.0035, -2.73113" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" />
 	</Cameras>
-	<Lights ambientColor="1, 1, 1, 1">
+	<Lights ambientColor="0, 0, 0, 1">
 		<LightSource type="1" enabled="1" position="0, 1000, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, 800, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, 600, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
@@ -16,6 +16,37 @@
 		<LightSource type="1" enabled="0" position="0, -400, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 	</Lights>
 	<Nodes>
+		<Node class="GroupNode" expanded="1">
+			<Properties>
+				<Property name="Name" type="0" value="Pine Tree" />
+				<Property name="Display" type="6" value="1" />
+				<Property name="Transform" type="5" />
+				<Property name="Position" type="1" value="300, 300, -1200" />
+				<Property name="Orientation" type="1" value="0, -0, 0" />
+				<Property name="Scale" type="1" value="1, 1, 1" />
+			</Properties>
+			<Node class="CylinderNode" expanded="1">
+				<Properties>
+					<Property name="Name" type="0" value="Trunk" />
+					<Property name="Display" type="6" value="1" />
+					<Property name="Transform" type="5" />
+					<Property name="Position" type="1" value="0, 0, 0" />
+					<Property name="Orientation" type="1" value="0, -0, 0" />
+					<Property name="Scale" type="1" value="3, 4, 3" />
+					<Property name="Material" type="5" />
+					<Property name="Diffuse Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Ambient Color" type="2" value="0.498039, 0.498039, 0.498039, 1" />
+					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
+					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Shininess" type="3" value="64" />
+					<Property name="Cylinder parameters" type="5" />
+					<Property name="Radius" type="3" value="50" />
+					<Property name="Height" type="3" value="200" />
+					<Property name="Resolution R" type="7" value="24" />
+					<Property name="Resolution H" type="7" value="3" />
+				</Properties>
+			</Node>
+		</Node>
 		<Node class="GroupNode" expanded="1">
 			<Properties>
 				<Property name="Name" type="0" value="Adventurers" />
@@ -189,7 +220,7 @@
 					<Property name="Display" type="6" value="1" />
 					<Property name="Transform" type="5" />
 					<Property name="Position" type="1" value="0, 600, 0" />
-					<Property name="Orientation" type="1" value="0, -0, -180" />
+					<Property name="Orientation" type="1" value="0, -0, 180" />
 					<Property name="Scale" type="1" value="10, 7, 10" />
 					<Property name="Material" type="5" />
 					<Property name="Diffuse Color" type="2" value="0.08, 0.28, 0.2, 1" />

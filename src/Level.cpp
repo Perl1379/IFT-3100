@@ -14,7 +14,7 @@
 #include "SphereNode.h"
 #include "AssetNode.h"
 #include "CharacterNode.h"
-#include <CylinderNode.cpp>
+#include <CylinderNode.h>
 #include <PerlinNoiseTexture.h>
 
  /**
@@ -174,28 +174,30 @@ void Level::reset() {
 	// spline->getTransform().setPosition(glm::vec3(0.0, 50.0, 800.0));
 	// spline->getMaterial().setDiffuseColor(ofFloatColor(0.0, 0.0, 1.0));
 	// m_objects->addChild(spline);
-	 GroupNode* tree_group = new GroupNode("Pine Tree");
-	 tree_group->getTransform().setPosition(300, 300, -1200);
-	 m_objects->addChild(tree_group);
-	 CylinderNode* node_cylinder = new CylinderNode("Trunk");
-	 tree_group->addChild(node_cylinder);
-	 node_cylinder->getTransform().setScale(3, 4, 3);
-	 node_cylinder->setProperty("Diffuse Color", ofFloatColor(0.5, 0.31, 0.07));
-	 int width = 512;
-	 int height = 512;
-	 ofImage image;
-	 image.allocate(width, height, OF_IMAGE_GRAYSCALE);
+	 // GroupNode* tree_group = new GroupNode("Pine Tree");
+	 // tree_group->getTransform().setPosition(300, 300, -1200);
+	 // m_objects->addChild(tree_group);
+	 // CylinderNode* node_cylinder = new CylinderNode("Trunk");
+	 // tree_group->addChild(node_cylinder);
+	 // node_cylinder->getTransform().setScale(3, 4, 3);
+	 // node_cylinder->setProperty("Diffuse Color", ofFloatColor(0.5, 0.31, 0.07));
+	 // int width = 512;
+	 // int height = 512;
+	 // ofImage image;
+	 // image.allocate(width, height, OF_IMAGE_GRAYSCALE);
+	 //
+	 // PerlinNoiseTexture perlinNoise;
+	 // for (int y = 0; y < height; ++y) {
+		//  for (int x = 0; x < width; ++x) {
+		// 	 double noiseValue = perlinNoise.noise(x * 0.1, y * 0.1, 0.0);
+		// 	 noiseValue = ofMap(noiseValue, -1, 1, 0, 255);
+		// 	 image.setColor(x, y, ofColor(noiseValue));
+		//  }
+	 // }
+	 // image.update();
+	 // node_cylinder->allocateTexture(image);
 
-	 PerlinNoiseTexture perlinNoise;
-	 for (int y = 0; y < height; ++y) {
-		 for (int x = 0; x < width; ++x) {
-			 double noiseValue = perlinNoise.noise(x * 0.1, y * 0.1, 0.0);
-			 noiseValue = ofMap(noiseValue, -1, 1, 0, 255);
-			 image.setColor(x, y, ofColor(noiseValue));
-		 }
-	 }
-	 image.update();
-	 node_cylinder->allocateTexture(image);
+
 	// Add light sources
 	for (int i=0;i<8;i++) {
 		LightNode* light = new LightNode("Light #" + std::to_string(i+1), i);

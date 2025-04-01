@@ -92,7 +92,7 @@ void TerrainNode::loadTerrain() {
     std::vector<glm::vec3> normals(m_meshTerrain.getVertices().size(), glm::vec3(0, 0, 0));
 
     // Loop through all triangles
-    for (int i = 0; i < m_meshTerrain.getIndices().size(); i += 3) {
+    for (size_t i = 0; i < m_meshTerrain.getIndices().size(); i += 3) {
         int i1 = m_meshTerrain.getIndex(i);
         int i2 = m_meshTerrain.getIndex(i + 1);
         int i3 = m_meshTerrain.getIndex(i + 2);
