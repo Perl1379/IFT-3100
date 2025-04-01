@@ -280,7 +280,9 @@ void BaseNode::beginDraw(bool p_objectPicking) {
         if (m_textureNode.isAllocated())
         {
             m_textureNode.bind();
+			//ofLog() << "Texture bound";
         }
+		
 		
 	}
 	else {

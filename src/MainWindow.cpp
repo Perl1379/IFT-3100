@@ -24,8 +24,8 @@ void MainWindow::setup() {
 
 	m_ui.setup();
 	Global::setup();
-
-
+	bool isGood = m_shader.load("tone_mapping_330_vs.glsl", "tone_mapping_330_fs.glsl");
+	ofLog() << "Shader loaded: " << isGood;
 	// To be removed
 	ofEnableDepthTest();  // Enable depth for 3D rendering
 
@@ -68,7 +68,7 @@ void MainWindow::cameraDraw(int index) {
 
 	fbo->begin();
 
-
+	m_shader.begin();
 	camera->begin();
 	ofBackground(0);
 
@@ -78,11 +78,18 @@ void MainWindow::cameraDraw(int index) {
 	ofEnableLighting();
 
 	ofSetColor(255);
+	
+
+	
+
+	// passer les attributs uniformes au shader
+
 	Global::m_countNodeRender[index] = Global::m_level.draw(false, &Global::m_cameras[index]);
 	Global::m_transformTools.draw(false);
 
 	ofDisableLighting();
 	camera->end();
+	m_shader.end();
 	fbo->end();
 
 	// Generate Object picking FBO only for hovered camera viewport
