@@ -349,7 +349,7 @@ void BaseNode::drawBoundingBox() {
 BaseNode* BaseNode::getPreviousNode() {
 
 	BaseNode* parent = getParent();
-	for  (int i=0;i<parent->m_children.size();i++) {
+	for  (size_t i=0;i<parent->m_children.size();i++) {
 		if (parent->m_children[i] == this) {
 			if (i > 0) return parent->m_children[i-1];
 		}
@@ -364,7 +364,7 @@ BaseNode* BaseNode::getPreviousNode() {
 */
 BaseNode* BaseNode::getNextNode() {
 	BaseNode* parent = getParent();
-	for  (int i=0;i<parent->m_children.size();i++) {
+	for  (size_t i=0;i<parent->m_children.size();i++) {
 		if (parent->m_children[i] == this) {
 			if (i+1 < parent->m_children.size()) return parent->m_children[i+1];
 		}

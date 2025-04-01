@@ -79,8 +79,7 @@ void test_spawn_sphere(BaseNode* tree, int sphere_count, float sphere_spacing, f
  */
 void Level::reset() {
 
-	BaseNode* node = getTree();
-	node->removeAllChildren();
+	m_tree->removeAllChildren();
 	Global::m_selectedNode = -1;
 
 	// Create two main groups (Objects, Lights)
@@ -201,4 +200,113 @@ void Level::reset() {
 	// node->setDisplayNode(false);
 
 
+}
+
+
+/**
+ * Intersect test using a sphere
+ */
+float intersectsSphere(const glm::vec3& rayOrigin, const glm::vec3& rayDir, const glm::vec3& sphereCenter, float sphereRadius) {
+	glm::vec3 oc = rayOrigin - sphereCenter;
+	float a = glm::dot(rayDir, rayDir);
+	float b = 2.0f * glm::dot(oc, rayDir);
+	float c = glm::dot(oc, oc) - sphereRadius * sphereRadius;
+	float discriminant = b * b - 4 * a * c;
+
+	if (discriminant < 0) {
+		return -1.0f;
+	}
+
+	float sd = glm::sqrt(discriminant);
+	float test1 = (-b - sd) / (2.0f * a);
+	float test2 = (-b + sd) / (2.0f * a);
+
+	if (test1 > 0) return test1;
+	if (test2 > 0) return test2;
+
+	return -1.0f;
+}
+
+
+/**
+ * Find a node from a mouse position
+ */
+int Level::findNodeByMousePosition(int cameraIndex, int x, int y, glm::vec2 viewportSize) {
+
+
+	ofCustomCamera* cam = Global::m_cameras[cameraIndex].getCamera();
+
+	float nx = (x / (float)viewportSize.x) * 2.0f - 1.0f;
+	float ny = 1.0f - (y / (float)viewportSize.y) * 2.0f;  // Flip Y-axis
+
+	float aspectRatio = (float)viewportSize.x / (float)viewportSize.y;
+
+	float fovY = glm::radians(cam->getFov());
+	float fovX = 2.0f * atan(tan(fovY / 2.0f) * aspectRatio);
+	nx *= tan(fovX / 2.0f);
+
+	glm::mat4 projMatrix = cam->getProjectionMatrix();
+	glm::mat4 viewMatrix = cam->getModelViewMatrix();
+	glm::mat4 invViewProj = glm::inverse(projMatrix * viewMatrix);
+
+	glm::vec4 nearPoint;
+	glm::vec4 farPoint;
+
+	if (cam->getOrtho()) {
+		nearPoint = invViewProj * glm::vec4(nx, ny, 0.0, 1.0);
+		farPoint  = invViewProj * glm::vec4(nx, ny, 1.0, 1.0);
+	} else {
+		nearPoint = invViewProj * glm::vec4(nx, ny, -1.0, 1.0);
+		farPoint  = invViewProj * glm::vec4(nx, ny, 1.0, 1.0);
+	}
+
+	glm::vec3 rayStart = glm::vec3(nearPoint) / nearPoint.w;
+	glm::vec3 rayEnd   = glm::vec3(farPoint) / farPoint.w;
+	glm::vec3 rayDir   = glm::normalize(rayEnd - rayStart);
+
+
+	vector<BaseNode*> nodesToCheck;
+	for (BaseNode* subNode : m_tree->getChildren()[0]->getChildren()) {
+		nodesToCheck.push_back(subNode);
+	}
+
+	vector<std::pair<int, BaseNode*>> nodesFound;
+	for (size_t i=0;i<nodesToCheck.size();i++) {
+
+		for (BaseNode* subNode : nodesToCheck[i]->getChildren()) {
+			nodesToCheck.push_back(subNode);
+		}
+		if (nodesToCheck[i]->getClassName() == "GroupNode") continue;
+		if ((nodesToCheck[i]->getClassName() == "TerrainNode") && (nodesToCheck.size() > 1)) continue;
+
+		ofVec3f pos = nodesToCheck[i]->getTransform().getGlobalPosition();
+		ofVec3f bound = nodesToCheck[i]->getBoundingBox() * nodesToCheck[i]->getTransform().getGlobalScale();
+		float radius = bound.length() / 2.0;
+		float distance = intersectsSphere(rayStart, rayDir, pos, radius);
+		if (distance > 0) {
+
+			//ofLog() << "Node:" << nodesToCheck[i]->getName() << ", Distance:" << distance;
+			nodesFound.push_back({distance, nodesToCheck[i]});
+
+		}
+	}
+
+	if (nodesFound.size() > 0) {
+
+		int selectedNode = nodesFound[0].second->getId();
+		int minDistance = nodesFound[0].first;
+
+		if (nodesFound.size() > 1) {
+			for (size_t i=1;i<nodesFound.size();i++) {
+				int distance = nodesFound[i].first;
+				if (distance < minDistance) {
+					selectedNode = nodesFound[i].second->getId();
+					minDistance = distance;
+				}
+			}
+		}
+		return selectedNode;
+	}
+
+	return 0;
 }

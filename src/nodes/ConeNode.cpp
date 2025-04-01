@@ -32,7 +32,8 @@ int ConeNode::draw(bool p_objectPicking, Camera* p_camera) {
     int count = 0;
 
     beginDraw(p_objectPicking);
-    if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox())) {
+    if (p_camera->testVisibility(m_transform.getGlobalPosition(),
+        getBoundingBox() * m_transform.getGlobalScale())) {
         m_transform.transformGL();
         m_primitive.draw();
         m_transform.restoreTransformGL();
@@ -123,4 +124,12 @@ void ConeNode::setResolutionRadius(int p_resolution) {
  */
 void ConeNode::setResolutionHeight(int p_resolution) {
     m_primitive.setResolutionHeight(p_resolution);
+}
+
+
+/**
+ * Get mesh
+ */
+ofMesh* ConeNode::getMesh() {
+    return &m_primitive.getMesh();
 }

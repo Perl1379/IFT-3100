@@ -61,10 +61,15 @@ void ActionManager::addAction(BaseNode *p_node, const std::string &p_property_na
 * Perform action (set property)
 */
 void ActionManager::performAction(BaseNode *p_node, const std::string &p_property_name, std::any p_new_value) {
-
+    ofLog() << "Perform action : " << p_property_name;
     if (p_node != nullptr) {
         p_node->setProperty(p_property_name, p_new_value);
     } else {
+        if (p_property_name == "ambient_light_color") {
+            Global::m_ambientLightColor = std::any_cast<ofFloatColor>(p_new_value);
+            ofSetGlobalAmbientColor(Global::m_ambientLightColor);
+        }
+
         if (p_property_name == "skybox_change") {
             Global::m_skybox.setup(std::any_cast<std::string>(p_new_value));
 
@@ -76,7 +81,7 @@ void ActionManager::performAction(BaseNode *p_node, const std::string &p_propert
  * Replace a node with a null ptr
  */
 void ActionManager::removeNode(BaseNode* p_node) {
-    for (int i=0;i<m_actions.size();i++) {
+    for (size_t i=0;i<m_actions.size();i++) {
         if (m_actions[i].getNode() == p_node) {
             m_actions.erase(m_actions.begin() + i);
             m_nextAction--;

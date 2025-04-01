@@ -48,7 +48,7 @@ void ModelManager::listNames(std::vector<std::string>& p_list, const std::string
 /**
 * List the keys in a vector; needed for NodeProperties and ImGui
 */
-void ModelManager::listCNames(std::vector<std::string>& p_list, std::vector<char*>& p_cList)
+void ModelManager::listCNames(std::vector<std::string>& p_list, std::vector<const char*>& p_cList)
 {
 	p_cList.reserve(p_list.size());
 	for (const auto& item : p_list) {
@@ -63,10 +63,10 @@ void ModelManager::listCNames(std::vector<std::string>& p_list, std::vector<char
 */
 void ModelManager::loadCharacterTextures()
 {
-	for(int i = 0; i < m_characterStrNames.size(); i++)
+	for(size_t i = 0; i < m_characterStrNames.size(); i++)
 	{
 		std::array<ofTexture, 4> textureVariant;
-		for (int j = 0; j < m_CHARACTER_TEXTURE_FILE_NAMES.size(); j++)
+		for (size_t j = 0; j < m_CHARACTER_TEXTURE_FILE_NAMES.size(); j++)
 		{
 			// "Rogue" and its variant model "Rogue_Hooded" share the same "Rogue" texture files
 			std::string characterName = m_characterStrNames.at(i) == "Rogue_Hooded" ? "Rogue" : m_characterStrNames.at(i);
@@ -86,7 +86,7 @@ void ModelManager::loadCharacterTextures()
 /**
 * Gets the names list. Use with ImGui Combo
 */
-const std::vector<char*> ModelManager::getCNames(MODEL_TYPE p_type)
+const std::vector<const char*> ModelManager::getCNames(MODEL_TYPE p_type)
 {
 	if (p_type == MODEL_TYPE::ASSET) {
 		return m_assetCNames;
@@ -99,7 +99,7 @@ const std::vector<char*> ModelManager::getCNames(MODEL_TYPE p_type)
 /**
 * Gets the texture names list. Use with ImGui Combo
 */
-const std::vector<char*> ModelManager::getCTexNames(int p_index, MODEL_TYPE p_type)
+vector<const char *> ModelManager::getCTexNames(int p_index, MODEL_TYPE p_type)
 {
 	if (p_type != MODEL_TYPE::CHARACTER) {
 		ofLog(OF_LOG_FATAL_ERROR) << "getCTexNames is only available for our characters (we use the KayKit textures which have a shared naming convention).";
@@ -171,7 +171,7 @@ std::string ModelManager::getRandom(MODEL_TYPE p_type)
 int ModelManager::getModelNo(const std::string& p_name, MODEL_TYPE p_type)
 {
 	if (p_type == MODEL_TYPE::ASSET) {
-		for (int i = 0; i < m_assetCNames.size(); i++) {
+		for (size_t i = 0; i < m_assetCNames.size(); i++) {
 			std::string name(m_assetCNames[i]);
 			if (name == p_name) {
 				return i;

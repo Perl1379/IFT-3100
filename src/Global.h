@@ -27,6 +27,7 @@ public:
 	static std::array<Camera, 3> m_cameras;
 	static int m_countNodeRender[3];
 	static LightSource m_lights[8];
+	static ofFloatColor m_ambientLightColor;
 
 	// Sequence recording
 	static std::string m_sequenceName;
@@ -37,6 +38,7 @@ public:
 	static Level m_level;
 	static int m_selectedNode;
 	static bool m_selectedFromViewport;
+	static bool m_doColorPicking;
 	static TransformTools m_transformTools;
 	static ActionManager m_actions;
 	static Skybox m_skybox;

@@ -80,6 +80,7 @@ public:
     BaseNode* findNode(int p_id);
     BaseNode* getPreviousNode();
     BaseNode* getNextNode();
+    virtual ofMesh* getMesh() { return nullptr; }
 
     bool isExpanded();
     void setExpanded(bool p_expanded);

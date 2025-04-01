@@ -31,11 +31,15 @@ void ModelNode::updateModel(int p_modelNo) {
 	m_fileBaseName = Global::m_modelManager.getModelName(p_modelNo, m_modelType);
 	loadModel(Global::m_modelManager.getModelPath(p_modelNo, m_modelType));
 }
+
+
 void ModelNode::updateModel(const std::string& p_modelName) {
 	m_modelNo = Global::m_modelManager.getModelNo(p_modelName, m_modelType);
 	m_fileBaseName = p_modelName;
 	loadModel(Global::m_modelManager.getModelPath(p_modelName, m_modelType));
 }
+
+
 void ModelNode::loadModel(const std::string& p_filePath) {
 	//m_filePath = p_filePath;
 	m_model.load(p_filePath);
@@ -107,7 +111,7 @@ int ModelNode::draw(bool p_objectPicking, Camera* p_camera)
 	beginDraw(p_objectPicking);
 	updateBoundingBox();
 
-	if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox())) {
+	if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {
 		m_transform.transformGL();
 		if (p_objectPicking) {
 			m_model.disableMaterials();
@@ -211,3 +215,5 @@ ModelNode::~ModelNode()
 {
 	//todo
 }
+
+

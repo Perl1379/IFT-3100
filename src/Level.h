@@ -22,6 +22,7 @@ public:
 
 	void reset();
 	int draw(bool p_objectPicking, Camera* p_camera);
+	int findNodeByMousePosition(int cameraIndex, int x, int y, glm::vec2 viewportSize);
 
 };
 

@@ -29,4 +29,5 @@ public:
     void setResolutionHeight(int p_resolution);
     std::vector<NodeProperty> getProperties() const override;
     void setProperty(const std::string &p_name, std::any p_value) override;
+    ofMesh* getMesh() override;
 };
