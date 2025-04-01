@@ -1,5 +1,7 @@
 #include "PerlinNoiseTexture.h"
 
+#include <algorithm>
+
 PerlinNoiseTexture::PerlinNoiseTexture(unsigned int seed) {
     p.resize(256);
     std::iota(p.begin(), p.end(), 0);
