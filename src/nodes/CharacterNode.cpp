@@ -31,7 +31,7 @@ int CharacterNode::draw(bool p_objectPicking, Camera* p_camera)
 	beginDraw(p_objectPicking);
 	updateBoundingBox();
 
-	if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox())) {
+	if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {
 		m_transform.transformGL();
 		if (p_objectPicking) {
 			// p_objectPicking == true means we are drawing the object picking FBO
@@ -363,3 +363,4 @@ void CharacterNode::debugPrintNames() const
 		ofLog() << " --- Anim: " << anim->m_animationID << " : " << anim->m_devName << " (Player facing name: " << anim->m_playerFacingName << ")";
 	}
 }
+

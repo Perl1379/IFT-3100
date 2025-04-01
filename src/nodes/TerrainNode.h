@@ -33,6 +33,6 @@ public:
     std::string getTerrainName() const;
     std::vector<NodeProperty> getProperties() const override;
     void setProperty(const std::string &p_name, std::any p_value) override;
-
+    ofMesh* getMesh() override;
 };
 

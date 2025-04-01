@@ -37,14 +37,14 @@ private:
 	// Model names
 	std::vector<std::string> m_characterStrNames;
 	std::vector<std::string> m_assetStrNames;
-	std::vector<char*> m_characterCNames;
-	std::vector<char*> m_assetCNames;
+	std::vector<const char*> m_characterCNames;
+	std::vector<const char*> m_assetCNames;
 
 	// Character textures
 	const std::string m_CHARACTER_TEXTURE_PATH = "KayKit/Textures";
 	const std::vector<std::string> m_CHARACTER_TEXTURE_FILE_NAMES{ "texture.png", "texture_alt_A.png", "texture_alt_B.png", "texture_alt_C.png" };
 	std::map<int, std::array<ofTexture, 4>> m_characterTextures;
-	const std::map<std::string, std::vector<char*>> m_CHARACTER_TEXTURE_NAMES{
+	const std::map<std::string, std::vector<const char*>> m_CHARACTER_TEXTURE_NAMES{
 		{"Barbarian", {
 			"Ice moose",
 			"Clover fox",
@@ -83,15 +83,17 @@ private:
 	};
 	
 	//functions
-public: 
-	void init();
+
 private:
 	void listNames(std::vector<std::string>& p_list, const std::string& p_directoryPath, const std::string& p_fileExtension);
-	void listCNames(std::vector<std::string>& p_list, std::vector<char*>& p_cList);
+	void listCNames(std::vector<std::string>& p_list, std::vector<const char*>& p_cList);
 	void loadCharacterTextures();
+
 public:
-	const std::vector<char*> getCNames(MODEL_TYPE p_type);
-	const std::vector<char*> getCTexNames(int p_index, MODEL_TYPE p_type = MODEL_TYPE::CHARACTER);
+	void init();
+	const std::vector<const char*> getCNames(MODEL_TYPE p_type);
+
+	vector<const char *> getCTexNames(int p_index, MODEL_TYPE p_type = MODEL_TYPE::CHARACTER);
 	std::string getModelPath(const std::string& p_name, MODEL_TYPE p_type);
 	std::string getModelPath(int p_cIndex, MODEL_TYPE p_type);
 	std::string getModelName(int p_index, MODEL_TYPE p_type);

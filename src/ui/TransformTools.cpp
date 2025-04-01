@@ -20,8 +20,19 @@ TransformTools::TransformTools() {
     m_materialUnlit.setAmbientColor(ofFloatColor(0.0, 0.0, 0.0));
     m_materialUnlit.setDiffuseColor(ofFloatColor(0.0));
     m_materialUnlit.setSpecularColor(ofFloatColor(0.0));
-    
-    //"conePrimitives" are the points of the translation gizmo's arrows
+
+    for (int i=0;i<3;i++) {
+        m_conePrimitives.emplace_back();
+        m_spherePrimitives.emplace_back();
+        m_conePrimitivesObjectPicking.emplace_back();
+        m_spherePrimitivesObjectPicking.emplace_back();
+    }
+
+    for (int i=0;i<4;i++) {
+        m_cubePrimitives.emplace_back();
+        m_cubePrimitivesObjectPicking.emplace_back();
+    }
+
     m_conePrimitives[0].setScale(m_conePrimitivesScale);
     m_conePrimitives[0].setOrientation(glm::vec3(0, 0, 90));
     m_conePrimitives[1].setScale(m_conePrimitivesScale);
@@ -462,4 +473,28 @@ int TransformTools::getTransformMode() const {
  */
 void TransformTools::setTransformMode(int mode) {
     m_transformMode = mode;
+}
+
+
+/**
+ * Get cone primitives
+ */
+const std::vector<ofConePrimitive>& TransformTools::getConePrimitives() {
+    return m_conePrimitives;
+}
+
+
+/**
+ * Get sphere primitives
+ */
+const std::vector<ofSpherePrimitive>& TransformTools::getSpherePrimitives() {
+    return m_spherePrimitives;
+}
+
+
+/**
+ * Get cube primitives
+ */
+const std::vector<ofBoxPrimitive>& TransformTools::getCubePrimitives() {
+    return m_cubePrimitives;
 }

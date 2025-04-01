@@ -16,7 +16,7 @@ class ActionManager {
 
   private:
 
-    int m_nextAction = 0;
+    unsigned int m_nextAction = 0;
     std::vector<EditorAction> m_actions;
     void performAction(BaseNode* p_node, const std::string& p_property_name, std::any p_new_value);
 

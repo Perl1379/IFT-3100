@@ -32,7 +32,7 @@ int SphereNode::draw(bool p_objectPicking, Camera* p_camera) {
     int count = 0;
     beginDraw(p_objectPicking);
 
-    if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox())) {
+    if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {
         m_transform.transformGL();
         m_primitive.draw();
         m_transform.restoreTransformGL();
@@ -59,6 +59,7 @@ ofVec3f SphereNode::getBoundingBox() const {
 	return {size, size, size};
 }
 
+
 /**
  * Get properties
  */
@@ -69,6 +70,7 @@ std::vector<NodeProperty> SphereNode::getProperties() const {
     properties.emplace_back("Resolution", PROPERTY_TYPE::INT_FIELD, m_primitive.getResolution());
     return properties;
 }
+
 
 /**
  * Set property
@@ -87,9 +89,18 @@ void SphereNode::setProperty(const std::string &p_name, std::any p_value) {
     BaseNode::setProperty(p_name, std::any(p_value));
 }
 
+
 /**
  * Set resolution
  */
 void SphereNode::setResolution(int p_resolution) {
     m_primitive.setResolution(p_resolution);
+}
+
+
+/**
+ * Get mesh
+ */
+ofMesh* SphereNode::getMesh() {
+    return &m_primitive.getMesh();
 }

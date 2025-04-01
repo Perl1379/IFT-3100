@@ -20,7 +20,8 @@ public:
     std::string getCurrentSkybox() const;
 private:
     ofShader m_shader;
-    ofTexture m_textures[6];
+    ofTexture m_cubemapTexture;
+//    ofTexture m_textures[6];
     ofMesh skyboxMesh;
     std::string m_currentSkybox;
 };

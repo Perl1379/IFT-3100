@@ -43,6 +43,7 @@ public:
 	ofVec3f getBoundingBox() const override;
 	ofxCustomAssimpModelLoader& getModel();
 
+
 protected:
 	std::string makePlayerFacingName(const std::string& p_name);
 	void updateBoundingBox();

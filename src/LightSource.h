@@ -20,10 +20,14 @@ private:
     ofLight* m_light;
     int m_lightType;
     bool m_enabled = true;
+    int m_bindCamera = -1;
 
 public:
     void setup();
     void setEnabled(bool enabled);
+    void update();
+    void setCameraBind(int cameraIndex);
+    int getCameraBind();
 
     bool getEnabled();
 
