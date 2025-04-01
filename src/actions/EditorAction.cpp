@@ -15,7 +15,7 @@
 EditorAction::EditorAction(BaseNode *p_node, const std::string &p_property_name, std::any p_orig_value,
                            std::any p_new_value) :
                            m_node(p_node), m_property_name(p_property_name),
-                           m_new_value(p_new_value), m_orig_value(p_orig_value) {
+                           m_orig_value(p_orig_value), m_new_value(p_new_value) {
 }
 
 

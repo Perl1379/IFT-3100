@@ -20,13 +20,12 @@ void MainWindow::setup() {
 	ofSetEscapeQuitsApp(false);  // Disable ESC quitting
 
 	ofSetWindowTitle("Adventure Party Maker");
-	ofSetVerticalSync(false);
+	ofSetVerticalSync(true);
 
 	m_ui.setup();
 	Global::setup();
+	ofSetGlobalAmbientColor(Global::m_ambientLightColor);
 
-
-	// To be removed
 	ofEnableDepthTest();  // Enable depth for 3D rendering
 
 }
@@ -37,11 +36,14 @@ void MainWindow::setup() {
  */
 void MainWindow::draw() {
 
-	ofBackground(0);
-
 	// Reset render stats
 	for (int i = 0;i < 3;i++) {
 		Global::m_countNodeRender[i] = 0;
+	}
+
+	// Update lights
+	for (int i=0;i<8;i++) {
+		Global::m_lights[i].update();
 	}
 
 	// We render three times
@@ -68,7 +70,6 @@ void MainWindow::cameraDraw(int index) {
 
 	fbo->begin();
 
-
 	camera->begin();
 	ofBackground(0);
 
@@ -82,19 +83,22 @@ void MainWindow::cameraDraw(int index) {
 	Global::m_transformTools.draw(false);
 
 	ofDisableLighting();
+
 	camera->end();
 	fbo->end();
 
 	// Generate Object picking FBO only for hovered camera viewport
-	if (getCurrentCameraIndex() == index) {
-		auto fboPicking = Global::m_cameras[index].getPickingFbo();
-		fboPicking->begin();
-		camera->begin();
-		ofBackground(0);
-		Global::m_level.draw(true, &Global::m_cameras[index]);
-		Global::m_transformTools.draw(true);
-		camera->end();
-		fboPicking->end();
+	if (Global::m_doColorPicking) {
+		if (getCurrentCameraIndex() == index) {
+			auto fboPicking = Global::m_cameras[index].getPickingFbo();
+			fboPicking->begin();
+			camera->begin();
+			ofBackground(0);
+			Global::m_level.draw(true, &Global::m_cameras[index]);
+			Global::m_transformTools.draw(true);
+			camera->end();
+			fboPicking->end();
+		}
 	}
 
 }
@@ -376,6 +380,7 @@ void MainWindow::exit() {
  * Callback function for handling mouse pressed events
  */
 void MainWindow::mousePressed(int x, int y, int button) {
+
 	if (button == OF_MOUSE_BUTTON_MIDDLE) {
 		m_isMiddleMousePressed = true;
 		m_lastMousePosition.set(x, y);
@@ -427,25 +432,30 @@ void MainWindow::mouseDragged(int x, int y, int button) {
 	if (index == -1) return;
 	if (m_isMiddleMousePressed && button == OF_MOUSE_BUTTON_MIDDLE) {
 
+
 		auto mx = static_cast<float>(x);
 		auto my = static_cast<float>(y);
-
-		float sensitivity = 0.2f; // Rotation speed
-
+		float sensitivity = 0.2f;
 		float deltaX = mx - m_lastMousePosition.x;
 		float deltaY = my - m_lastMousePosition.y;
-
 		ofCamera* camera = Global::m_cameras[index].getCamera();
 		float xdiff = -deltaX * sensitivity;
 		float ydiff = -deltaY * sensitivity;
 
-		ofVec3f upvec = Global::m_cameras[index].getUpVector();
-		ofVec3f sidev = camera->getSideDir();
+		ofVec3f rightVector = camera->getSideDir();
+		float maxPitch = 85.0f;
+		float currentPitch = glm::degrees(asin(camera->getLookAtDir().y));
+		if ((currentPitch + ydiff) > maxPitch) {
+			ydiff = maxPitch - currentPitch;
+		} else if ((currentPitch + ydiff) < -maxPitch) {
+			ydiff = -maxPitch - currentPitch;
+		}
 
-		camera->rotate(ydiff, sidev);
-		camera->rotate(xdiff, upvec);
+		camera->rotateDeg(ydiff, rightVector);
+		camera->rotateDeg(xdiff, {0, 1, 0});
 
 		m_lastMousePosition.set(mx, my);
+
 	}
 
 	if (m_isRightMousePressed && button == OF_MOUSE_BUTTON_RIGHT) {

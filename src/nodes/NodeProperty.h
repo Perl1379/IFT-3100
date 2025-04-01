@@ -20,7 +20,7 @@ enum PROPERTY_TYPE {
 	BOOLEAN_FIELD, //A checkbox that the user can tick
 	INT_FIELD,
 	ITEM_LIST, //Pass a std::vector<std::string> with the currentItem placed at the back
-	ITEM_CLIST, //Pass a std::pair<int, std::vector<char*>>: first is the currenItem and second is the list of options
+	ITEM_CLIST, //Pass a std::pair<int, std::vector<const char*>>: first is the currenItem and second is the list of options
 	TEXT_INFO, //Use to display information about the node, for example the value of a variable that the user can't directly modify (i.e.: the index of a spline control point)
 };
 

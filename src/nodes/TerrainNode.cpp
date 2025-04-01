@@ -22,7 +22,7 @@ TerrainNode::TerrainNode(const std::string& p_name) : BaseNode(p_name) {
     ofDirectory dirTerrains;
     dirTerrains.listDir("images/terrains/");
 
-    for (int i=0;i<dirTerrains.size();i++) {
+    for (size_t i=0;i<dirTerrains.size();i++) {
         std::string name = dirTerrains.getFile(i).getBaseName();
         m_terrainNames.push_back(name);
     }
@@ -146,6 +146,7 @@ void TerrainNode::loadTerrain() {
     m_boundingBox.rotate(90,0,0);
 }
 
+
 /**
  * Draw node content
  */
@@ -154,7 +155,7 @@ int TerrainNode::draw(bool p_objectPicking, Camera* p_camera) {
     int count = 0;
     beginDraw(p_objectPicking);
 
-    if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox())) {
+    if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {
         m_transform.transformGL();
         ofRotateDeg(-90,1.0, 0.0, 0.0);
         m_meshTerrain.drawFaces();
@@ -183,7 +184,7 @@ void TerrainNode::setTerrainName(const std::string& p_name) {
    
     m_terrainName = p_name;
 
-    for (int i=0;i<m_terrainNames.size()-1;i++) {
+    for (size_t i=0;i<m_terrainNames.size()-1;i++) {
         if (m_terrainNames[i] == p_name) {
             m_terrainNames.back() = std::to_string(i);
             break;
@@ -225,4 +226,12 @@ void TerrainNode::setProperty(const std::string &p_name, std::any p_value) {
 
 
     BaseNode::setProperty(p_name, std::any(p_value));
+}
+
+
+/**
+ * Get mesh
+ */
+ofMesh* TerrainNode::getMesh() {
+    return &m_meshTerrain;
 }

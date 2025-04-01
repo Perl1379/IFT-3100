@@ -13,6 +13,7 @@ struct TooltipMessages {
 
 	// Generic 
 	const char* TODO = "Coming soon!";
+	const char * ambient_light_color = "Ambient light color";
 
 	// BaseNode
 	const char* node_display = "If ticked, the node is rendered to the screen. \nUntick to hide the node.";
@@ -34,11 +35,12 @@ struct TooltipMessages {
 	const char* camera_reset = "Reset the initial value of this viewport's camera. \nThis will also reset the position.";
 
 	// Tool bar buttons
-	const char* toolbar_new = "New level \n(not implemented)";
-	const char* toolbar_load = "Load level \n(not implemented)";
+	const char* toolbar_new = "New level";
+	const char* toolbar_load = "Load level";
 	const char* toolbar_save = "Save level";
 	const char* toolbar_generate = "Generate a triptych image with the three viewports";
 	const char* toolbar_toggleCam = "Toggle between 3 viewports and 1 viewport";
+	const char* toolbar_raycast = "Toggle raycast-based object picking";
 	const char* toolbar_histogram = "Color histogram tool";
 	const char* toolbar_sequence_start = "Start recording";
 	const char* toolbar_sequence_stop = "Stop recording";

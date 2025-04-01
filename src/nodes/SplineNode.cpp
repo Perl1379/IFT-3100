@@ -73,7 +73,7 @@ void SplineNode::updatePath()
 
     m_path.moveTo(m_children[0]->getTransform().getPosition());
     m_path.curveTo(m_children[0]->getTransform().getPosition());
-    for (int i = 0; i < m_children.size(); i++) {
+    for (size_t i = 0; i < m_children.size(); i++) {
         m_path.curveTo(m_children[i]->getTransform().getPosition());
         m_controlPoints[i]->setIndex(i); //in case a point was deleted
     }
@@ -94,7 +94,7 @@ int SplineNode::draw(bool p_objectPicking, Camera* p_camera)
     int count = 0;
     beginDraw(p_objectPicking);
 
-    if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox())) {
+    if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {
         m_transform.transformGL();
         m_path.draw();
         m_transform.restoreTransformGL();

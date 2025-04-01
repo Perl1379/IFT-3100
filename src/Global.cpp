@@ -27,6 +27,9 @@ int Global::m_sequenceCount = -1;
 std::string Global::m_sequenceName = "";
 float Global::m_sequenceTotalDelta = 0;
 LightSource Global::m_lights[8];
+ofFloatColor Global::m_ambientLightColor = ofFloatColor(0.0, 0.0, 0.0);
+bool Global::m_doColorPicking = true;
+
 
 /**
  * Setup global singleton object

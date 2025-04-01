@@ -8,6 +8,7 @@
  *****************************************************/
 #include "LightSource.h"
 
+#include <Global.h>
 #include <ofAppRunner.h>
 #include <ofVec3f.h>
 
@@ -187,3 +188,31 @@ ofFloatColor LightSource::getColorSpecular() const {
     return m_light->getSpecularColor();
 }
 
+
+/**
+ * Set camera bind
+ */
+void LightSource::setCameraBind(int cameraIndex) {
+    m_bindCamera = cameraIndex;
+}
+
+
+/**
+* Get camera bind
+*/
+int LightSource::getCameraBind() {
+    return m_bindCamera;
+}
+
+
+/**
+ * Update light position
+*/
+void LightSource::update() {
+    if (m_bindCamera == -1) return;
+
+    auto position = Global::m_cameras[m_bindCamera].getCamera()->getPosition() + (Global::m_cameras[m_bindCamera].getCamera()->getZAxis() * 250.0);
+    m_light->setPosition(position);
+    m_light->setOrientation(Global::m_cameras[m_bindCamera].getCamera()->getOrientationEulerDeg());
+
+}

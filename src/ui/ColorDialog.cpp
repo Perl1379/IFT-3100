@@ -133,9 +133,7 @@ void ColorDialog::draw() {
 
 		if (ImGui::Button("Apply Changes"))
 		{
-			std::string parameterName = m_title;
-			parameterName.erase(0,7);
-			Global::m_actions.addAction(m_node, parameterName, m_OrigValue, ofFloatColor(color[0], color[1], color[2], color[3]));
+			Global::m_actions.addAction(m_node, m_name, m_OrigValue, ofFloatColor(color[0], color[1], color[2], color[3]));
 			ImGui::CloseCurrentPopup();
 			m_isOpen = false;
 		}

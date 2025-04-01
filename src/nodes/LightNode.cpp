@@ -41,6 +41,12 @@ LightNode::LightNode(const std::string &p_name, int p_Lightindex) : BaseNode(p_n
  * draw nothing
  */
 int LightNode::draw(bool p_objectPicking, Camera *p_camera) {
+
+    // sync light and node attributes
+    m_transform.setPosition(Global::m_lights[m_lightIndex].getPosition());
+    m_transform.setOrientation(Global::m_lights[m_lightIndex].getOrientation());
+    m_transform.setScale(Global::m_lights[m_lightIndex].getScale());
+
     if (!m_displayBoundingBox) return 0;
     if (Global::m_lights[m_lightIndex].getEnabled()) {
         ofSetColor(255, 255, 255);
@@ -111,6 +117,14 @@ std::vector<NodeProperty> LightNode::getProperties() const {
     properties.emplace_back("Diffuse Color", COLOR_PICKER, light->getColorDiffuse());
     properties.emplace_back("Specular Color", COLOR_PICKER, light->getColorSpecular());
     properties.emplace_back("Attenuation", PRECISE_FLOAT_FIELD, light->getAttenuation());
+
+    std::vector<std::string> cameras;
+    cameras.push_back("No"); // -1
+    cameras.push_back("Camera #1"); // 0
+    cameras.push_back("Camera #2"); // 1
+    cameras.push_back("Camera #3"); // 2
+    cameras.push_back(std::to_string(Global::m_lights[m_lightIndex].getCameraBind()+1));
+    properties.emplace_back("Bind to Camera", ITEM_LIST, cameras);
     return properties;
 }
 
@@ -120,6 +134,11 @@ std::vector<NodeProperty> LightNode::getProperties() const {
  */
 void LightNode::setProperty(const std::string &p_name, std::any p_value) {
     LightSource *light = &Global::m_lights[m_lightIndex];
+
+    if (p_name == "Bind to Camera") {
+        light->setCameraBind(static_cast<int>(std::any_cast<int>(p_value)-1));
+        return;
+    }
 
     if (p_name == "Light Type") {
         light->setLightType(static_cast<LIGHT_TYPE>(std::any_cast<int>(p_value)));
@@ -132,16 +151,19 @@ void LightNode::setProperty(const std::string &p_name, std::any p_value) {
     }
 
     if (p_name == "Position") {
+        m_transform.setPosition(std::any_cast<glm::vec3>(p_value));
         light->setPosition(std::any_cast<glm::vec3>(p_value));
         return;
     }
 
     if (p_name == "Orientation") {
+        m_transform.setOrientation(std::any_cast<glm::vec3>(p_value));
         light->setOrientation(std::any_cast<glm::vec3>(p_value));
         return;
     }
 
     if (p_name == "Scale") {
+        m_transform.setScale(std::any_cast<glm::vec3>(p_value));
         light->setScale(std::any_cast<glm::vec3>(p_value));
         return;
     }

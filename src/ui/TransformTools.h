@@ -52,12 +52,12 @@ class TransformTools {
         float m_cubePrimitivesScaleObjectPicking = 1.2;
 
         ofMaterial m_materialUnlit;
-        ofConePrimitive m_conePrimitives[3];
-        ofSpherePrimitive m_spherePrimitives[3];
-        ofBoxPrimitive m_cubePrimitives[4];
-    ofConePrimitive m_conePrimitivesObjectPicking[3];
-    ofSpherePrimitive m_spherePrimitivesObjectPicking[3];
-    ofBoxPrimitive m_cubePrimitivesObjectPicking[4];
+        std::vector<ofConePrimitive> m_conePrimitives;
+        std::vector<ofSpherePrimitive> m_spherePrimitives;
+        std::vector<ofBoxPrimitive> m_cubePrimitives;
+        std::vector<ofConePrimitive> m_conePrimitivesObjectPicking;
+        std::vector<ofSpherePrimitive> m_spherePrimitivesObjectPicking;
+        std::vector<ofBoxPrimitive> m_cubePrimitivesObjectPicking;
 
     public:
         TransformTools();
@@ -74,6 +74,9 @@ class TransformTools {
         void onMouseButtonPressed(int p_transformPixelColor, ImVec2 mousePosition);
         void onMouseDrag(ImVec2 mousePosition);
         void onMouseButtonReleased(ImVec2 mousePosition);
+        const std::vector<ofConePrimitive>& getConePrimitives();
+        const std::vector<ofSpherePrimitive>& getSpherePrimitives();
+        const std::vector<ofBoxPrimitive>& getCubePrimitives();
 
 };
 

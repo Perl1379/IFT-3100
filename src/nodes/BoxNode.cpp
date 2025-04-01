@@ -32,7 +32,7 @@ int BoxNode::draw(bool p_objectPicking, Camera* p_camera) {
     int count = 0;
     beginDraw(p_objectPicking);
 
-    if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox())) {
+    if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {
         m_transform.transformGL();
         m_primitive.draw();
         m_transform.restoreTransformGL();
@@ -124,4 +124,12 @@ void BoxNode::setProperty(const std::string &p_name, std::any p_value) {
  */
 void BoxNode::setResolution(int p_resolution) {
     m_primitive.setResolution(p_resolution);
+}
+
+
+/**
+ * Get mesh
+ */
+ofMesh* BoxNode::getMesh() {
+    return &m_primitive.getMesh();
 }

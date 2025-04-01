@@ -26,7 +26,7 @@ public:
     std::vector<NodeProperty> getProperties() const override;
     void setProperty(const std::string &p_name, std::any p_value) override;
     void setResolution(int p_resolution);
-
+    ofMesh* getMesh() override;
 
 };
 

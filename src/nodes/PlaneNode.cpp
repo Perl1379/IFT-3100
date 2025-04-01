@@ -32,7 +32,7 @@ int PlaneNode::draw(bool p_objectPicking, Camera* p_camera) {
 
     beginDraw(p_objectPicking);
 
-    if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox())) {
+    if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {
         m_transform.transformGL();
         m_primitive.draw();
         m_transform.restoreTransformGL();
@@ -117,4 +117,12 @@ void PlaneNode::setProperty(const std::string &p_name, std::any p_value) {
  */
 void PlaneNode::setResolution(int p_resolution) {
     m_primitive.setResolution(p_resolution, p_resolution);
+}
+
+
+/**
+ * Get mesh
+ */
+ofMesh* PlaneNode::getMesh() {
+    return &m_primitive.getMesh();
 }

@@ -9,6 +9,7 @@
 #pragma once
 #include <AddNodeDialog.h>
 #include <BaseNode.h>
+#include <NewLevelDialog.h>
 #include <ofxImGui.h>
 #include "Vector3Dialog.h"
 #include "ColorDialog.h"
@@ -49,7 +50,9 @@ private:
 	ofTexture m_textureToolbarSequence;
 	ofTexture m_textureToolbarSequencePressed;
 	ofTexture m_textureToolbarHistogram;
-    ofTexture m_textureNotVisible;
+	ofTexture m_textureToolbarRaycast;
+	ofTexture m_textureToolbarRaycastPressed;
+	ofTexture m_textureNotVisible;
     std::vector<std::string> m_availableSkyboxes;
 
     bool m_initialDraw = true;
@@ -58,6 +61,7 @@ private:
 	ColorDialog m_colorDialog;
 	AddNodeDialog m_addNodeDialog;
 	DeleteNodeDialog m_deleteNodeDialog;
+	NewLevelDialog m_newLevelDialog;
     HistogramDialog m_histogramDialog;
     FileGeneratedDialog m_fileGeneratedDialog;
 
