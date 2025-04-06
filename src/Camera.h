@@ -10,6 +10,7 @@
 #include <ofCamera.h>
 #include <ofCustomCamera.h>
 #include <ofFbo.h>
+#include <ofShader.h>
 
 
 enum OCCLUSION_MODE {
@@ -46,11 +47,12 @@ private:
 
 	ofFbo m_fboTexture;
 	ofFbo m_fboPickingTexture;
+	ofFbo m_fboPostProcessTexture;
 	ofCustomCamera m_camera;
 	int m_viewportWidth = 0;
 	int m_viewportHeight = 0;
-
 	std::array<Plane, 6> extractFrustumPlanes(const glm::mat4& m);
+	ofShader m_shader;
 
 public:
 
@@ -73,7 +75,9 @@ public:
 	void debug();
 	ofFbo* getFbo();
 	ofFbo* getPickingFbo();
+	ofFbo* getPostProcessTextureFbo();
 	ofCustomCamera* getCamera();
+	void applyPostProcess();
 
 
 };

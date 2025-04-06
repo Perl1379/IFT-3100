@@ -11,6 +11,7 @@
 #include <Global.h>
 #include <of3dGraphics.h>
 #include <ofGraphics.h>
+#include <PerlinNoiseTexture.cpp>
 
 
 /**
@@ -136,6 +137,7 @@ std::vector<NodeProperty> BaseNode::getProperties() const {
 		properties.emplace_back("Emissive Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getEmissiveColor());
 		properties.emplace_back("Specular Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getSpecularColor());
 		properties.emplace_back("Shininess", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getShininess());
+		properties.emplace_back("Proc. Texture", PROPERTY_TYPE::BOOLEAN_FIELD, m_isRandomTexture);
 	}
 
 	return properties;
@@ -195,6 +197,29 @@ void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 
 	if (p_name == "Shininess") {
 		m_materialNode.setShininess(std::any_cast<float>(p_value));
+	}
+
+	if (p_name == "Proc. Texture") {
+		m_isRandomTexture = std::any_cast<bool>(p_value);
+		
+		if (m_isRandomTexture)
+		{
+			int width = 512;
+			int height = 512;
+			ofImage image;
+			image.allocate(width, height, OF_IMAGE_GRAYSCALE);
+
+			PerlinNoiseTexture perlinNoise;
+			for (int y = 0; y < height; ++y) {
+				for (int x = 0; x < width; ++x) {
+					double noiseValue = perlinNoise.noise(x * 0.1, y * 0.1, 0.0);
+					noiseValue = ofMap(noiseValue, -1, 1, 0, 255);
+					image.setColor(x, y, ofColor(noiseValue));
+				}
+			}
+			image.update();
+			allocateTexture(image);
+		}
 	}
 
 }
@@ -277,10 +302,9 @@ void BaseNode::beginDraw(bool p_objectPicking) {
 	
 		m_materialNode.begin();
 		
-        if (m_textureNode.isAllocated())
+        if (m_isRandomTexture)
         {
             m_textureNode.bind();
-			//ofLog() << "Texture bound";
         }
 		
 		
@@ -298,7 +322,7 @@ void BaseNode::beginDraw(bool p_objectPicking) {
 int BaseNode::endDraw(bool p_objectPicking, Camera* p_camera) {
 	int count = 0;
 	if (!p_objectPicking) {
-		if (m_textureNode.isAllocated())
+		if (m_isRandomTexture)
 		{
 			m_textureNode.unbind();
 		}
@@ -406,8 +430,8 @@ void BaseNode::allocateTexture(ofImage p_image)
 {
     m_textureNode.loadData(p_image.getPixels());
 
-    m_materialNode.setDiffuseColor(ofColor::white);
-    m_materialNode.setAmbientColor(ofColor::gray);
-    m_materialNode.setSpecularColor(ofColor::white);
-    m_materialNode.setShininess(64);
+	m_materialNode.setDiffuseColor(m_materialNode.getDiffuseColor());
+	m_materialNode.setAmbientColor(ofColor::gray);
+	m_materialNode.setSpecularColor(ofColor::white);
+	m_materialNode.setShininess(64);
 }

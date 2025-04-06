@@ -895,7 +895,7 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
     int size_x = static_cast<int>(size.x);
     int size_y = static_cast<int>(size.y);
 
-    auto fbo = Global::m_cameras[index].getFbo();
+    auto fbo = Global::m_cameras[index].getPostProcessTextureFbo();
     auto pickingFbo = Global::m_cameras[index].getPickingFbo();
     auto camera = Global::m_cameras[index].getCamera();
 
@@ -1180,7 +1180,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
  * Capture frame buffer
  */
 void UserInterface::captureFramebuffer(int index, ofPixels &pixels) {
-    auto fbo = Global::m_cameras[index].getFbo();
+    auto fbo = Global::m_cameras[index].getPostProcessTextureFbo();
     fbo->readToPixels(pixels);
 }
 

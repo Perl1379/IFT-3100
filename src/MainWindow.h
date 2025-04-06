@@ -24,7 +24,7 @@ private:
 	float m_cameraRotation = 0.0f;
 	float m_lastUpdateTime = 0;
 	ofVec2f m_lastMousePosition;
-	ofShader m_shader;
+
 	void resetCameraMovement();
 	void cameraDraw(int index);
 	void handleCameraInput(bool pressed, ofKeyEventArgs& key, int index);

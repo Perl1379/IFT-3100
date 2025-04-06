@@ -26,8 +26,6 @@ void MainWindow::setup() {
 	Global::setup();
 	ofSetGlobalAmbientColor(Global::m_ambientLightColor);
 
-	bool isGood = m_shader.load("tone_mapping_330_vs.glsl", "tone_mapping_330_fs.glsl");
-	ofLog() << "Shader loaded: " << isGood;
 	// To be removed
 	ofEnableDepthTest();  // Enable depth for 3D rendering
 
@@ -90,6 +88,7 @@ void MainWindow::cameraDraw(int index) {
 
 	camera->end();
 	fbo->end();
+	Global::m_cameras[index].applyPostProcess();
 
 	// Generate Object picking FBO only for hovered camera viewport
 	if (Global::m_doColorPicking) {

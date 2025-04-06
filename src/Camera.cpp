@@ -8,6 +8,7 @@
  *****************************************************/
 #include "Camera.h"
 #include <ofMatrix4x4.h>
+#include <ofGraphics.h>
 
 
 /**
@@ -59,10 +60,11 @@ void Camera::setup(ofVec3f p_initialPosition, ofVec3f p_initialOrientation) {
 	m_initialOrientation = p_initialOrientation;
 	m_fboTexture.allocate(32, 32, GL_RGB);
 	m_fboPickingTexture.allocate(32, 32, GL_RGB);
+	m_fboPostProcessTexture.allocate(32, 32, GL_RGB);
 	m_initialFOV = 70;
 	m_initialzNear = 1.0f;
 	m_initialzFar = 20000.0f;
-
+	m_shader.load("tone_mapping_330_vs.glsl", "tone_mapping_330_fs.glsl");
 	reset();
 }
 
@@ -187,12 +189,28 @@ ofFbo* Camera::getPickingFbo() {
 	return &m_fboPickingTexture;
 }
 
+ofFbo* Camera::getPostProcessTextureFbo()
+{
+	return &m_fboTexture;
+	//return &m_fboPostProcessTexture;
+}
+
 
 /**
  * Retrieve camera object
  */
 ofCustomCamera* Camera::getCamera() {
 	return &m_camera;
+}
+
+void Camera::applyPostProcess()
+{
+	m_fboPostProcessTexture.begin();
+	ofClear(0, 0, 0, 0);
+	m_shader.begin();
+	m_fboTexture.draw(0, 0);
+	m_shader.end();
+	m_fboPostProcessTexture.end();
 }
 
 

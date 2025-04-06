@@ -25,6 +25,7 @@ protected:
     bool m_userCanAddChild = true;
     bool m_useMaterial = true;
     bool m_isExpanded = true;
+	bool m_isRandomTexture = false;
 
 
     ofMaterial m_materialNode;
