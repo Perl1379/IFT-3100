@@ -191,8 +191,8 @@ ofFbo* Camera::getPickingFbo() {
 
 ofFbo* Camera::getPostProcessTextureFbo()
 {
-	return &m_fboTexture;
-	//return &m_fboPostProcessTexture;
+	//return &m_fboTexture;
+	return &m_fboPostProcessTexture;
 }
 
 
@@ -207,10 +207,45 @@ void Camera::applyPostProcess()
 {
 	m_fboPostProcessTexture.begin();
 	ofClear(0, 0, 0, 0);
+	m_fboTexture.getTextureReference().bind();
 	m_shader.begin();
+	m_shader.setUniform1f("tone_mapping_exposure", getToneMappingExposure());
+	m_shader.setUniform1f("tone_mapping_gamma", getToneMappingGamma());
+	m_shader.setUniform1i("tone_mapping_toggle", getToneMappingToggle());
 	m_fboTexture.draw(0, 0);
 	m_shader.end();
+	m_fboTexture.getTextureReference().unbind();
 	m_fboPostProcessTexture.end();
+}
+
+float Camera::getToneMappingExposure() const
+{
+	return m_tone_mapping_exposure;
+}
+
+void Camera::setToneMappingExposure(float p_exposure)
+{
+	m_tone_mapping_exposure = p_exposure;
+}
+
+float Camera::getToneMappingGamma() const
+{
+	return m_tone_mapping_gamma;
+}
+
+void Camera::setToneMappingGamma(float p_gamma)
+{
+	m_tone_mapping_gamma = p_gamma;
+}
+
+bool Camera::getToneMappingToggle() const
+{
+	return m_tone_mapping_toggle;
+}
+
+void Camera::setToneMappingToggle(bool p_toggle)
+{
+	m_tone_mapping_toggle = p_toggle;
 }
 
 

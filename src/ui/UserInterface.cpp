@@ -1035,7 +1035,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
 
     ofCustomCamera *camera = Global::m_cameras[index].getCamera();
 
-    float overlayWidth = 378.0f;
+    float overlayWidth = 478.0f;
     ImDrawList *drawList = ImGui::GetWindowDrawList();
 
 
@@ -1118,7 +1118,12 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
         ImGui::SetTooltip(Global::m_tooltipMessages.camera_reset);
     }
     ImGui::SameLine();
-
+    if (ImGui::Button("Tone mapping")) {
+        m_cameraToneMappingDialog.setTitle("Change Camera Tone mapping");
+        m_cameraToneMappingDialog.useProperty(&Global::m_cameras[index]);
+        m_cameraToneMappingDialog.openDialog();
+    }
+    ImGui::SameLine();
 
     // Draw transform buttons
     if ((index == 0) && (Global::m_selectedNode != -1)) {
@@ -1173,6 +1178,9 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
     }
 
     ImGui::EndGroup();
+    if (m_cameraToneMappingDialog.isOpen()) {
+        m_cameraToneMappingDialog.draw();
+    }
 }
 
 

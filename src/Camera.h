@@ -35,9 +35,9 @@ private:
 			d /= length;
 		}
 	};
-	std::array<Plane,6> m_frustumPlanes;
+	std::array<Plane, 6> m_frustumPlanes;
 
-	ofVec3f m_upVector = ofVec3f(0,1,0);
+	ofVec3f m_upVector = ofVec3f(0, 1, 0);
 	ofVec3f m_initialPosition;
 	ofVec3f m_initialOrientation;
 	float m_initialFOV;
@@ -53,6 +53,9 @@ private:
 	int m_viewportHeight = 0;
 	std::array<Plane, 6> extractFrustumPlanes(const glm::mat4& m);
 	ofShader m_shader;
+	float m_tone_mapping_exposure = 1.0f;
+	float m_tone_mapping_gamma = 2.2f;
+	bool m_tone_mapping_toggle = false;
 
 public:
 
@@ -68,7 +71,7 @@ public:
 		return m_upVector;
 	}
 
-	bool testVisibility(const ofVec3f &p_position, const ofVec3f &p_boundingBox);
+	bool testVisibility(const ofVec3f& p_position, const ofVec3f& p_boundingBox);
 	bool isInsideFrustum(const ofVec3f& ofPosition, const ofVec3f& p_boundingBox);
 	void setOcclusion(OCCLUSION_MODE mode);
 	OCCLUSION_MODE getOcclusion();
@@ -78,6 +81,13 @@ public:
 	ofFbo* getPostProcessTextureFbo();
 	ofCustomCamera* getCamera();
 	void applyPostProcess();
+	float getToneMappingExposure() const;
+	void setToneMappingExposure(float p_exposure);
+	float getToneMappingGamma() const;
+	void setToneMappingGamma(float p_gamma);
+	bool getToneMappingToggle() const;
+	void setToneMappingToggle(bool p_toggle);
+
 
 
 };

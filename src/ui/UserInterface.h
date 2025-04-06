@@ -16,6 +16,7 @@
 #include "DeleteNodeDialog.h"
 #include "HistogramDialog.h"
 #include "FileGeneratedDialog.h"
+#include <CameraToneMappingDialog.h>
 
 class UserInterface {
 
@@ -64,6 +65,7 @@ private:
 	NewLevelDialog m_newLevelDialog;
     HistogramDialog m_histogramDialog;
     FileGeneratedDialog m_fileGeneratedDialog;
+	CameraToneMappingDialog m_cameraToneMappingDialog;
 
 
     // Draw functions
