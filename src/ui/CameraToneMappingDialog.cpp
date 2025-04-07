@@ -1,69 +1,93 @@
+/*****************************************************
+* TP IFT3100H25 - Adventure Party Maker
+ * by Team 12
+ *****************************************************
+ *
+ * CameraToneMappingDialog class implementation
+ *
+ *****************************************************/
 #include "CameraToneMappingDialog.h"
 #include <Global.h>
 #include <imgui.h>
 
-
-CameraToneMappingDialog::CameraToneMappingDialog()
-{
+/**
+ * Constructor
+ */
+CameraToneMappingDialog::CameraToneMappingDialog() {
 }
 
-void CameraToneMappingDialog::useProperty(Camera* p_camera)
-{
-	m_camera = p_camera;
-	m_tone_mapping_exposure_current = m_camera->getToneMappingExposure();
-	m_tone_mapping_gamma_current = m_camera->getToneMappingGamma();
-	m_tone_mapping_toggle_current = m_camera->getToneMappingToggle();
-	m_title = "Camera Tone Mapping";
+
+/**
+ * Use property (in this case, the Camera object)
+ */
+void CameraToneMappingDialog::useProperty(Camera *p_camera) {
+    m_camera = p_camera;
+    m_title = "Camera Tone Mapping";
+    m_currentType = p_camera->getTonemapType();
+    m_uniforms = p_camera->getTonemapUniforms();
 }
 
-void CameraToneMappingDialog::draw()
-{
-	if (ImGui::BeginPopupModal(m_title.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize))
-	{
-		
-		ImGui::Text("Parameters");
-		ImGui::SameLine(100);
-		
-		float p_tone_mapping_exposure = m_camera->getToneMappingExposure();
-		ImGui::Text("tone mapping exposure");
-		ImGui::SameLine(100);
-		std::string name = "tone mapping exposure";
-		ImGui::SliderFloat(("##" + name).c_str(),&p_tone_mapping_exposure, 0.0f, 5.00f);
-		m_camera->setToneMappingExposure(p_tone_mapping_exposure);
 
-		
-		float p_tone_mapping_gamma = m_camera->getToneMappingGamma();
-		ImGui::Text("tone mapping gamma");
-		ImGui::SameLine(100);
-		name = "tone mapping gamma";
-		ImGui::SliderFloat(("##" + name).c_str(), &p_tone_mapping_gamma, 0.0f, 5.00f);
-		m_camera->setToneMappingGamma(p_tone_mapping_gamma);
+/**
+ * Draw dialog
+ */
+void CameraToneMappingDialog::draw() {
+    if (ImGui::BeginPopupModal(m_title.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::Text("Type");
+        ImGui::SameLine(100);
 
-		
-		bool p_tone_mapping_toggle = m_camera->getToneMappingToggle();
-		ImGui::Text("tone mapping toggle");
-		ImGui::SameLine(100);
-		name = "tone mapping toggle";
-		ImGui::Checkbox(("##" + name).c_str(), &p_tone_mapping_toggle);
-		m_camera->setToneMappingToggle(p_tone_mapping_toggle);
+        // Doing -1 to remove the index (the 'initialSelection')
+        std::vector<const char *> cstrings{};
+        cstrings.push_back("No tonemap");
+        cstrings.push_back("Grayscale");
 
-		if (ImGui::Button("Apply Changes"))
-		{
-			ImGui::CloseCurrentPopup();
-			m_isOpen = false;
-		}
+        ImGui::PushItemWidth(186.0f);
+        if (ImGui::Combo("##Type", &m_currentType, cstrings.data(), cstrings.size())) {
+            switch(m_currentType) {
+                case TONEMAP_TYPE::NO_TONEMAP:
+                {
+                    m_uniforms.clear();
+                }
+                break;
 
-		ImGui::SameLine();
+                case TONEMAP_TYPE::GRAYSCALE:
+                {
+                    m_uniforms.clear();
+                    m_uniforms["brightness"] = 1.0f;
+                }
+            }
+        }
 
-		if (ImGui::Button("Cancel"))
-		{
-			m_camera->setToneMappingExposure(m_tone_mapping_exposure_current);
-			m_camera->setToneMappingGamma(m_tone_mapping_gamma_current);
-			m_camera->setToneMappingToggle(m_tone_mapping_toggle_current);
-			ImGui::CloseCurrentPopup();
-			m_isOpen = false;
-		}
+        for (auto& uniform : m_uniforms) {
 
-		ImGui::EndPopup();
-	}
+            std::string label = uniform.first;
+            label[0] = std::toupper(label[0]);
+            ImGui::Text(label.c_str());
+            ImGui::SameLine(100);
+            ImGui::InputFloat(("##" + uniform.first).c_str(),&uniform.second);
+        }
+
+        ImGui::Dummy(ImVec2(0.0f, 5.0f));
+        ImGui::Separator();
+        ImGui::Dummy(ImVec2(0.0f, 5.0f));
+
+        ImGui::SetCursorPosX(80.0f);
+
+
+        if (ImGui::Button("Apply Changes")) {
+            m_camera->setTonemapType((TONEMAP_TYPE) m_currentType);
+            m_camera->setTonemapUniforms(m_uniforms);
+            ImGui::CloseCurrentPopup();
+            m_isOpen = false;
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Cancel")) {
+            ImGui::CloseCurrentPopup();
+            m_isOpen = false;
+        }
+
+        ImGui::EndPopup();
+    }
 }

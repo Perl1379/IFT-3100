@@ -1111,17 +1111,23 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
     }
 
     ImGui::SameLine();
+
+    if (ImGui::Button("Tonemap")) {
+        m_cameraToneMappingDialog.setTitle("Change Camera Tone mapping");
+        m_cameraToneMappingDialog.useProperty(&Global::m_cameras[index]);
+        m_cameraToneMappingDialog.openDialog();
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip(Global::m_tooltipMessages.camera_tonemap);
+    }
+
+    ImGui::SameLine();
+
     if (ImGui::Button("Reset")) {
         Global::m_cameras[index].reset();
     }
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip(Global::m_tooltipMessages.camera_reset);
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Tone mapping")) {
-        m_cameraToneMappingDialog.setTitle("Change Camera Tone mapping");
-        m_cameraToneMappingDialog.useProperty(&Global::m_cameras[index]);
-        m_cameraToneMappingDialog.openDialog();
     }
     ImGui::SameLine();
 

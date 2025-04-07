@@ -13,6 +13,7 @@
 #include "Level.h"
 #include <array>
 #include <Camera.h>
+#include <ShaderManager.h>
 #include <TransformTools.h>
 #include "TooltipMessages.hpp"
 #include "Skybox.h"
@@ -48,6 +49,7 @@ public:
 	static CursorManager m_cursorManager;
 	static ModelManager m_modelManager;
 	static TooltipMessages m_tooltipMessages;
+	static ShaderManager m_shaders;
 
 };
 

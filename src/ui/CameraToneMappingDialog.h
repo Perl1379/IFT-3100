@@ -1,14 +1,22 @@
+/*****************************************************
+* TP IFT3100H25 - Adventure Party Maker
+ * by Team 12
+ *****************************************************
+ *
+ * CameraToneMappingDialog class definition
+ *
+ *****************************************************/
 #pragma once
 #include "Camera.h"
 #include "ModalDialog.h"
+
 class CameraToneMappingDialog :
     public ModalDialog
 {
 private :
 	Camera* m_camera;
-	float m_tone_mapping_exposure_current;
-	float m_tone_mapping_gamma_current;
-	bool m_tone_mapping_toggle_current;
+	int m_currentType;
+	std::map<std::string, float> m_uniforms;
 
 public:
 	CameraToneMappingDialog();
