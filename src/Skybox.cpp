@@ -8,6 +8,7 @@
  *****************************************************/
 #include "Skybox.h"
 
+#include <Global.h>
 #include <ofGraphics.h>
 #include <ofImage.h>
 #include <ofPixels.h>
@@ -18,9 +19,8 @@
  */
 void Skybox::setup(const std::string& p_theme) {
 
-    if (!m_shader.isLoaded()) {
-        // Load the shader
-        m_shader.load("skybox/shaders/skybox.vert", "skybox/shaders/skybox.frag");
+    if (m_shader == nullptr) {
+        m_shader = Global::m_shaders.getShader("skybox");
     }
 
     m_currentSkybox = p_theme;
@@ -102,82 +102,6 @@ void Skybox::setup(const std::string& p_theme) {
     skyboxMesh.addVertices(vertices);
 
 
-    //for (int i = 0; i < 6; i++) {
-    //
-    //     if (!ofLoadImage(m_textures[i],faces[i])) {
-    //         ofLogError("Skybox") << "Failed to load image " << faces[i];
-    //         ofExit(-1);
-    //     }
-    // }
-    //
-    //
-    //
-    // float size = 500;  // Size of the cube
-    // //
-    // // // Create a custom mesh for the skybox
-    // skyboxMesh.setMode(OF_PRIMITIVE_TRIANGLES);
-    // // Define the vertices for the cube (8 unique vertices)
-    // std::vector<glm::vec3> vertices = {
-    //      // Front face
-    //      glm::vec3(-size, -size,  size), // 0
-    //      glm::vec3( size, -size,  size), // 1
-    //      glm::vec3( size,  size,  size), // 2
-    //      glm::vec3(-size,  size,  size), // 3
-    //
-    //      // Back face
-    //      glm::vec3( size, -size, -size), // 4
-    //      glm::vec3(-size, -size, -size), // 5
-    //      glm::vec3(-size,  size, -size), // 6
-    //      glm::vec3( size,  size, -size), // 7
-    //  };
-    //
-    //  // Define the indices for the cube (12 triangles, 2 per face)
-    //  std::vector<unsigned int> indices = {
-    //      // Front face
-    //      0, 1, 2, 2, 3, 0,
-    //
-    //      // Back face
-    //      4, 5, 6, 6, 7, 4,
-    //
-    //      // Left face
-    //      5, 0, 3, 3, 6, 5,
-    //
-    //      // Right face
-    //      1, 4, 7, 7, 2, 1,
-    //
-    //      // Top face
-    //      3, 2, 7, 7, 6, 3,
-    //
-    //      // Bottom face
-    //      5, 4, 1, 1, 0, 5
-    //  };
-    //
-    // // // Define texture coordinates for each vertex
-    // // std::vector<glm::vec2> texCoords = {
-    // //     // Front face
-    // //     glm::vec2(0, 0), glm::vec2(1, 0), glm::vec2(1, 1), glm::vec2(0, 1),
-    // //
-    // //     // Back face
-    // //     glm::vec2(1, 0), glm::vec2(0, 0), glm::vec2(0, 1), glm::vec2(1, 1),
-    // //
-    // //     // Left face
-    // //     glm::vec2(0, 0), glm::vec2(1, 0), glm::vec2(1, 1), glm::vec2(0, 1),
-    // //
-    // //     // Right face
-    // //     glm::vec2(1, 0), glm::vec2(0, 0), glm::vec2(0, 1), glm::vec2(1, 1),
-    // //
-    // //     // Top face
-    // //     glm::vec2(0, 1), glm::vec2(1, 1), glm::vec2(1, 0), glm::vec2(0, 0),
-    // //
-    // //     // Bottom face
-    // //     glm::vec2(0, 0), glm::vec2(1, 0), glm::vec2(1, 1), glm::vec2(0, 1)
-    // // };
-    // //
-    // // // Add vertices, indices, and texture coordinates to the mesh
-    // skyboxMesh.addVertices(vertices);
-    // skyboxMesh.addIndices(indices);
-    // // skyboxMesh.addTexCoords(texCoords);
-
 }
 
 
@@ -187,15 +111,14 @@ void Skybox::setup(const std::string& p_theme) {
 void Skybox::draw(const ofVec3f& cameraPosition) {
 
     ofDisableDepthTest();
-//    glDepthFunc(GL_LEQUAL);  // Ensure skybox is drawn correctly behind everything
-    m_shader.begin();
+    m_shader->begin();
 
     ofMatrix4x4 viewMatrix = ofGetCurrentMatrix(OF_MATRIX_MODELVIEW);
     viewMatrix.setTranslation(0, 0, 0); // Remove translation from the camera (skybox remains static)
 
-    m_shader.setUniformMatrix4f("view", viewMatrix);
-    m_shader.setUniformMatrix4f("projection", ofGetCurrentMatrix(OF_MATRIX_PROJECTION));
-    m_shader.setUniformTexture("skybox", m_cubemapTexture, 0);
+    m_shader->setUniformMatrix4f("view", viewMatrix);
+    m_shader->setUniformMatrix4f("projection", ofGetCurrentMatrix(OF_MATRIX_PROJECTION));
+    m_shader->setUniformTexture("skybox", m_cubemapTexture, 0);
 
     glActiveTexture(GL_TEXTURE0);
     m_cubemapTexture.bind();
@@ -203,21 +126,9 @@ void Skybox::draw(const ofVec3f& cameraPosition) {
     skyboxMesh.draw(); // Draw cube without texture coordinates
 
     m_cubemapTexture.unbind();
-    m_shader.end();
-    //glDepthFunc(GL_LESS); // Restore depth test
+    m_shader->end();
     ofEnableDepthTest();
 
-    // ofDisableDepthTest(); // Ensure skybox renders in the background
-    //
-    // m_shader.begin();
-    // for (int i = 0; i < 6; i++) {
-    //     m_shader.setUniformTexture("Tex" + ofToString(i), m_textures[i], i);
-    // }
-    // ofTranslate(cameraPosition);
-    // skyboxMesh.draw();
-    // ofTranslate(-cameraPosition);
-    // m_shader.end();
-    // ofEnableDepthTest();
 }
 
 

@@ -40,13 +40,16 @@ double PerlinNoiseTexture::noise(double x, double y, double z)  {
                 grad(p[BB + 1], x - 1, y - 1, z - 1))));
 }
 
+
 double  PerlinNoiseTexture::fade(double t) {
     return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
+
 double PerlinNoiseTexture::lerp(double t, double a, double b) {
     return a + t * (b - a);
 }
+
 
 double PerlinNoiseTexture::grad(int hash, double x, double y, double z) {
     int h = hash & 15;

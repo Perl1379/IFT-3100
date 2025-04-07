@@ -7,6 +7,7 @@
  *
  *****************************************************/
 #pragma once
+#include <of3dPrimitives.h>
 #include <ofCamera.h>
 #include <ofCustomCamera.h>
 #include <ofFbo.h>
@@ -18,6 +19,10 @@ enum OCCLUSION_MODE {
 	FRUSTUM_CULLING = 1
 };
 
+enum TONEMAP_TYPE {
+	NO_TONEMAP = 0,
+	GRAYSCALE = 1
+};
 
 class Camera {
 
@@ -48,14 +53,14 @@ private:
 	ofFbo m_fboTexture;
 	ofFbo m_fboPickingTexture;
 	ofFbo m_fboPostProcessTexture;
+	ofMesh m_meshPostProcess;
 	ofCustomCamera m_camera;
 	int m_viewportWidth = 0;
 	int m_viewportHeight = 0;
 	std::array<Plane, 6> extractFrustumPlanes(const glm::mat4& m);
-	ofShader m_shader;
-	float m_tone_mapping_exposure = 1.0f;
-	float m_tone_mapping_gamma = 2.2f;
-	bool m_tone_mapping_toggle = false;
+	ofShader* m_shader;
+	std::map<std::string, float> m_tonemapUniforms;
+	TONEMAP_TYPE m_tonemapType = NO_TONEMAP;
 
 public:
 
@@ -81,12 +86,10 @@ public:
 	ofFbo* getPostProcessTextureFbo();
 	ofCustomCamera* getCamera();
 	void applyPostProcess();
-	float getToneMappingExposure() const;
-	void setToneMappingExposure(float p_exposure);
-	float getToneMappingGamma() const;
-	void setToneMappingGamma(float p_gamma);
-	bool getToneMappingToggle() const;
-	void setToneMappingToggle(bool p_toggle);
+	void setTonemapUniforms(std::map<std::string, float>);
+	std::map<std::string, float> getTonemapUniforms();
+	void setTonemapType(TONEMAP_TYPE type);
+	TONEMAP_TYPE getTonemapType();
 
 
 

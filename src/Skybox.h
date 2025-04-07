@@ -19,9 +19,8 @@ public:
     void draw(const ofVec3f& cameraPosition);
     std::string getCurrentSkybox() const;
 private:
-    ofShader m_shader;
+    ofShader* m_shader;
     ofTexture m_cubemapTexture;
-//    ofTexture m_textures[6];
     ofMesh skyboxMesh;
     std::string m_currentSkybox;
 };

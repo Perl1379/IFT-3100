@@ -1,9 +1,6 @@
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <random>
-#include <numeric>
 #pragma once
+#include <vector>
+#include <random>
 class PerlinNoiseTexture
 {
 public:

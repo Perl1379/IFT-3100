@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <Level skyboxName="blink">
 	<Cameras>
-		<Camera position="-236.14, 1730.28, 2529.84" orientation="-29.0781, -1.63996, -2.13746" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" />
-		<Camera position="0, 3000, 0" orientation="-90, 0, 0" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" />
-		<Camera position="1368.28, 1430.71, 2194.45" orientation="-26.652, 22.0035, -2.73113" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" />
+		<Camera position="-236.14, 1730.28, 2529.84" orientation="-29.0781, -1.63996, -2.13746" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="1" tonemapUniforms="brightness=1.000000" />
+		<Camera position="0, 3000, 0" orientation="-90, 0, 0" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" tonemapUniforms="" />
+		<Camera position="1368.28, 1430.71, 2194.45" orientation="-26.652, 22.0035, -2.73113" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" tonemapUniforms="" />
 	</Cameras>
 	<Lights ambientColor="0, 0, 0, 1">
 		<LightSource type="1" enabled="1" position="0, 1000, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
@@ -39,6 +39,7 @@
 					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Shininess" type="3" value="64" />
+					<Property name="Proc. Texture" type="6" value="0" />
 					<Property name="Cylinder parameters" type="5" />
 					<Property name="Radius" type="3" value="50" />
 					<Property name="Height" type="3" value="200" />
@@ -165,6 +166,7 @@
 					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Shininess" type="3" value="100" />
+					<Property name="Proc. Texture" type="6" value="0" />
 				</Properties>
 			</Node>
 			<Node class="BaseNode" expanded="1">
@@ -181,6 +183,7 @@
 					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Shininess" type="3" value="100" />
+					<Property name="Proc. Texture" type="6" value="0" />
 				</Properties>
 			</Node>
 		</Node>
@@ -207,6 +210,7 @@
 					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Shininess" type="3" value="100" />
+					<Property name="Proc. Texture" type="6" value="0" />
 					<Property name="Cylinder parameters" type="5" />
 					<Property name="Radius" type="3" value="50" />
 					<Property name="Height" type="3" value="200" />
@@ -228,6 +232,7 @@
 					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Shininess" type="3" value="100" />
+					<Property name="Proc. Texture" type="6" value="0" />
 					<Property name="Cone parameters" type="5" />
 					<Property name="Radius" type="3" value="50" />
 					<Property name="Height" type="3" value="200" />
@@ -250,6 +255,7 @@
 				<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 				<Property name="Shininess" type="3" value="100" />
+				<Property name="Proc. Texture" type="6" value="0" />
 				<Property name="Terrain parameters" type="5" />
 				<Property name="TerrainName" type="8" value="3" />
 			</Properties>
@@ -268,6 +274,7 @@
 				<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 				<Property name="Shininess" type="3" value="100" />
+				<Property name="Proc. Texture" type="6" value="0" />
 				<Property name="Plane parameters" type="5" />
 				<Property name="Width" type="3" value="5000" />
 				<Property name="Height" type="3" value="5000" />

@@ -80,6 +80,18 @@ void LevelPersistence::saveToFile(const std::string &filename) {
         xmlCamera.setAttribute("fov", cam->getFov());
         xmlCamera.setAttribute("nearClip", cam->getNearClip());
         xmlCamera.setAttribute("farClip", cam->getFarClip());
+        xmlCamera.setAttribute("tonemapType", Global::m_cameras[i].getTonemapType());
+
+        auto uniforms =  Global::m_cameras[i].getTonemapUniforms();
+        string output = "";
+        for (auto uniform : uniforms) {
+            output += uniform.first + "=" + std::to_string(uniform.second) + ",";
+        }
+        if (uniforms.size() > 0) {
+            output.erase(output.size() - 1);
+        }
+
+        xmlCamera.setAttribute("tonemapUniforms", output);
     }
 
     for (int i = 0; i < 8; i++) {
@@ -230,6 +242,23 @@ void LevelPersistence::loadFromFile(const std::string &filename) {
         cam->setFov(camera.getAttribute("fov").getFloatValue());
         cam->setNearClip(camera.getAttribute("nearClip").getFloatValue());
         cam->setFarClip(camera.getAttribute("farClip").getFloatValue());
+
+        Global::m_cameras[i].setTonemapType((TONEMAP_TYPE) camera.getAttribute("tonemapType").getIntValue());
+        string input = camera.getAttribute("tonemapUniforms").getValue();
+        std::map<string, float> uniforms;
+
+        std::vector<std::string> pairs = ofSplitString(input, ",");
+        for (const std::string& pair : pairs) {
+            std::vector<std::string> keyValue = ofSplitString(pair, "=");
+            if (keyValue.size() == 2) {
+                std::string key = ofTrim(keyValue[0]);
+                float value = ofToFloat(ofTrim(keyValue[1]));
+                uniforms[key] = value;
+            }
+        }
+
+        Global::m_cameras[i].setTonemapUniforms(uniforms);
+
         i++;
     }
 

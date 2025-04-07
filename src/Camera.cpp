@@ -7,6 +7,8 @@
  *
  *****************************************************/
 #include "Camera.h"
+
+#include <Global.h>
 #include <ofMatrix4x4.h>
 #include <ofGraphics.h>
 
@@ -64,7 +66,8 @@ void Camera::setup(ofVec3f p_initialPosition, ofVec3f p_initialOrientation) {
 	m_initialFOV = 70;
 	m_initialzNear = 1.0f;
 	m_initialzFar = 20000.0f;
-	m_shader.load("tone_mapping_330_vs.glsl", "tone_mapping_330_fs.glsl");
+
+	m_shader = Global::m_shaders.getShader("tonemap_none");
 	reset();
 }
 
@@ -161,6 +164,28 @@ void Camera::resizeTextureIfNeeded() {
 	if (m_viewportWidth != tw || m_viewportHeight != th) {
 		m_fboTexture.allocate(m_viewportWidth, m_viewportHeight, GL_RGB);
 		m_fboPickingTexture.allocate(m_viewportWidth, m_viewportHeight, GL_RGB);
+		m_fboPostProcessTexture.allocate(m_viewportWidth, m_viewportHeight, GL_RGB);
+
+		// First triangle (using the first three vertices)
+		m_meshPostProcess.addVertex(ofPoint(0, 0));  // 1st corner
+		m_meshPostProcess.addTexCoord(ofVec2f(0.0, 0.0));  // Corresponding texcoord
+
+		m_meshPostProcess.addVertex(ofPoint(m_viewportWidth, 0));   // 2nd corner
+		m_meshPostProcess.addTexCoord(ofVec2f(1.0, 0.0));  // Corresponding texcoord
+
+		m_meshPostProcess.addVertex(ofPoint(m_viewportWidth, m_viewportHeight));    // 3rd corner
+		m_meshPostProcess.addTexCoord(ofVec2f(1.0, 1.0));  // Corresponding texcoord
+
+		// Second triangle (using the first, third, and fourth vertices)
+		m_meshPostProcess.addVertex(ofPoint(0, 0));  // 1st corner
+		m_meshPostProcess.addTexCoord(ofVec2f(0.0, 0.0));  // Corresponding texcoord
+
+		m_meshPostProcess.addVertex(ofPoint(m_viewportWidth, m_viewportHeight));    // 3rd corner
+		m_meshPostProcess.addTexCoord(ofVec2f(1.0, 1.0));  // Corresponding texcoord
+
+		m_meshPostProcess.addVertex(ofPoint(0, m_viewportHeight));   // 4th corner
+		m_meshPostProcess.addTexCoord(ofVec2f(0.0, 1.0));  // Corresponding texcoord
+
 	}
 }
 
@@ -203,49 +228,21 @@ ofCustomCamera* Camera::getCamera() {
 	return &m_camera;
 }
 
-void Camera::applyPostProcess()
-{
+void Camera::applyPostProcess() {
 	m_fboPostProcessTexture.begin();
 	ofClear(0, 0, 0, 0);
-	m_fboTexture.getTextureReference().bind();
-	m_shader.begin();
-	m_shader.setUniform1f("tone_mapping_exposure", getToneMappingExposure());
-	m_shader.setUniform1f("tone_mapping_gamma", getToneMappingGamma());
-	m_shader.setUniform1i("tone_mapping_toggle", getToneMappingToggle());
-	m_fboTexture.draw(0, 0);
-	m_shader.end();
-	m_fboTexture.getTextureReference().unbind();
+
+	m_shader->begin();
+	m_shader->setUniformTexture("tex0", m_fboTexture.getTexture(), 0);
+
+	for (auto & m_tonemapUniform : m_tonemapUniforms) {
+		m_shader->setUniform1f(m_tonemapUniform.first, m_tonemapUniform.second);
+	}
+
+	m_meshPostProcess.draw();
+	m_shader->end();
+
 	m_fboPostProcessTexture.end();
-}
-
-float Camera::getToneMappingExposure() const
-{
-	return m_tone_mapping_exposure;
-}
-
-void Camera::setToneMappingExposure(float p_exposure)
-{
-	m_tone_mapping_exposure = p_exposure;
-}
-
-float Camera::getToneMappingGamma() const
-{
-	return m_tone_mapping_gamma;
-}
-
-void Camera::setToneMappingGamma(float p_gamma)
-{
-	m_tone_mapping_gamma = p_gamma;
-}
-
-bool Camera::getToneMappingToggle() const
-{
-	return m_tone_mapping_toggle;
-}
-
-void Camera::setToneMappingToggle(bool p_toggle)
-{
-	m_tone_mapping_toggle = p_toggle;
 }
 
 
@@ -283,6 +280,9 @@ bool Camera::testVisibility(const ofVec3f &p_position, const ofVec3f &p_bounding
 }
 
 
+/**
+ * Check if bounding box is inside frustum
+ */
 bool Camera::isInsideFrustum(const ofVec3f& ofPosition, const ofVec3f& p_boundingBox) {
 
 	glm::vec3 minBound = ofPosition - p_boundingBox;
@@ -314,4 +314,48 @@ bool Camera::isInsideFrustum(const ofVec3f& ofPosition, const ofVec3f& p_boundin
 
 	// At least one corner is inside every frustum plane
 	return true;
+}
+
+
+/**
+ * Set tonemap uniforms
+ */
+void Camera::setTonemapUniforms(std::map<std::string, float> p_tonemapUniforms) {
+	m_tonemapUniforms = p_tonemapUniforms;
+}
+
+
+/**
+ * Get tonemap uniforms
+ */
+std::map<std::string, float> Camera::getTonemapUniforms() {
+	return m_tonemapUniforms;
+}
+
+
+/**
+ * Set tonemap type
+ */
+void Camera::setTonemapType(TONEMAP_TYPE p_type) {
+	m_tonemapType = p_type;
+
+	switch(p_type) {
+		case NO_TONEMAP: {
+			m_shader = Global::m_shaders.getShader("tonemap_none");
+		}
+		break;
+
+		case GRAYSCALE: {
+			m_shader = Global::m_shaders.getShader("tonemap_grayscale");
+		}
+		break;
+	}
+}
+
+
+/**
+ * Get tonemap type
+ */
+TONEMAP_TYPE Camera::getTonemapType() {
+	return m_tonemapType;
 }

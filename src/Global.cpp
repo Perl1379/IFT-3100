@@ -29,12 +29,19 @@ float Global::m_sequenceTotalDelta = 0;
 LightSource Global::m_lights[8];
 ofFloatColor Global::m_ambientLightColor = ofFloatColor(0.0, 0.0, 0.0);
 bool Global::m_doColorPicking = true;
+ShaderManager Global::m_shaders;
 
 
 /**
  * Setup global singleton object
  */
 void Global::setup() {
+
+	// Load shaders
+	if (!m_shaders.setup()) {
+		ofLogError() << "Shader setup failed";
+		return;
+	}
 
 	//Load models (characters and assets)
 	m_modelManager.init();

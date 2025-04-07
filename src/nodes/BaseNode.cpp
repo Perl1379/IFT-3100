@@ -11,7 +11,7 @@
 #include <Global.h>
 #include <of3dGraphics.h>
 #include <ofGraphics.h>
-#include <PerlinNoiseTexture.cpp>
+#include <PerlinNoiseTexture.h>
 
 
 /**
@@ -132,6 +132,7 @@ std::vector<NodeProperty> BaseNode::getProperties() const {
 
 	if (m_useMaterial) {
 		properties.emplace_back("Material", PROPERTY_TYPE::LABEL, nullptr);
+
 		properties.emplace_back("Diffuse Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getDiffuseColor());
 		properties.emplace_back("Ambient Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getAmbientColor());
 		properties.emplace_back("Emissive Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getEmissiveColor());
