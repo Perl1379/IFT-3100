@@ -273,7 +273,7 @@ void AddNodeDialog::draw() {
                 }
             }
             TerrainNode* childNode = new TerrainNode("New Terrain");
-            childNode->getTransform().setScale(2.0, 1.0, 2.0);
+            //childNode->getTransform().setScale(2.0, 1.0, 2.0);
             childNode->setTerrainName("plains_with_mountains");
             childNode->loadTerrain();
             parent->addChild(childNode);

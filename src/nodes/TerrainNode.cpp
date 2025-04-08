@@ -29,6 +29,8 @@ TerrainNode::TerrainNode(const std::string& p_name) : BaseNode(p_name) {
 
     sort(m_terrainNames.begin(), m_terrainNames.end());
     m_terrainNames.push_back("0");
+
+    m_materialNode.setShininess(2000);
 }
 
 
@@ -61,8 +63,9 @@ void TerrainNode::loadTerrain() {
 
             auto vertice = glm::vec3(
                 (x - width / 2) * vertexScale,
-                (y - height / 2) * vertexScale,
-                z * vertexScale);
+                z * vertexScale,
+                (y - height / 2) * vertexScale
+                );
             m_meshTerrain.addVertex(vertice);
             m_meshTerrain.addTexCoord(glm::vec2(x, y));  // Texture coordinates
             m_meshTerrain.addNormal(glm::vec3(0, 0, 1)); // Temporary
@@ -104,7 +107,7 @@ void TerrainNode::loadTerrain() {
         // Calculate normal using cross product
         glm::vec3 edge1 = v2 - v1;
         glm::vec3 edge2 = v3 - v1;
-        glm::vec3 normal = glm::normalize(glm::cross(edge2, edge1));
+        glm::vec3 normal = glm::normalize(glm::cross(edge1, edge2));
 
         // Assign normal to vertices
         normals[i1] += normal;
@@ -114,8 +117,9 @@ void TerrainNode::loadTerrain() {
 
     // Normalize all normals
     for (auto &n : normals) {
-        n = glm::normalize(n);
+         n = glm::normalize(n);
     }
+
 
     // Update mesh normals
     m_meshTerrain.clearNormals();
@@ -142,8 +146,7 @@ void TerrainNode::loadTerrain() {
     }
 
     // Compute center
-    m_boundingBox = maxBound - minBound;
-    m_boundingBox.rotate(90,0,0);
+    m_boundingBox = (maxBound - minBound);
 }
 
 
@@ -153,13 +156,21 @@ void TerrainNode::loadTerrain() {
 int TerrainNode::draw(bool p_objectPicking, Camera* p_camera) {
     if (!m_displayNode) return 0;
     int count = 0;
-    beginDraw(p_objectPicking);
+    beginDraw(p_objectPicking, p_camera);
 
     if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {
         m_transform.transformGL();
-        ofRotateDeg(-90,1.0, 0.0, 0.0);
+
         m_meshTerrain.drawFaces();
-        ofRotateDeg(90,1.0, 0.0, 0.0);
+        //
+        // ofSetColor(255,255,0);
+        // for (int i = 0; i < m_meshTerrain.getNumVertices(); ++i) {
+        //      glm::vec3 p = m_meshTerrain.getVertex(i);
+        //      glm::vec3 n = m_meshTerrain.getNormal(i);
+        //
+        //      ofDrawLine(p, p + n * 20.0f); // visualize normals
+        //  }
+
 
         m_transform.restoreTransformGL();
         count++;

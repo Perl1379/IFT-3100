@@ -8,6 +8,7 @@
  *****************************************************/
 #include "TransformTools.h"
 #include <Global.h>
+#include <LightNode.h>
 #include <ofGraphics.h>
 
 
@@ -346,6 +347,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
         case TRANSLATE_X: {
             float rightDirection = glm::dot(nodeRight, cameraRight);
             node->getTransform().truck(diff.x * mouseSpeedTranslate * glm::sign(rightDirection));
+            if (node->getClassName() == "LightNode") {
+                Global::m_lights[((LightNode*) node)->getLightIndex()].setPosition(node->getTransform().getPosition());
+            }
         }
         break;
 
@@ -353,6 +357,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
 
             float upDirection = glm::dot(nodeUp, cameraUp);
             node->getTransform().boom(-diff.y * mouseSpeedTranslate * glm::sign(upDirection));
+            if (node->getClassName() == "LightNode") {
+                Global::m_lights[((LightNode*) node)->getLightIndex()].setPosition(node->getTransform().getPosition());
+            }
 
         }
         break;
@@ -362,6 +369,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
             float moveAmount = diff.y * mouseSpeedTranslate;
             float direction = glm::dot(nodeForward, cameraForward);
             node->getTransform().dolly(moveAmount * glm::sign(direction));
+            if (node->getClassName() == "LightNode") {
+                Global::m_lights[((LightNode*) node)->getLightIndex()].setPosition(node->getTransform().getPosition());
+            }
         }
         break;
 
@@ -369,6 +379,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
 
             float rightDirection = glm::dot(cameraRight, nodeForward);
             node->getTransform().rotateDeg(glm::sign(rightDirection) * -diff.x * mouseSpeedRotate, nodeForward);
+            if (node->getClassName() == "LightNode") {
+                Global::m_lights[((LightNode*) node)->getLightIndex()].setOrientation(node->getTransform().getOrientationEulerDeg());
+            }
 
         }
         break;
@@ -376,12 +389,18 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
 
             float upDirection = glm::dot(cameraUp, nodeRight);
             node->getTransform().rotateDeg(glm::sign(upDirection) * -diff.y * mouseSpeedRotate, nodeRight);
+            if (node->getClassName() == "LightNode") {
+                Global::m_lights[((LightNode*) node)->getLightIndex()].setOrientation(node->getTransform().getOrientationEulerDeg());
+            }
         }
         break;
 
         case ROTATE_Z: {
             float forwardDirection = glm::dot(cameraForward, nodeUp);
             node->getTransform().rotateDeg(glm::sign(forwardDirection) * -diff.x * mouseSpeedRotate, nodeUp);
+            if (node->getClassName() == "LightNode") {
+                Global::m_lights[((LightNode*) node)->getLightIndex()].setOrientation(node->getTransform().getOrientationEulerDeg());
+            }
         }
         break;
 
@@ -390,6 +409,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
             glm::vec3 scale = node->getTransform().getScale();
             scale.x += glm::sign(rightDirection) * diff.x * mouseSpeedScale;
             node->getTransform().setScale(scale);
+            if (node->getClassName() == "LightNode") {
+                Global::m_lights[((LightNode*) node)->getLightIndex()].setScale(node->getTransform().getScale());
+            }
         }
         break;
 
@@ -398,6 +420,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
             glm::vec3 scale = node->getTransform().getScale();
             scale.y += glm::sign(upDirection) * diff.y * mouseSpeedScale;
             node->getTransform().setScale(scale);
+            if (node->getClassName() == "LightNode") {
+                Global::m_lights[((LightNode*) node)->getLightIndex()].setScale(node->getTransform().getScale());
+            }
         }
         break;
 
@@ -406,6 +431,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
             glm::vec3 scale = node->getTransform().getScale();
             scale.z += glm::sign(forwardDirection) * diff.x * mouseSpeedScale;
             node->getTransform().setScale(scale);
+            if (node->getClassName() == "LightNode") {
+                Global::m_lights[((LightNode*) node)->getLightIndex()].setScale(node->getTransform().getScale());
+            }
         }
 
         case SCALE_ALL: {
@@ -416,6 +444,9 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
                 scale -= diff.x * mouseSpeedScale;
             }
             node->getTransform().setScale(scale);
+            if (node->getClassName() == "LightNode") {
+                Global::m_lights[((LightNode*) node)->getLightIndex()].setScale(node->getTransform().getScale());
+            }
         }
         break;
     }

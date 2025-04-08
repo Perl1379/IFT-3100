@@ -31,7 +31,7 @@ int CylinderNode::draw(bool p_objectPicking, Camera* p_camera) {
     if (!m_displayNode) return 0;
     int count = 0;
 
-    beginDraw(p_objectPicking);
+    beginDraw(p_objectPicking, p_camera);
 
     //ofLog() << "CylinderNode::draw: " << getBoundingBox();
     if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {

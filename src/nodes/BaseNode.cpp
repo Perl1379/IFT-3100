@@ -19,16 +19,15 @@
   */
 BaseNode::BaseNode(const std::string& p_name) : m_name(p_name) {
 
-	static int id_next = 1;
-	m_id = id_next++;
+	m_id = Global::id_next;
+	Global::id_next += 1;
 
 	m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 1.0, 0.0));
 	m_materialUnlit.setAmbientColor(ofFloatColor(0.0, 0.0, 0.0));
 	m_materialUnlit.setDiffuseColor(ofFloatColor(0.0));
-	m_materialUnlit.setSpecularColor(ofFloatColor(0.0));
 
-	m_materialNode.setShininess(100);  // Controls specular reflection
 	m_materialNode.setSpecularColor(ofColor(255, 255, 255));  // Highlights
+
 
 }
 
@@ -47,7 +46,7 @@ int BaseNode::draw(bool p_objectPicking, Camera* p_camera) {
 
 	if (!m_displayNode) return 0;
 
-	beginDraw(p_objectPicking);
+	beginDraw(p_objectPicking, p_camera);
 	// Nothing to render
 	return endDraw(p_objectPicking, p_camera);
 
@@ -138,7 +137,7 @@ std::vector<NodeProperty> BaseNode::getProperties() const {
 		properties.emplace_back("Emissive Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getEmissiveColor());
 		properties.emplace_back("Specular Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getSpecularColor());
 		properties.emplace_back("Shininess", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getShininess());
-		properties.emplace_back("Proc. Texture", PROPERTY_TYPE::BOOLEAN_FIELD, m_isRandomTexture);
+		properties.emplace_back("Metallicity", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getMetallic());
 	}
 
 	return properties;
@@ -200,28 +199,33 @@ void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 		m_materialNode.setShininess(std::any_cast<float>(p_value));
 	}
 
-	if (p_name == "Proc. Texture") {
-		m_isRandomTexture = std::any_cast<bool>(p_value);
-		
-		if (m_isRandomTexture)
-		{
-			int width = 512;
-			int height = 512;
-			ofImage image;
-			image.allocate(width, height, OF_IMAGE_GRAYSCALE);
-
-			PerlinNoiseTexture perlinNoise;
-			for (int y = 0; y < height; ++y) {
-				for (int x = 0; x < width; ++x) {
-					double noiseValue = perlinNoise.noise(x * 0.1, y * 0.1, 0.0);
-					noiseValue = ofMap(noiseValue, -1, 1, 0, 255);
-					image.setColor(x, y, ofColor(noiseValue));
-				}
-			}
-			image.update();
-			allocateTexture(image);
-		}
+	if (p_name == "Metallicity") {
+		m_materialNode.setMetallic(std::any_cast<float>(p_value));
 	}
+
+	//
+	// if (p_name == "Proc. Texture") {
+	// 	m_isRandomTexture = std::any_cast<bool>(p_value);
+	//
+	// 	if (m_isRandomTexture)
+	// 	{
+	// 		int width = 512;
+	// 		int height = 512;
+	// 		ofImage image;
+	// 		image.allocate(width, height, OF_IMAGE_GRAYSCALE);
+	//
+	// 		PerlinNoiseTexture perlinNoise;
+	// 		for (int y = 0; y < height; ++y) {
+	// 			for (int x = 0; x < width; ++x) {
+	// 				double noiseValue = perlinNoise.noise(x * 0.1, y * 0.1, 0.0);
+	// 				noiseValue = ofMap(noiseValue, -1, 1, 0, 255);
+	// 				image.setColor(x, y, ofColor(noiseValue));
+	// 			}
+	// 		}
+	// 		image.update();
+	// 		allocateTexture(image);
+	// 	}
+	// }
 
 }
 
@@ -296,18 +300,30 @@ void BaseNode::removeAllChildren() {
 /**
  * Begin draw context
  */
-void BaseNode::beginDraw(bool p_objectPicking) {
+void BaseNode::beginDraw(bool p_objectPicking, Camera* p_camera) {
 
 	if (!p_objectPicking) {
 		ofEnableAlphaBlending();
-	
-		m_materialNode.begin();
-		
-        if (m_isRandomTexture)
-        {
-            m_textureNode.bind();
-        }
-		
+
+		ofShader* m_shader = p_camera->getLightShader();
+		if (m_shader == nullptr) {
+			m_materialNode.begin();
+		} else {
+			// TODO: Set uniforms
+			ofFloatColor colorDiffuse = m_materialNode.getDiffuseColor();
+			ofFloatColor colorAmbient = (m_materialNode.getAmbientColor() + Global::m_ambientLightColor) * 0.5f;
+			ofFloatColor colorEmissive = m_materialNode.getEmissiveColor();
+			ofFloatColor colorSpecular = m_materialNode.getSpecularColor();
+
+			m_shader->setUniform3f("color_diffuse", colorDiffuse.r, colorDiffuse.g, colorDiffuse.b);
+			m_shader->setUniform3f("color_ambient", colorAmbient.r, colorAmbient.g, colorAmbient.b);
+			m_shader->setUniform3f("color_emissive", colorEmissive.r, colorEmissive.g, colorEmissive.b);
+			m_shader->setUniform3f("color_specular", colorSpecular.r, colorSpecular.g, colorSpecular.b);
+			m_shader->setUniform1f("mat_shininess", m_materialNode.getShininess());
+			m_shader->setUniform1f("mat_metallic", m_materialNode.getMetallic());
+
+		}
+
 		
 	}
 	else {
@@ -323,16 +339,26 @@ void BaseNode::beginDraw(bool p_objectPicking) {
 int BaseNode::endDraw(bool p_objectPicking, Camera* p_camera) {
 	int count = 0;
 	if (!p_objectPicking) {
-		if (m_isRandomTexture)
-		{
-			m_textureNode.unbind();
+		ofShader* m_shader = p_camera->getLightShader();
+		if (m_shader == nullptr) {
+			m_materialNode.end();
 		}
-		m_materialNode.end();
+
 		ofDisableAlphaBlending();
 		if (m_displayBoundingBox) {
+
+			if (p_camera->getLightShader() != nullptr) {
+				p_camera->getLightShader()->end();
+			}
+
 			m_materialUnlit.begin();
 			drawBoundingBox();
 			m_materialUnlit.end();
+
+			if (p_camera->getLightShader() != nullptr) {
+				p_camera->getLightShader()->begin();
+			}
+
 		}
 
 	}
@@ -425,14 +451,4 @@ bool BaseNode::isExpanded() {
  */
 void BaseNode::setExpanded(bool p_expanded) {
 	m_isExpanded = p_expanded;
-}
-
-void BaseNode::allocateTexture(ofImage p_image)
-{
-    m_textureNode.loadData(p_image.getPixels());
-
-	m_materialNode.setDiffuseColor(m_materialNode.getDiffuseColor());
-	m_materialNode.setAmbientColor(ofColor::gray);
-	m_materialNode.setSpecularColor(ofColor::white);
-	m_materialNode.setShininess(64);
 }

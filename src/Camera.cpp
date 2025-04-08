@@ -67,7 +67,7 @@ void Camera::setup(ofVec3f p_initialPosition, ofVec3f p_initialOrientation) {
 	m_initialzNear = 1.0f;
 	m_initialzFar = 20000.0f;
 
-	m_shader = Global::m_shaders.getShader("tonemap_none");
+	m_shaderTonemap = Global::m_shaders.getShader("tonemap_none");
 	reset();
 }
 
@@ -95,6 +95,8 @@ void Camera::reset() {
 	m_camera.setFov(m_initialFOV);
 	m_camera.setNearClip(m_initialzNear);
 	m_camera.setFarClip(m_initialzFar);
+	setLightModel(OPENGL_LIGHTS);
+	setTonemapType(NO_TONEMAP);
 }
 
 
@@ -166,25 +168,26 @@ void Camera::resizeTextureIfNeeded() {
 		m_fboPickingTexture.allocate(m_viewportWidth, m_viewportHeight, GL_RGB);
 		m_fboPostProcessTexture.allocate(m_viewportWidth, m_viewportHeight, GL_RGB);
 
-		// First triangle (using the first three vertices)
-		m_meshPostProcess.addVertex(ofPoint(0, 0));  // 1st corner
-		m_meshPostProcess.addTexCoord(ofVec2f(0.0, 0.0));  // Corresponding texcoord
+		m_meshPostProcess.clear();
+		// First triangle
+		m_meshPostProcess.addVertex(ofPoint(0, 0));
+		m_meshPostProcess.addTexCoord(ofVec2f(0.0, 0.0));
 
-		m_meshPostProcess.addVertex(ofPoint(m_viewportWidth, 0));   // 2nd corner
-		m_meshPostProcess.addTexCoord(ofVec2f(1.0, 0.0));  // Corresponding texcoord
+		m_meshPostProcess.addVertex(ofPoint(m_viewportWidth, 0));
+		m_meshPostProcess.addTexCoord(ofVec2f(1.0, 0.0));
 
-		m_meshPostProcess.addVertex(ofPoint(m_viewportWidth, m_viewportHeight));    // 3rd corner
-		m_meshPostProcess.addTexCoord(ofVec2f(1.0, 1.0));  // Corresponding texcoord
+		m_meshPostProcess.addVertex(ofPoint(m_viewportWidth, m_viewportHeight));
+		m_meshPostProcess.addTexCoord(ofVec2f(1.0, 1.0));
 
-		// Second triangle (using the first, third, and fourth vertices)
-		m_meshPostProcess.addVertex(ofPoint(0, 0));  // 1st corner
-		m_meshPostProcess.addTexCoord(ofVec2f(0.0, 0.0));  // Corresponding texcoord
+		// Second triangle
+		m_meshPostProcess.addVertex(ofPoint(0, 0));
+		m_meshPostProcess.addTexCoord(ofVec2f(0.0, 0.0));
 
-		m_meshPostProcess.addVertex(ofPoint(m_viewportWidth, m_viewportHeight));    // 3rd corner
-		m_meshPostProcess.addTexCoord(ofVec2f(1.0, 1.0));  // Corresponding texcoord
+		m_meshPostProcess.addVertex(ofPoint(m_viewportWidth, m_viewportHeight));
+		m_meshPostProcess.addTexCoord(ofVec2f(1.0, 1.0));
 
-		m_meshPostProcess.addVertex(ofPoint(0, m_viewportHeight));   // 4th corner
-		m_meshPostProcess.addTexCoord(ofVec2f(0.0, 1.0));  // Corresponding texcoord
+		m_meshPostProcess.addVertex(ofPoint(0, m_viewportHeight));
+		m_meshPostProcess.addTexCoord(ofVec2f(0.0, 1.0));
 
 	}
 }
@@ -228,19 +231,23 @@ ofCustomCamera* Camera::getCamera() {
 	return &m_camera;
 }
 
+
+/**
+ * Apply post processing effect (tonemapping)
+ */
 void Camera::applyPostProcess() {
 	m_fboPostProcessTexture.begin();
 	ofClear(0, 0, 0, 0);
 
-	m_shader->begin();
-	m_shader->setUniformTexture("tex0", m_fboTexture.getTexture(), 0);
+	m_shaderTonemap->begin();
+	m_shaderTonemap->setUniformTexture("tex0", m_fboTexture.getTexture(), 0);
 
 	for (auto & m_tonemapUniform : m_tonemapUniforms) {
-		m_shader->setUniform1f(m_tonemapUniform.first, m_tonemapUniform.second);
+		m_shaderTonemap->setUniform1f(m_tonemapUniform.first, m_tonemapUniform.second);
 	}
 
 	m_meshPostProcess.draw();
-	m_shader->end();
+	m_shaderTonemap->end();
 
 	m_fboPostProcessTexture.end();
 }
@@ -341,12 +348,12 @@ void Camera::setTonemapType(TONEMAP_TYPE p_type) {
 
 	switch(p_type) {
 		case NO_TONEMAP: {
-			m_shader = Global::m_shaders.getShader("tonemap_none");
+			m_shaderTonemap = Global::m_shaders.getShader("tonemap_none");
 		}
 		break;
 
 		case GRAYSCALE: {
-			m_shader = Global::m_shaders.getShader("tonemap_grayscale");
+			m_shaderTonemap = Global::m_shaders.getShader("tonemap_grayscale");
 		}
 		break;
 	}
@@ -358,4 +365,57 @@ void Camera::setTonemapType(TONEMAP_TYPE p_type) {
  */
 TONEMAP_TYPE Camera::getTonemapType() {
 	return m_tonemapType;
+}
+
+
+/**
+ * Set light shader
+ */
+void Camera::setLightModel(LIGHTMODEL_TYPE p_model) {
+	m_lightModel = p_model;
+
+	switch(m_lightModel) {
+		case OPENGL_LIGHTS: {
+			m_shaderLight = nullptr;
+		}
+		break;
+
+		case LAMBERT: {
+			m_shaderLight = Global::m_shaders.getShader("lightmodel_lambert");
+		}
+		break;
+
+
+		case GOURAUD: {
+			m_shaderLight = Global::m_shaders.getShader("lightmodel_gouraud");
+		}
+		break;
+
+		case PHONG: {
+			m_shaderLight = Global::m_shaders.getShader("lightmodel_phong");
+		}
+		break;
+
+		case BLINN_PHONG: {
+			m_shaderLight = Global::m_shaders.getShader("lightmodel_blinn_phong");
+		}
+		break;
+	}
+
+}
+
+
+/**
+ * Get light model
+ */
+int Camera::getLightModel() {
+	return m_lightModel;
+}
+
+
+/**
+* Get light shader
+*/
+ofShader* Camera::getLightShader() {
+	return m_shaderLight;
 }

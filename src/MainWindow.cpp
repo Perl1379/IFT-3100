@@ -73,22 +73,59 @@ void MainWindow::cameraDraw(int index) {
 
 
 	camera->begin();
-	ofBackground(0);
+	ofBackground(64);
 
 	// We render skybox first
 	Global::m_skybox.draw(camera->getPosition());
 
-	ofEnableLighting();
+	ofShader* m_shaderLight = Global::m_cameras[index].getLightShader();
+	if (m_shaderLight == nullptr) {
+		ofEnableLighting();
+	} else {
+
+		m_shaderLight->begin();
+
+		// Pass light information
+		int count = 0;
+		for (int i = 0; i < 8; i++) {
+			LightSource* light = &Global::m_lights[i];
+			if (light->getEnabled()) {
+				continue;
+			}
+			m_shaderLight->setUniform1i("light" + std::to_string(count) + "_type", light->getLightType());
+			m_shaderLight->setUniform3f("light" + std::to_string(count) + "_position", light->getPosition());
+			m_shaderLight->setUniform3f("light" + std::to_string(count) + "_orientation", light->getOrientation());
+			m_shaderLight->setUniform1f("light" + std::to_string(count) + "_attenuation", light->getAttenuation());
+
+			ofFloatColor colorAmbient = light->getColorAmbient();
+			ofFloatColor colorDiffuse = light->getColorDiffuse();
+			ofFloatColor colorSpecular = light->getColorSpecular();
+
+			m_shaderLight->setUniform3f("light" + std::to_string(count) + "_color_ambient", colorAmbient.r, colorAmbient.g, colorAmbient.b);
+			m_shaderLight->setUniform3f("light" + std::to_string(count) + "_color_diffuse", colorDiffuse.r, colorDiffuse.g, colorDiffuse.b);
+			m_shaderLight->setUniform3f("light" + std::to_string(count) + "_color_specular", colorSpecular.r, colorSpecular.g, colorSpecular.b);
+
+			count++;
+		}
+		m_shaderLight->setUniform1f("light_sources", count);
+	}
 
 	ofSetColor(255);
+
 	Global::m_countNodeRender[index] = Global::m_level.draw(false, &Global::m_cameras[index]);
 	Global::m_transformTools.draw(false);
 
-	ofDisableLighting();
+	if (m_shaderLight == nullptr) {
+		ofDisableLighting();
+	} else {
+		m_shaderLight->end();
+	}
 
 	camera->end();
 	fbo->end();
-	Global::m_cameras[index].applyPostProcess();
+	if (Global::m_cameras[index].getTonemapType() != NO_TONEMAP) {
+		Global::m_cameras[index].applyPostProcess();
+	}
 
 	// Generate Object picking FBO only for hovered camera viewport
 	if (Global::m_doColorPicking) {

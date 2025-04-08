@@ -108,7 +108,7 @@ int ModelNode::draw(bool p_objectPicking, Camera* p_camera)
 	if (!getDisplayNode()) return 0; //nothing to draw if the user hid the node
 
 	int count = 0;
-	beginDraw(p_objectPicking);
+	beginDraw(p_objectPicking, p_camera);
 	updateBoundingBox();
 
 	if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {

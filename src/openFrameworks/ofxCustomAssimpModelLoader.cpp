@@ -1,7 +1,3 @@
-//
-// Created by cobolfoo on 3/5/25.
-//
-
 #include "ofxCustomAssimpModelLoader.h"
 
 #include <ofGraphics.h>

@@ -19,10 +19,21 @@ enum OCCLUSION_MODE {
 	FRUSTUM_CULLING = 1
 };
 
+
 enum TONEMAP_TYPE {
 	NO_TONEMAP = 0,
 	GRAYSCALE = 1
 };
+
+
+enum LIGHTMODEL_TYPE {
+	OPENGL_LIGHTS = 0,
+	LAMBERT = 1,
+	GOURAUD = 2,
+	PHONG = 3,
+	BLINN_PHONG = 4
+};
+
 
 class Camera {
 
@@ -45,6 +56,9 @@ private:
 	ofVec3f m_upVector = ofVec3f(0, 1, 0);
 	ofVec3f m_initialPosition;
 	ofVec3f m_initialOrientation;
+	ofShader* m_shaderLight;
+	int m_lightModel = OPENGL_LIGHTS;
+
 	float m_initialFOV;
 	float m_initialzNear;
 	float m_initialzFar;
@@ -58,7 +72,7 @@ private:
 	int m_viewportWidth = 0;
 	int m_viewportHeight = 0;
 	std::array<Plane, 6> extractFrustumPlanes(const glm::mat4& m);
-	ofShader* m_shader;
+	ofShader* m_shaderTonemap = nullptr;
 	std::map<std::string, float> m_tonemapUniforms;
 	TONEMAP_TYPE m_tonemapType = NO_TONEMAP;
 
@@ -90,7 +104,9 @@ public:
 	std::map<std::string, float> getTonemapUniforms();
 	void setTonemapType(TONEMAP_TYPE type);
 	TONEMAP_TYPE getTonemapType();
-
+	void setLightModel(LIGHTMODEL_TYPE type);
+	int getLightModel();
+	ofShader* getLightShader();
 
 
 };

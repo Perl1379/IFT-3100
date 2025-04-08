@@ -25,14 +25,13 @@ protected:
     bool m_userCanAddChild = true;
     bool m_useMaterial = true;
     bool m_isExpanded = true;
-	bool m_isRandomTexture = false;
 
 
     ofMaterial m_materialNode;
-    ofTexture m_textureNode;
+
     ofMaterial m_materialUnlit;
 
-    void beginDraw(bool p_objectPicking);
+    void beginDraw(bool p_objectPicking, Camera* p_camera);
 
     int endDraw(bool p_objectPicking, Camera* p_camera);
 
@@ -73,7 +72,7 @@ public:
 
     std::vector<BaseNode *> &getChildren() { return m_children; };
 
-        // called to alert another node of a change, optionally precising what changed
+    // called to alert another node of a change, optionally defining what changed
     virtual void nodeChanged(const std::string& p_name = "", std::any p_value = nullptr) {};
 
     virtual std::vector<NodeProperty> getProperties() const;
@@ -87,5 +86,4 @@ public:
     bool isExpanded();
     void setExpanded(bool p_expanded);
 
-    void allocateTexture(ofImage p_image);
 };
