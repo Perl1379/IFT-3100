@@ -85,29 +85,49 @@ void MainWindow::cameraDraw(int index) {
 
 		m_shaderLight->begin();
 
+		int lightTypes[8];
+		glm::vec3 lightPositions[8];
+		glm::vec3 lightOrientations[8];
+		float lightAttenuations[8];
+		glm::vec3 lightAmbientColors[8];
+		glm::vec3 lightDiffuseColors[8];
+		glm::vec3 lightSpecularColors[8];
+
 		// Pass light information
 		int count = 0;
 		for (int i = 0; i < 8; i++) {
-			LightSource* light = &Global::m_lights[i];
-			if (light->getEnabled()) {
-				continue;
-			}
-			m_shaderLight->setUniform1i("light" + std::to_string(count) + "_type", light->getLightType());
-			m_shaderLight->setUniform3f("light" + std::to_string(count) + "_position", light->getPosition());
-			m_shaderLight->setUniform3f("light" + std::to_string(count) + "_orientation", light->getOrientation());
-			m_shaderLight->setUniform1f("light" + std::to_string(count) + "_attenuation", light->getAttenuation());
+		 	LightSource* light = &Global::m_lights[i];
+		 	if (!light->getEnabled()) {
+		 		continue;
+		 	}
 
-			ofFloatColor colorAmbient = light->getColorAmbient();
-			ofFloatColor colorDiffuse = light->getColorDiffuse();
-			ofFloatColor colorSpecular = light->getColorSpecular();
+		 	lightTypes[i] = light->getLightType();
+		 	lightPositions[i] = light->getPosition();
+		 	lightOrientations[i] = light->getOrientation();
+		 	lightAttenuations[i] = light->getAttenuation();
 
-			m_shaderLight->setUniform3f("light" + std::to_string(count) + "_color_ambient", colorAmbient.r, colorAmbient.g, colorAmbient.b);
-			m_shaderLight->setUniform3f("light" + std::to_string(count) + "_color_diffuse", colorDiffuse.r, colorDiffuse.g, colorDiffuse.b);
-			m_shaderLight->setUniform3f("light" + std::to_string(count) + "_color_specular", colorSpecular.r, colorSpecular.g, colorSpecular.b);
+		 	ofFloatColor colorAmbient = light->getColorAmbient();
+		 	ofFloatColor colorDiffuse = light->getColorDiffuse();
+		 	ofFloatColor colorSpecular = light->getColorSpecular();
 
-			count++;
-		}
-		m_shaderLight->setUniform1f("light_sources", count);
+			lightAmbientColors[i] = glm::vec3(colorAmbient.r, colorAmbient.g, colorAmbient.b);
+			lightDiffuseColors[i] = glm::vec3(colorDiffuse.r, colorDiffuse.g, colorDiffuse.b);
+			lightSpecularColors[i] = glm::vec3(colorSpecular.r, colorSpecular.g, colorSpecular.b);
+
+		 	count++;
+		 }
+
+		m_shaderLight->setUniform3fv("light_type", (GLfloat*)&lightTypes[0], 8);
+		m_shaderLight->setUniform3fv("light_position", (GLfloat*)&lightPositions[0], 8);
+		m_shaderLight->setUniform3fv("light_orientation", (GLfloat*)&lightOrientations[0], 8);
+		m_shaderLight->setUniform1fv("light_attenuation", (GLfloat*)&lightAttenuations[0], 8);
+		m_shaderLight->setUniform3fv("light_color_ambient", (GLfloat*)&lightAmbientColors[0], 8);
+		m_shaderLight->setUniform3fv("light_color_diffuse", (GLfloat*)&lightDiffuseColors[0], 8);
+		m_shaderLight->setUniform3fv("light_color_specular", (GLfloat*)&lightSpecularColors[0], 8);
+
+
+		m_shaderLight->setUniform1i("light_sources", count);
+		m_shaderLight->setUniform3f("global_ambient_color", Global::m_ambientLightColor.r, Global::m_ambientLightColor.g, Global::m_ambientLightColor.b);
 	}
 
 	ofSetColor(255);

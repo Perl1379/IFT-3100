@@ -28,8 +28,9 @@ protected:
 
 
     ofMaterial m_materialNode;
-
     ofMaterial m_materialUnlit;
+    ofTexture m_textureAlbedo;
+    ofTexture m_textureNormal;
 
     void beginDraw(bool p_objectPicking, Camera* p_camera);
 

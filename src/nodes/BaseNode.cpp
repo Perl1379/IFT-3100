@@ -28,6 +28,20 @@ BaseNode::BaseNode(const std::string& p_name) : m_name(p_name) {
 
 	m_materialNode.setSpecularColor(ofColor(255, 255, 255));  // Highlights
 
+	ofImage whiteTexture;
+	whiteTexture.allocate(1, 1, OF_IMAGE_COLOR); // 1x1 white texture
+	whiteTexture.setColor(0,0, ofColor::white);  // Create a white texture
+	whiteTexture.update(); // Make sure it's updated
+
+	m_textureAlbedo.allocate(whiteTexture);
+
+	ofImage neutralTexture;
+	neutralTexture.allocate(1, 1, OF_IMAGE_COLOR);
+	neutralTexture.setColor(0, 0, ofColor(0.50196, 0.50196, 1.0));
+	neutralTexture.update(); // Make sure it's updated
+
+
+	m_textureNormal.allocate(neutralTexture);
 
 }
 
@@ -309,7 +323,7 @@ void BaseNode::beginDraw(bool p_objectPicking, Camera* p_camera) {
 		if (m_shader == nullptr) {
 			m_materialNode.begin();
 		} else {
-			// TODO: Set uniforms
+			// Set uniforms
 			ofFloatColor colorDiffuse = m_materialNode.getDiffuseColor();
 			ofFloatColor colorAmbient = (m_materialNode.getAmbientColor() + Global::m_ambientLightColor) * 0.5f;
 			ofFloatColor colorEmissive = m_materialNode.getEmissiveColor();
@@ -321,6 +335,9 @@ void BaseNode::beginDraw(bool p_objectPicking, Camera* p_camera) {
 			m_shader->setUniform3f("color_specular", colorSpecular.r, colorSpecular.g, colorSpecular.b);
 			m_shader->setUniform1f("mat_shininess", m_materialNode.getShininess());
 			m_shader->setUniform1f("mat_metallic", m_materialNode.getMetallic());
+
+			m_textureAlbedo.bind(0);
+			m_textureNormal.bind(1);
 
 		}
 
@@ -342,12 +359,16 @@ int BaseNode::endDraw(bool p_objectPicking, Camera* p_camera) {
 		ofShader* m_shader = p_camera->getLightShader();
 		if (m_shader == nullptr) {
 			m_materialNode.end();
+		} else {
+			m_textureAlbedo.unbind(0);
+			m_textureNormal.unbind(1);
+
 		}
 
 		ofDisableAlphaBlending();
 		if (m_displayBoundingBox) {
 
-			if (p_camera->getLightShader() != nullptr) {
+			if (p_camera->getLightModel() != OPENGL_LIGHTS) {
 				p_camera->getLightShader()->end();
 			}
 
@@ -355,7 +376,7 @@ int BaseNode::endDraw(bool p_objectPicking, Camera* p_camera) {
 			drawBoundingBox();
 			m_materialUnlit.end();
 
-			if (p_camera->getLightShader() != nullptr) {
+			if (p_camera->getLightModel() != OPENGL_LIGHTS) {
 				p_camera->getLightShader()->begin();
 			}
 
