@@ -397,7 +397,7 @@ void Camera::setLightModel(LIGHTMODEL_TYPE p_model) {
 		break;
 
 		case BLINN_PHONG: {
-			m_shaderLight = Global::m_shaders.getShader("lightmodel_blinn_phong");
+			m_shaderLight = Global::m_shaders.getShader("lightmodel_blinnphong");
 		}
 		break;
 	}

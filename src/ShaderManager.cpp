@@ -34,6 +34,15 @@ bool ShaderManager::setup() {
     if (!loadShader("lightmodel_lambert", "shaders/lightmodels/lambert.vert", "shaders/lightmodels/lambert.frag")) {
         return false;
     }
+    if (!loadShader("lightmodel_gouraud", "shaders/lightmodels/gouraud.vert", "shaders/lightmodels/gouraud.frag")) {
+        return false;
+    }
+    if (!loadShader("lightmodel_phong", "shaders/lightmodels/phong.vert", "shaders/lightmodels/phong.frag")) {
+        return false;
+    }
+    if (!loadShader("lightmodel_blinnphong", "shaders/lightmodels/blinnphong.vert", "shaders/lightmodels/blinnphong.frag")) {
+        return false;
+    }
 
 
     return true;
