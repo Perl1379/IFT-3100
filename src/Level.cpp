@@ -81,6 +81,8 @@ void test_spawn_sphere(BaseNode* tree, int sphere_count, float sphere_spacing, f
  */
 void Level::reset() {
 
+	Global::id_next = 0;
+
 	m_tree->removeAllChildren();
 	Global::m_selectedNode = -1;
 

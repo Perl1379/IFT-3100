@@ -1,7 +1,3 @@
-//
-// Created by cobolfoo on 3/5/25.
-//
-
 #include "ofxCustomAssimpModelLoader.h"
 
 #include <ofGraphics.h>
@@ -9,15 +5,15 @@
 /**
  * Draw faces
  */
-void ofxCustomAssimpModelLoader::drawFaces(){
-    draw(OF_MESH_FILL);
+void ofxCustomAssimpModelLoader::drawFaces(ofShader* m_shader){
+    draw(OF_MESH_FILL, m_shader);
 }
 
 
 /**
  * Draw meshes (only enabled ones)
  */
-void ofxCustomAssimpModelLoader::draw(ofPolyRenderMode renderType) {
+void ofxCustomAssimpModelLoader::draw(ofPolyRenderMode renderType, ofShader* m_shader) {
     if(scene == NULL) {
         return;
     }
@@ -44,7 +40,7 @@ void ofxCustomAssimpModelLoader::draw(ofPolyRenderMode renderType) {
             }
         }
 
-        if(bUsingMaterials){
+        if((bUsingMaterials) && (m_shader == nullptr)) {
             mesh.material.begin();
         }
 
@@ -90,7 +86,7 @@ void ofxCustomAssimpModelLoader::draw(ofPolyRenderMode renderType) {
             glDisable(GL_CULL_FACE);
         }
 
-        if(bUsingMaterials){
+        if((bUsingMaterials) && (m_shader == nullptr)) {
             mesh.material.end();
         }
 
@@ -116,7 +112,7 @@ bool ofxCustomAssimpModelLoader::createEnabledMeshes() {
     bool result = ofxAssimpModelLoader::processScene();
 
     m_meshEnabled.clear();
-    for (int i=0; i<modelMeshes.size(); i++) {
+    for (size_t i=0; i<modelMeshes.size(); i++) {
         m_meshEnabled.push_back(true);
     }
 
@@ -129,7 +125,7 @@ bool ofxCustomAssimpModelLoader::createEnabledMeshes() {
  */
 void ofxCustomAssimpModelLoader::setMeshEnabled(const std::string& p_meshName, bool p_value) {
     std::vector<std::string> meshNames = getMeshNames();
-    for (int i = 0; i < meshNames.size(); i++) {
+    for (size_t i = 0; i < meshNames.size(); i++) {
         if (meshNames[i] == p_meshName) {
             m_meshEnabled[i] = p_value;
             return;

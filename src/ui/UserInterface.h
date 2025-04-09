@@ -54,6 +54,8 @@ private:
 	ofTexture m_textureToolbarRaycast;
 	ofTexture m_textureToolbarRaycastPressed;
 	ofTexture m_textureNotVisible;
+	ofTexture m_textureResetButton;
+
     std::vector<std::string> m_availableSkyboxes;
 
     bool m_initialDraw = true;

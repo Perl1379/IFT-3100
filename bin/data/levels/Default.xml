@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<Level skyboxName="blink">
+<Level skyboxName="blink" selectedNode="2">
 	<Cameras>
-		<Camera position="-236.14, 1730.28, 2529.84" orientation="-29.0781, -1.63996, -2.13746" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="1" tonemapUniforms="brightness=1.000000" />
-		<Camera position="0, 3000, 0" orientation="-90, 0, 0" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" tonemapUniforms="" />
-		<Camera position="1368.28, 1430.71, 2194.45" orientation="-26.652, 22.0035, -2.73113" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" tonemapUniforms="" />
+		<Camera position="301.594, 4114.88, 2576.97" orientation="-53.277, 8.36316, -2.16226" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="1" tonemapUniforms="" />
+		<Camera position="0, 3000, 0" orientation="-90, 0, 0" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="0" tonemapUniforms="" />
+		<Camera position="1368.28, 1430.71, 2194.45" orientation="-26.652, 22.0035, -2.73113" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="0" tonemapUniforms="" />
 	</Cameras>
 	<Lights ambientColor="0, 0, 0, 1">
-		<LightSource type="1" enabled="1" position="0, 1000, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
-		<LightSource type="1" enabled="0" position="0, 800, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="1" position="-355, 2335, 615" orientation="0, -0, 0" scale="1, 1, 1" attenuation="9.99994e-05" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="0" position="210, 310, 655" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.001" ambientColor="0, 0, 0, 1" diffuseColor="1, 0, 0, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, 600, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, 400, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, 200, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
@@ -16,38 +16,6 @@
 		<LightSource type="1" enabled="0" position="0, -400, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 	</Lights>
 	<Nodes>
-		<Node class="GroupNode" expanded="1">
-			<Properties>
-				<Property name="Name" type="0" value="Pine Tree" />
-				<Property name="Display" type="6" value="1" />
-				<Property name="Transform" type="5" />
-				<Property name="Position" type="1" value="300, 300, -1200" />
-				<Property name="Orientation" type="1" value="0, -0, 0" />
-				<Property name="Scale" type="1" value="1, 1, 1" />
-			</Properties>
-			<Node class="CylinderNode" expanded="1">
-				<Properties>
-					<Property name="Name" type="0" value="Trunk" />
-					<Property name="Display" type="6" value="1" />
-					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="0, 0, 0" />
-					<Property name="Orientation" type="1" value="0, -0, 0" />
-					<Property name="Scale" type="1" value="3, 4, 3" />
-					<Property name="Material" type="5" />
-					<Property name="Diffuse Color" type="2" value="1, 1, 1, 1" />
-					<Property name="Ambient Color" type="2" value="0.498039, 0.498039, 0.498039, 1" />
-					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
-					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
-					<Property name="Shininess" type="3" value="64" />
-					<Property name="Proc. Texture" type="6" value="0" />
-					<Property name="Cylinder parameters" type="5" />
-					<Property name="Radius" type="3" value="50" />
-					<Property name="Height" type="3" value="200" />
-					<Property name="Resolution R" type="7" value="24" />
-					<Property name="Resolution H" type="7" value="3" />
-				</Properties>
-			</Node>
-		</Node>
 		<Node class="GroupNode" expanded="1">
 			<Properties>
 				<Property name="Name" type="0" value="Adventurers" />
@@ -130,7 +98,7 @@
 					<Property name="Name" type="0" value="Druid" />
 					<Property name="Display" type="6" value="1" />
 					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="1200, 0, 200" />
+					<Property name="Position" type="1" value="1200, 20, 200" />
 					<Property name="Orientation" type="1" value="0, -45, 0" />
 					<Property name="Scale" type="1" value="1, 1, 1" />
 					<Property name="Model parameters" type="5" />
@@ -166,7 +134,7 @@
 					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Shininess" type="3" value="100" />
-					<Property name="Proc. Texture" type="6" value="0" />
+					<Property name="Metallicity" type="3" value="0" />
 				</Properties>
 			</Node>
 			<Node class="BaseNode" expanded="1">
@@ -183,7 +151,7 @@
 					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Shininess" type="3" value="100" />
-					<Property name="Proc. Texture" type="6" value="0" />
+					<Property name="Metallicity" type="3" value="0" />
 				</Properties>
 			</Node>
 		</Node>
@@ -210,7 +178,7 @@
 					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Shininess" type="3" value="100" />
-					<Property name="Proc. Texture" type="6" value="0" />
+					<Property name="Metallicity" type="3" value="0" />
 					<Property name="Cylinder parameters" type="5" />
 					<Property name="Radius" type="3" value="50" />
 					<Property name="Height" type="3" value="200" />
@@ -232,7 +200,7 @@
 					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Shininess" type="3" value="100" />
-					<Property name="Proc. Texture" type="6" value="0" />
+					<Property name="Metallicity" type="3" value="0" />
 					<Property name="Cone parameters" type="5" />
 					<Property name="Radius" type="3" value="50" />
 					<Property name="Height" type="3" value="200" />
@@ -255,7 +223,7 @@
 				<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 				<Property name="Shininess" type="3" value="100" />
-				<Property name="Proc. Texture" type="6" value="0" />
+				<Property name="Metallicity" type="3" value="0" />
 				<Property name="Terrain parameters" type="5" />
 				<Property name="TerrainName" type="8" value="3" />
 			</Properties>
@@ -274,7 +242,7 @@
 				<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 				<Property name="Shininess" type="3" value="100" />
-				<Property name="Proc. Texture" type="6" value="0" />
+				<Property name="Metallicity" type="3" value="0" />
 				<Property name="Plane parameters" type="5" />
 				<Property name="Width" type="3" value="5000" />
 				<Property name="Height" type="3" value="5000" />

@@ -33,6 +33,7 @@ struct TooltipMessages {
 	const char* camera_nearClip = "Near clipping plane distance";
 	const char* camera_farClip = "Far clipping plane distance";
 	const char* camera_reset = "Reset the initial value of this viewport's camera. \nThis will also reset the position.";
+	const char* camera_lightmodel = "Select a light model for the camera";
 	const char* camera_tonemap = "Define a tone map for the camera";
 
 	// Tool bar buttons

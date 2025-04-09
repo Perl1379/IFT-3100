@@ -73,22 +73,79 @@ void MainWindow::cameraDraw(int index) {
 
 
 	camera->begin();
-	ofBackground(0);
+	ofBackground(64);
 
 	// We render skybox first
 	Global::m_skybox.draw(camera->getPosition());
 
-	ofEnableLighting();
+	ofShader* m_shaderLight = Global::m_cameras[index].getLightShader();
+	if (m_shaderLight == nullptr) {
+		ofEnableLighting();
+	} else {
+
+		m_shaderLight->begin();
+
+		int lightTypes[8];
+		glm::vec3 lightPositions[8];
+		glm::vec3 lightOrientations[8];
+		float lightAttenuations[8];
+		glm::vec3 lightAmbientColors[8];
+		glm::vec3 lightDiffuseColors[8];
+		glm::vec3 lightSpecularColors[8];
+
+		// Pass light information
+		int count = 0;
+		for (int i = 0; i < 8; i++) {
+		 	LightSource* light = &Global::m_lights[i];
+		 	if (!light->getEnabled()) {
+		 		continue;
+		 	}
+
+		 	lightTypes[i] = light->getLightType();
+		 	lightPositions[i] = light->getPosition();
+		 	lightOrientations[i] = light->getOrientation();
+		 	lightAttenuations[i] = light->getAttenuation();
+
+		 	ofFloatColor colorAmbient = light->getColorAmbient();
+		 	ofFloatColor colorDiffuse = light->getColorDiffuse();
+		 	ofFloatColor colorSpecular = light->getColorSpecular();
+
+			lightAmbientColors[i] = glm::vec3(colorAmbient.r, colorAmbient.g, colorAmbient.b);
+			lightDiffuseColors[i] = glm::vec3(colorDiffuse.r, colorDiffuse.g, colorDiffuse.b);
+			lightSpecularColors[i] = glm::vec3(colorSpecular.r, colorSpecular.g, colorSpecular.b);
+
+		 	count++;
+		 }
+
+		m_shaderLight->setUniform3fv("light_type", (GLfloat*)&lightTypes[0], 8);
+		m_shaderLight->setUniform3fv("light_position", (GLfloat*)&lightPositions[0], 8);
+		m_shaderLight->setUniform3fv("light_orientation", (GLfloat*)&lightOrientations[0], 8);
+		m_shaderLight->setUniform1fv("light_attenuation", (GLfloat*)&lightAttenuations[0], 8);
+		m_shaderLight->setUniform3fv("light_color_ambient", (GLfloat*)&lightAmbientColors[0], 8);
+		m_shaderLight->setUniform3fv("light_color_diffuse", (GLfloat*)&lightDiffuseColors[0], 8);
+		m_shaderLight->setUniform3fv("light_color_specular", (GLfloat*)&lightSpecularColors[0], 8);
+
+
+		m_shaderLight->setUniform1i("light_sources", count);
+		m_shaderLight->setUniform3f("global_ambient_color", Global::m_ambientLightColor.r, Global::m_ambientLightColor.g, Global::m_ambientLightColor.b);
+	}
 
 	ofSetColor(255);
+
 	Global::m_countNodeRender[index] = Global::m_level.draw(false, &Global::m_cameras[index]);
 	Global::m_transformTools.draw(false);
 
-	ofDisableLighting();
+	if (m_shaderLight == nullptr) {
+		ofDisableLighting();
+	} else {
+		m_shaderLight->end();
+	}
 
 	camera->end();
 	fbo->end();
-	Global::m_cameras[index].applyPostProcess();
+	if (Global::m_cameras[index].getTonemapType() != NO_TONEMAP) {
+		Global::m_cameras[index].applyPostProcess();
+	}
 
 	// Generate Object picking FBO only for hovered camera viewport
 	if (Global::m_doColorPicking) {

@@ -80,7 +80,10 @@ void UserInterface::setup() {
     imgNotVisible.load("images/ui/not_visible.png");
     m_textureNotVisible = imgNotVisible.getTexture();
 
-    //changeCursor();
+    ofImage imgResetButton;
+    imgResetButton.load("images/ui/reset_button.png");
+    m_textureResetButton = imgResetButton.getTexture();
+
     ofHideCursor();
 
     // Load skybox names
@@ -557,10 +560,10 @@ void UserInterface::drawProperties() {
     ImGui::SetNextWindowSize(ImVec2(LEFTPANEL_WIDTH, ofGetHeight() - STATUSBAR_HEIGHT - posY - 2));
 
 
-    if (Global::m_selectedNode <= 3) {
+    if (Global::m_selectedNode <= 1) {
         ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
-        if (Global::m_selectedNode == 3) {
+        if (Global::m_selectedNode == 1) {
             ImGui::Text("Ambient Color");
             auto color = std::any_cast<ofFloatColor>(Global::m_ambientLightColor);
             ImGui::SameLine(110);
@@ -895,7 +898,15 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
     int size_x = static_cast<int>(size.x);
     int size_y = static_cast<int>(size.y);
 
-    auto fbo = Global::m_cameras[index].getPostProcessTextureFbo();
+    ofFbo* fbo;
+
+    if (Global::m_cameras[index].getTonemapType() != NO_TONEMAP) {
+        fbo = Global::m_cameras[index].getPostProcessTextureFbo();
+    } else {
+        fbo = Global::m_cameras[index].getFbo();
+    }
+
+
     auto pickingFbo = Global::m_cameras[index].getPickingFbo();
     auto camera = Global::m_cameras[index].getCamera();
 
@@ -1035,7 +1046,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
 
     ofCustomCamera *camera = Global::m_cameras[index].getCamera();
 
-    float overlayWidth = 478.0f;
+    float overlayWidth = 376.0f;
     ImDrawList *drawList = ImGui::GetWindowDrawList();
 
 
@@ -1051,15 +1062,16 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
     }
 
     ImGui::SetCursorPos(ImVec2(availableWidth - overlayWidth, verticalOffset));
+
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(2, 0)); // no spacing
     ImGui::BeginGroup();
 
     if (camera->getOrtho()) {
-        if (ImGui::Button("Camera: Ortho", ImVec2(140, 16))) {
+        if (ImGui::Button("Ortho", ImVec2(80, 16))) {
             camera->disableOrtho();
         }
     } else {
-        ImGui::SetNextItemWidth(200);
-        if (ImGui::Button("Camera: Perspective", ImVec2(140, 16))) {
+        if (ImGui::Button("Perspective", ImVec2(80, 16))) {
             camera->enableOrtho();
         }
     }
@@ -1067,7 +1079,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
 
     if (camera->getOrtho()) {
         float zoomFactor = camera->getOrthoZoom();
-        ImGui::SetNextItemWidth(50);
+        ImGui::SetNextItemWidth(40);
         if (ImGui::InputFloat("##CameraOrthoZoom", &zoomFactor, 0.0f, 0.0f, "%.2f",
                               ImGuiInputTextFlags_EnterReturnsTrue)) {
             camera->setOrthoZoom(zoomFactor);
@@ -1077,7 +1089,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
         }
     } else {
         float fov = camera->getFov();
-        ImGui::SetNextItemWidth(50);
+        ImGui::SetNextItemWidth(40);
         if (ImGui::InputFloat("##CameraFOV", &fov, 0.0f, 0.0f, "%.2f", ImGuiInputTextFlags_EnterReturnsTrue)) {
             ofLog() << "Camera FOV changed to: " << fov;
             camera->setFov(fov);
@@ -1088,7 +1100,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
     }
     ImGui::SameLine();
 
-    ImGui::SetNextItemWidth(50);
+    ImGui::SetNextItemWidth(40);
     float zNear = camera->getNearClip();
     if (ImGui::InputFloat("##CameraZNear", &zNear, 0.0f, 0.0f, "%.2f", ImGuiInputTextFlags_EnterReturnsTrue)) {
         ofLog() << "Camera ZNear changed to: " << zNear;
@@ -1100,7 +1112,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
 
     ImGui::SameLine();
 
-    ImGui::SetNextItemWidth(60);
+    ImGui::SetNextItemWidth(40);
     float zFar = camera->getFarClip();
     if (ImGui::InputFloat("##CameraZFar", &zFar, 0.0f, 0.0f, "%.2f", ImGuiInputTextFlags_EnterReturnsTrue)) {
         ofLog() << "Camera ZFor changed to: " << zFar;
@@ -1113,7 +1125,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
     ImGui::SameLine();
 
     if (ImGui::Button("Tonemap")) {
-        m_cameraToneMappingDialog.setTitle("Change Camera Tone mapping");
+        m_cameraToneMappingDialog.setTitle("Change Camera tone mapping");
         m_cameraToneMappingDialog.useProperty(&Global::m_cameras[index]);
         m_cameraToneMappingDialog.openDialog();
     }
@@ -1123,7 +1135,26 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
 
     ImGui::SameLine();
 
-    if (ImGui::Button("Reset")) {
+
+    const char* items[] = { "OpenGL", "Lambert", "Gouraud", "Phong", "Blinn-Phong" };
+    ImGui::SetNextItemWidth(70);
+    int currentLightModel = Global::m_cameras[index].getLightModel();
+    if (ImGui::BeginCombo(("##lightmodel_" + std::to_string(index)).c_str(), items[currentLightModel])) {
+        for (int n = 0; n < IM_ARRAYSIZE(items); n++) {
+            bool isSelected = (currentLightModel == n);
+            if (ImGui::Selectable(items[n], isSelected))
+                Global::m_cameras[index].setLightModel((LIGHTMODEL_TYPE) n);
+            if (isSelected)
+                ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndCombo();
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip(Global::m_tooltipMessages.camera_lightmodel);
+    }
+    ImGui::SameLine();
+
+    if (ImGui::ImageButton((ImTextureID) (uintptr_t) m_textureResetButton.getTextureData().textureID, ImVec2(13, 13))) {
         Global::m_cameras[index].reset();
     }
     if (ImGui::IsItemHovered()) {
@@ -1184,6 +1215,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
     }
 
     ImGui::EndGroup();
+    ImGui::PopStyleVar();
     if (m_cameraToneMappingDialog.isOpen()) {
         m_cameraToneMappingDialog.draw();
     }

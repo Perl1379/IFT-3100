@@ -100,6 +100,8 @@ void LightSource::setLightType(LIGHT_TYPE type) {
             break;
         case SPOT_LIGHT:
             m_light->setSpotlight();
+            m_light->setSpotlightCutOff(30);
+            m_light->setSpotConcentration(25);
             break;
     }
 }

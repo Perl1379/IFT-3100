@@ -24,6 +24,7 @@
 class Global {
 
 public:
+	static int id_next;
 
 	static std::array<Camera, 3> m_cameras;
 	static int m_countNodeRender[3];

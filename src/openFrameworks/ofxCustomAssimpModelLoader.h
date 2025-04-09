@@ -10,8 +10,8 @@ private:
 
 public:
     bool load(const std::string & p_filename);
-    void draw(ofPolyRenderMode renderType);
-    void drawFaces();
+    void draw(ofPolyRenderMode renderType, ofShader* m_shader);
+    void drawFaces(ofShader* m_shader);
     void setMeshEnabled(const std::string& p_meshName, bool p_value);
     void setMeshEnabled(int p_index, bool p_value);
 };

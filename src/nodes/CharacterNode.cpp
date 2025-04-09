@@ -28,7 +28,7 @@ int CharacterNode::draw(bool p_objectPicking, Camera* p_camera)
 	if (!getDisplayNode()) return 0; //nothing to draw if the user hid the node
 
 	int count = 0;
-	beginDraw(p_objectPicking);
+	beginDraw(p_objectPicking, p_camera);
 	updateBoundingBox();
 
 	if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {
@@ -38,8 +38,9 @@ int CharacterNode::draw(bool p_objectPicking, Camera* p_camera)
 			getModel().disableMaterials();
 			getModel().disableNormals();
 			getModel().disableTextures();
-		}
-		else {
+
+		} else {
+
 			// p_objectPicking == false means we are drawing the actual thing in the viewport
 			if (m_playAnimation)
 			{
@@ -48,14 +49,14 @@ int CharacterNode::draw(bool p_objectPicking, Camera* p_camera)
 			getModel().disableTextures(); //if it's not disabled constantly, openFrameworks resets it to the default a few seconds after boot
 			Global::m_modelManager.getTexture(m_modelNo, m_textureNo).bind();
 		}
-		getModel().drawFaces();
+
+		getModel().drawFaces(p_camera->getLightShader());
 
 		if (p_objectPicking) {
 			getModel().enableMaterials();
 			getModel().enableNormals();
 			getModel().enableTextures();
-		}
-		else {
+		} else {
 			Global::m_modelManager.getTexture(m_modelNo, m_textureNo).unbind();
 		}
 

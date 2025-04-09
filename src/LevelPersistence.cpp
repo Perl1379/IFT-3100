@@ -69,6 +69,7 @@ void LevelPersistence::saveToFile(const std::string &filename) {
     xmlLights.setAttribute("ambientColor", Global::m_ambientLightColor);
     ofXml xmlNodes = xmlLevel.appendChild("Nodes");
     xmlLevel.setAttribute("skyboxName", Global::m_skybox.getCurrentSkybox());
+    xmlLevel.setAttribute("selectedNode", Global::m_selectedNode);
 
     for (size_t i = 0; i < Global::m_cameras.size(); i++) {
         ofCustomCamera *cam = Global::m_cameras[i].getCamera();
@@ -81,6 +82,7 @@ void LevelPersistence::saveToFile(const std::string &filename) {
         xmlCamera.setAttribute("nearClip", cam->getNearClip());
         xmlCamera.setAttribute("farClip", cam->getFarClip());
         xmlCamera.setAttribute("tonemapType", Global::m_cameras[i].getTonemapType());
+        xmlCamera.setAttribute("lightModel", Global::m_cameras[i].getLightModel());
 
         auto uniforms =  Global::m_cameras[i].getTonemapUniforms();
         string output = "";
@@ -225,6 +227,9 @@ void LevelPersistence::loadFromFile(const std::string &filename) {
     std::string skyboxName = xmlLevel.getAttribute("skyboxName").getValue();
     Global::m_skybox.setup(skyboxName);
 
+    int selectedNode = xmlLevel.getAttribute("selectedNode").getIntValue();
+    Global::m_selectedNode = selectedNode;
+
     auto xmlCameras = xmlLevel.getChild("Cameras").getChildren();
 
 
@@ -258,6 +263,7 @@ void LevelPersistence::loadFromFile(const std::string &filename) {
         }
 
         Global::m_cameras[i].setTonemapUniforms(uniforms);
+        Global::m_cameras[i].setLightModel( (LIGHTMODEL_TYPE) camera.getAttribute("lightModel").getIntValue());
 
         i++;
     }
@@ -286,6 +292,16 @@ void LevelPersistence::loadFromFile(const std::string &filename) {
     for (ofXml node: xmlNodes) {
         loadNode(node, Global::m_level.getTree()->getChildren().at(0));
     }
+
+    if (Global::m_selectedNode != -1) {
+        BaseNode* node = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+        if (node != nullptr) {
+            node->displayBoundingBox(true);
+        } else {
+            Global::m_selectedNode = -1;
+        }
+    }
+
 }
 
 

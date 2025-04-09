@@ -48,6 +48,11 @@ int LightNode::draw(bool p_objectPicking, Camera *p_camera) {
     m_transform.setScale(Global::m_lights[m_lightIndex].getScale());
 
     if (!m_displayBoundingBox) return 0;
+
+    if (p_camera->getLightModel() != OPENGL_LIGHTS) {
+        p_camera->getLightShader()->end();
+    }
+
     if (Global::m_lights[m_lightIndex].getEnabled()) {
         ofSetColor(255, 255, 255);
     } else {
@@ -66,6 +71,11 @@ int LightNode::draw(bool p_objectPicking, Camera *p_camera) {
             m_sphere.draw();
         break;
     }
+
+    if (p_camera->getLightModel() != OPENGL_LIGHTS) {
+        p_camera->getLightShader()->begin();
+    }
+
     m_transform.restoreTransformGL();
 
     return 1;
