@@ -9,7 +9,6 @@
 #pragma once
 #include "ModelNode.h"
 #include "ofMain.h"
-#include "ofxCustomAssimpModelLoader.h"
 #include "Global.h"
 #include <vector>
 

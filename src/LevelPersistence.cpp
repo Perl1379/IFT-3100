@@ -200,6 +200,12 @@ void LevelPersistence::saveNode(ofXml &xml, BaseNode *node) {
                 xmlProperty.setAttribute("value", value);
             }
             break;
+
+            case PROPERTY_TYPE::TEXTURE2D: {
+                auto value = std::any_cast<TextureInfo*>(prop.getValue());
+                xmlProperty.setAttribute("value", value->getPropertyValue());
+            }
+            break;
         }
     }
 
@@ -392,6 +398,12 @@ void LevelPersistence::loadNode(ofXml &xml, BaseNode *parent) {
             case PROPERTY_TYPE::FLOAT_FIELD: {
                 auto value = property.getAttribute("value").getFloatValue();
                 node->setProperty(propertyName, value);
+            }
+            break;
+
+            case PROPERTY_TYPE::TEXTURE2D:
+            {
+                node->setProperty(propertyName, property.getAttribute("value").getValue());
             }
             break;
 

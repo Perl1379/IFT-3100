@@ -312,7 +312,8 @@ void BaseNode::beginDraw(bool p_objectPicking, Camera* p_camera) {
 			m_shader->setUniform3f("color_specular", colorSpecular.r, colorSpecular.g, colorSpecular.b);
 			m_shader->setUniform1f("mat_shininess", m_materialNode.getShininess());
 			m_shader->setUniform1f("mat_metallic", m_materialNode.getMetallic());
-
+			m_shader->setUniform1f("texture_albedo_scale", m_textureAlbedo.getTextureScale());
+			m_shader->setUniform1f("texture_normal_scale", m_textureNormal.getTextureScale());
 			m_textureAlbedo.getTexture()->bind(0);
 			m_textureNormal.getTexture()->bind(1);
 

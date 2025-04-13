@@ -104,6 +104,41 @@ void TextureInfoDialog::draw() {
 			m_textureInfo.setMinMaxFilters(m_textureInfo.getFilterMinimum(), maxFilter);
 		}
 
+		vector<string> optionsWrap = {"Repeat", "Mirrored Repeat", "Clamp to edge", "Clamp to border", "Mirror clamp to edge"};
+		int selectedIndexWrap = 0;
+		switch(m_textureInfo.getTextureWrapMode()) {
+			case GL_REPEAT: selectedIndexWrap = 0; break;
+			case GL_MIRRORED_REPEAT: selectedIndexWrap = 1; break;
+			case GL_CLAMP_TO_EDGE: selectedIndexWrap = 2; break;
+			case GL_CLAMP_TO_BORDER: selectedIndexWrap = 3; break;
+			case GL_MIRROR_CLAMP_TO_EDGE: selectedIndexWrap = 4; break;
+		}
+
+		const char* itemsWrap[5] = { optionsWrap[0].c_str(), optionsWrap[1].c_str(), optionsWrap[2].c_str(), optionsWrap[3].c_str(), optionsWrap[4].c_str() };
+
+		ImGui::Text("Texture Wrap:");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(180);
+		if (ImGui::Combo("##wrap_mode", &selectedIndexWrap, itemsWrap, IM_ARRAYSIZE(itemsWrap))) {
+			int wrapMode = GL_NEAREST;
+			switch(selectedIndexMin) {
+				case 0: wrapMode = GL_NEAREST; break;
+				case 1: wrapMode = GL_MIRRORED_REPEAT; break;
+				case 2: wrapMode = GL_CLAMP_TO_EDGE; break;
+				case 3: wrapMode = GL_CLAMP_TO_BORDER; break;
+				case 4: wrapMode = GL_MIRROR_CLAMP_TO_EDGE; break;
+			}
+			m_textureInfo.setTextureWrap(wrapMode);
+		}
+		ImGui::SameLine();
+		ImGui::Text("Scale:");
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(100);
+		float textureScale = m_textureInfo.getTextureScale();
+		if (ImGui::InputFloat("##texture_scale", &textureScale, 1.0f, 10.0f, "%.3f")) {
+			m_textureInfo.setTextureScale(textureScale);
+		}
+
 		ImGui::Dummy(ImVec2(0.0f, 5.0f));
 		ImGui::Separator();
 		ImGui::Dummy(ImVec2(0.0f, 5.0f));
@@ -119,14 +154,36 @@ void TextureInfoDialog::draw() {
 
 		ImGui::SameLine();
 
-		if (ImGui::Button("Color")) {
+		static const char* itemsColor[] = { "Color", "White","Black","Red", "Green", "Blue", "Yellow" };
+		static int currentItemColor = 0;
 
+		ImGui::SetNextItemWidth(60);
+		if (ImGui::Combo("##color", &currentItemColor,  itemsColor, IM_ARRAYSIZE(itemsColor)))
+		{
+			switch(currentItemColor) {
+				case 1: m_textureInfo.loadTexture(TEXTURE_FLAT_COLOR, ofFloatColor(1,1,1)); break;
+				case 2: m_textureInfo.loadTexture(TEXTURE_FLAT_COLOR, ofFloatColor(0,0,0)); break;
+				case 3: m_textureInfo.loadTexture(TEXTURE_FLAT_COLOR, ofFloatColor(1,0,0)); break;
+				case 4: m_textureInfo.loadTexture(TEXTURE_FLAT_COLOR, ofFloatColor(0,1,0)); break;
+				case 5: m_textureInfo.loadTexture(TEXTURE_FLAT_COLOR, ofFloatColor(0,0,1)); break;
+				case 6: m_textureInfo.loadTexture(TEXTURE_FLAT_COLOR, ofFloatColor(1,1,0)); break;
+			}
+			currentItemColor = 0;
 		}
 
 		ImGui::SameLine();
-		if (ImGui::Button("Perlin Noise")) {
 
-			m_textureInfo.loadTexture(TEXTURE_PROCGEN, "perlin");
+		const char* itemsProcGen[] = { "Proc. Gen.", "Perlin Noise", "Checkerboard","Radial Gradient" };
+		int currentItemProcGen = 0;
+		ImGui::SetNextItemWidth(100);
+		if (ImGui::Combo("##procgen", &currentItemProcGen, itemsProcGen, IM_ARRAYSIZE(itemsProcGen))) {
+			// Option changed
+			std::cout << "Selected: " << currentItemProcGen << std::endl;
+			switch(currentItemProcGen) {
+				case 1: m_textureInfo.loadTexture(TEXTURE_PROCGEN, std::string("perlin"));break;
+				case 2: m_textureInfo.loadTexture(TEXTURE_PROCGEN, std::string("checkerboard"));break;
+				case 3: m_textureInfo.loadTexture(TEXTURE_PROCGEN, std::string("radial_gradient"));break;
+			}
 		}
 
 		ImGui::SameLine();

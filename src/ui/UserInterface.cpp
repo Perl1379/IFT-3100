@@ -1177,7 +1177,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
     ImGui::SameLine();
 
 
-    const char* items[] = { "OpenGL", "Lambert", "Gouraud", "Phong", "Blinn-Phong" };
+    const char* items[] = { "BuiltIn", "Lambert", "Gouraud", "Phong", "Blinn-Phong" };
     ImGui::SetNextItemWidth(70);
     int currentLightModel = Global::m_cameras[index].getLightModel();
     if (ImGui::BeginCombo(("##lightmodel_" + std::to_string(index)).c_str(), items[currentLightModel])) {

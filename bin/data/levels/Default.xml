@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<Level skyboxName="blink" selectedNode="21">
+<Level skyboxName="blink" selectedNode="-1">
 	<Cameras>
-		<Camera position="-654.693, 2660.47, 990.55" orientation="-34.7712, -9.45116, -3.68501" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="1" tonemapUniforms="" />
-		<Camera position="0, 3000, 0" orientation="-74.9999, 1.8, -4.1642e-06" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="0" tonemapUniforms="" />
-		<Camera position="1368.28, 1430.71, 2194.45" orientation="-26.652, 22.0035, -2.73113" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="0" tonemapUniforms="" />
+		<Camera position="-1877.2, 2721.5, 2855.36" orientation="-43.6234, -25.9171, -0.0120843" orthoMode="0" orthoZoom="3.1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
+		<Camera position="0, 3000, 0" orientation="-74.9999, 1.8, -4.1642e-06" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
+		<Camera position="899.998, 1581.31, 1921.38" orientation="-27.6616, 18.2076, -2.66563" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
 	</Cameras>
 	<Lights ambientColor="0, 0, 0, 1">
-		<LightSource type="1" enabled="1" position="220, 1505, 615" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0002" ambientColor="0, 0, 0, 1" diffuseColor="0.258824, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
-		<LightSource type="1" enabled="1" position="-1240, 310, 655" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0002" ambientColor="0, 0, 0, 1" diffuseColor="1, 0, 0, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="1" position="220, 2090, 1770" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0001" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="0" position="-1240, 310, 655" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0002" ambientColor="0, 0, 0, 1" diffuseColor="1, 0, 0, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, 600, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, 400, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, 200, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
@@ -120,42 +120,16 @@
 				<Property name="Orientation" type="1" value="0, -0, 0" />
 				<Property name="Scale" type="1" value="1, 1, 1" />
 			</Properties>
-			<Node class="BaseNode" expanded="1">
+			<Node class="AssetNode" expanded="1">
 				<Properties>
-					<Property name="Name" type="0" value="Crate" />
+					<Property name="Name" type="0" value="Sword" />
 					<Property name="Display" type="6" value="1" />
 					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="-600, 0, -700" />
-					<Property name="Orientation" type="1" value="0, 5, 0" />
-					<Property name="Scale" type="1" value="1, 1, 1" />
-					<Property name="Material" type="5" />
-					<Property name="Diffuse Color" type="2" value="0.8, 0.8, 0.8, 1" />
-					<Property name="Ambient Color" type="2" value="0.2, 0.2, 0.2, 1" />
-					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
-					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
-					<Property name="Shininess" type="3" value="100" />
-					<Property name="Metallicity" type="3" value="0" />
-					<Property name="Main Texture" type="11" />
-					<Property name="Normal Texture" type="11" />
-				</Properties>
-			</Node>
-			<Node class="BaseNode" expanded="1">
-				<Properties>
-					<Property name="Name" type="0" value="Large blue potion" />
-					<Property name="Display" type="6" value="1" />
-					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="1100, 425, -700" />
+					<Property name="Position" type="1" value="0, 855, 0" />
 					<Property name="Orientation" type="1" value="0, -0, 0" />
 					<Property name="Scale" type="1" value="1, 1, 1" />
-					<Property name="Material" type="5" />
-					<Property name="Diffuse Color" type="2" value="0.8, 0.8, 0.8, 1" />
-					<Property name="Ambient Color" type="2" value="0.2, 0.2, 0.2, 1" />
-					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
-					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
-					<Property name="Shininess" type="3" value="100" />
-					<Property name="Metallicity" type="3" value="0" />
-					<Property name="Main Texture" type="11" />
-					<Property name="Normal Texture" type="11" />
+					<Property name="Model parameters" type="5" />
+					<Property name="Model" type="9" value="5" />
 				</Properties>
 			</Node>
 		</Node>
@@ -183,8 +157,8 @@
 					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Shininess" type="3" value="100" />
 					<Property name="Metallicity" type="3" value="0" />
-					<Property name="Main Texture" type="11" />
-					<Property name="Normal Texture" type="11" />
+					<Property name="Main Texture" type="12" value="filename=/p/ulaval/IFT3100H25/IFT-3100/bin/data/images/textures/treebark.png;1024.000000;1024.000000;9729;9729;10497;1.000000" />
+					<Property name="Normal Texture" type="12" value="color=0.501960,0.501960,1.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
 					<Property name="Cylinder parameters" type="5" />
 					<Property name="Radius" type="3" value="50" />
 					<Property name="Height" type="3" value="200" />
@@ -197,7 +171,7 @@
 					<Property name="Name" type="0" value="Foliage" />
 					<Property name="Display" type="6" value="1" />
 					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="3.0598e-05, 950, 0" />
+					<Property name="Position" type="1" value="3.89032e-05, 1045, 0" />
 					<Property name="Orientation" type="1" value="0, -0, 180" />
 					<Property name="Scale" type="1" value="10, 7, 10" />
 					<Property name="Material" type="5" />
@@ -207,13 +181,13 @@
 					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Shininess" type="3" value="100" />
 					<Property name="Metallicity" type="3" value="0" />
-					<Property name="Main Texture" type="11" />
-					<Property name="Normal Texture" type="11" />
+					<Property name="Main Texture" type="12" value="filename=/p/ulaval/IFT3100H25/IFT-3100/bin/data/images/textures/SmallRoundLeaves.jpg;2048.000000;2048.000000;9729;9729;10497;4.000000" />
+					<Property name="Normal Texture" type="12" value="color=0.501960,0.501960,1.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
 					<Property name="Cone parameters" type="5" />
 					<Property name="Radius" type="3" value="50" />
 					<Property name="Height" type="3" value="200" />
-					<Property name="Resolution R" type="7" value="24" />
-					<Property name="Resolution H" type="7" value="3" />
+					<Property name="Resolution R" type="7" value="38" />
+					<Property name="Resolution H" type="7" value="23" />
 				</Properties>
 			</Node>
 		</Node>
@@ -232,8 +206,8 @@
 				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 				<Property name="Shininess" type="3" value="100" />
 				<Property name="Metallicity" type="3" value="0" />
-				<Property name="Main Texture" type="11" />
-				<Property name="Normal Texture" type="11" />
+				<Property name="Main Texture" type="12" value="filename=/p/ulaval/IFT3100H25/IFT-3100/bin/data/images/textures/StoneFloorTexture.png;512.000000;512.000000;9729;9729;10497;4.000000" />
+				<Property name="Normal Texture" type="12" value="color=0.501960,0.501960,1.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
 				<Property name="Terrain parameters" type="5" />
 				<Property name="TerrainName" type="8" value="3" />
 			</Properties>
@@ -253,8 +227,8 @@
 				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 				<Property name="Shininess" type="3" value="100" />
 				<Property name="Metallicity" type="3" value="0" />
-				<Property name="Main Texture" type="11" />
-				<Property name="Normal Texture" type="11" />
+				<Property name="Main Texture" type="12" value="filename=/p/ulaval/IFT3100H25/IFT-3100/bin/data/images/textures/water.png;360.000000;360.000000;9729;9729;10497;4.000000" />
+				<Property name="Normal Texture" type="12" value="color=0.501960,0.501960,1.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
 				<Property name="Plane parameters" type="5" />
 				<Property name="Width" type="3" value="5000" />
 				<Property name="Height" type="3" value="5000" />
@@ -278,6 +252,10 @@
 				<Property name="Spline parameters" type="5" />
 				<Property name="Thickness" type="3" value="100" />
 				<Property name="Points count" type="10" value="" />
+				<Property name="Control points" type="5" />
+				<Property name="Add" type="11" />
+				<Property name="Display all" type="11" />
+				<Property name="Hide all" type="11" />
 			</Properties>
 		</Node>
 	</Nodes>

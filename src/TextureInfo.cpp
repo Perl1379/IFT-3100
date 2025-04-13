@@ -68,21 +68,59 @@ bool TextureInfo::loadTexture(TEXTURE_TYPE p_type, const std::any& p_parameters)
 
         case TEXTURE_PROCGEN:
         {
-
+            auto procgen = std::any_cast<std::string>(p_parameters);
+            m_textureParameters = p_parameters;
             int width = 512;
             int height = 512;
             ofImage image;
             image.allocate(width, height, OF_IMAGE_COLOR);
-            PerlinNoiseTexture perlinNoise;
-            for (int y = 0; y < height; ++y) {
-            	for (int x = 0; x < width; ++x) {
-            			double noiseValue = perlinNoise.noise(x * 0.1, y * 0.1, 0.0);
-            			noiseValue = ofMap(noiseValue, -1, 1, 0, 255);
-            			image.setColor(x, y, ofColor(noiseValue,noiseValue,noiseValue));
-            		}
-            	}
-            image.update();
-            m_texture.allocate(image);
+
+            if (procgen == "perlin") {
+                PerlinNoiseTexture perlinNoise;
+                for (int y = 0; y < height; ++y) {
+                    for (int x = 0; x < width; ++x) {
+                        double noiseValue = perlinNoise.noise(x * 0.1, y * 0.1, 0.0);
+                        noiseValue = ofMap(noiseValue, -1, 1, 0, 255);
+                        image.setColor(x, y, ofColor(noiseValue,noiseValue,noiseValue));
+                    }
+                }
+                image.update();
+                m_texture.allocate(image);
+            } else if (procgen == "checkerboard") {
+                // checkerboard
+                int tileSize = 32;
+
+                for (int y = 0; y < height; ++y) {
+                    for (int x = 0; x < width; ++x) {
+                        int tileX = x / tileSize;
+                        int tileY = y / tileSize;
+
+                        if ((tileX + tileY) % 2 == 0) {
+                            image.setColor(x, y, ofColor(255,255,255));
+                        } else {
+                            image.setColor(x, y, ofColor(0,0,0));
+                        }
+                    }
+                }
+                image.update();
+                m_texture.allocate(image);
+            } else if (procgen == "radial_gradient") {
+                float cx = width / 2.0;
+                float cy = height / 2.0;
+                float maxDist = sqrt(cx*cx + cy*cy);
+
+                for (int y = 0; y < height; y++) {
+                    for (int x = 0; x < width; x++) {
+                        float dx = x - cx;
+                        float dy = y - cy;
+                        float dist = sqrt(dx*dx + dy*dy);
+                        float brightness = ofMap(dist, 0, maxDist, 255, 0);
+                        image.setColor(x, y, ofColor(brightness));
+                    }
+                }
+                image.update();
+                m_texture.allocate(image);
+            }
 
         }
         break;
@@ -92,6 +130,7 @@ bool TextureInfo::loadTexture(TEXTURE_TYPE p_type, const std::any& p_parameters)
         m_texture.generateMipmap();
     }
 
+    m_texture.setTextureWrap(m_wrapMode, m_wrapMode);
     m_texture.setTextureMinMagFilter(m_filterMinimum, m_filterMaximum);
     return success;
 }
@@ -141,14 +180,16 @@ std::string TextureInfo::getPropertyValue() {
         break;
 
         case TEXTURE_PROCGEN: {
-            property = "procgen=linear";
+            auto procgen = std::any_cast<std::string>(m_textureParameters);
+            property = "procgen=" + procgen;
         }
         break;
     }
 
     property += ";";
     property += std::to_string(m_texture.getWidth()) + ";" + std::to_string(m_texture.getHeight()) + ";";
-    property += std::to_string(m_filterMinimum) + ";" + std::to_string(m_filterMaximum);
+    property += std::to_string(m_filterMinimum) + ";" + std::to_string(m_filterMaximum) + ";";
+    property += std::to_string(m_wrapMode) + ";" + std::to_string(m_textureScale);
 
     return property;
 }
@@ -163,6 +204,13 @@ void TextureInfo::setPropertyValue(std::string p_value) {
     std::vector<std::string> first = ofSplitString(params[0], "=");
     int minFilter = ofToInt(params[3]);
     int maxFilter = ofToInt(params[4]);
+
+    int wrapMode = ofToInt(params[5]);
+    float textureScale = ofToFloat(params[6]);
+
+    setTextureWrap(wrapMode);
+    setTextureScale(textureScale);
+
     setMinMaxFilters(minFilter, maxFilter);
 
     if (first[0] == "filename") {
@@ -194,6 +242,23 @@ void TextureInfo::setMinMaxFilters(int p_min, int p_max) {
     if ((p_min == GL_NEAREST_MIPMAP_NEAREST) || (p_min == GL_NEAREST_MIPMAP_LINEAR) || (p_min == GL_LINEAR_MIPMAP_LINEAR) || (p_min == GL_LINEAR_MIPMAP_NEAREST)) {
         m_texture.generateMipmap();
     }
+}
+
+
+/**
+ * Set texture scale
+ */
+void TextureInfo::setTextureScale(float p_scale) {
+    m_textureScale = p_scale;
+}
+
+
+/**
+ * Set texture wrap
+ */
+void TextureInfo::setTextureWrap(int p_wrapMode) {
+    m_wrapMode = p_wrapMode;
+    m_texture.setTextureWrap(m_wrapMode, m_wrapMode);
 }
 
 
