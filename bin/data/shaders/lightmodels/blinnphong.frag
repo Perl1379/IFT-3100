@@ -23,10 +23,11 @@ uniform vec3 light_color_diffuse[8];
 uniform vec3 light_color_specular[8];
 
 uniform sampler2D textureAlbedo;
+uniform float texture_albedo_scale;
 
 void main()
 {
-    vec4 texColor = texture(textureAlbedo, surface_texcoord);
+    vec4 texColor = texture(textureAlbedo, surface_texcoord * texture_albedo_scale);
 
     vec3 n = normalize(surface_normal);
     vec3 v = normalize(-surface_position);

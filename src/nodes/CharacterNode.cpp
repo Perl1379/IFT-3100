@@ -47,7 +47,7 @@ int CharacterNode::draw(bool p_objectPicking, Camera* p_camera)
 				getModel().update();
 			}
 			getModel().disableTextures(); //if it's not disabled constantly, openFrameworks resets it to the default a few seconds after boot
-			Global::m_modelManager.getTexture(m_modelNo, m_textureNo).bind();
+			Global::m_modelManager.getTexture(m_modelNo, m_textureNo).bind(0);
 		}
 
 		getModel().drawFaces(p_camera->getLightShader());

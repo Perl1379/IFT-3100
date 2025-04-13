@@ -67,7 +67,8 @@ void TerrainNode::loadTerrain() {
                 (y - height / 2) * vertexScale
                 );
             m_meshTerrain.addVertex(vertice);
-            m_meshTerrain.addTexCoord(glm::vec2(x, y));  // Texture coordinates
+            m_meshTerrain.addTexCoord(glm::vec2((float)x / (width - 1), (float)y / (height - 1)));
+//            m_meshTerrain.addTexCoord(glm::vec2(x, y));  // Texture coordinates
             m_meshTerrain.addNormal(glm::vec3(0, 0, 1)); // Temporary
         }
     }

@@ -18,9 +18,11 @@
  * Constructor
  */
 SphereNode::SphereNode(const std::string& p_name, float p_radius) : BaseNode(p_name) {
+
 	m_primitive.setRadius(p_radius);
 	m_primitive.setResolution(16.0);
 	m_primitive.setPosition(0, 0, 0);
+
 }
 
 

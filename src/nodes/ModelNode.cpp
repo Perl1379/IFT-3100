@@ -20,6 +20,7 @@ ModelNode::ModelNode(const std::string& p_nodeName, const std::string& p_fileBas
 	: BaseNode(p_nodeName), m_modelType(p_modelType)
 {
 	updateModel(p_fileBaseName);
+	m_materialNode.setShininess(100.0f);
 }
 
 

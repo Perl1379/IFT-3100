@@ -17,6 +17,7 @@
 #include "HistogramDialog.h"
 #include "FileGeneratedDialog.h"
 #include <CameraToneMappingDialog.h>
+#include <TextureInfoDialog.h>
 
 class UserInterface {
 
@@ -61,6 +62,7 @@ private:
     bool m_initialDraw = true;
     bool m_onlyOneCamera = false;
     Vector3Dialog m_vec3Dialog;
+    TextureInfoDialog m_textureInfoDialog;
 	ColorDialog m_colorDialog;
 	AddNodeDialog m_addNodeDialog;
 	DeleteNodeDialog m_deleteNodeDialog;

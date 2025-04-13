@@ -606,6 +606,10 @@ void UserInterface::drawProperties() {
         m_vec3Dialog.draw();
     }
 
+    if (m_textureInfoDialog.isOpen()) {
+        m_textureInfoDialog.draw();
+    }
+
     if (m_colorDialog.isOpen()) {
         m_colorDialog.draw();
     }
@@ -836,6 +840,31 @@ void UserInterface::drawProperties() {
                 }
                 if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) {
                     ImGui::SetTooltip(property.getTooltip().c_str());
+                }
+            }
+            break;
+
+            case PROPERTY_TYPE::TEXTURE2D: {
+                ImGui::Text(property.getName().c_str());
+                ImGui::SameLine(110);
+
+                TextureInfo* texInfo = std::any_cast<TextureInfo*>(property.getValue());
+                ImGui::BeginChild(("##Clip" + std::to_string(count)).c_str(), ImVec2(160, 16));
+
+                ImGui::Image(reinterpret_cast<ImTextureID>(texInfo->getTexture()->getTextureData().textureID), ImVec2(64,16));
+
+                ImGui::EndChild();
+                ImGui::SameLine(272);
+
+                if (ImGui::Button(("...##" + std::to_string(count)).c_str())) {
+                    m_textureInfoDialog.setTitle("Change " + property.getName());
+                    m_textureInfoDialog.useProperty(selectedNode, property.getName(), texInfo);
+                    m_textureInfoDialog.openDialog();
+                }
+                if (!property.getTooltip().empty()) {
+                    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) {
+                        ImGui::SetTooltip(property.getTooltip().c_str());
+                    }
                 }
             }
             break;
@@ -1148,7 +1177,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
     ImGui::SameLine();
 
 
-    const char* items[] = { "OpenGL", "Lambert", "Gouraud", "Phong", "Blinn-Phong" };
+    const char* items[] = { "BuiltIn", "Lambert", "Gouraud", "Phong", "Blinn-Phong" };
     ImGui::SetNextItemWidth(70);
     int currentLightModel = Global::m_cameras[index].getLightModel();
     if (ImGui::BeginCombo(("##lightmodel_" + std::to_string(index)).c_str(), items[currentLightModel])) {
