@@ -1,14 +1,11 @@
 #version 330
 
-// attributs interpolés à partir des valeurs en sortie du shader de sommets
 in vec3 surface_position;
 in vec3 surface_normal;
 in vec2 surface_texcoord;
 
-// attribut en sortie
 out vec4 fragment_color;
 
-// couleurs de réflexion du matériau
 uniform vec3 color_ambient;
 uniform vec3 color_diffuse;
 
@@ -23,10 +20,7 @@ uniform vec3 light_color_ambient[8];
 uniform vec3 light_color_diffuse[8];
 uniform vec3 light_color_specular[8];
 
-
 uniform sampler2D textureAlbedo;
-uniform sampler2D textureNormal; // Pas utilisé pour l'instant
-
 
 void main()
 {
@@ -41,12 +35,8 @@ void main()
     {
         vec3 l = normalize(light_position[i] - surface_position);
 
-        float constantAttenuation = 0.1; // Pour éviter la division par zéro
-        float linearAttenuation = light_attenuation[i];
-
-        // Attenuation linéaire basé sur la distance entre la source de lumière et la surface
         float dist = length(light_position[i] - surface_position);
-        float attenuation = 1.0 / (constantAttenuation + linearAttenuation * dist);
+        float attenuation = 1.0 / (0.1 + light_attenuation[i] * dist);
 
         float reflection_diffuse = max(dot(n, l), 0.0);
 
@@ -56,8 +46,6 @@ void main()
         final_diffuse += diffuse * reflection_diffuse * attenuation;
     }
 
-    vec3 final_color = (final_ambient + final_diffuse) * texColor.rgb;
-    final_color += global_ambient_color;
+    vec3 final_color = (final_ambient + final_diffuse + global_ambient_color) * texColor.rgb;
     fragment_color = vec4(final_color, 1.0);
-
 }
