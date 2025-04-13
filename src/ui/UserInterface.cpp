@@ -832,6 +832,18 @@ void UserInterface::drawProperties() {
             }
             break;
 
+            case PROPERTY_TYPE::DUMB_BUTTON: {
+                bool value = std::any_cast<bool>(property.getValue());
+
+                if (ImGui::Button(property.getName().c_str())) {
+                    Global::m_actions.addAction(selectedNode, property.getName(), value, !value);
+                }
+                if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) {
+                    ImGui::SetTooltip(property.getTooltip().c_str());
+                }
+            }
+            break;
+
             case PROPERTY_TYPE::TEXTURE2D: {
                 ImGui::Text(property.getName().c_str());
                 ImGui::SameLine(110);
@@ -1165,7 +1177,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
     ImGui::SameLine();
 
 
-    const char* items[] = { "Builtin", "Lambert", "Gouraud", "Phong", "Blinn-Phong" };
+    const char* items[] = { "OpenGL", "Lambert", "Gouraud", "Phong", "Blinn-Phong" };
     ImGui::SetNextItemWidth(70);
     int currentLightModel = Global::m_cameras[index].getLightModel();
     if (ImGui::BeginCombo(("##lightmodel_" + std::to_string(index)).c_str(), items[currentLightModel])) {
