@@ -352,10 +352,18 @@ void Camera::setTonemapType(TONEMAP_TYPE p_type) {
 		}
 		break;
 
+		case SEPIA: {
+			ofLog() << "Sepia set";
+			m_shaderTonemap = Global::m_shaders.getShader("tonemap_sepia");
+		}
+
+		break;
 		case GRAYSCALE: {
+			ofLog() << "fray set";
 			m_shaderTonemap = Global::m_shaders.getShader("tonemap_grayscale");
 		}
 		break;
+		
 	}
 }
 

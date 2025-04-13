@@ -40,6 +40,7 @@ void CameraToneMappingDialog::draw() {
         std::vector<const char *> cstrings{};
         cstrings.push_back("No tonemap");
         cstrings.push_back("Grayscale");
+        cstrings.push_back("Sepia");
 
         ImGui::PushItemWidth(186.0f);
         if (ImGui::Combo("##Type", &m_currentType, cstrings.data(), cstrings.size())) {
@@ -47,6 +48,7 @@ void CameraToneMappingDialog::draw() {
                 case TONEMAP_TYPE::NO_TONEMAP:
                 {
                     m_uniforms.clear();
+                    
                 }
                 break;
 
@@ -55,6 +57,14 @@ void CameraToneMappingDialog::draw() {
                     m_uniforms.clear();
                     m_uniforms["brightness"] = 1.0f;
                 }
+                break;
+                case TONEMAP_TYPE::SEPIA:
+                {
+					
+                    m_uniforms.clear();
+                    m_uniforms["brightness"] = 1.0f;
+                }
+                break;
             }
         }
 
@@ -75,6 +85,8 @@ void CameraToneMappingDialog::draw() {
 
 
         if (ImGui::Button("Apply Changes")) {
+            ofLog() << "APPLY  " << m_currentType;
+            ofLog() << "APPLY  " << (TONEMAP_TYPE)m_currentType;
             m_camera->setTonemapType((TONEMAP_TYPE) m_currentType);
             m_camera->setTonemapUniforms(m_uniforms);
             ImGui::CloseCurrentPopup();

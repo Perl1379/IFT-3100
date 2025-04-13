@@ -30,6 +30,10 @@ bool ShaderManager::setup() {
         return false;
     }
 
+    if (!loadShader("tonemap_sepia", "shaders/tonemap/tonemap_sepia.vert", "shaders/tonemap/tonemap_sepia.frag")) {
+        return false;
+    }
+
     // Light models
     if (!loadShader("lightmodel_lambert", "shaders/lightmodels/lambert.vert", "shaders/lightmodels/lambert.frag")) {
         return false;
