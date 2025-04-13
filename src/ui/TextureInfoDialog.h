@@ -1,3 +1,11 @@
+/*****************************************************
+* TP IFT3100H25 - Adventure Party Maker
+ * by Team 12
+ *****************************************************
+ *
+ * TextureInfoDialog class definition
+ *
+ *****************************************************/
 #pragma once
 
 #include <BaseNode.h>
@@ -5,19 +13,21 @@
 #include "ModalDialog.h"
 
 
-class Vector3Dialog : public ModalDialog {
+class TextureInfoDialog : public ModalDialog {
 
 private:
+
 	BaseNode* m_node;
 	std::string m_name;
-	glm::vec3 m_value;
-	glm::vec3 m_Origvalue;
+	std::string m_value;
+	std::string m_Origvalue;
+	TextureInfo m_textureInfo;
 
 
 
 public:
-	Vector3Dialog();
-	void useProperty(BaseNode* p_node, const std::string& p_name, glm::vec3 p_value);
+	TextureInfoDialog();
+	void useProperty(BaseNode* p_node, const std::string& p_name, TextureInfo* p_textureInfo);
 	void draw() override;
 
 };

@@ -130,7 +130,7 @@ void MainWindow::cameraDraw(int index) {
 		m_shaderLight->setUniform3f("global_ambient_color", Global::m_ambientLightColor.r, Global::m_ambientLightColor.g, Global::m_ambientLightColor.b);
 	}
 
-	ofSetColor(255);
+	//ofSetColor(255);
 
 	Global::m_countNodeRender[index] = Global::m_level.draw(false, &Global::m_cameras[index]);
 	Global::m_transformTools.draw(false);

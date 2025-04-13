@@ -22,26 +22,14 @@ BaseNode::BaseNode(const std::string& p_name) : m_name(p_name) {
 	m_id = Global::id_next;
 	Global::id_next += 1;
 
+
+	m_textureAlbedo.setup(ofFloatColor(1.0f, 1.0f, 1.0f));
+	m_textureNormal.setup(ofFloatColor(0.50196, 0.50196, 1.0));
+
 	m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 1.0, 0.0));
 	m_materialUnlit.setAmbientColor(ofFloatColor(0.0, 0.0, 0.0));
 	m_materialUnlit.setDiffuseColor(ofFloatColor(0.0));
-
 	m_materialNode.setSpecularColor(ofColor(255, 255, 255));  // Highlights
-
-	ofImage whiteTexture;
-	whiteTexture.allocate(1, 1, OF_IMAGE_COLOR); // 1x1 white texture
-	whiteTexture.setColor(0,0, ofColor::white);  // Create a white texture
-	whiteTexture.update(); // Make sure it's updated
-
-	m_textureAlbedo.allocate(whiteTexture);
-
-	ofImage neutralTexture;
-	neutralTexture.allocate(1, 1, OF_IMAGE_COLOR);
-	neutralTexture.setColor(0, 0, ofColor(0.50196, 0.50196, 1.0));
-	neutralTexture.update(); // Make sure it's updated
-
-
-	m_textureNormal.allocate(neutralTexture);
 
 }
 
@@ -152,6 +140,9 @@ std::vector<NodeProperty> BaseNode::getProperties() const {
 		properties.emplace_back("Specular Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getSpecularColor());
 		properties.emplace_back("Shininess", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getShininess());
 		properties.emplace_back("Metallicity", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getMetallic());
+		properties.emplace_back("Main Texture", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureAlbedo);
+		properties.emplace_back("Normal Texture", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureNormal);
+
 	}
 
 	return properties;
@@ -217,29 +208,14 @@ void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 		m_materialNode.setMetallic(std::any_cast<float>(p_value));
 	}
 
-	//
-	// if (p_name == "Proc. Texture") {
-	// 	m_isRandomTexture = std::any_cast<bool>(p_value);
-	//
-	// 	if (m_isRandomTexture)
-	// 	{
-	// 		int width = 512;
-	// 		int height = 512;
-	// 		ofImage image;
-	// 		image.allocate(width, height, OF_IMAGE_GRAYSCALE);
-	//
-	// 		PerlinNoiseTexture perlinNoise;
-	// 		for (int y = 0; y < height; ++y) {
-	// 			for (int x = 0; x < width; ++x) {
-	// 				double noiseValue = perlinNoise.noise(x * 0.1, y * 0.1, 0.0);
-	// 				noiseValue = ofMap(noiseValue, -1, 1, 0, 255);
-	// 				image.setColor(x, y, ofColor(noiseValue));
-	// 			}
-	// 		}
-	// 		image.update();
-	// 		allocateTexture(image);
-	// 	}
-	// }
+	if (p_name == "Main Texture") {
+		m_textureAlbedo.setPropertyValue(std::any_cast<std::string>(p_value));
+	}
+
+	if (p_name == "Normal Texture") {
+		m_textureNormal.setPropertyValue(std::any_cast<std::string>(p_value));
+	}
+
 
 }
 
@@ -322,6 +298,7 @@ void BaseNode::beginDraw(bool p_objectPicking, Camera* p_camera) {
 		ofShader* m_shader = p_camera->getLightShader();
 		if (m_shader == nullptr) {
 			m_materialNode.begin();
+
 		} else {
 			// Set uniforms
 			ofFloatColor colorDiffuse = m_materialNode.getDiffuseColor();
@@ -336,8 +313,9 @@ void BaseNode::beginDraw(bool p_objectPicking, Camera* p_camera) {
 			m_shader->setUniform1f("mat_shininess", m_materialNode.getShininess());
 			m_shader->setUniform1f("mat_metallic", m_materialNode.getMetallic());
 
-			m_textureAlbedo.bind(0);
-			m_textureNormal.bind(1);
+			m_textureAlbedo.getTexture()->bind(0);
+			m_textureNormal.getTexture()->bind(1);
+
 
 		}
 
@@ -360,8 +338,8 @@ int BaseNode::endDraw(bool p_objectPicking, Camera* p_camera) {
 		if (m_shader == nullptr) {
 			m_materialNode.end();
 		} else {
-			m_textureAlbedo.unbind(0);
-			m_textureNormal.unbind(1);
+			m_textureAlbedo.getTexture()->unbind(0);
+			m_textureNormal.getTexture()->unbind(1);
 
 		}
 
