@@ -38,7 +38,7 @@ void main()
     for (int i = 0; i < light_sources; ++i)
     {
         vec3 l = normalize(light_position[i] - surface_position);
-        vec3 h = normalize(l + v); // vecteur halfway
+        vec3 h = normalize(l + v);
 
         float dist = length(light_position[i] - surface_position);
         float attenuation = 1.0 / (0.1 + light_attenuation[i] * dist);

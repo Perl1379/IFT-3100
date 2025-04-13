@@ -23,7 +23,6 @@ uniform vec3 light_color_diffuse[8];
 uniform vec3 light_color_specular[8];
 
 uniform sampler2D textureAlbedo;
-uniform sampler2D textureNormal; // Pas utilisé pour l'instant
 
 void main()
 {
