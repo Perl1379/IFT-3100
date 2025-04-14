@@ -408,6 +408,17 @@ void Camera::setLightModel(LIGHTMODEL_TYPE p_model) {
 			m_shaderLight = Global::m_shaders.getShader("lightmodel_blinnphong");
 		}
 		break;
+
+		case PBR: {
+			m_shaderLight = Global::m_shaders.getShader("lightmodel_pbr");
+		}
+		break;
+
+		case NON_REALISTIC: {
+			m_shaderLight = Global::m_shaders.getShader("lightmodel_nonrealistic");
+		}
+		break;
+
 	}
 
 }
