@@ -304,7 +304,7 @@ void LevelPersistence::loadFromFile(const std::string &filename) {
         if (node != nullptr) {
             node->displayBoundingBox(true);
         } else {
-            Global::m_selectedNode = -1;
+            Global::m_selectedNode = 0;
         }
     }
 

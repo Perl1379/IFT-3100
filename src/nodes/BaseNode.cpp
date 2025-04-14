@@ -452,3 +452,19 @@ bool BaseNode::isExpanded() {
 void BaseNode::setExpanded(bool p_expanded) {
 	m_isExpanded = p_expanded;
 }
+
+
+
+
+
+std::tuple<bool, bool, bool> BaseNode::getTransformOperations() {
+	return std::make_tuple(m_transformTranslation, m_transformRotation, m_transformScale);
+}
+
+
+/**
+ * Get transform axixes
+ */
+std::tuple<bool, bool, bool> BaseNode::getTransformAxes() {
+	return std::make_tuple(m_axisTransformX, m_axisTransformY, m_axisTransformZ);
+}
