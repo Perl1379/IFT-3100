@@ -28,6 +28,13 @@ protected:
     bool m_useMaterial = true;
     bool m_isExpanded = true;
 
+    bool m_transformTranslation = true;
+    bool m_transformRotation = true;
+    bool m_transformScale = true;
+    bool m_axisTransformX = true;
+    bool m_axisTransformY = true;
+    bool m_axisTransformZ = true;
+
 
     ofMaterial m_materialNode;
     ofMaterial m_materialUnlit;
@@ -89,5 +96,9 @@ public:
 
     bool isExpanded();
     void setExpanded(bool p_expanded);
+
+    std::tuple<bool, bool, bool> getTransformOperations();
+    std::tuple<bool, bool, bool> getTransformAxes();
+
 
 };

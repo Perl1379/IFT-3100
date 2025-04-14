@@ -21,6 +21,7 @@ CylinderNode::CylinderNode(const std::string& p_name) : BaseNode(p_name) {
     m_primitive.setPosition(0, 0, 0);
     m_primitive.setResolutionRadius(24);
     m_primitive.setResolutionHeight(3);
+
 }
 
 

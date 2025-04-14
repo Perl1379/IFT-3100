@@ -19,6 +19,12 @@
 #include <CameraToneMappingDialog.h>
 #include <TextureInfoDialog.h>
 
+enum {
+	TREEVIEW_OBJECTS = 0,
+	TREEVIEW_LIGHTS = 1
+};
+
+
 class UserInterface {
 
 public:
@@ -59,6 +65,7 @@ private:
 
     std::vector<std::string> m_availableSkyboxes;
 
+	int m_treeMode = TREEVIEW_OBJECTS;
     bool m_initialDraw = true;
     bool m_onlyOneCamera = false;
     Vector3Dialog m_vec3Dialog;

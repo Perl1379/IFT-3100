@@ -84,7 +84,7 @@ void Level::reset() {
 	Global::id_next = 0;
 
 	m_tree->removeAllChildren();
-	Global::m_selectedNode = -1;
+	Global::m_selectedNode = 0;
 
 	// Create two main groups (Objects, Lights)
 	GroupNode* m_objects = new GroupNode("Objects");

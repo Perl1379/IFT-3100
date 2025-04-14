@@ -15,7 +15,7 @@ std::array<Camera, 3> Global::m_cameras;
 int Global::m_countNodeRender[3];
 Skybox Global::m_skybox;
 Level Global::m_level;
-int Global::m_selectedNode = -1;
+int Global::m_selectedNode = 0;
 TransformTools Global::m_transformTools;
 ActionManager Global::m_actions;
 bool Global::m_selectedFromViewport = false;

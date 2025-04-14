@@ -46,7 +46,7 @@ void DeleteNodeDialog::draw() {
 
            
             parent->removeChild(Global::m_selectedNode);
-            Global::m_selectedNode = -1;
+            Global::m_selectedNode = 0;
 
         }
 

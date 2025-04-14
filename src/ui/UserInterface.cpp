@@ -334,7 +334,7 @@ void UserInterface::drawToolbar() {
                     Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
                 }
 
-                Global::m_selectedNode = -1;
+                Global::m_selectedNode = 0;
             }
 
             Global::m_doColorPicking = !Global::m_doColorPicking;
@@ -370,15 +370,69 @@ void UserInterface::drawToolbar() {
  */
 void UserInterface::drawTree() {
     // Define position and size
+
     ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetFrameHeight() + TOOLBAR_HEIGHT + 6), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(LEFTPANEL_WIDTH, TREEVIEW_HEIGHT), ImGuiCond_Always);
 
     if (ImGui::Begin("Level", nullptr,
                      ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse)) {
-        ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Always);
 
-        for (BaseNode *child: Global::m_level.getTree()->getChildren()) {
-            drawTreeElement(child);
+
+        if (m_treeMode == TREEVIEW_OBJECTS) {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+            if (ImGui::Button("Objects")) {
+                m_treeMode = TREEVIEW_OBJECTS;
+                Global::m_selectedNode = 0;
+            }
+            ImGui::PopStyleColor(2);
+        } else {
+            if (ImGui::Button("Objects")) {
+                m_treeMode = TREEVIEW_OBJECTS;
+                Global::m_selectedNode = 0;
+            }
+        }
+
+        ImGui::SameLine();
+
+        if (m_treeMode == TREEVIEW_LIGHTS) {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+
+            if (ImGui::Button("Lights")) {
+                m_treeMode = TREEVIEW_LIGHTS;
+                Global::m_selectedNode = 1;
+            }
+
+            ImGui::PopStyleColor(2);
+        } else {
+            if (ImGui::Button("Lights")) {
+                m_treeMode = TREEVIEW_LIGHTS;
+                Global::m_selectedNode = 1;
+            }
+        }
+
+
+        ImGui::Separator();
+
+        ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Always);
+        switch(m_treeMode) {
+            case TREEVIEW_OBJECTS:
+            {
+                for (BaseNode *child: Global::m_level.getTree()->getChildren().at(0)->getChildren()) {
+                    drawTreeElement(child);
+                }
+            }
+            break;
+
+            case TREEVIEW_LIGHTS:
+            {
+                for (BaseNode *child: Global::m_level.getTree()->getChildren().at(1)->getChildren()) {
+                    drawTreeElement(child);
+                }
+            }
+            break;
+
         }
 
 
@@ -1030,7 +1084,7 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
                     if (Global::m_selectedNode != -1) {
                         Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
                     }
-                    Global::m_selectedNode = -1;
+                    Global::m_selectedNode = 0;
                     Global::m_selectedFromViewport = true;
                 }
             }

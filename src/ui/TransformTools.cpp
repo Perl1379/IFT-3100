@@ -78,16 +78,22 @@ void TransformTools::draw(bool p_objectPicking) {
     m_transform.setOrientation(node->getTransform().getGlobalOrientation());
     m_transform.setPosition(node->getTransform().getGlobalPosition());
 
-
+    auto [doTranslate,doRotate,doScale] = node->getTransformOperations();
     switch(m_transformMode) {
         case TRANSLATE:
-            drawTranslate(p_objectPicking, node);
+            if (doTranslate) {
+                drawTranslate(p_objectPicking, node);
+            }
             break;
         case ROTATE:
-            drawRotate(p_objectPicking, node);
+            if (doRotate) {
+                drawRotate(p_objectPicking, node);
+            }
             break;
         case SCALE:
-            drawScale(p_objectPicking, node);
+            if (doScale) {
+                drawScale(p_objectPicking, node);
+            }
             break;
 
     }
@@ -104,56 +110,75 @@ void TransformTools::draw(bool p_objectPicking) {
  */
 void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
 
+    auto [doX, doY, doZ ] = node->getTransformAxes();
+
     glm::vec3 pos(0,0,0);
     auto scale = node->getTransform().getGlobalScale();
     auto length = node->getBoundingBox() * 0.5;
 
-    if (p_objectPicking) {
-        m_materialUnlit.setEmissiveColor(Global::idToColor(TRANSLATE_X));
-    } else {
-        m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
+    float lengthX = length.x * scale.x;
+    float lengthY = length.y * scale.y;
+    float lengthZ = length.z * scale.z;
+
+    if (lengthX < 200.0f) lengthX = 200.0f;
+    if (lengthY < 200.0f) lengthY = 200.0f;
+    if (lengthZ < 200.0f) lengthZ = 200.0f;
+
+    if (lengthX > 600.0f) lengthX = 600.0f;
+    if (lengthY > 600.0f) lengthY = 600.0f;
+    if (lengthZ > 600.0f) lengthZ = 600.0f;
+
+    if (doX) {
+        if (p_objectPicking) {
+            m_materialUnlit.setEmissiveColor(Global::idToColor(TRANSLATE_X));
+        } else {
+            m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
+        }
+
+        if (p_objectPicking) {
+            m_conePrimitivesObjectPicking[0].setPosition(pos + glm::vec3(abs(lengthX), 0.0, 0.0));
+            m_conePrimitivesObjectPicking[0].draw();
+        } else {
+            ofDrawLine(pos, pos + glm::vec3(abs(lengthX), 0.0, 0.0));
+            m_conePrimitives[0].setPosition(pos + glm::vec3(abs(lengthX), 0.0, 0.0));
+            m_conePrimitives[0].draw();
+        }
     }
 
-    if (p_objectPicking) {
-        m_conePrimitivesObjectPicking[0].setPosition(pos + glm::vec3(abs(length[0] * scale.x), 0.0, 0.0));
-        m_conePrimitivesObjectPicking[0].draw();
-    } else {
-        ofDrawLine(pos, pos + glm::vec3(abs(length[0] * scale.x), 0.0, 0.0));
-        m_conePrimitives[0].setPosition(pos + glm::vec3(abs(length[0] * scale.x), 0.0, 0.0));
-        m_conePrimitives[0].draw();
+    if (doY) {
+        if (p_objectPicking) {
+            m_materialUnlit.setEmissiveColor(Global::idToColor(TRANSLATE_Y));
+        } else {
+            m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 1.0, 0.0));
+        }
+
+        if (p_objectPicking) {
+            m_conePrimitivesObjectPicking[1].setPosition(pos + glm::vec3(0, abs(lengthY), 0.0));
+            m_conePrimitivesObjectPicking[1].draw();
+        } else {
+            ofDrawLine(pos, pos + glm::vec3(0.0, abs(lengthY), 0.0));
+            m_conePrimitives[1].setPosition(pos + glm::vec3(0, abs(lengthY), 0.0));
+            m_conePrimitives[1].draw();
+        }
     }
 
-    if (p_objectPicking) {
-        m_materialUnlit.setEmissiveColor(Global::idToColor(TRANSLATE_Y));
-    } else {
-        m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 1.0, 0.0));
+    if (doZ) {
+        if (p_objectPicking) {
+            m_materialUnlit.setEmissiveColor(Global::idToColor(TRANSLATE_Z));
+        } else {
+            m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 0.0, 1.0));
+        }
+
+        if (p_objectPicking) {
+            m_conePrimitivesObjectPicking[2].setPosition(pos + glm::vec3(0.0, 0.0, abs(lengthZ)));
+            m_conePrimitivesObjectPicking[2].draw();
+        } else {
+            ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, abs(lengthZ)));
+            m_conePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, abs(lengthZ)));
+            m_conePrimitives[2].draw();
+
+        }
     }
-
-    if (p_objectPicking) {
-        m_conePrimitivesObjectPicking[1].setPosition(pos + glm::vec3(0, abs(length[1] * scale.y), 0.0));
-        m_conePrimitivesObjectPicking[1].draw();
-    } else {
-        ofDrawLine(pos, pos + glm::vec3(0.0, abs(length[1] * scale.y), 0.0));
-        m_conePrimitives[1].setPosition(pos + glm::vec3(0, abs(length[1] * scale.y), 0.0));
-        m_conePrimitives[1].draw();
-    }
-
-    if (p_objectPicking) {
-        m_materialUnlit.setEmissiveColor(Global::idToColor(TRANSLATE_Z));
-    } else {
-        m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 0.0, 1.0));
-    }
-
-    if (p_objectPicking) {
-        m_conePrimitivesObjectPicking[2].setPosition(pos + glm::vec3(0.0, 0.0, abs(length[2] * scale.z)));
-        m_conePrimitivesObjectPicking[2].draw();
-    } else {
-        ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, abs(length[2] * scale.z)));
-        m_conePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, abs(length[2] * scale.z)));
-        m_conePrimitives[2].draw();
-
-    }
-
 }
 
 
@@ -163,140 +188,177 @@ void TransformTools::drawTranslate(bool p_objectPicking, BaseNode* node)  {
  */
 void TransformTools::drawRotate(bool p_objectPicking, BaseNode* node)  {
 
+    auto [doX, doY, doZ ] = node->getTransformAxes();
+
     glm::vec3 pos(0,0,0);
     auto scale = node->getTransform().getScale();
     auto length = node->getBoundingBox() * 0.5;
+    float lengthX = length.x * scale.x;
+    float lengthY = length.y * scale.y;
+    float lengthZ = length.z * scale.z;
 
-    if (p_objectPicking) {
-        m_materialUnlit.setEmissiveColor(Global::idToColor(ROTATE_X));
-    } else {
-        m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
+    if (lengthX < 200.0f) lengthX = 200.0f;
+    if (lengthY < 200.0f) lengthY = 200.0f;
+    if (lengthZ < 200.0f) lengthZ = 200.0f;
+
+    if (lengthX > 600.0f) lengthX = 600.0f;
+    if (lengthY > 600.0f) lengthY = 600.0f;
+    if (lengthZ > 600.0f) lengthZ = 600.0f;
+
+    if (doX) {
+        if (p_objectPicking) {
+            m_materialUnlit.setEmissiveColor(Global::idToColor(ROTATE_X));
+        } else {
+            m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
+        }
+
+        if (p_objectPicking) {
+            m_spherePrimitivesObjectPicking[0].setPosition(pos + glm::vec3(lengthX, 0.0, 0.0));
+            m_spherePrimitivesObjectPicking[0].draw();
+
+        } else {
+            ofNoFill();
+            ofDrawCircle(pos, lengthX);
+            ofFill();
+            m_spherePrimitives[0].setPosition(pos + glm::vec3(lengthX, 0.0, 0.0));
+            m_spherePrimitives[0].draw();
+        }
     }
 
-    if (p_objectPicking) {
-        m_spherePrimitivesObjectPicking[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
-        m_spherePrimitivesObjectPicking[0].draw();
+    if (doY) {
+        if (p_objectPicking) {
+            m_materialUnlit.setEmissiveColor(Global::idToColor(ROTATE_Y));
+        } else {
+            m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 1.0, 0.0));
+        }
 
-    } else {
-        ofNoFill();
-        ofDrawCircle(pos, length[0] * scale.x);
-        ofFill();
-        m_spherePrimitives[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
-        m_spherePrimitives[0].draw();
+        if (p_objectPicking) {
+            m_spherePrimitivesObjectPicking[1].setPosition(pos + glm::vec3(0, lengthY, 0.0));
+            m_spherePrimitivesObjectPicking[1].draw();
+        } else {
+            ofPushMatrix();
+            ofRotateYDeg(90);
+            ofNoFill();
+            ofDrawCircle(pos, lengthY);
+            ofFill();
+            ofPopMatrix();;
+            m_spherePrimitives[1].setPosition(pos + glm::vec3(0, lengthY, 0.0));
+            m_spherePrimitives[1].draw();
+
+        }
     }
 
-    if (p_objectPicking) {
-        m_materialUnlit.setEmissiveColor(Global::idToColor(ROTATE_Y));
-    } else {
-        m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 1.0, 0.0));
+    if (doZ) {
+        if (p_objectPicking) {
+            m_materialUnlit.setEmissiveColor(Global::idToColor(ROTATE_Z));
+        } else {
+            m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 0.0, 1.0));
+        }
+
+        if (p_objectPicking) {
+            m_spherePrimitivesObjectPicking[2].setPosition(pos + glm::vec3(0.0, 0.0, lengthZ));
+            m_spherePrimitivesObjectPicking[2].draw();
+        } else {
+            ofPushMatrix();
+            ofRotateXDeg(90);
+            ofNoFill();
+            ofDrawCircle(pos, lengthZ);
+            ofFill();
+            ofPopMatrix();;
+            m_spherePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, lengthZ));
+            m_spherePrimitives[2].draw();
+        }
     }
-
-    if (p_objectPicking) {
-        m_spherePrimitivesObjectPicking[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
-        m_spherePrimitivesObjectPicking[1].draw();
-    } else {
-        ofPushMatrix();
-        ofRotateYDeg(90);
-        ofNoFill();
-        ofDrawCircle(pos, length[1] * scale.y);
-        ofFill();
-        ofPopMatrix();;
-        m_spherePrimitives[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
-        m_spherePrimitives[1].draw();
-
-    }
-
-    if (p_objectPicking) {
-        m_materialUnlit.setEmissiveColor(Global::idToColor(ROTATE_Z));
-    } else {
-        m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 0.0, 1.0));
-    }
-
-    if (p_objectPicking) {
-        m_spherePrimitivesObjectPicking[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
-        m_spherePrimitivesObjectPicking[2].draw();
-    } else {
-        ofPushMatrix();
-        ofRotateXDeg(90);
-        ofNoFill();
-        ofDrawCircle(pos, length[2] * scale.z);
-        ofFill();
-        ofPopMatrix();;
-        m_spherePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
-        m_spherePrimitives[2].draw();
-    }
-
 }
 
 
 /**
  * Draw scale cubes
  */
-void TransformTools::drawScale(bool p_objectPicking, BaseNode* node)  {
+void TransformTools::drawScale(bool p_objectPicking, BaseNode* node) {
+    auto [doX, doY, doZ ] = node->getTransformAxes();
 
     glm::vec3 pos(0,0,0);
     auto scale = node->getTransform().getScale();
     auto length = node->getBoundingBox() * 0.5;
+    float lengthX = length.x * scale.x;
+    float lengthY = length.y * scale.y;
+    float lengthZ = length.z * scale.z;
 
-    if (p_objectPicking) {
-        m_materialUnlit.setEmissiveColor(Global::idToColor(SCALE_X));
-    } else {
-        m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
+    if (lengthX < 200.0f) lengthX = 200.0f;
+    if (lengthY < 200.0f) lengthY = 200.0f;
+    if (lengthZ < 200.0f) lengthZ = 200.0f;
+
+    if (lengthX > 600.0f) lengthX = 600.0f;
+    if (lengthY > 600.0f) lengthY = 600.0f;
+    if (lengthZ > 600.0f) lengthZ = 600.0f;
+
+    if (doX) {
+        if (p_objectPicking) {
+            m_materialUnlit.setEmissiveColor(Global::idToColor(SCALE_X));
+        } else {
+            m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 0.0));
+        }
+
+        if (p_objectPicking) {
+            m_cubePrimitivesObjectPicking[0].setPosition(pos + glm::vec3(lengthX, 0.0, 0.0));
+            m_cubePrimitivesObjectPicking[0].draw();
+        } else {
+            ofDrawLine(pos, pos + glm::vec3(lengthX, 0.0, 0.0));
+            m_cubePrimitives[0].setPosition(pos + glm::vec3(lengthX, 0.0, 0.0));
+            m_cubePrimitives[0].draw();
+        }
     }
 
-    if (p_objectPicking) {
-        m_cubePrimitivesObjectPicking[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
-        m_cubePrimitivesObjectPicking[0].draw();
-    } else {
-        ofDrawLine(pos, pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
-        m_cubePrimitives[0].setPosition(pos + glm::vec3(length[0] * scale.x, 0.0, 0.0));
-        m_cubePrimitives[0].draw();
+    if (doY) {
+        if (p_objectPicking) {
+            m_materialUnlit.setEmissiveColor(Global::idToColor(SCALE_Y));
+        } else {
+            m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 1.0, 0.0));
+        }
+
+        if (p_objectPicking) {
+            m_cubePrimitivesObjectPicking[1].setPosition(pos + glm::vec3(0, lengthY, 0.0));
+            m_cubePrimitivesObjectPicking[1].draw();
+        } else {
+            ofDrawLine(pos, pos + glm::vec3(0.0, lengthY, 0.0));
+            m_cubePrimitives[1].setPosition(pos + glm::vec3(0, lengthY, 0.0));
+            m_cubePrimitives[1].draw();
+        }
     }
 
-    if (p_objectPicking) {
-        m_materialUnlit.setEmissiveColor(Global::idToColor(SCALE_Y));
-    } else {
-        m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 1.0, 0.0));
+    if (doZ) {
+        if (p_objectPicking) {
+            m_materialUnlit.setEmissiveColor(Global::idToColor(SCALE_Z));
+        } else {
+            m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 0.0, 1.0));
+        }
+
+        if (p_objectPicking) {
+            m_cubePrimitivesObjectPicking[2].setPosition(pos + glm::vec3(0.0, 0.0, lengthZ));
+            m_cubePrimitivesObjectPicking[2].draw();
+        } else {
+            ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, lengthZ));
+            m_cubePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, lengthZ));
+            m_cubePrimitives[2].draw();
+        }
     }
 
-    if (p_objectPicking) {
-        m_cubePrimitivesObjectPicking[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
-        m_cubePrimitivesObjectPicking[1].draw();
-    } else {
-        ofDrawLine(pos, pos + glm::vec3(0.0, length[1] * scale.y, 0.0));
-        m_cubePrimitives[1].setPosition(pos + glm::vec3(0, length[1] * scale.y, 0.0));
-        m_cubePrimitives[1].draw();
-    }
+    if (doX && doY && doZ) {
+        if (p_objectPicking) {
+            m_materialUnlit.setEmissiveColor(Global::idToColor(SCALE_ALL));
+        } else {
+            m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 1.0));
+        }
 
-    if (p_objectPicking) {
-        m_materialUnlit.setEmissiveColor(Global::idToColor(SCALE_Z));
-    } else {
-        m_materialUnlit.setEmissiveColor(ofFloatColor(0.0, 0.0, 1.0));
+        if (p_objectPicking) {
+            m_cubePrimitivesObjectPicking[2].setPosition(pos);
+            m_cubePrimitivesObjectPicking[2].draw();
+        } else {
+            m_cubePrimitives[2].setPosition(pos);
+            m_cubePrimitives[2].draw();
+        }
     }
-
-    if (p_objectPicking) {
-        m_cubePrimitivesObjectPicking[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
-        m_cubePrimitivesObjectPicking[2].draw();
-    } else {
-        ofDrawLine(pos, pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
-        m_cubePrimitives[2].setPosition(pos + glm::vec3(0.0, 0.0, length[2] * scale.z));
-        m_cubePrimitives[2].draw();
-    }
-
-    if (p_objectPicking) {
-        m_materialUnlit.setEmissiveColor(Global::idToColor(SCALE_ALL));
-    } else {
-        m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 0.0, 1.0));
-    }
-
-    if (p_objectPicking) {
-        m_cubePrimitivesObjectPicking[2].setPosition(pos);
-        m_cubePrimitivesObjectPicking[2].draw();
-    } else {
-        m_cubePrimitives[2].setPosition(pos);
-        m_cubePrimitives[2].draw();
-    }
-
 }
 
 
