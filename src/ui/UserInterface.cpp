@@ -330,7 +330,7 @@ void UserInterface::drawToolbar() {
 
             if (Global::m_doColorPicking) {
 
-                if (Global::m_selectedNode != -1) {
+                if (Global::m_selectedNode >= 2) {
                     Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
                 }
 
@@ -383,12 +383,18 @@ void UserInterface::drawTree() {
             ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
             if (ImGui::Button("Objects")) {
                 m_treeMode = TREEVIEW_OBJECTS;
+                if (Global::m_selectedNode >= 2) {
+                    Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
+                }
                 Global::m_selectedNode = 0;
             }
             ImGui::PopStyleColor(2);
         } else {
             if (ImGui::Button("Objects")) {
                 m_treeMode = TREEVIEW_OBJECTS;
+                if (Global::m_selectedNode >= 2) {
+                    Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
+                }
                 Global::m_selectedNode = 0;
             }
         }
@@ -401,6 +407,9 @@ void UserInterface::drawTree() {
 
             if (ImGui::Button("Lights")) {
                 m_treeMode = TREEVIEW_LIGHTS;
+                if (Global::m_selectedNode >= 2) {
+                    Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
+                }
                 Global::m_selectedNode = 1;
             }
 
@@ -408,6 +417,9 @@ void UserInterface::drawTree() {
         } else {
             if (ImGui::Button("Lights")) {
                 m_treeMode = TREEVIEW_LIGHTS;
+                if (Global::m_selectedNode >= 2) {
+                    Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
+                }
                 Global::m_selectedNode = 1;
             }
         }
@@ -560,7 +572,7 @@ void UserInterface::drawTreeElement(BaseNode *node) {
 
     if (ImGui::TreeNodeEx(node->getName().c_str(), flags)) {
         if (ImGui::IsItemClicked()) {
-            if (Global::m_selectedNode != -1) {
+            if (Global::m_selectedNode >= 2) {
                 Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
             }
             Global::m_selectedNode = node->getId();
@@ -1071,7 +1083,7 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
                     } else {
                         // Verify if the object exists (just in case)
                         if (Global::m_level.getTree()->findNode(pickedObjectId) != nullptr) {
-                            if (Global::m_selectedNode != -1) {
+                            if (Global::m_selectedNode >= 2) {
                                 Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
                             }
 
@@ -1081,7 +1093,7 @@ void UserInterface::drawViewport(const std::string &name, int index, const ImVec
                         }
                     }
                 } else {
-                    if (Global::m_selectedNode != -1) {
+                    if (Global::m_selectedNode >= 2) {
                         Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
                     }
                     Global::m_selectedNode = 0;
@@ -1258,7 +1270,7 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
     ImGui::SameLine();
 
     // Draw transform buttons
-    if ((index == 0) && (Global::m_selectedNode != -1)) {
+    if ((index == 0) && (Global::m_selectedNode >= 2)) {
         ImGui::SetCursorPos(ImVec2(12, verticalOffset));
         ImGui::Text("Transform:");
         ImGui::SameLine();

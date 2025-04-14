@@ -21,6 +21,9 @@ public:
 
 private:
     ofPath m_path;
+    ofMesh m_mesh;
+    ofVec3f m_boundingBox;
+
     const float m_DEFAULT_SPACING = 200.0;
     const float m_DEFAULT_STROKE_WIDTH = 100.0f;
     float m_strokeWidth;
@@ -37,6 +40,7 @@ public:
     std::vector<NodeProperty> getProperties() const override;
     void removeAllChildren() override {}; // This class uses his own housekeeping functions
     void setProperty(const std::string& p_name, std::any p_value);
+    ofVec3f getBoundingBox() const override;
 
 private:
     void setDisplayNodeOnControlPoints(bool p_value);

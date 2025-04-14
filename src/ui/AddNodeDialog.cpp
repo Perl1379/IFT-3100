@@ -61,7 +61,7 @@ void AddNodeDialog::draw() {
             GroupNode* childNode = new GroupNode("Group");
             parent->addChild(childNode);
 
-            if (Global::m_selectedNode != -1) {
+            if (Global::m_selectedNode >= 2) {
                 Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
             }
             childNode->displayBoundingBox(true);
@@ -90,7 +90,7 @@ void AddNodeDialog::draw() {
             SphereNode* childNode = new SphereNode("Sphere");
             parent->addChild(childNode);
 
-            if (Global::m_selectedNode != -1) {
+            if (Global::m_selectedNode >= 2) {
                 Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
             }
             childNode->displayBoundingBox(true);
@@ -115,7 +115,7 @@ void AddNodeDialog::draw() {
             BoxNode* childNode = new BoxNode("Box");
             parent->addChild(childNode);
 
-            if (Global::m_selectedNode != -1) {
+            if (Global::m_selectedNode >= 2) {
                 Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
             }
             childNode->displayBoundingBox(true);
@@ -141,7 +141,7 @@ void AddNodeDialog::draw() {
             CylinderNode* childNode = new CylinderNode("Cylinder");
             parent->addChild(childNode);
 
-            if (Global::m_selectedNode != -1) {
+            if (Global::m_selectedNode >= 2) {
                 Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
             }
             childNode->displayBoundingBox(true);
@@ -166,7 +166,7 @@ void AddNodeDialog::draw() {
             ConeNode* childNode = new ConeNode("Cone");
             parent->addChild(childNode);
 
-            if (Global::m_selectedNode != -1) {
+            if (Global::m_selectedNode >= 2) {
                 Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
             }
             childNode->displayBoundingBox(true);
@@ -191,7 +191,7 @@ void AddNodeDialog::draw() {
             PlaneNode* childNode = new PlaneNode("Plane");
             parent->addChild(childNode);
 
-            if (Global::m_selectedNode != -1) {
+            if (Global::m_selectedNode >= 2) {
                 Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
             }
             childNode->displayBoundingBox(true);
@@ -221,7 +221,7 @@ void AddNodeDialog::draw() {
             CharacterNode* childNode = new CharacterNode();
             parent->addChild(childNode);
 
-            if (Global::m_selectedNode != -1) {
+            if (Global::m_selectedNode >= 2) {
                 Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
             }
             childNode->displayBoundingBox(true);
@@ -247,7 +247,7 @@ void AddNodeDialog::draw() {
             AssetNode* childNode = new AssetNode();
             parent->addChild(childNode);
 
-            if (Global::m_selectedNode != -1) {
+            if (Global::m_selectedNode >= 2) {
                 Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
             }
             childNode->displayBoundingBox(true);
@@ -278,7 +278,7 @@ void AddNodeDialog::draw() {
             childNode->loadTerrain();
             parent->addChild(childNode);
 
-            if (Global::m_selectedNode != -1) {
+            if (Global::m_selectedNode >= 2) {
                 Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
             }
             childNode->displayBoundingBox(true);

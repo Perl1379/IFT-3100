@@ -68,7 +68,7 @@ TransformTools::TransformTools() {
  * Draw transform tools
  */
 void TransformTools::draw(bool p_objectPicking) {
-    if (Global::m_selectedNode == -1) return;
+    if (Global::m_selectedNode < 2) return;
 
     BaseNode* node = Global::m_level.getTree()->findNode(Global::m_selectedNode);
     m_materialUnlit.begin();

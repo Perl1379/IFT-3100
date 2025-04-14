@@ -33,6 +33,8 @@ SplineNode::SplineNode(const std::string& p_nodeName)
     // for now, to make things easier, a spline can only have SplineControlPoint as children (these SplineControlPoint may have children)
     m_userCanAddChild = false;
     m_strokeWidth = m_DEFAULT_STROKE_WIDTH;
+    m_mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+
 }
 
 
@@ -65,12 +67,13 @@ void SplineNode::init(int p_controlPointsCount)
 void SplineNode::updatePath() 
 {
     m_path.clear();
+    m_mesh.clear();
 
     if (!m_children.empty()) {
         m_path.setFilled(false);
-        m_path.setStrokeColor(m_materialNode.getAmbientColor());
+        m_path.setStrokeColor(m_materialNode.getDiffuseColor());
         m_path.setStrokeWidth(m_strokeWidth);
-
+        m_path.clear();
         m_path.moveTo(m_children[0]->getTransform().getPosition());
         m_path.curveTo(m_children[0]->getTransform().getPosition());
         for (size_t i = 0; i < m_children.size(); i++) {
@@ -78,6 +81,56 @@ void SplineNode::updatePath()
             m_controlPoints[i]->setIndex(i); //in case a point was deleted
         }
         m_path.curveTo(m_children.back()->getTransform().getPosition());
+
+
+        vector<ofPolyline> outlines = m_path.getOutline();
+
+        for (auto& outline : outlines) {
+            outline = outline.getResampledBySpacing(5);
+            const auto& verts = outline.getVertices();
+
+            for (size_t i = 0; i < verts.size(); ++i) {
+                glm::vec3 p = verts[i];
+
+                glm::vec3 tangent;
+                if (i == 0) {
+                    tangent = verts[i + 1] - p;
+                } else if (i == verts.size() - 1) {
+                    tangent = p - verts[i - 1];
+                } else {
+                    tangent = verts[i + 1] - verts[i - 1];
+                }
+
+                // Normalize the tangent
+                tangent = glm::normalize(tangent);
+
+                glm::vec3 normal(0, 0, 1);
+                glm::vec3 offset = normal * (m_strokeWidth * 0.5f);
+
+                m_mesh.addVertex(p + offset);
+                m_mesh.addVertex(p - offset);
+            }
+        }
+
+
+        // Compute bounding box
+        ofVec3f minBound, maxBound;
+
+        // Initialize min and max with the first vertex
+        minBound = m_mesh.getVertex(0);
+        maxBound = m_mesh.getVertex(0);
+
+        // Iterate over all vertices
+        for (const auto &v : m_mesh.getVertices()) {
+            minBound.x = std::min(minBound.x, v.x);
+            minBound.z = std::min(minBound.z, v.z);
+
+            maxBound.x = std::max(maxBound.x, v.x);
+            maxBound.z = std::max(maxBound.z, v.z);
+        }
+
+        m_boundingBox = (maxBound - minBound);
+        m_boundingBox.y = 20;
     }
 }
 
@@ -97,9 +150,22 @@ int SplineNode::draw(bool p_objectPicking, Camera* p_camera)
     beginDraw(p_objectPicking, p_camera);
 
     if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {
+
+        if ((!p_objectPicking) && (p_camera->getLightModel() != OPENGL_LIGHTS)) {
+            p_camera->getLightShader()->end();
+            m_materialNode.begin();
+        }
+
         m_transform.transformGL();
-        m_path.draw();
+
+        m_mesh.draw();
+
         m_transform.restoreTransformGL();
+
+        if ((!p_objectPicking) && (p_camera->getLightModel() != OPENGL_LIGHTS)) {
+            m_materialNode.end();
+            p_camera->getLightShader()->begin();
+        }
         count++;
     }
     count += endDraw(p_objectPicking, p_camera);
@@ -188,6 +254,12 @@ std::vector<NodeProperty> SplineNode::getProperties() const
 
 void SplineNode::setProperty(const std::string& p_name, std::any p_value)
 {
+
+    if (p_name == "Thickness") {
+        m_strokeWidth = std::any_cast<float>(p_value);
+        m_dirty = true;
+    }
+
     if (p_name == "Display all" || 
         p_name == "Hide all") {
         setDisplayNodeOnControlPoints(std::any_cast<bool>(p_value));
@@ -226,3 +298,11 @@ void SplineNode::setDisplayNodeOnControlPoints(bool p_value)
         controlPoint->displayNode(p_value);
     }
 }
+
+/**
+ * Get bounding box
+ */
+ofVec3f SplineNode::getBoundingBox() const {
+    return m_boundingBox;
+}
+

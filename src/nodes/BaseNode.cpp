@@ -29,7 +29,7 @@ BaseNode::BaseNode(const std::string& p_name) : m_name(p_name) {
 	m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 1.0, 0.0));
 	m_materialUnlit.setAmbientColor(ofFloatColor(0.0, 0.0, 0.0));
 	m_materialUnlit.setDiffuseColor(ofFloatColor(0.0));
-	m_materialNode.setSpecularColor(ofColor(255, 255, 255));  // Highlights
+	m_materialNode.setSpecularColor(ofColor(0, 0, 0));  // Highlights
 
 }
 

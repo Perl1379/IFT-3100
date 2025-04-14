@@ -146,7 +146,6 @@ void TerrainNode::loadTerrain() {
         maxBound.z = std::max(maxBound.z, v.z);
     }
 
-    // Compute center
     m_boundingBox = (maxBound - minBound);
 }
 
@@ -163,15 +162,6 @@ int TerrainNode::draw(bool p_objectPicking, Camera* p_camera) {
         m_transform.transformGL();
 
         m_meshTerrain.drawFaces();
-        //
-        // ofSetColor(255,255,0);
-        // for (int i = 0; i < m_meshTerrain.getNumVertices(); ++i) {
-        //      glm::vec3 p = m_meshTerrain.getVertex(i);
-        //      glm::vec3 n = m_meshTerrain.getNormal(i);
-        //
-        //      ofDrawLine(p, p + n * 20.0f); // visualize normals
-        //  }
-
 
         m_transform.restoreTransformGL();
         count++;
