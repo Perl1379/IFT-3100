@@ -299,7 +299,7 @@ void LevelPersistence::loadFromFile(const std::string &filename) {
         loadNode(node, Global::m_level.getTree()->getChildren().at(0));
     }
 
-    if (Global::m_selectedNode != -1) {
+    if (Global::m_selectedNode >= 2) {
         BaseNode* node = Global::m_level.getTree()->findNode(Global::m_selectedNode);
         if (node != nullptr) {
             node->displayBoundingBox(true);

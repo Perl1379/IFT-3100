@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<Level skyboxName="blink" selectedNode="0">
+<Level skyboxName="blink" selectedNode="21">
 	<Cameras>
-		<Camera position="-1877.2, 2721.5, 2855.36" orientation="-43.6234, -25.9171, -0.0120848" orthoMode="0" orthoZoom="3.1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
+		<Camera position="-123.742, 893.516, 1284.95" orientation="-51.6271, -8.51705, -0.0109995" orthoMode="0" orthoZoom="3.1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
 		<Camera position="0, 3000, 0" orientation="-74.9999, 1.8, -4.1642e-06" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
 		<Camera position="899.998, 1581.31, 1921.38" orientation="-27.6616, 18.2076, -2.66563" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
 	</Cameras>
@@ -172,7 +172,7 @@
 					<Property name="Display" type="6" value="1" />
 					<Property name="Transform" type="5" />
 					<Property name="Position" type="1" value="3.89032e-05, 1045, 0" />
-					<Property name="Orientation" type="1" value="0, -0, -180" />
+					<Property name="Orientation" type="1" value="0, -0, 180" />
 					<Property name="Scale" type="1" value="10, 7, 10" />
 					<Property name="Material" type="5" />
 					<Property name="Diffuse Color" type="2" value="0.08, 0.28, 0.2, 1" />
@@ -246,7 +246,7 @@
 				<Property name="Material" type="5" />
 				<Property name="Diffuse Color" type="2" value="0, 0, 1, 1" />
 				<Property name="Ambient Color" type="2" value="0.2, 0.2, 0.2, 1" />
-				<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
+				<Property name="Emissive Color" type="2" value="0, 0.537255, 0, 1" />
 				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 				<Property name="Shininess" type="3" value="100" />
 				<Property name="Spline parameters" type="5" />

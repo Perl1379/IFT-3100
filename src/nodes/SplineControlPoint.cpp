@@ -14,6 +14,9 @@ SplineControlPoint::SplineControlPoint(const std::string& p_name, const glm::vec
 {
 	m_displayNode = false;
 	setPosition(p_pos);
+	m_transformScale = false;
+	m_transformRotation = false;
+	m_axisTransformY = false;
 }
 
 SplineControlPoint::~SplineControlPoint() 

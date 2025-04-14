@@ -519,7 +519,7 @@ void MainWindow::mouseDragged(int x, int y, int button) {
 	}
 
 	if (m_isRightMousePressed && button == OF_MOUSE_BUTTON_RIGHT) {
-		if (Global::m_selectedNode != -1) {
+		if (Global::m_selectedNode >= 2) {
 			auto mx = static_cast<float>(x);
 			auto my = static_cast<float>(y);
 

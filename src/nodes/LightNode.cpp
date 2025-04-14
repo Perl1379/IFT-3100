@@ -72,11 +72,12 @@ int LightNode::draw(bool p_objectPicking, Camera *p_camera) {
         break;
     }
 
+
+    m_transform.restoreTransformGL();
+
     if (p_camera->getLightModel() != OPENGL_LIGHTS) {
         p_camera->getLightShader()->begin();
     }
-
-    m_transform.restoreTransformGL();
 
     return 1;
 
