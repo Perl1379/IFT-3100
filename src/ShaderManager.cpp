@@ -48,6 +48,14 @@ bool ShaderManager::setup() {
         return false;
     }
 
+    if (!loadShader("lightmodel_pbr", "shaders/lightmodels/pbr.vert", "shaders/lightmodels/pbr.frag")) {
+        return false;
+    }
+
+
+    if (!loadShader("lightmodel_nonrealistic", "shaders/lightmodels/non_realistic.vert", "shaders/lightmodels/non_realistic.frag")) {
+        return false;
+    }
 
     return true;
 }
