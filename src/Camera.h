@@ -23,7 +23,9 @@ enum OCCLUSION_MODE {
 enum TONEMAP_TYPE {
 	NO_TONEMAP = 0,
 	GRAYSCALE = 1,
-	SEPIA = 2
+	SEPIA = 2,
+	REINHARD = 3,
+	ACES = 4
 };
 
 

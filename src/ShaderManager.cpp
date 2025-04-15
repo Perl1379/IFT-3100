@@ -34,6 +34,14 @@ bool ShaderManager::setup() {
         return false;
     }
 
+    if (!loadShader("tonemap_reinhard", "shaders/tonemap/tonemap_reinhard.vert", "shaders/tonemap/tonemap_reinhard.frag")) {
+        return false;
+    }
+
+    if (!loadShader("tonemap_aces", "shaders/tonemap/tonemap_aces.vert", "shaders/tonemap/tonemap_aces.frag")) {
+        return false;
+    }
+
     // Light models
     if (!loadShader("lightmodel_lambert", "shaders/lightmodels/lambert.vert", "shaders/lightmodels/lambert.frag")) {
         return false;
@@ -51,7 +59,6 @@ bool ShaderManager::setup() {
     if (!loadShader("lightmodel_pbr", "shaders/lightmodels/pbr.vert", "shaders/lightmodels/pbr.frag")) {
         return false;
     }
-
 
     if (!loadShader("lightmodel_nonrealistic", "shaders/lightmodels/non_realistic.vert", "shaders/lightmodels/non_realistic.frag")) {
         return false;
