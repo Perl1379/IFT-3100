@@ -214,6 +214,7 @@ void TextureInfo::setPropertyValue(std::string p_value) {
     setMinMaxFilters(minFilter, maxFilter);
 
     if (first[0] == "filename") {
+
         loadTexture(TEXTURE_FILE, first[1]);
     } else if (first[0] == "procgen") {
         loadTexture(TEXTURE_PROCGEN, first[1]);

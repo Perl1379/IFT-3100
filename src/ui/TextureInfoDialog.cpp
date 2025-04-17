@@ -147,8 +147,12 @@ void TextureInfoDialog::draw() {
 
 			ofFileDialogResult result = ofSystemLoadDialog("Select a texture file", false, "images/textures/");
 			if (result.bSuccess) {
-				string path = result.getPath();
-				m_textureInfo.loadTexture(TEXTURE_FILE, path);
+				std::filesystem::path selectedPath(result.getPath());
+				std::filesystem::path basePath(ofToDataPath("", true)); // absolute path to bin/data
+
+				std::filesystem::path relative = std::filesystem::relative(selectedPath, basePath);
+
+				m_textureInfo.loadTexture(TEXTURE_FILE, "data/" + relative.string());
 			}
 		}
 
