@@ -145,14 +145,21 @@ void TextureInfoDialog::draw() {
 
 		if (ImGui::Button("Load file")) {
 
+#ifdef TARGET_WIN32
+			ofFileDialogResult result = ofSystemLoadDialog("Select a texture file", false, "images\\textures\\");
+#else
 			ofFileDialogResult result = ofSystemLoadDialog("Select a texture file", false, "images/textures/");
+#endif
+
 			if (result.bSuccess) {
 				std::filesystem::path selectedPath(result.getPath());
 				std::filesystem::path basePath(ofToDataPath("", true)); // absolute path to bin/data
 
 				std::filesystem::path relative = std::filesystem::relative(selectedPath, basePath);
 
-				m_textureInfo.loadTexture(TEXTURE_FILE, "data/" + relative.string());
+				std::string full_path = "data/" + relative.string();
+				std::replace(full_path.begin(), full_path.end(), '\\', '/');
+				m_textureInfo.loadTexture(TEXTURE_FILE, full_path);
 			}
 		}
 

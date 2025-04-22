@@ -403,7 +403,8 @@ void LevelPersistence::loadNode(ofXml &xml, BaseNode *parent) {
 
             case PROPERTY_TYPE::TEXTURE2D:
             {
-                node->setProperty(propertyName, property.getAttribute("value").getValue());
+                auto value = property.getAttribute("value").getValue();
+                node->setProperty(propertyName, value);
             }
             break;
 
