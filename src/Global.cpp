@@ -3,7 +3,7 @@
  * by Team 12
  *****************************************************
  *
- * Global class definition
+ * Global class implementation
  *
  *****************************************************/
 #include "Global.h"
@@ -31,6 +31,7 @@ ofFloatColor Global::m_ambientLightColor = ofFloatColor(0.0, 0.0, 0.0);
 bool Global::m_doColorPicking = true;
 ShaderManager Global::m_shaders;
 int Global::id_next = 1;
+MaterialPreset Global::m_materialPreset;
 
 
 /**
@@ -43,6 +44,9 @@ void Global::setup() {
 		ofLogError() << "Shader setup failed";
 		return;
 	}
+
+	//Material presets
+	m_materialPreset.init();
 
 	//Load models (characters and assets)
 	m_modelManager.init();

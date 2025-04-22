@@ -52,5 +52,9 @@ struct TooltipMessages {
 	const char* level_delete = "Delete the selected node. \nThere will be a prompt to confirm.";
 	const char* level_up = "Move the node up in the list.";
 	const char* level_down = "Move the node down in the list.";
+
+	// Material, Shaders
+	const char* material_preset = "List of material presets (values and textures).";
+	const char* material_applyPreset = "Apply the selected preset values to the material properties.\nBeware that this will override custom values.";
 };
 

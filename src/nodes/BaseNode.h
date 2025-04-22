@@ -35,6 +35,7 @@ protected:
     bool m_axisTransformY = true;
     bool m_axisTransformZ = true;
 
+    int m_selectedMaterialPreset = 0;
 
     ofMaterial m_materialNode;
     ofMaterial m_materialUnlit;
@@ -88,6 +89,7 @@ public:
 
     virtual std::vector<NodeProperty> getProperties() const;
     virtual void setProperty(const std::string &p_name, std::any p_value);
+    virtual void applyPreset(int p_index);
 
     BaseNode* findNode(int p_id);
     BaseNode* getPreviousNode();

@@ -20,6 +20,7 @@
 #include "CursorManager.h"
 #include "ModelManager.h"
 #include "LightSource.h"
+#include "MaterialPreset.h"
 
 class Global {
 
@@ -51,6 +52,7 @@ public:
 	static ModelManager m_modelManager;
 	static TooltipMessages m_tooltipMessages;
 	static ShaderManager m_shaders;
+	static MaterialPreset m_materialPreset;
 
 };
 

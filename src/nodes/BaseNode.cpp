@@ -12,6 +12,7 @@
 #include <of3dGraphics.h>
 #include <ofGraphics.h>
 #include <PerlinNoiseTexture.h>
+#include "MaterialPreset.h"
 
 
 /**
@@ -143,6 +144,8 @@ std::vector<NodeProperty> BaseNode::getProperties() const {
 		properties.emplace_back("Main Texture", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureAlbedo);
 		properties.emplace_back("Normal Texture", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureNormal);
 
+		properties.emplace_back("Presets", PROPERTY_TYPE::ITEM_CLIST, std::make_pair(m_selectedMaterialPreset, Global::m_materialPreset.getPresetList()), Global::m_tooltipMessages.material_preset);
+		properties.emplace_back("Apply preset", PROPERTY_TYPE::DUMB_BUTTON, false, Global::m_tooltipMessages.material_applyPreset);
 	}
 
 	return properties;
@@ -179,44 +182,94 @@ void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 		return;
 	}
 
-	if (p_name == "Diffuse Color") {
-		ofFloatColor d = std::any_cast<ofFloatColor>(p_value);
-		m_materialNode.setDiffuseColor(d);
-		return;
+	if (m_useMaterial) {
+		if (p_name == "Diffuse Color") {
+			ofFloatColor d = std::any_cast<ofFloatColor>(p_value);
+			m_materialNode.setDiffuseColor(d);
+			return;
+		}
+
+		if (p_name == "Ambient Color") {
+			m_materialNode.setAmbientColor(std::any_cast<ofFloatColor>(p_value));
+			return;
+		}
+
+		if (p_name == "Emissive Color") {
+			m_materialNode.setEmissiveColor(std::any_cast<ofFloatColor>(p_value));
+			return;
+		}
+
+		if (p_name == "Specular Color") {
+			m_materialNode.setSpecularColor(std::any_cast<ofFloatColor>(p_value));
+			return;
+		}
+
+		if (p_name == "Shininess") {
+			m_materialNode.setShininess(std::any_cast<float>(p_value));
+		}
+
+		if (p_name == "Metallicity") {
+			m_materialNode.setMetallic(std::any_cast<float>(p_value));
+		}
+
+		if (p_name == "Main Texture") {
+			m_textureAlbedo.setPropertyValue(std::any_cast<std::string>(p_value));
+		}
+
+		if (p_name == "Normal Texture") {
+			m_textureNormal.setPropertyValue(std::any_cast<std::string>(p_value));
+		}
+
+		if (p_name == "Presets") {
+			m_selectedMaterialPreset = std::any_cast<int>(p_value);
+		}
+
+		if (p_name == "Apply preset") {
+			applyPreset(m_selectedMaterialPreset);
+		}
 	}
 
-	if (p_name == "Ambient Color") {
-		m_materialNode.setAmbientColor(std::any_cast<ofFloatColor>(p_value));
-		return;
+
+}
+
+
+/**
+* Apply the selected preset values to the material
+*/
+void BaseNode::applyPreset(int p_index)
+{
+	ofLog() << "TODO: Apply preset";
+
+	//Textures
+	const MaterialPBR & mat = Global::m_materialPreset.getMaterial(p_index);
+	for (size_t i = 0; i < mat.m_textures.size(); i++) {
+		if (!mat.m_textures[i].isAllocated()) {
+			switch (i)
+			{
+			case 0: //ao
+				
+				break;
+			case 1: //arm (Albedo Rougness Metallic)
+				
+				break;
+			case 2: //diff
+				
+				break;
+			case 3: //disp
+				
+				break;
+			case 4: //nor
+				
+				break;
+			case 5: //rough
+
+				break;
+			case 6: //spec
+				
+				break;
+			}
+		}
 	}
-
-	if (p_name == "Emissive Color") {
-		m_materialNode.setEmissiveColor(std::any_cast<ofFloatColor>(p_value));
-		return;
-	}
-
-	if (p_name == "Specular Color") {
-		m_materialNode.setSpecularColor(std::any_cast<ofFloatColor>(p_value));
-		return;
-	}
-
-	if (p_name == "Shininess") {
-		m_materialNode.setShininess(std::any_cast<float>(p_value));
-	}
-
-	if (p_name == "Metallicity") {
-		m_materialNode.setMetallic(std::any_cast<float>(p_value));
-	}
-
-	if (p_name == "Main Texture") {
-		m_textureAlbedo.setPropertyValue(std::any_cast<std::string>(p_value));
-	}
-
-	if (p_name == "Normal Texture") {
-		m_textureNormal.setPropertyValue(std::any_cast<std::string>(p_value));
-	}
-
-
 }
 
 
