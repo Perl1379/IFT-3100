@@ -1358,7 +1358,10 @@ void UserInterface::onNewLevel() {
  * Callback function : load level
  */
 void UserInterface::onLoadLevel() {
-    ofFileDialogResult result = ofSystemLoadDialog("Select level file to load", false, "levels/");
+
+
+
+    ofFileDialogResult result = ofSystemLoadDialog("Select level file to load", false, "levels");
 
     if (result.bSuccess) {
         LevelPersistence lp;
@@ -1371,7 +1374,13 @@ void UserInterface::onLoadLevel() {
  * Callback function : Save level
  */
 void UserInterface::onSaveLevel() {
+    
+#ifdef TARGET_WIN32    
+    ofFileDialogResult result = ofSystemSaveDialog("", "Select file to save level");
+#else
     ofFileDialogResult result = ofSystemSaveDialog("levels/NewLevel.xml", "Select file to save level");
+#endif
+
     if (result.bSuccess) {
         LevelPersistence lp;
         lp.saveToFile(result.getPath());

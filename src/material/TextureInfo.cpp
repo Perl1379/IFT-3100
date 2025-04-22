@@ -58,6 +58,11 @@ bool TextureInfo::loadTexture(TEXTURE_TYPE p_type, const std::any& p_parameters)
         {
             ofImage image;
             auto filename = std::any_cast<std::string>(p_parameters);
+            
+#ifdef TARGET_WIN32
+            std::replace(filename.begin(), filename.end(), '/', '\\');
+#endif
+            
             image.load(filename);
             m_texture.allocate(image);
             m_textureParameters = filename;
