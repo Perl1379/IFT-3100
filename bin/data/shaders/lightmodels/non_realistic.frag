@@ -3,8 +3,6 @@
 in vec3 surface_position;
 in vec3 surface_normal;
 in vec2 surface_texcoord;
-in vec3 normal_tangent;
-in vec3 normal_bitangent;
 
 out vec4 fragment_color;
 
@@ -41,12 +39,22 @@ void main()
         float dist = length(light_position[i] - surface_position);
         float attenuation = 1.0 / (0.1 + light_attenuation[i] * dist);
 
-        float reflection_diffuse = max(dot(surface_normal, l), 0.0);
+        float reflection_diffuse = max(dot(normalize(surface_normal), l), 0.0);
+
+        float toonLevel;
+        if (reflection_diffuse > 0.95)
+            toonLevel = 1.0;
+        else if (reflection_diffuse > 0.5)
+            toonLevel = 0.7;
+        else if (reflection_diffuse > 0.2)
+            toonLevel = 0.4;
+        else
+            toonLevel = 0.1;
 
         vec3 ambient = light_color_ambient[i] * color_ambient;
-        vec3 diffuse = light_color_diffuse[i] * color_diffuse * reflection_diffuse;
+        vec3 diffuse = light_color_diffuse[i] * color_diffuse * toonLevel;
         final_ambient += ambient;
-        final_diffuse += diffuse * reflection_diffuse * attenuation;
+        final_diffuse += diffuse * toonLevel * attenuation;
     }
 
     vec3 final_color = (final_ambient + final_diffuse + global_ambient_color) * texColor.rgb;

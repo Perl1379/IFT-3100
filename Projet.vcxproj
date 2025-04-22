@@ -113,6 +113,7 @@
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\ShaderManager.cpp" />
     <ClCompile Include="src\Skybox.cpp" />
+    <ClCompile Include="src\TextureInfo.cpp" />
     <ClCompile Include="src\actions\ActionManager.cpp" />
     <ClCompile Include="src\actions\EditorAction.cpp" />
     <ClCompile Include="src\colors\Color.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="src\ui\HistogramDialog.cpp" />
     <ClCompile Include="src\ui\ModalDialog.cpp" />
     <ClCompile Include="src\ui\NewLevelDialog.cpp" />
+    <ClCompile Include="src\ui\TextureInfoDialog.cpp" />
     <ClCompile Include="src\ui\TransformTools.cpp" />
     <ClCompile Include="src\ui\UserInterface.cpp" />
     <ClCompile Include="src\ui\Vector3Dialog.cpp" />
@@ -191,6 +193,7 @@
     <ClInclude Include="src\MainWindow.h" />
     <ClInclude Include="src\ShaderManager.h" />
     <ClInclude Include="src\Skybox.h" />
+    <ClInclude Include="src\TextureInfo.h" />
     <ClInclude Include="src\actions\ActionManager.h" />
     <ClInclude Include="src\actions\EditorAction.h" />
     <ClInclude Include="src\colors\Color.h" />
@@ -229,6 +232,7 @@
     <ClInclude Include="src\ui\HistogramDialog.h" />
     <ClInclude Include="src\ui\ModalDialog.h" />
     <ClInclude Include="src\ui\NewLevelDialog.h" />
+    <ClInclude Include="src\ui\TextureInfoDialog.h" />
     <ClInclude Include="src\ui\TooltipMessages.hpp" />
     <ClInclude Include="src\ui\TransformTools.h" />
     <ClInclude Include="src\ui\UserInterface.h" />

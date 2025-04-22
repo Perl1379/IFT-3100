@@ -28,6 +28,9 @@
     <ClCompile Include="src\Skybox.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\TextureInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\actions\ActionManager.cpp">
       <Filter>src\actions</Filter>
     </ClCompile>
@@ -142,6 +145,9 @@
     <ClCompile Include="src\ui\NewLevelDialog.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\ui\TextureInfoDialog.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
     <ClCompile Include="src\ui\TransformTools.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
@@ -235,70 +241,70 @@
       <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\actions">
-      <UniqueIdentifier>{FD885946--862-9-44-AD-B-67B-0BB71D14744C}</UniqueIdentifier>
+      <UniqueIdentifier>{0D0C17ED--B21-4-4D-97-B-16F-DAFFF947B633}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\colors">
-      <UniqueIdentifier>{CB78B61F--EC7-0-40-46-8-C36-5470D05F350F}</UniqueIdentifier>
+      <UniqueIdentifier>{46003621--5CA-D-46-32-9-BFF-FCE894A3FC0C}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\nodes">
-      <UniqueIdentifier>{A32BEEB9--561-E-4F-57-9-2FB-0B97A4A167BE}</UniqueIdentifier>
+      <UniqueIdentifier>{50966B6C--9F8-0-4A-B9-B-830-319A2FF42453}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\openFrameworks">
-      <UniqueIdentifier>{FE69A997--326-7-43-C3-9-7AE-097439AB44F7}</UniqueIdentifier>
+      <UniqueIdentifier>{E4CEEA5E--04A-F-41-48-9-796-3702BFBFC564}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\ui">
-      <UniqueIdentifier>{501E902F--970-E-4E-97-8-4C9-B16BCB84EBBA}</UniqueIdentifier>
+      <UniqueIdentifier>{1AEAD059--A90-F-45-87-A-A77-41D534C1097A}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons">
-      <UniqueIdentifier>{316E382B--E7B-4-4B-A8-B-A15-77BA4EDDB344}</UniqueIdentifier>
+      <UniqueIdentifier>{862C9325--F06-2-49-46-A-0F7-86E84045DC70}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader">
-      <UniqueIdentifier>{155A1CD2--700-B-48-B1-8-B5F-A65999329FEF}</UniqueIdentifier>
+      <UniqueIdentifier>{E6626DAF--19A-A-48-8F-A-659-EFC58356721B}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\src">
-      <UniqueIdentifier>{72E1DBA8--B89-1-47-96-9-B6E-6EAD7CA28294}</UniqueIdentifier>
+      <UniqueIdentifier>{88D8618B--DDF-5-49-ED-9-C09-EEB4695FB637}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs">
-      <UniqueIdentifier>{35C3CE6C--785-B-4C-12-B-C0C-51842CB293EE}</UniqueIdentifier>
+      <UniqueIdentifier>{491729F6--FBB-4-4C-7C-B-125-10B7616E1109}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp">
-      <UniqueIdentifier>{BC6009D0--99E-5-4E-DE-B-34E-955E73114080}</UniqueIdentifier>
+      <UniqueIdentifier>{1BF8AE09--784-E-4A-C4-A-05E-ED07FFE79BBD}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include">
-      <UniqueIdentifier>{BC156712--E7D-E-49-55-8-343-DC49979503F9}</UniqueIdentifier>
+      <UniqueIdentifier>{4A592800--2D5-D-46-B4-B-3D8-94A8963AC35B}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp">
-      <UniqueIdentifier>{424210EB--6D2-2-4F-1C-A-7A8-2E7BEA15FDCC}</UniqueIdentifier>
+      <UniqueIdentifier>{78302B94--0E0-F-41-3F-A-BFE-36F5DB8C504C}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\Compiler">
-      <UniqueIdentifier>{5D499ED7--CCE-3-43-29-9-B9A-2254F6164322}</UniqueIdentifier>
+      <UniqueIdentifier>{6709938D--C0B-7-43-05-8-04E-1AEDF4D12F3E}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port">
-      <UniqueIdentifier>{5A8C7814--F21-D-48-77-8-F7F-6B3F9CBB1458}</UniqueIdentifier>
+      <UniqueIdentifier>{FAE35E04--9FF-5-4E-7D-A-89E-8F41F0D4E057}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port\AndroidJNI">
-      <UniqueIdentifier>{95A8D462--4DD-7-42-D4-9-F78-ECD5EF9498F7}</UniqueIdentifier>
+      <UniqueIdentifier>{BE2C2E8C--A2A-5-4B-BC-9-7AE-670ADD3D4436}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxGui">
-      <UniqueIdentifier>{A6BC396B--EC0-1-4B-6D-B-A29-27E5E5416CA8}</UniqueIdentifier>
+      <UniqueIdentifier>{13C854B8--31D-5-43-B0-8-A41-0E5796F16C49}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxGui\src">
-      <UniqueIdentifier>{959EE102--32E-6-4F-65-9-C9B-06A4A4D63B58}</UniqueIdentifier>
+      <UniqueIdentifier>{7ED5AC25--66D-5-4E-87-A-F7E-DC2192548542}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxImGui">
-      <UniqueIdentifier>{50199B58--C31-F-41-13-A-177-D18730F81040}</UniqueIdentifier>
+      <UniqueIdentifier>{49B849DB--97E-A-4F-96-A-EC9-BEA06F9BA592}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxImGui\src">
-      <UniqueIdentifier>{19077034--F1C-F-47-EE-B-BB0-87F648A319C3}</UniqueIdentifier>
+      <UniqueIdentifier>{6428A611--951-9-48-65-8-581-CEE9111D3D28}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxImGui\libs">
-      <UniqueIdentifier>{1671E49C--24B-2-44-3A-B-224-8D32EEA97100}</UniqueIdentifier>
+      <UniqueIdentifier>{27D8DE3E--744-D-4B-73-9-7BF-DFA0CADFC75C}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxImGui\libs\imgui">
-      <UniqueIdentifier>{49654A94--023-C-4C-54-B-382-19825D34FEAB}</UniqueIdentifier>
+      <UniqueIdentifier>{DB49574F--0E2-1-46-39-9-D05-9FA043D1FD09}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxImGui\libs\imgui\src">
-      <UniqueIdentifier>{13DF9B9E--A85-6-4F-2E-9-3CF-F6CFE4B6D020}</UniqueIdentifier>
+      <UniqueIdentifier>{325E279B--1A4-2-47-F9-8-DBB-6DF1D1197654}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -327,6 +333,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Skybox.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureInfo.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\actions\ActionManager.h">
@@ -441,6 +450,9 @@
       <Filter>src\ui</Filter>
     </ClInclude>
     <ClInclude Include="src\ui\NewLevelDialog.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\TextureInfoDialog.h">
       <Filter>src\ui</Filter>
     </ClInclude>
     <ClInclude Include="src\ui\TooltipMessages.hpp">
