@@ -93,6 +93,8 @@ void MainWindow::cameraDraw(int index) {
 		glm::vec3 lightDiffuseColors[8];
 		glm::vec3 lightSpecularColors[8];
 
+		ofMatrix4x4 modelView = ofGetCurrentMatrix(OF_MATRIX_MODELVIEW);
+
 		// Pass light information
 		int count = 0;
 		for (int i = 0; i < 8; i++) {
@@ -102,7 +104,7 @@ void MainWindow::cameraDraw(int index) {
 		 	}
 
 		 	lightTypes[i] = light->getLightType();
-		 	lightPositions[i] = light->getPosition();
+		 	lightPositions[i] = light->getPosition() * modelView;
 		 	lightOrientations[i] = light->getOrientation();
 		 	lightAttenuations[i] = light->getAttenuation();
 
@@ -124,7 +126,6 @@ void MainWindow::cameraDraw(int index) {
 		m_shaderLight->setUniform3fv("light_color_ambient", (GLfloat*)&lightAmbientColors[0], 8);
 		m_shaderLight->setUniform3fv("light_color_diffuse", (GLfloat*)&lightDiffuseColors[0], 8);
 		m_shaderLight->setUniform3fv("light_color_specular", (GLfloat*)&lightSpecularColors[0], 8);
-
 
 		m_shaderLight->setUniform1i("light_sources", count);
 		m_shaderLight->setUniform3f("global_ambient_color", Global::m_ambientLightColor.r, Global::m_ambientLightColor.g, Global::m_ambientLightColor.b);

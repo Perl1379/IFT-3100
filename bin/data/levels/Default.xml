@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<Level skyboxName="lightsky" selectedNode="29">
+<Level skyboxName="lightsky" selectedNode="2">
 	<Cameras>
-		<Camera position="1938.5, 2348.24, 2441.89" orientation="-31.2403, 44.799, -8.18179e-05" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="1" tonemapUniforms="" />
-		<Camera position="0, 3000, 0" orientation="-85.0001, 1.2, 4.80353e-07" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="0" tonemapUniforms="" />
-		<Camera position="2400, 300, 200" orientation="0, 89.9802, 0" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
+		<Camera position="-317.957, 1043.56, 98.0805" orientation="-102.016, 2.37858, 12.7917" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
+		<Camera position="122.612, 582.535, 192.623" orientation="116.753, 40.871, -180" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
+		<Camera position="480.001, 182.608, -70.5198" orientation="167.471, 86.8402, 180" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
 	</Cameras>
 	<Lights ambientColor="0, 0, 0, 1">
-		<LightSource type="1" enabled="1" position="220, 2090, 1770" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0001" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="1" position="-470, 230, 60" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0007" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="-1240, 310, 655" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0002" ambientColor="0, 0, 0, 1" diffuseColor="1, 0, 0, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, 600, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, 400, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
@@ -16,259 +16,63 @@
 		<LightSource type="1" enabled="0" position="0, -400, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 	</Lights>
 	<Nodes>
-		<Node class="GroupNode" expanded="1">
+		<Node class="BoxNode" expanded="1">
 			<Properties>
-				<Property name="Name" type="0" value="Adventurers" />
+				<Property name="Name" type="0" value="Box" />
 				<Property name="Display" type="6" value="1" />
 				<Property name="Transform" type="5" />
-				<Property name="Position" type="1" value="0, 0, 0" />
-				<Property name="Orientation" type="1" value="0, -0, 0" />
-				<Property name="Scale" type="1" value="1, 1, 1" />
-			</Properties>
-			<Node class="CharacterNode" expanded="1">
-				<Properties>
-					<Property name="Name" type="0" value="Rogue" />
-					<Property name="Display" type="6" value="1" />
-					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="0, 0, 0" />
-					<Property name="Orientation" type="1" value="0, -0, 0" />
-					<Property name="Scale" type="1" value="1, 1, 1" />
-					<Property name="Model parameters" type="5" />
-					<Property name="Model" type="9" value="5" />
-					<Property name="Texture" type="9" value="2" />
-					<Property name="Animation" type="5" />
-					<Property name="Play" type="6" value="1" />
-					<Property name="Animation" type="8" value="6" />
-					<Property name="Show all" type="6" value="0" />
-				</Properties>
-			</Node>
-			<Node class="CharacterNode" expanded="1">
-				<Properties>
-					<Property name="Name" type="0" value="Barbarian" />
-					<Property name="Display" type="6" value="1" />
-					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="-600, 0, 75" />
-					<Property name="Orientation" type="1" value="0, 25, 0" />
-					<Property name="Scale" type="1" value="1, 1, 1" />
-					<Property name="Model parameters" type="5" />
-					<Property name="Model" type="9" value="0" />
-					<Property name="Texture" type="9" value="1" />
-					<Property name="Animation" type="5" />
-					<Property name="Play" type="6" value="1" />
-					<Property name="Animation" type="8" value="2" />
-					<Property name="Show all" type="6" value="0" />
-				</Properties>
-			</Node>
-			<Node class="CharacterNode" expanded="1">
-				<Properties>
-					<Property name="Name" type="0" value="Mage" />
-					<Property name="Display" type="6" value="1" />
-					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="-1200, 0, 200" />
-					<Property name="Orientation" type="1" value="0, 45, 0" />
-					<Property name="Scale" type="1" value="1, 1, 1" />
-					<Property name="Model parameters" type="5" />
-					<Property name="Model" type="9" value="4" />
-					<Property name="Texture" type="9" value="3" />
-					<Property name="Animation" type="5" />
-					<Property name="Play" type="6" value="1" />
-					<Property name="Animation" type="8" value="7" />
-					<Property name="Show all" type="6" value="0" />
-				</Properties>
-			</Node>
-			<Node class="CharacterNode" expanded="1">
-				<Properties>
-					<Property name="Name" type="0" value="Engineer" />
-					<Property name="Display" type="6" value="1" />
-					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="600, 0, 75" />
-					<Property name="Orientation" type="1" value="0, -25, 0" />
-					<Property name="Scale" type="1" value="1, 1, 1" />
-					<Property name="Model parameters" type="5" />
-					<Property name="Model" type="9" value="2" />
-					<Property name="Texture" type="9" value="1" />
-					<Property name="Animation" type="5" />
-					<Property name="Play" type="6" value="1" />
-					<Property name="Animation" type="8" value="2" />
-					<Property name="Show all" type="6" value="0" />
-				</Properties>
-			</Node>
-			<Node class="CharacterNode" expanded="1">
-				<Properties>
-					<Property name="Name" type="0" value="Druid" />
-					<Property name="Display" type="6" value="1" />
-					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="1200, 0, 200" />
-					<Property name="Orientation" type="1" value="0, -45, 0" />
-					<Property name="Scale" type="1" value="1, 1, 1" />
-					<Property name="Model parameters" type="5" />
-					<Property name="Model" type="9" value="1" />
-					<Property name="Texture" type="9" value="2" />
-					<Property name="Animation" type="5" />
-					<Property name="Play" type="6" value="1" />
-					<Property name="Animation" type="8" value="0" />
-					<Property name="Show all" type="6" value="0" />
-				</Properties>
-			</Node>
-		</Node>
-		<Node class="SplineNode" expanded="1">
-			<Properties>
-				<Property name="Name" type="0" value="Spline" />
-				<Property name="Display" type="6" value="1" />
-				<Property name="Transform" type="5" />
-				<Property name="Position" type="1" value="0, 50, 800" />
+				<Property name="Position" type="1" value="0, 0, 20" />
 				<Property name="Orientation" type="1" value="0, -0, 0" />
 				<Property name="Scale" type="1" value="1, 1, 1" />
 				<Property name="Material" type="5" />
-				<Property name="Diffuse Color" type="2" value="0.117647, 0.203922, 0.117647, 1" />
-				<Property name="Ambient Color" type="2" value="0.2, 0.2, 0.12549, 1" />
-				<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+				<Property name="Diffuse Color" type="2" value="0.8, 0.8, 0.8, 1" />
+				<Property name="Ambient Color" type="2" value="0.2, 0.2, 0.2, 1" />
+				<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
 				<Property name="Specular Color" type="2" value="0, 0, 0, 1" />
 				<Property name="Shininess" type="3" value="0.2" />
-				<Property name="Spline parameters" type="5" />
-				<Property name="Thickness" type="3" value="100" />
-				<Property name="Points count" type="10" value="" />
-				<Property name="Control points" type="5" />
-				<Property name="Add" type="11" />
-				<Property name="Display all" type="11" />
-				<Property name="Hide all" type="11" />
+				<Property name="Metallicity" type="3" value="0" />
+				<Property name="Texture" type="5" />
+				<Property name="Albedo" type="12" value="filename=data/images/textures/rock_face/rock_face_diff_4k.png;4096.000000;4096.000000;9729;9729;10497;1.000000" />
+				<Property name="Normal" type="12" value="filename=data/images/textures/rock_face/rock_face_nor_gl_4k.png;4096.000000;4096.000000;9729;9729;10497;1.000000" />
+				<Property name="Ambient Occl." type="12" value="color=1.000000,1.000000,1.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
+				<Property name="Roughness" type="12" value="color=0.500000,0.500000,0.500000;1.000000;1.000000;9729;9729;10497;1.000000" />
+				<Property name="Metallic" type="12" value="color=0.000000,0.000000,0.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
+				<Property name="Presets" type="9" value="0" />
+				<Property name="Apply preset" type="11" />
+				<Property name="Box parameters" type="5" />
+				<Property name="Width" type="3" value="100" />
+				<Property name="Height" type="3" value="100" />
+				<Property name="Depth" type="3" value="100" />
+				<Property name="Resolution" type="7" value="2" />
 			</Properties>
-		</Node>
-		<Node class="GroupNode" expanded="1">
-			<Properties>
-				<Property name="Name" type="0" value="Loot" />
-				<Property name="Display" type="6" value="1" />
-				<Property name="Transform" type="5" />
-				<Property name="Position" type="1" value="0, 0, 0" />
-				<Property name="Orientation" type="1" value="0, -0, 0" />
-				<Property name="Scale" type="1" value="1, 1, 1" />
-			</Properties>
-			<Node class="AssetNode" expanded="1">
+			<Node class="SphereNode" expanded="1">
 				<Properties>
-					<Property name="Name" type="0" value="Crate" />
+					<Property name="Name" type="0" value="Sphere" />
 					<Property name="Display" type="6" value="1" />
 					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="-600, 0, -700" />
-					<Property name="Orientation" type="1" value="0, 5, 0" />
-					<Property name="Scale" type="1" value="1, 1, 1" />
-					<Property name="Model parameters" type="5" />
-					<Property name="Model" type="9" value="1" />
-				</Properties>
-			</Node>
-			<Node class="AssetNode" expanded="1">
-				<Properties>
-					<Property name="Name" type="0" value="Large blue potion" />
-					<Property name="Display" type="6" value="1" />
-					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="1100, 425, -700" />
+					<Property name="Position" type="1" value="0, 0, 415" />
 					<Property name="Orientation" type="1" value="0, -0, 0" />
 					<Property name="Scale" type="1" value="1, 1, 1" />
-					<Property name="Model parameters" type="5" />
-					<Property name="Model" type="9" value="17" />
-				</Properties>
-			</Node>
-		</Node>
-		<Node class="GroupNode" expanded="1">
-			<Properties>
-				<Property name="Name" type="0" value="Pine Tree" />
-				<Property name="Display" type="6" value="1" />
-				<Property name="Transform" type="5" />
-				<Property name="Position" type="1" value="300, 300, -1200" />
-				<Property name="Orientation" type="1" value="0, -0, 0" />
-				<Property name="Scale" type="1" value="1, 1, 1" />
-			</Properties>
-			<Node class="CylinderNode" expanded="1">
-				<Properties>
-					<Property name="Name" type="0" value="Trunk" />
-					<Property name="Display" type="6" value="1" />
-					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="0, 0, 0" />
-					<Property name="Orientation" type="1" value="0, -0, 0" />
-					<Property name="Scale" type="1" value="3, 4, 3" />
 					<Property name="Material" type="5" />
-					<Property name="Diffuse Color" type="2" value="0.5, 0.31, 0.07, 1" />
+					<Property name="Diffuse Color" type="2" value="0.8, 0.8, 0.8, 1" />
 					<Property name="Ambient Color" type="2" value="0.2, 0.2, 0.2, 1" />
 					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
-					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
-					<Property name="Shininess" type="3" value="100" />
+					<Property name="Specular Color" type="2" value="0, 0, 0, 1" />
+					<Property name="Shininess" type="3" value="0.2" />
 					<Property name="Metallicity" type="3" value="0" />
-					<Property name="Main Texture" type="12" value="filename=data/images/textures/treebark.png;1024.000000;1024.000000;9729;9729;10497;1.000000" />
-					<Property name="Normal Texture" type="12" value="color=0.501960,0.501960,1.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
-					<Property name="Cylinder parameters" type="5" />
-					<Property name="Radius" type="3" value="50" />
-					<Property name="Height" type="3" value="200" />
-					<Property name="Resolution R" type="7" value="24" />
-					<Property name="Resolution H" type="7" value="3" />
+					<Property name="Texture" type="5" />
+					<Property name="Albedo" type="12" value="filename=data/images/textures/sandstone_cracks/sandstone_cracks_diff_4k.png;4096.000000;4096.000000;9985;9729;10497;1.000000" />
+					<Property name="Normal" type="12" value="filename=data/images/textures/sandstone_cracks/sandstone_cracks_nor_gl_4k.png;4096.000000;4096.000000;9729;9729;10497;1.000000" />
+					<Property name="Ambient Occl." type="12" value="filename=data/images/textures/sandstone_cracks/sandstone_cracks_ao_4k.png;4096.000000;4096.000000;9729;9729;10497;1.000000" />
+					<Property name="Roughness" type="12" value="filename=data/images/textures/sandstone_cracks/sandstone_cracks_arm_4k.png;4096.000000;4096.000000;9729;9729;10497;1.000000" />
+					<Property name="Metallic" type="12" value="filename=data/images/textures/sandstone_cracks/sandstone_cracks_ao_4k.png;4096.000000;4096.000000;9729;9729;10497;1.000000" />
+					<Property name="Presets" type="9" value="0" />
+					<Property name="Apply preset" type="11" />
+					<Property name="Sphere parameters" type="5" />
+					<Property name="Radius" type="3" value="300" />
+					<Property name="Resolution" type="7" value="16" />
 				</Properties>
 			</Node>
-			<Node class="ConeNode" expanded="1">
-				<Properties>
-					<Property name="Name" type="0" value="Foliage" />
-					<Property name="Display" type="6" value="1" />
-					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="0, 600, 0" />
-					<Property name="Orientation" type="1" value="0, -0, -180" />
-					<Property name="Scale" type="1" value="10, 7, 10" />
-					<Property name="Material" type="5" />
-					<Property name="Diffuse Color" type="2" value="0.905882, 0.278431, 0.2, 1" />
-					<Property name="Ambient Color" type="2" value="0.2, 0.2, 0.2, 1" />
-					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
-					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
-					<Property name="Shininess" type="3" value="100" />
-					<Property name="Metallicity" type="3" value="0" />
-					<Property name="Main Texture" type="12" value="filename=images/textures/Ice.jpg;1024.000000;1024.000000;9729;9729;10497;4.000000" />
-					<Property name="Normal Texture" type="12" value="color=0.501960,0.501960,1.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
-					<Property name="Cone parameters" type="5" />
-					<Property name="Radius" type="3" value="50" />
-					<Property name="Height" type="3" value="200" />
-					<Property name="Resolution R" type="7" value="24" />
-					<Property name="Resolution H" type="7" value="3" />
-				</Properties>
-			</Node>
-		</Node>
-		<Node class="TerrainNode" expanded="1">
-			<Properties>
-				<Property name="Name" type="0" value="Terrain" />
-				<Property name="Display" type="6" value="1" />
-				<Property name="Transform" type="5" />
-				<Property name="Position" type="1" value="0, 300, 0" />
-				<Property name="Orientation" type="1" value="0, -0, 0" />
-				<Property name="Scale" type="1" value="2, 1, 2" />
-				<Property name="Material" type="5" />
-				<Property name="Diffuse Color" type="2" value="0.78, 0.53, 0.36, 1" />
-				<Property name="Ambient Color" type="2" value="0.2, 0.2, 0.2, 1" />
-				<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
-				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
-				<Property name="Shininess" type="3" value="100" />
-				<Property name="Metallicity" type="3" value="0" />
-				<Property name="Main Texture" type="12" value="filename=data/images/textures/Ice.jpg;1024.000000;1024.000000;9729;9729;10497;4.000000" />
-				<Property name="Normal Texture" type="12" value="color=0.501960,0.501960,1.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
-				<Property name="Terrain parameters" type="5" />
-				<Property name="TerrainName" type="8" value="4" />
-			</Properties>
-		</Node>
-		<Node class="PlaneNode" expanded="1">
-			<Properties>
-				<Property name="Name" type="0" value="Water" />
-				<Property name="Display" type="6" value="1" />
-				<Property name="Transform" type="5" />
-				<Property name="Position" type="1" value="0, -50, 0" />
-				<Property name="Orientation" type="1" value="-90, 0, 0" />
-				<Property name="Scale" type="1" value="2, 2, 1" />
-				<Property name="Material" type="5" />
-				<Property name="Diffuse Color" type="2" value="0.27, 0.73, 1, 1" />
-				<Property name="Ambient Color" type="2" value="0.2, 0.2, 0.2, 1" />
-				<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
-				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
-				<Property name="Shininess" type="3" value="100" />
-				<Property name="Metallicity" type="3" value="0" />
-				<Property name="Main Texture" type="12" value="filename=data/images/textures/Ice.jpg;1024.000000;1024.000000;9729;9729;10497;4.000000" />
-				<Property name="Normal Texture" type="12" value="color=0.501960,0.501960,1.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
-				<Property name="Plane parameters" type="5" />
-				<Property name="Width" type="3" value="5000" />
-				<Property name="Height" type="3" value="5000" />
-				<Property name="Resolution" type="7" value="6" />
-			</Properties>
 		</Node>
 	</Nodes>
 </Level>

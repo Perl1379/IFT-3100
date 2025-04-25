@@ -17,5 +17,6 @@ void main()
     surface_normal = vec3(normalMatrix * normal);
     surface_position = vec3(modelViewMatrix * position);
     surface_texcoord = texcoord;
+
     gl_Position = projectionMatrix * modelViewMatrix * position;
 }

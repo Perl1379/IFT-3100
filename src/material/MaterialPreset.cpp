@@ -16,24 +16,24 @@
 void MaterialPreset::init()
 {
 	//--- Define material presets here
-	MaterialPBR preset0("Default", ""); // Default / no texture
-	m_presetNames.push_back(preset0.m_displayName.data());
-	m_presetValues.emplace(preset0.m_displayName, preset0);
-
-	MaterialPBR preset1("Grassy coastal ground", "coast_sand_rocks_02");
-	m_presetNames.push_back(preset1.m_displayName.data());
-	m_presetValues.emplace(preset1.m_displayName, preset1);
-	loadTextures(preset1);
-
-	MaterialPBR preset2("Sandstone cracks ground", "sandstone_cracks");
-	m_presetNames.push_back(preset2.m_displayName.data());
-	m_presetValues.emplace(preset2.m_displayName, preset2);
-	loadTextures(preset2);
-
-	MaterialPBR preset3("Rock face", "rock_face");
-	m_presetNames.push_back(preset3.m_displayName.data());
-	m_presetValues.emplace(preset3.m_displayName, preset3);
-	loadTextures(preset3);
+	// MaterialPBR preset0("Default", ""); // Default / no texture
+	// m_presetNames.push_back(preset0.m_displayName.data());
+	// m_presetValues.emplace(preset0.m_displayName, preset0);
+	//
+	// MaterialPBR preset1("Grassy coastal ground", "coast_sand_rocks_02");
+	// m_presetNames.push_back(preset1.m_displayName.data());
+	// m_presetValues.emplace(preset1.m_displayName, preset1);
+	// loadTextures(preset1);
+	//
+	// MaterialPBR preset2("Sandstone cracks ground", "sandstone_cracks");
+	// m_presetNames.push_back(preset2.m_displayName.data());
+	// m_presetValues.emplace(preset2.m_displayName, preset2);
+	// loadTextures(preset2);
+	//
+	// MaterialPBR preset3("Rock face", "rock_face");
+	// m_presetNames.push_back(preset3.m_displayName.data());
+	// m_presetValues.emplace(preset3.m_displayName, preset3);
+	// loadTextures(preset3);
 
 
 

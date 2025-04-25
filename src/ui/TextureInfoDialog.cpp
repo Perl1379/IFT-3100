@@ -202,11 +202,7 @@ void TextureInfoDialog::draw() {
 		if (ImGui::Button("Apply Changes")) {
 
 			std::string new_value = m_textureInfo.getPropertyValue();
-			if (m_title == "Change Main Texture") {
-				Global::m_actions.addAction(m_node, "Main Texture", m_Origvalue, new_value);
-			} else {
-				Global::m_actions.addAction(m_node, "Normal Texture", m_Origvalue, new_value);
-			}
+			Global::m_actions.addAction(m_node, m_title.substr(std::strlen("Change ")), m_Origvalue, new_value);
 
 			ImGui::CloseCurrentPopup();
 			m_isOpen = false;
