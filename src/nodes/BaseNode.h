@@ -42,12 +42,17 @@ protected:
 
     TextureInfo m_textureAlbedo;
     TextureInfo m_textureNormal;
+    TextureInfo m_textureAmbientOcclusion;
+    TextureInfo m_textureRoughness;
+    TextureInfo m_textureMetallic;
+
 
     void beginDraw(bool p_objectPicking, Camera* p_camera);
 
     int endDraw(bool p_objectPicking, Camera* p_camera);
 
     void drawBoundingBox();
+
 
 public:
     virtual ~BaseNode();
@@ -90,6 +95,8 @@ public:
     virtual std::vector<NodeProperty> getProperties() const;
     virtual void setProperty(const std::string &p_name, std::any p_value);
     virtual void applyPreset(int p_index);
+
+    virtual void calculateTangentsAndBitangents();
 
     BaseNode* findNode(int p_id);
     BaseNode* getPreviousNode();

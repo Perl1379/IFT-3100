@@ -8,6 +8,7 @@
  *****************************************************/
 #pragma once
 #include <of3dPrimitives.h>
+#include <ofVbo.h>
 
 #include "BaseNode.h"
 
@@ -17,7 +18,8 @@ class SphereNode : public BaseNode {
 private:
 
 	ofSpherePrimitive m_primitive;
-
+	ofVbo m_vboTangent;
+	ofVbo m_vboBitangent;
 
 public:
 	explicit SphereNode(const std::string& p_name, float p_radius = 100.0f);
@@ -29,4 +31,6 @@ public:
 	std::vector<NodeProperty> getProperties() const override;
 	void setProperty(const std::string &p_name, std::any p_value) override;
 	ofMesh* getMesh() override;
+	void calculateTangentsAndBitangents() override;
+
 };

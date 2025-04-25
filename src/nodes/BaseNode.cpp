@@ -26,6 +26,9 @@ BaseNode::BaseNode(const std::string& p_name) : m_name(p_name) {
 
 	m_textureAlbedo.setup(ofFloatColor(1.0f, 1.0f, 1.0f));
 	m_textureNormal.setup(ofFloatColor(0.50196, 0.50196, 1.0));
+	m_textureAmbientOcclusion.setup(ofFloatColor(1.0, 1.0, 1.0));
+	m_textureRoughness.setup(ofFloatColor(0.5, 0.5, 0.5));
+	m_textureMetallic.setup(ofFloatColor(0, 0, 0.0));
 
 	m_materialUnlit.setEmissiveColor(ofFloatColor(1.0, 1.0, 0.0));
 	m_materialUnlit.setAmbientColor(ofFloatColor(0.0, 0.0, 0.0));
@@ -141,8 +144,13 @@ std::vector<NodeProperty> BaseNode::getProperties() const {
 		properties.emplace_back("Specular Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getSpecularColor());
 		properties.emplace_back("Shininess", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getShininess());
 		properties.emplace_back("Metallicity", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getMetallic());
-		properties.emplace_back("Main Texture", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureAlbedo);
-		properties.emplace_back("Normal Texture", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureNormal);
+
+		properties.emplace_back("Texture", PROPERTY_TYPE::LABEL, nullptr);
+		properties.emplace_back("Albedo", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureAlbedo);
+		properties.emplace_back("Normal", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureNormal);
+		properties.emplace_back("Ambient Occl.", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureAmbientOcclusion);
+		properties.emplace_back("Roughness", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureRoughness);
+		properties.emplace_back("Metallic", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureMetallic);
 
 		properties.emplace_back("Presets", PROPERTY_TYPE::ITEM_CLIST, std::make_pair(m_selectedMaterialPreset, Global::m_materialPreset.getPresetList()), Global::m_tooltipMessages.material_preset);
 		properties.emplace_back("Apply preset", PROPERTY_TYPE::DUMB_BUTTON, false, Global::m_tooltipMessages.material_applyPreset);
@@ -212,12 +220,24 @@ void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 			m_materialNode.setMetallic(std::any_cast<float>(p_value));
 		}
 
-		if (p_name == "Main Texture") {
+		if (p_name == "Albedo") {
 			m_textureAlbedo.setPropertyValue(std::any_cast<std::string>(p_value));
 		}
 
-		if (p_name == "Normal Texture") {
+		if (p_name == "Normal") {
 			m_textureNormal.setPropertyValue(std::any_cast<std::string>(p_value));
+		}
+
+		if (p_name == "Ambient Occl.") {
+			m_textureAmbientOcclusion.setPropertyValue(std::any_cast<std::string>(p_value));
+		}
+
+		if (p_name == "Roughness") {
+			m_textureRoughness.setPropertyValue(std::any_cast<std::string>(p_value));
+		}
+
+		if (p_name == "Metallic") {
+			m_textureMetallic.setPropertyValue(std::any_cast<std::string>(p_value));
 		}
 
 		if (p_name == "Presets") {
@@ -367,8 +387,14 @@ void BaseNode::beginDraw(bool p_objectPicking, Camera* p_camera) {
 			m_shader->setUniform1f("mat_metallic", m_materialNode.getMetallic());
 			m_shader->setUniform1f("texture_albedo_scale", m_textureAlbedo.getTextureScale());
 			m_shader->setUniform1f("texture_normal_scale", m_textureNormal.getTextureScale());
+			m_shader->setUniform1f("texture_ao_scale", m_textureAmbientOcclusion.getTextureScale());
+			m_shader->setUniform1f("texture_roughness_scale", m_textureRoughness.getTextureScale());
+			m_shader->setUniform1f("texture_metallic_scale", m_textureMetallic.getTextureScale());
 			m_textureAlbedo.getTexture()->bind(0);
 			m_textureNormal.getTexture()->bind(1);
+			m_textureAmbientOcclusion.getTexture()->bind(2);
+			m_textureRoughness.getTexture()->bind(3);
+			m_textureMetallic.getTexture()->bind(4);
 
 
 		}
@@ -394,6 +420,9 @@ int BaseNode::endDraw(bool p_objectPicking, Camera* p_camera) {
 		} else {
 			m_textureAlbedo.getTexture()->unbind(0);
 			m_textureNormal.getTexture()->unbind(1);
+			m_textureAmbientOcclusion.getTexture()->unbind(2);
+			m_textureRoughness.getTexture()->unbind(3);
+			m_textureMetallic.getTexture()->unbind(4);
 
 		}
 
@@ -520,4 +549,12 @@ std::tuple<bool, bool, bool> BaseNode::getTransformOperations() {
  */
 std::tuple<bool, bool, bool> BaseNode::getTransformAxes() {
 	return std::make_tuple(m_axisTransformX, m_axisTransformY, m_axisTransformZ);
+}
+
+
+/**
+ * Calculate tangents and bitangents
+ */
+void BaseNode::calculateTangentsAndBitangents() {
+	// Do nothing by default
 }

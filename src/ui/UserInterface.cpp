@@ -1229,9 +1229,36 @@ void UserInterface::drawViewportOverlay(int index, const ImVec2 &position, int a
         ImGui::SetTooltip(Global::m_tooltipMessages.camera_farClip);
     }
 
+    string toneMapStr = "---";
     ImGui::SameLine();
 
-    if (ImGui::Button("Tonemap")) {
+    switch(Global::m_cameras[index].getTonemapType()) {
+
+        case TONEMAP_TYPE::GRAYSCALE:
+        {
+            toneMapStr = "Grayscale";
+        }
+        break;
+        case TONEMAP_TYPE::SEPIA:
+        {
+            toneMapStr = "Sepia";
+        }
+        break;
+        case TONEMAP_TYPE::REINHARD:
+        {
+            toneMapStr = "Reinhard";
+        }
+        break;
+        case TONEMAP_TYPE::ACES:
+        {
+            toneMapStr = "ACES";
+        }
+        break;
+    }
+
+
+    if (ImGui::Button(toneMapStr.c_str(), ImVec2(60, 16))) {
+        Global::m_cameras[index].getTonemapType();
         m_cameraToneMappingDialog.setTitle("Change Camera tone mapping");
         m_cameraToneMappingDialog.useProperty(&Global::m_cameras[index]);
         m_cameraToneMappingDialog.openDialog();
