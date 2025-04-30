@@ -1,96 +1,24 @@
 <?xml version="1.0"?>
-<Level skyboxName="blood" selectedNode="21">
+<Level skyboxName="lightsky" selectedNode="0">
 	<Cameras>
-		<Camera position="37.5282, -1049.04, 831.611" orientation="-15.2608, -7.63316, 5.62005" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
-		<Camera position="-837.291, 2078.48, 1562.25" orientation="-47.172, -42.215, -8.06938e-06" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
-		<Camera position="170.555, 704.626, 63.3468" orientation="-44.5319, 84.9089, -0.00298254" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
+		<Camera position="711.472, -1418.89, 922.717" orientation="-26.7872, 13.637, 0.220418" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
+		<Camera position="-165.055, 979.491, 821.267" orientation="-47.172, -42.215, -2.42081e-05" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
+		<Camera position="1474.34, -126.43, 138.324" orientation="-56.9317, 84.1067, -0.00279495" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
 	</Cameras>
 	<Lights ambientColor="0, 0, 0, 1">
-		<LightSource type="0" enabled="1" position="43.7991, 663.774, 591.049" orientation="6.00682, 47.9144, 94.9084" scale="1, 1, 1" attenuation="-1.45519e-11" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
-		<LightSource type="1" enabled="1" position="0, 800, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0001" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
-		<LightSource type="1" enabled="0" position="0, 600, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
-		<LightSource type="1" enabled="0" position="0, 400, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="0" enabled="1" position="43.7991, 663.774, 591.049" orientation="23.229, 79.7565, 113.34" scale="1, 1, 1" attenuation="-1.45519e-11" ambientColor="0, 0, 0, 1" diffuseColor="1, 0.509804, 0.415686, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="1" position="0, 1055, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="5e-05" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="0" enabled="1" position="903.004, -1231.38, 1627.01" orientation="167, -85.519, -180" scale="1, 1, 1" attenuation="0.0002" ambientColor="0, 0, 0, 1" diffuseColor="0, 1, 0, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="0" enabled="1" position="1215.55, -1520, 1170.95" orientation="-180, -70.0187, 180" scale="1, 1, 1" attenuation="0.0001" ambientColor="0, 0, 0, 1" diffuseColor="1, 0, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, 200, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, 0, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, -200, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 		<LightSource type="1" enabled="0" position="0, -400, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 	</Lights>
 	<Nodes>
-		<Node class="SphereNode" expanded="1">
-			<Properties>
-				<Property name="Name" type="0" value="Sphere" />
-				<Property name="Display" type="6" value="1" />
-				<Property name="Position" type="1" value="260, 0, 0" />
-				<Property name="Orientation" type="1" value="0, 0, -1" />
-				<Property name="Scale" type="1" value="1, 1, 1" />
-				<Property name="Diffuse Color" type="2" value="1, 1, 1, 1" />
-				<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
-				<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
-				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
-				<Property name="Shininess" type="3" value="0.8" />
-				<Property name="Roughness" type="3" value="0.5" />
-				<Property name="Ind. of Reflexion" type="3" value="1.65" />
-				<Property name="Metallicity" type="3" value="0" />
-				<Property name="Albedo" type="12" value="filename=data/images/textures/materials/sandstone_cracks/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;1.000000" />
-				<Property name="Normal" type="12" value="filename=data/images/textures/materials/sandstone_cracks/normal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
-				<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/sandstone_cracks/ao.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
-				<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/sandstone_cracks/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
-				<Property name="Metallic" type="12" value="filename=data/images/textures/materials/sandstone_cracks/metal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
-				<Property name="Radius" type="3" value="100" />
-				<Property name="Resolution" type="7" value="16" />
-			</Properties>
-		</Node>
-		<Node class="SphereNode" expanded="1">
-			<Properties>
-				<Property name="Name" type="0" value="Sphere" />
-				<Property name="Display" type="6" value="1" />
-				<Property name="Position" type="1" value="-240, 0, 0" />
-				<Property name="Orientation" type="1" value="0, 0, -1" />
-				<Property name="Scale" type="1" value="1, 1, 1" />
-				<Property name="Diffuse Color" type="2" value="1, 1, 1, 1" />
-				<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
-				<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
-				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
-				<Property name="Shininess" type="3" value="0.8" />
-				<Property name="Roughness" type="3" value="0.5" />
-				<Property name="Ind. of Reflexion" type="3" value="1.65" />
-				<Property name="Metallicity" type="3" value="0" />
-				<Property name="Albedo" type="12" value="filename=data/images/textures/materials/dark_brick/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;1.000000" />
-				<Property name="Normal" type="12" value="filename=data/images/textures/materials/dark_brick/normal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
-				<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/dark_brick/ao.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
-				<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/dark_brick/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
-				<Property name="Metallic" type="12" value="filename=data/images/textures/materials/dark_brick/metal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
-				<Property name="Radius" type="3" value="100" />
-				<Property name="Resolution" type="7" value="16" />
-			</Properties>
-		</Node>
-		<Node class="SphereNode" expanded="1">
-			<Properties>
-				<Property name="Name" type="0" value="Sphere" />
-				<Property name="Display" type="6" value="1" />
-				<Property name="Position" type="1" value="0, 0, 0" />
-				<Property name="Orientation" type="1" value="0, 0, -1" />
-				<Property name="Scale" type="1" value="1, 1, 1" />
-				<Property name="Diffuse Color" type="2" value="1, 1, 1, 1" />
-				<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
-				<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
-				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
-				<Property name="Shininess" type="3" value="0.8" />
-				<Property name="Roughness" type="3" value="0.5" />
-				<Property name="Ind. of Reflexion" type="3" value="1.65" />
-				<Property name="Metallicity" type="3" value="0" />
-				<Property name="Albedo" type="12" value="filename=data/images/textures/materials/rocky_terrain/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;1.000000" />
-				<Property name="Normal" type="12" value="filename=data/images/textures/materials/rocky_terrain/normal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
-				<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/rocky_terrain/ao.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
-				<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/rocky_terrain/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
-				<Property name="Metallic" type="12" value="filename=data/images/textures/materials/rocky_terrain/metal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
-				<Property name="Radius" type="3" value="100" />
-				<Property name="Resolution" type="7" value="16" />
-			</Properties>
-		</Node>
 		<Node class="TerrainNode" expanded="1">
 			<Properties>
-				<Property name="Name" type="0" value="New Terrain" />
+				<Property name="Name" type="0" value="Terrain" />
 				<Property name="Display" type="6" value="1" />
 				<Property name="Position" type="1" value="0, -1570, 0" />
 				<Property name="Orientation" type="1" value="0, 0, -1" />
@@ -100,8 +28,8 @@
 				<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
 				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
 				<Property name="Shininess" type="3" value="0.8" />
-				<Property name="Roughness" type="3" value="0.5" />
-				<Property name="Ind. of Reflexion" type="3" value="1.65" />
+				<Property name="Roughness" type="3" value="0.7" />
+				<Property name="Ind. of Reflexion" type="3" value="1.5" />
 				<Property name="Metallicity" type="3" value="0" />
 				<Property name="Albedo" type="12" value="filename=data/images/textures/materials/rocky_terrain/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;4.000000" />
 				<Property name="Normal" type="12" value="filename=data/images/textures/materials/rocky_terrain/normal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
@@ -110,33 +38,461 @@
 				<Property name="Metallic" type="12" value="filename=data/images/textures/materials/rocky_terrain/metal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
 				<Property name="TerrainName" type="8" value="3" />
 			</Properties>
-			<Node class="SplineNode" expanded="1">
+			<Node class="PlaneNode" expanded="1">
 				<Properties>
-					<Property name="Name" type="0" value="Spline" />
+					<Property name="Name" type="0" value="Plane" />
 					<Property name="Display" type="6" value="1" />
-					<Property name="Position" type="1" value="-20, 1800, 0" />
+					<Property name="Position" type="1" value="-1550, -400, 535" />
+					<Property name="Orientation" type="1" value="-90, 0, 0" />
+					<Property name="Scale" type="1" value="1, 1, 1" />
+					<Property name="Diffuse Color" type="2" value="0.8, 0.8, 0.8, 1" />
+					<Property name="Ambient Color" type="2" value="0.2, 0.2, 0.2, 1" />
+					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
+					<Property name="Specular Color" type="2" value="0, 0, 0, 1" />
+					<Property name="Shininess" type="3" value="0.2" />
+					<Property name="Roughness" type="3" value="1" />
+					<Property name="Ind. of Reflexion" type="3" value="1.5" />
+					<Property name="Metallicity" type="3" value="0" />
+					<Property name="Albedo" type="12" value="filename=data/images/textures/non_pbr/water.png;360.000000;360.000000;9987;9729;10497;2.000000" />
+					<Property name="Normal" type="12" value="color=0.501960,0.501960,1.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
+					<Property name="Ambient Occl." type="12" value="color=1.000000,1.000000,1.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
+					<Property name="Rough. Texture" type="12" value="color=0.500000,0.500000,0.500000;1.000000;1.000000;9729;9729;10497;1.000000" />
+					<Property name="Metallic" type="12" value="color=0.000000,0.000000,0.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
+					<Property name="Width" type="3" value="2000" />
+					<Property name="Height" type="3" value="4000" />
+					<Property name="Resolution" type="7" value="6" />
+				</Properties>
+			</Node>
+			<Node class="CharacterNode" expanded="1">
+				<Properties>
+					<Property name="Name" type="0" value="Rogue" />
+					<Property name="Display" type="6" value="1" />
+					<Property name="Position" type="1" value="120.322, -275, 328.853" />
+					<Property name="Orientation" type="1" value="0, 79.4999, 0" />
+					<Property name="Scale" type="1" value="0.3, 0.3, 0.3" />
+					<Property name="Model" type="9" value="6" />
+					<Property name="Texture" type="9" value="0" />
+					<Property name="Play" type="6" value="1" />
+					<Property name="Animation" type="8" value="2" />
+					<Property name="Show all" type="6" value="0" />
+				</Properties>
+			</Node>
+			<Node class="CharacterNode" expanded="1">
+				<Properties>
+					<Property name="Name" type="0" value="Mage" />
+					<Property name="Display" type="6" value="1" />
+					<Property name="Position" type="1" value="446.31, -270, -22.5741" />
+					<Property name="Orientation" type="1" value="0, 17.5, 0" />
+					<Property name="Scale" type="1" value="0.3, 0.3, 0.3" />
+					<Property name="Model" type="9" value="5" />
+					<Property name="Texture" type="9" value="0" />
+					<Property name="Play" type="6" value="1" />
+					<Property name="Animation" type="8" value="2" />
+					<Property name="Show all" type="6" value="0" />
+				</Properties>
+			</Node>
+			<Node class="CylinderNode" expanded="1">
+				<Properties>
+					<Property name="Name" type="0" value="Tree" />
+					<Property name="Display" type="6" value="1" />
+					<Property name="Position" type="1" value="575, -270, -460" />
+					<Property name="Orientation" type="1" value="0, -0, 0" />
+					<Property name="Scale" type="1" value="1, 1, 1" />
+					<Property name="Diffuse Color" type="2" value="0.541176, 0.396078, 0.105882, 1" />
+					<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+					<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Shininess" type="3" value="0.1" />
+					<Property name="Roughness" type="3" value="0.9" />
+					<Property name="Ind. of Reflexion" type="3" value="0.5" />
+					<Property name="Metallicity" type="3" value="0" />
+					<Property name="Albedo" type="12" value="filename=data/images/textures/materials/pine_bark/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;4.000000" />
+					<Property name="Normal" type="12" value="filename=data/images/textures/materials/pine_bark/normal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/pine_bark/ao.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/pine_bark/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Metallic" type="12" value="filename=data/images/textures/materials/pine_bark/metal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Radius" type="3" value="40" />
+					<Property name="Height" type="3" value="500" />
+					<Property name="Resolution R" type="7" value="24" />
+					<Property name="Resolution H" type="7" value="3" />
+				</Properties>
+				<Node class="ConeNode" expanded="1">
+					<Properties>
+						<Property name="Name" type="0" value="Cone" />
+						<Property name="Display" type="6" value="1" />
+						<Property name="Position" type="1" value="0, 480, 4.19629e-05" />
+						<Property name="Orientation" type="1" value="180, -0, 0" />
+						<Property name="Scale" type="1" value="1.325, 1.325, 1.325" />
+						<Property name="Diffuse Color" type="2" value="0, 0.482353, 0, 1" />
+						<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+						<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+						<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+						<Property name="Shininess" type="3" value="0.1" />
+						<Property name="Roughness" type="3" value="1" />
+						<Property name="Ind. of Reflexion" type="3" value="1.65" />
+						<Property name="Metallicity" type="3" value="0" />
+						<Property name="Albedo" type="12" value="filename=data/images/textures/materials/forest_leaves/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;4.000000" />
+						<Property name="Normal" type="12" value="filename=data/images/textures/materials/forest_leaves/normal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/forest_leaves/ao.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/forest_leaves/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Metallic" type="12" value="filename=data/images/textures/materials/forest_leaves/metal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Radius" type="3" value="140" />
+						<Property name="Height" type="3" value="400" />
+						<Property name="Resolution R" type="7" value="24" />
+						<Property name="Resolution H" type="7" value="3" />
+					</Properties>
+				</Node>
+			</Node>
+			<Node class="CylinderNode" expanded="1">
+				<Properties>
+					<Property name="Name" type="0" value="Tree" />
+					<Property name="Display" type="6" value="1" />
+					<Property name="Position" type="1" value="-595, -270, -115" />
+					<Property name="Orientation" type="1" value="0, -0, 0" />
+					<Property name="Scale" type="1" value="1, 1, 1" />
+					<Property name="Diffuse Color" type="2" value="0.541176, 0.396078, 0.105882, 1" />
+					<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+					<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Shininess" type="3" value="0.1" />
+					<Property name="Roughness" type="3" value="0.9" />
+					<Property name="Ind. of Reflexion" type="3" value="0.5" />
+					<Property name="Metallicity" type="3" value="0" />
+					<Property name="Albedo" type="12" value="filename=data/images/textures/materials/pine_bark/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;4.000000" />
+					<Property name="Normal" type="12" value="filename=data/images/textures/materials/pine_bark/normal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/pine_bark/ao.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/pine_bark/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Metallic" type="12" value="filename=data/images/textures/materials/pine_bark/metal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Radius" type="3" value="40" />
+					<Property name="Height" type="3" value="500" />
+					<Property name="Resolution R" type="7" value="24" />
+					<Property name="Resolution H" type="7" value="3" />
+				</Properties>
+				<Node class="ConeNode" expanded="1">
+					<Properties>
+						<Property name="Name" type="0" value="Cone" />
+						<Property name="Display" type="6" value="1" />
+						<Property name="Position" type="1" value="0, 480, 4.19629e-05" />
+						<Property name="Orientation" type="1" value="180, -0, 0" />
+						<Property name="Scale" type="1" value="1.325, 1.325, 1.325" />
+						<Property name="Diffuse Color" type="2" value="0, 0.482353, 0, 1" />
+						<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+						<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+						<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+						<Property name="Shininess" type="3" value="0.1" />
+						<Property name="Roughness" type="3" value="1" />
+						<Property name="Ind. of Reflexion" type="3" value="1.65" />
+						<Property name="Metallicity" type="3" value="0" />
+						<Property name="Albedo" type="12" value="filename=data/images/textures/materials/forest_leaves/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;4.000000" />
+						<Property name="Normal" type="12" value="filename=data/images/textures/materials/forest_leaves/normal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/forest_leaves/ao.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/forest_leaves/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Metallic" type="12" value="filename=data/images/textures/materials/forest_leaves/metal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Radius" type="3" value="140" />
+						<Property name="Height" type="3" value="400" />
+						<Property name="Resolution R" type="7" value="24" />
+						<Property name="Resolution H" type="7" value="3" />
+					</Properties>
+				</Node>
+			</Node>
+			<Node class="CylinderNode" expanded="1">
+				<Properties>
+					<Property name="Name" type="0" value="Tree" />
+					<Property name="Display" type="6" value="1" />
+					<Property name="Position" type="1" value="-660, -270, 250" />
+					<Property name="Orientation" type="1" value="0, -0, 0" />
+					<Property name="Scale" type="1" value="1, 1, 1" />
+					<Property name="Diffuse Color" type="2" value="0.541176, 0.396078, 0.105882, 1" />
+					<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+					<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Shininess" type="3" value="0.1" />
+					<Property name="Roughness" type="3" value="0.9" />
+					<Property name="Ind. of Reflexion" type="3" value="0.5" />
+					<Property name="Metallicity" type="3" value="0" />
+					<Property name="Albedo" type="12" value="filename=data/images/textures/materials/pine_bark/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;4.000000" />
+					<Property name="Normal" type="12" value="filename=data/images/textures/materials/pine_bark/normal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/pine_bark/ao.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/pine_bark/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Metallic" type="12" value="filename=data/images/textures/materials/pine_bark/metal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Radius" type="3" value="40" />
+					<Property name="Height" type="3" value="500" />
+					<Property name="Resolution R" type="7" value="24" />
+					<Property name="Resolution H" type="7" value="3" />
+				</Properties>
+				<Node class="ConeNode" expanded="1">
+					<Properties>
+						<Property name="Name" type="0" value="Cone" />
+						<Property name="Display" type="6" value="1" />
+						<Property name="Position" type="1" value="0, 480, 4.19629e-05" />
+						<Property name="Orientation" type="1" value="180, -0, 0" />
+						<Property name="Scale" type="1" value="1.325, 1.325, 1.325" />
+						<Property name="Diffuse Color" type="2" value="0, 0.482353, 0, 1" />
+						<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+						<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+						<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+						<Property name="Shininess" type="3" value="0.1" />
+						<Property name="Roughness" type="3" value="1" />
+						<Property name="Ind. of Reflexion" type="3" value="1.65" />
+						<Property name="Metallicity" type="3" value="0" />
+						<Property name="Albedo" type="12" value="filename=data/images/textures/materials/forest_leaves/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;4.000000" />
+						<Property name="Normal" type="12" value="filename=data/images/textures/materials/forest_leaves/normal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/forest_leaves/ao.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/forest_leaves/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Metallic" type="12" value="filename=data/images/textures/materials/forest_leaves/metal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Radius" type="3" value="140" />
+						<Property name="Height" type="3" value="400" />
+						<Property name="Resolution R" type="7" value="24" />
+						<Property name="Resolution H" type="7" value="3" />
+					</Properties>
+				</Node>
+			</Node>
+			<Node class="CylinderNode" expanded="1">
+				<Properties>
+					<Property name="Name" type="0" value="Tree" />
+					<Property name="Display" type="6" value="1" />
+					<Property name="Position" type="1" value="1055, -270, -410" />
+					<Property name="Orientation" type="1" value="0, -0, 0" />
+					<Property name="Scale" type="1" value="1, 1, 1" />
+					<Property name="Diffuse Color" type="2" value="0.541176, 0.396078, 0.105882, 1" />
+					<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+					<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Shininess" type="3" value="0.1" />
+					<Property name="Roughness" type="3" value="0.9" />
+					<Property name="Ind. of Reflexion" type="3" value="0.5" />
+					<Property name="Metallicity" type="3" value="0" />
+					<Property name="Albedo" type="12" value="filename=data/images/textures/materials/pine_bark/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;4.000000" />
+					<Property name="Normal" type="12" value="filename=data/images/textures/materials/pine_bark/normal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/pine_bark/ao.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/pine_bark/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Metallic" type="12" value="filename=data/images/textures/materials/pine_bark/metal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Radius" type="3" value="40" />
+					<Property name="Height" type="3" value="500" />
+					<Property name="Resolution R" type="7" value="24" />
+					<Property name="Resolution H" type="7" value="3" />
+				</Properties>
+				<Node class="ConeNode" expanded="1">
+					<Properties>
+						<Property name="Name" type="0" value="Cone" />
+						<Property name="Display" type="6" value="1" />
+						<Property name="Position" type="1" value="0, 480, 4.19629e-05" />
+						<Property name="Orientation" type="1" value="180, -0, 0" />
+						<Property name="Scale" type="1" value="1.325, 1.325, 1.325" />
+						<Property name="Diffuse Color" type="2" value="0, 0.482353, 0, 1" />
+						<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+						<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+						<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+						<Property name="Shininess" type="3" value="0.1" />
+						<Property name="Roughness" type="3" value="1" />
+						<Property name="Ind. of Reflexion" type="3" value="1.65" />
+						<Property name="Metallicity" type="3" value="0" />
+						<Property name="Albedo" type="12" value="filename=data/images/textures/materials/forest_leaves/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;4.000000" />
+						<Property name="Normal" type="12" value="filename=data/images/textures/materials/forest_leaves/normal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/forest_leaves/ao.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/forest_leaves/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Metallic" type="12" value="filename=data/images/textures/materials/forest_leaves/metal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Radius" type="3" value="140" />
+						<Property name="Height" type="3" value="400" />
+						<Property name="Resolution R" type="7" value="24" />
+						<Property name="Resolution H" type="7" value="3" />
+					</Properties>
+				</Node>
+			</Node>
+			<Node class="CylinderNode" expanded="1">
+				<Properties>
+					<Property name="Name" type="0" value="Tree" />
+					<Property name="Display" type="6" value="1" />
+					<Property name="Position" type="1" value="-205, -270, -245" />
+					<Property name="Orientation" type="1" value="0, -0, 0" />
+					<Property name="Scale" type="1" value="1, 1, 1" />
+					<Property name="Diffuse Color" type="2" value="0.541176, 0.396078, 0.105882, 1" />
+					<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+					<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Shininess" type="3" value="0.1" />
+					<Property name="Roughness" type="3" value="0.9" />
+					<Property name="Ind. of Reflexion" type="3" value="0.5" />
+					<Property name="Metallicity" type="3" value="0" />
+					<Property name="Albedo" type="12" value="filename=data/images/textures/materials/pine_bark/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;4.000000" />
+					<Property name="Normal" type="12" value="filename=data/images/textures/materials/pine_bark/normal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/pine_bark/ao.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/pine_bark/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Metallic" type="12" value="filename=data/images/textures/materials/pine_bark/metal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Radius" type="3" value="40" />
+					<Property name="Height" type="3" value="500" />
+					<Property name="Resolution R" type="7" value="24" />
+					<Property name="Resolution H" type="7" value="3" />
+				</Properties>
+				<Node class="ConeNode" expanded="1">
+					<Properties>
+						<Property name="Name" type="0" value="Cone" />
+						<Property name="Display" type="6" value="1" />
+						<Property name="Position" type="1" value="0, 480, 4.19629e-05" />
+						<Property name="Orientation" type="1" value="180, -0, 0" />
+						<Property name="Scale" type="1" value="1.325, 1.325, 1.325" />
+						<Property name="Diffuse Color" type="2" value="0, 0.482353, 0, 1" />
+						<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+						<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+						<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+						<Property name="Shininess" type="3" value="0.1" />
+						<Property name="Roughness" type="3" value="1" />
+						<Property name="Ind. of Reflexion" type="3" value="1.65" />
+						<Property name="Metallicity" type="3" value="0" />
+						<Property name="Albedo" type="12" value="filename=data/images/textures/materials/forest_leaves/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;4.000000" />
+						<Property name="Normal" type="12" value="filename=data/images/textures/materials/forest_leaves/normal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/forest_leaves/ao.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/forest_leaves/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Metallic" type="12" value="filename=data/images/textures/materials/forest_leaves/metal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+						<Property name="Radius" type="3" value="140" />
+						<Property name="Height" type="3" value="400" />
+						<Property name="Resolution R" type="7" value="24" />
+						<Property name="Resolution H" type="7" value="3" />
+					</Properties>
+				</Node>
+			</Node>
+			<Node class="AssetNode" expanded="1">
+				<Properties>
+					<Property name="Name" type="0" value="Chest" />
+					<Property name="Display" type="6" value="1" />
+					<Property name="Position" type="1" value="742.27, -295, -396.855" />
+					<Property name="Orientation" type="1" value="0, -11.5, 0" />
+					<Property name="Scale" type="1" value="0.2, 0.2, 0.2" />
+					<Property name="Model" type="9" value="17" />
+				</Properties>
+			</Node>
+			<Node class="AssetNode" expanded="1">
+				<Properties>
+					<Property name="Name" type="0" value="New asset" />
+					<Property name="Display" type="6" value="1" />
+					<Property name="Position" type="1" value="570, -210, -315" />
+					<Property name="Orientation" type="1" value="0, -0, 0" />
+					<Property name="Scale" type="1" value="0.2, 0.2, 0.2" />
+					<Property name="Model" type="9" value="47" />
+				</Properties>
+			</Node>
+			<Node class="PlaneNode" expanded="1">
+				<Properties>
+					<Property name="Name" type="0" value="Plane" />
+					<Property name="Display" type="6" value="1" />
+					<Property name="Position" type="1" value="1898.48, 0.000110456, 1687.57" />
+					<Property name="Orientation" type="1" value="-180, -74.0001, -180" />
+					<Property name="Scale" type="1" value="1, 1, 1" />
+					<Property name="Diffuse Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+					<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Shininess" type="3" value="0.2" />
+					<Property name="Roughness" type="3" value="0.8" />
+					<Property name="Ind. of Reflexion" type="3" value="1.65" />
+					<Property name="Metallicity" type="3" value="0" />
+					<Property name="Albedo" type="12" value="filename=data/images/textures/materials/dark_brick/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;4.000000" />
+					<Property name="Normal" type="12" value="filename=data/images/textures/materials/dark_brick/normal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/dark_brick/ao.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/dark_brick/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Metallic" type="12" value="filename=data/images/textures/materials/dark_brick/metal.jpg;2048.000000;2048.000000;9987;9729;10497;4.000000" />
+					<Property name="Width" type="3" value="1000" />
+					<Property name="Height" type="3" value="1000" />
+					<Property name="Resolution" type="7" value="6" />
+				</Properties>
+			</Node>
+		</Node>
+		<Node class="CharacterNode" expanded="1">
+			<Properties>
+				<Property name="Name" type="0" value="Knight" />
+				<Property name="Display" type="6" value="1" />
+				<Property name="Position" type="1" value="168.381, -1870, 32.0779" />
+				<Property name="Orientation" type="1" value="6.32154e-06, 38.5001, -2.90132e-07" />
+				<Property name="Scale" type="1" value="0.3, 0.3, 0.3" />
+				<Property name="Model" type="9" value="4" />
+				<Property name="Texture" type="9" value="0" />
+				<Property name="Play" type="6" value="1" />
+				<Property name="Animation" type="8" value="2" />
+				<Property name="Show all" type="6" value="0" />
+			</Properties>
+		</Node>
+		<Node class="CharacterNode" expanded="1">
+			<Properties>
+				<Property name="Name" type="0" value="Engineer" />
+				<Property name="Display" type="6" value="1" />
+				<Property name="Position" type="1" value="735, -1875, 0" />
+				<Property name="Orientation" type="1" value="0, -6.5, 0" />
+				<Property name="Scale" type="1" value="0.3, 0.3, 0.3" />
+				<Property name="Model" type="9" value="3" />
+				<Property name="Texture" type="9" value="0" />
+				<Property name="Play" type="6" value="1" />
+				<Property name="Animation" type="8" value="2" />
+				<Property name="Show all" type="6" value="0" />
+			</Properties>
+		</Node>
+		<Node class="CharacterNode" expanded="1">
+			<Properties>
+				<Property name="Name" type="0" value="Barbarian" />
+				<Property name="Display" type="6" value="1" />
+				<Property name="Position" type="1" value="934.209, -1870, 105.047" />
+				<Property name="Orientation" type="1" value="-5.04813e-06, -42.0001, 1.17059e-05" />
+				<Property name="Scale" type="1" value="0.3, 0.3, 0.3" />
+				<Property name="Model" type="9" value="0" />
+				<Property name="Texture" type="9" value="0" />
+				<Property name="Play" type="6" value="1" />
+				<Property name="Animation" type="8" value="2" />
+				<Property name="Show all" type="6" value="0" />
+			</Properties>
+		</Node>
+		<Node class="GroupNode" expanded="1">
+			<Properties>
+				<Property name="Name" type="0" value="Group" />
+				<Property name="Display" type="6" value="1" />
+				<Property name="Position" type="1" value="1410, -1490, 1620" />
+				<Property name="Orientation" type="1" value="0, -13.5, 0" />
+				<Property name="Scale" type="1" value="1, 1, 1" />
+			</Properties>
+			<Node class="SphereNode" expanded="1">
+				<Properties>
+					<Property name="Name" type="0" value="Sphere" />
+					<Property name="Display" type="6" value="1" />
+					<Property name="Position" type="1" value="350, 140, -185" />
 					<Property name="Orientation" type="1" value="0, -0, 0" />
 					<Property name="Scale" type="1" value="1, 1, 1" />
 					<Property name="Diffuse Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
 					<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
 					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
-					<Property name="Shininess" type="3" value="0.8" />
-					<Property name="Thickness" type="3" value="100" />
+					<Property name="Shininess" type="3" value="0.2" />
+					<Property name="Roughness" type="3" value="0.8" />
+					<Property name="Ind. of Reflexion" type="3" value="1.65" />
+					<Property name="Metallicity" type="3" value="0" />
+					<Property name="Albedo" type="12" value="filename=data/images/textures/materials/sandstone_cracks/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;1.000000" />
+					<Property name="Normal" type="12" value="filename=data/images/textures/materials/sandstone_cracks/normal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+					<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/sandstone_cracks/ao.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+					<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/sandstone_cracks/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+					<Property name="Metallic" type="12" value="filename=data/images/textures/materials/sandstone_cracks/metal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+					<Property name="Radius" type="3" value="100" />
+					<Property name="Resolution" type="7" value="16" />
 				</Properties>
 			</Node>
-			<Node class="CharacterNode" expanded="1">
+			<Node class="SphereNode" expanded="1">
 				<Properties>
-					<Property name="Name" type="0" value="New Character" />
+					<Property name="Name" type="0" value="Sphere" />
 					<Property name="Display" type="6" value="1" />
-					<Property name="Position" type="1" value="0, 15, 0" />
+					<Property name="Position" type="1" value="355, 140, 115" />
 					<Property name="Orientation" type="1" value="0, -0, 0" />
 					<Property name="Scale" type="1" value="1, 1, 1" />
-					<Property name="Model" type="9" value="1" />
-					<Property name="Texture" type="9" value="0" />
-					<Property name="Play" type="6" value="1" />
-					<Property name="Animation" type="8" value="2" />
-					<Property name="Show all" type="6" value="0" />
+					<Property name="Diffuse Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+					<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+					<Property name="Shininess" type="3" value="0.1" />
+					<Property name="Roughness" type="3" value="0.9" />
+					<Property name="Ind. of Reflexion" type="3" value="1.65" />
+					<Property name="Metallicity" type="3" value="0" />
+					<Property name="Albedo" type="12" value="filename=data/images/textures/materials/forest_leaves/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;1.000000" />
+					<Property name="Normal" type="12" value="filename=data/images/textures/materials/forest_leaves/normal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+					<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/forest_leaves/ao.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+					<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/forest_leaves/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+					<Property name="Metallic" type="12" value="filename=data/images/textures/materials/forest_leaves/metal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+					<Property name="Radius" type="3" value="100" />
+					<Property name="Resolution" type="7" value="16" />
 				</Properties>
 			</Node>
 		</Node>

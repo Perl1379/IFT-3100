@@ -5,7 +5,8 @@
     <Property name="Emissive Color" value="1, 1, 1, 1" />
     <Property name="Specular Color" value="1, 1, 1, 1" />
 
-    <Property name="Shininess" value="0.8" />
+    <Property name="Shininess" value="0.2" />
+    <Property name="Roughness" value="0.8" />
     <Property name="Metallicity" value="0.0" />
     <Property name="Reflectance" value="1.65" />
 
