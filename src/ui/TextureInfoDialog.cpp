@@ -121,7 +121,7 @@ void TextureInfoDialog::draw() {
 		ImGui::SetNextItemWidth(180);
 		if (ImGui::Combo("##wrap_mode", &selectedIndexWrap, itemsWrap, IM_ARRAYSIZE(itemsWrap))) {
 			int wrapMode = GL_NEAREST;
-			switch(selectedIndexMin) {
+			switch(selectedIndexWrap) {
 				case 0: wrapMode = GL_NEAREST; break;
 				case 1: wrapMode = GL_MIRRORED_REPEAT; break;
 				case 2: wrapMode = GL_CLAMP_TO_EDGE; break;
