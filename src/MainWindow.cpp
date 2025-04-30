@@ -106,7 +106,17 @@ void MainWindow::cameraDraw(int index) {
 		 	lightTypes[i] = light->getLightType();
 		 	lightPositions[i] =  light->getPosition() * modelView;
 
-		 	lightOrientations[i] = light->getOrientation();
+
+			ofVec3f euler = light->getOrientation();
+			ofQuaternion q;
+			q.makeRotate(euler.x, ofVec3f(1, 0, 0), euler.y, ofVec3f(0, 1, 0), euler.z, ofVec3f(0, 0, 1));
+			ofVec3f direction = q * ofVec3f(0, 0, -1);
+			direction.normalize();
+
+
+		 	lightOrientations[i] = modelView.getRotate() * direction;
+
+
 		 	lightAttenuations[i] = light->getAttenuation();
 
 		 	ofFloatColor colorAmbient = light->getColorAmbient();
@@ -120,7 +130,7 @@ void MainWindow::cameraDraw(int index) {
 		 	count++;
 		 }
 
-		m_shaderLight->setUniform3fv("light_type", (GLfloat*)&lightTypes[0], 8);
+		m_shaderLight->setUniform1iv("light_type", (GLint*)&lightTypes[0], 8);
 		m_shaderLight->setUniform3fv("light_position", (GLfloat*)&lightPositions[0], 8);
 		m_shaderLight->setUniform3fv("light_orientation", (GLfloat*)&lightOrientations[0], 8);
 		m_shaderLight->setUniform1fv("light_attenuation", (GLfloat*)&lightAttenuations[0], 8);

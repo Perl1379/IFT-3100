@@ -40,17 +40,50 @@ void main()
     vec3 n = perturbed_normal;
     vec3 v = normalize(-surface_position);
 
-    vec3 final_ambient = vec3(0.0);
+    vec3 final_ambient = global_ambient_color;
     vec3 final_diffuse = vec3(0.0);
     vec3 final_specular = vec3(0.0);
 
     for (int i = 0; i < light_sources; ++i)
     {
-        vec3 l = normalize(light_position[i] - surface_position);
-        vec3 h = normalize(l + v); // vecteur halfway
+        vec3 l;
+        float attenuation = 1.0;
 
-        float dist = length(light_position[i] - surface_position);
-        float attenuation = 1.0 / (0.1 + light_attenuation[i] * dist);
+//        vec3 l = normalize(light_position[i] - surface_position);
+
+
+        // Lumière directionnelle
+        if (light_type[i] == 2)
+        {
+            l = normalize(light_orientation[i]);
+        }
+        // Lumière ponctuelle
+        else if (light_type[i] == 1)
+        {
+            l = normalize(light_position[i] - surface_position);
+            float dist = length(light_position[i] - surface_position);
+            attenuation = 1.0 / (0.1 + light_attenuation[i] * dist);
+            attenuation = max(attenuation, 0.01);
+        }
+        // Projecteur
+        else if (light_type[i] == 0)
+        {
+            l = normalize(light_position[i] - surface_position);
+            float spot_factor = dot(normalize(light_orientation[i]), -l);
+            if (spot_factor < 0.0) {
+                spot_factor = 0.0;
+            }
+            float dist = length(light_position[i] - surface_position);
+            attenuation = 1.0 / (0.1 + light_attenuation[i] * dist);
+            attenuation = max(attenuation, 0.01);
+
+            float spot_threshold = 0.9;
+            spot_factor = smoothstep(spot_threshold, 1.0, spot_factor);
+            attenuation *= spot_factor;
+        }
+
+
+        vec3 h = normalize(l + v); // vecteur halfway
 
         float reflection_diffuse = max(dot(n, l), 0.0);
         float reflection_specular = pow(max(dot(n, h), 0.0), mat_shininess);
@@ -63,7 +96,7 @@ void main()
         final_specular += specular * reflection_specular * attenuation;
     }
 
-    vec3 final_color = (final_ambient + final_diffuse + final_specular + global_ambient_color) * texture_color.rgb;
+    vec3 final_color = (final_ambient + final_diffuse + final_specular) * texture_color.rgb;
     fragment_color = vec4(final_color, 1.0);
 
 }

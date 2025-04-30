@@ -59,7 +59,15 @@ std::vector<NodeProperty> ModelNode::getProperties() const
 	properties.emplace_back("Display", PROPERTY_TYPE::BOOLEAN_FIELD, m_displayNode, Global::m_tooltipMessages.node_display);
 	properties.emplace_back("Transform", PROPERTY_TYPE::LABEL, nullptr);
 	properties.emplace_back("Position", PROPERTY_TYPE::VECTOR3, m_transform.getPosition());
-	properties.emplace_back("Orientation", PROPERTY_TYPE::VECTOR3, m_transform.getOrientationEulerDeg());
+
+	ofVec3f euler = m_transform.getOrientationEulerDeg();
+	ofQuaternion q;
+	q.makeRotate(euler.x, ofVec3f(1, 0, 0), euler.y, ofVec3f(0, 1, 0), euler.z, ofVec3f(0, 0, 1));
+	ofVec3f direction = q * ofVec3f(0, 0, -1);
+	direction.normalize();
+
+
+	properties.emplace_back("Orientation", PROPERTY_TYPE::VECTOR3, glm::vec3(direction));
 	properties.emplace_back("Scale", PROPERTY_TYPE::VECTOR3, m_transform.getScale());
 
 	//no material property for models
@@ -149,17 +157,13 @@ int ModelNode::endDraw(bool p_objectPicking, Camera* p_camera)
 
 		if (m_displayBoundingBox) {
 
-			if (p_camera->getLightModel() != OPENGL_LIGHTS) {
-				p_camera->getLightShader()->end();
-			}
+			p_camera->getLightShader()->end();
 
 			m_materialUnlit.begin();
 			drawBoundingBox();
 			m_materialUnlit.end();
 
-			if (p_camera->getLightModel() != OPENGL_LIGHTS) {
-				p_camera->getLightShader()->begin();
-			}
+			p_camera->getLightShader()->begin();
 		}
 	}
 

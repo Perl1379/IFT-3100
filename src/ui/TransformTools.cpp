@@ -441,6 +441,7 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
 
             float rightDirection = glm::dot(cameraRight, nodeForward);
             node->getTransform().rotateDeg(glm::sign(rightDirection) * -diff.x * mouseSpeedRotate, nodeForward);
+
             if (node->getClassName() == "LightNode") {
                 Global::m_lights[((LightNode*) node)->getLightIndex()].setOrientation(node->getTransform().getOrientationEulerDeg());
             }

@@ -95,7 +95,7 @@ void Camera::reset() {
 	m_camera.setFov(m_initialFOV);
 	m_camera.setNearClip(m_initialzNear);
 	m_camera.setFarClip(m_initialzFar);
-	setLightModel(OPENGL_LIGHTS);
+	setLightModel(PBR);
 	setTonemapType(NO_TONEMAP);
 }
 
@@ -389,10 +389,6 @@ void Camera::setLightModel(LIGHTMODEL_TYPE p_model) {
 	m_lightModel = p_model;
 
 	switch(m_lightModel) {
-		case OPENGL_LIGHTS: {
-			m_shaderLight = nullptr;
-		}
-		break;
 
 		case LAMBERT: {
 			m_shaderLight = Global::m_shaders.getShader("lightmodel_lambert");
