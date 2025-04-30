@@ -498,6 +498,7 @@ void TransformTools::onMouseDrag(ImVec2 mousePosition) {
                 Global::m_lights[((LightNode*) node)->getLightIndex()].setScale(node->getTransform().getScale());
             }
         }
+        break;
 
         case SCALE_ALL: {
             glm::vec3 scale = node->getTransform().getScale();

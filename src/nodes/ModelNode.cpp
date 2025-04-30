@@ -60,15 +60,8 @@ std::vector<NodeProperty> ModelNode::getProperties() const
 	properties.emplace_back("Transform", PROPERTY_TYPE::LABEL, nullptr);
 	properties.emplace_back("Position", PROPERTY_TYPE::VECTOR3, m_transform.getPosition());
 
-	ofVec3f euler = m_transform.getOrientationEulerDeg();
-	ofQuaternion q;
-	q.makeRotate(euler.x, ofVec3f(1, 0, 0), euler.y, ofVec3f(0, 1, 0), euler.z, ofVec3f(0, 0, 1));
-	ofVec3f direction = q * ofVec3f(0, 0, -1);
-	direction.normalize();
-
-
-	properties.emplace_back("Orientation", PROPERTY_TYPE::VECTOR3, glm::vec3(direction));
-	properties.emplace_back("Scale", PROPERTY_TYPE::VECTOR3, m_transform.getScale());
+		properties.emplace_back("Orientation", PROPERTY_TYPE::VECTOR3, m_transform.getOrientationEulerDeg());
+properties.emplace_back("Scale", PROPERTY_TYPE::VECTOR3, m_transform.getScale());
 
 	//no material property for models
 

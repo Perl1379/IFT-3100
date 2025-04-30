@@ -21,6 +21,7 @@
 #include <ofLog.h>
 #include <PlaneNode.h>
 #include <SphereNode.h>
+#include <SplineNode.h>
 #include <TerrainNode.h>
 
 
@@ -59,6 +60,32 @@ void AddNodeDialog::draw() {
                 }
             }
             GroupNode* childNode = new GroupNode("Group");
+            parent->addChild(childNode);
+
+            if (Global::m_selectedNode >= 2) {
+                Global::m_level.getTree()->findNode(Global::m_selectedNode)->displayBoundingBox(false);
+            }
+            childNode->displayBoundingBox(true);
+            Global::m_selectedNode = childNode->getId();
+            Global::m_selectedFromViewport = true;
+        }
+
+
+        // Add Spine
+        if (ImGui::Button("Spline Node", ImVec2(200,20))) {
+            ImGui::CloseCurrentPopup();
+            m_isOpen = false;
+
+            BaseNode* parent;
+            if (Global::m_selectedNode == -1) {
+                parent = Global::m_level.getTree();
+            } else {
+                parent = Global::m_level.getTree()->findNode(Global::m_selectedNode);
+                if (!parent->userCanAddChild()) {
+                    parent = Global::m_level.getTree();
+                }
+            }
+            SplineNode* childNode = new SplineNode("Spline");
             parent->addChild(childNode);
 
             if (Global::m_selectedNode >= 2) {
