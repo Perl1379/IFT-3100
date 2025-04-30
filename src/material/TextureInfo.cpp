@@ -243,11 +243,11 @@ void TextureInfo::setMinMaxFilters(int p_min, int p_max) {
     m_filterMinimum = p_min;
     m_filterMaximum = p_max;
 
-    m_texture.setTextureMinMagFilter(m_filterMinimum, m_filterMaximum);
 
     if ((p_min == GL_NEAREST_MIPMAP_NEAREST) || (p_min == GL_NEAREST_MIPMAP_LINEAR) || (p_min == GL_LINEAR_MIPMAP_LINEAR) || (p_min == GL_LINEAR_MIPMAP_NEAREST)) {
         m_texture.generateMipmap();
     }
+    m_texture.setTextureMinMagFilter(m_filterMinimum, m_filterMaximum);
 }
 
 

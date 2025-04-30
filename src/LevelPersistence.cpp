@@ -137,6 +137,7 @@ void LevelPersistence::saveNode(ofXml &xml, BaseNode *node) {
 
         if (prop.getType() == PROPERTY_TYPE::LABEL) continue;
         if (prop.getType() == PROPERTY_TYPE::DUMB_BUTTON) continue;
+        if (prop.getType() == PROPERTY_TYPE::TEXT_INFO) continue;
 
         ofXml xmlProperty = xmlProperties.appendChild("Property");
         xmlProperty.setAttribute("name", prop.getName());

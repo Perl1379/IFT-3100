@@ -59,7 +59,8 @@ void Vector3Dialog::draw() {
 				Global::m_actions.addAction(m_node, "Position", m_Origvalue, m_value);
 			}
 			else if (m_title == "Change Orientation") {
-				Global::m_actions.addAction(m_node, "Orientation", m_Origvalue, m_value);
+
+					Global::m_actions.addAction(m_node, "Orientation", m_Origvalue, m_value);
 			}
 			else if (m_title == "Change Scale") {
 				Global::m_actions.addAction(m_node, "Scale", m_Origvalue, m_value);

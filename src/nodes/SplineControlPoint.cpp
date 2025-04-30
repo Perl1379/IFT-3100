@@ -37,8 +37,8 @@ std::vector<NodeProperty> SplineControlPoint::getProperties() const
 	properties.emplace_back("Display", PROPERTY_TYPE::BOOLEAN_FIELD, m_displayNode, Global::m_tooltipMessages.node_display);
 	properties.emplace_back("Index", PROPERTY_TYPE::TEXT_INFO, std::to_string(m_index), Global::m_tooltipMessages.spline_pointIndex);
 	properties.emplace_back("Transform", PROPERTY_TYPE::LABEL, nullptr);
-	properties.emplace_back("Transfo", PROPERTY_TYPE::TEXT_INFO, otherTransfoData.str(), "Shows which tansformations are allowed.");
-	properties.emplace_back("Axis transl.", PROPERTY_TYPE::TEXT_INFO, axisTransfoData.str(), "Shows which tansformations are allowed.");
+	properties.emplace_back("Axis transf.", PROPERTY_TYPE::TEXT_INFO, otherTransfoData.str(), "Shows which transformations are allowed.");
+	properties.emplace_back("Axis transl.", PROPERTY_TYPE::TEXT_INFO, axisTransfoData.str(), "Shows which transformations are allowed.");
 	properties.emplace_back("Position", PROPERTY_TYPE::VECTOR3, m_transform.getPosition());
 
 	return properties;

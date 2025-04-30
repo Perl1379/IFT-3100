@@ -61,7 +61,6 @@ void ActionManager::addAction(BaseNode* p_node, const std::string& p_property_na
 * Perform action (set property)
 */
 void ActionManager::performAction(BaseNode* p_node, const std::string& p_property_name, std::any p_new_value) {
-	ofLog() << "Perform action : " << p_property_name;
 	if (p_node != nullptr) {
 		p_node->setProperty(p_property_name, p_new_value);
 	}

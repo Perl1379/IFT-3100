@@ -124,6 +124,7 @@ bool ofxCustomAssimpModelLoader::createEnabledMeshes() {
  * Set mesh enabled (by mesh name)
  */
 void ofxCustomAssimpModelLoader::setMeshEnabled(const std::string& p_meshName, bool p_value) {
+    ofLog() << "Set mesh Enabled:" << p_meshName<<","<<p_value;
     std::vector<std::string> meshNames = getMeshNames();
     for (size_t i = 0; i < meshNames.size(); i++) {
         if (meshNames[i] == p_meshName) {
