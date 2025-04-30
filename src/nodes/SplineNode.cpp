@@ -239,10 +239,10 @@ std::vector<NodeProperty> SplineNode::getProperties() const
     //Spline property
     properties.emplace_back("Spline parameters", PROPERTY_TYPE::LABEL, nullptr);
     properties.emplace_back("Thickness", PROPERTY_TYPE::FLOAT_FIELD, m_strokeWidth);
-    properties.emplace_back("Points count", PROPERTY_TYPE::TEXT_INFO, std::to_string(m_children.size()));
 
     //Control points
     properties.emplace_back("Control points", PROPERTY_TYPE::LABEL, nullptr);
+    properties.emplace_back("Points count", PROPERTY_TYPE::TEXT_INFO, std::to_string(m_children.size()));
     properties.emplace_back("Add", PROPERTY_TYPE::DUMB_BUTTON, true, "Add a new control point");
     properties.emplace_back("Display all", PROPERTY_TYPE::DUMB_BUTTON, false, "Display all control points at once.");
     properties.emplace_back("Hide all", PROPERTY_TYPE::DUMB_BUTTON, true, "Hide all control points at once.");

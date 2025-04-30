@@ -38,7 +38,7 @@ public:
     void nodeChanged(const std::string& p_name = "", std::any p_value = nullptr) override;
 
     std::vector<NodeProperty> getProperties() const override;
-    void removeAllChildren() override {}; // This class uses his own housekeeping functions
+    void removeAllChildren() override {}; // This class uses its own housekeeping function
     void setProperty(const std::string& p_name, std::any p_value);
     ofVec3f getBoundingBox() const override;
 
