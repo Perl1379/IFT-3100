@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Material name="Rocky Terrain">
+    <Property name="Diffuse Color" value="1.0, 1.0, 1.0, 1.0" />
+    <Property name="Ambient Color" value="0.0, 0.0, 0.0, 1.0" />
+    <Property name="Emissive Color" value="1, 1, 1, 1" />
+    <Property name="Specular Color" value="1, 1, 1, 1" />
+
+    <Property name="Shininess" value="0.8" />
+    <Property name="Metallicity" value="0.0" />
+    <Property name="Reflectance" value="1.65" />
+
+    <Property name="Albedo Texture" value="filename=data/images/textures/materials/rocky_terrain/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;1.000000" />
+    <Property name="Normal Texture" value="filename=data/images/textures/materials/rocky_terrain/normal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+    <Property name="Metallic Texture" value="filename=data/images/textures/materials/rocky_terrain/metal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+    <Property name="Roughness Texture" value="filename=data/images/textures/materials/rocky_terrain/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+    <Property name="AO Texture" value="filename=data/images/textures/materials/rocky_terrain/ao.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+
+</Material>

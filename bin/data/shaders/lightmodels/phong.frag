@@ -3,7 +3,6 @@
 in vec3 surface_position;
 in vec3 surface_normal;
 in vec2 surface_texcoord;
-in mat3 TBN;  // Tangent, Bitangent, Normal matrix
 
 out vec4 fragment_color;
 

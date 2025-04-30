@@ -165,7 +165,7 @@ void TextureInfoDialog::draw() {
 
 		ImGui::SameLine();
 
-		static const char* itemsColor[] = { "Color", "White","Black","Red", "Green", "Blue", "Yellow" };
+		static const char* itemsColor[] = { "Color", "White","Black","Red", "Green", "Blue", "Yellow" , "Neutral (Normal)"};
 		static int currentItemColor = 0;
 
 		ImGui::SetNextItemWidth(60);
@@ -178,6 +178,7 @@ void TextureInfoDialog::draw() {
 				case 4: m_textureInfo.loadTexture(TEXTURE_FLAT_COLOR, ofFloatColor(0,1,0)); break;
 				case 5: m_textureInfo.loadTexture(TEXTURE_FLAT_COLOR, ofFloatColor(0,0,1)); break;
 				case 6: m_textureInfo.loadTexture(TEXTURE_FLAT_COLOR, ofFloatColor(1,1,0)); break;
+				case 7: m_textureInfo.loadTexture(TEXTURE_FLAT_COLOR, ofFloatColor(0.5,0.5,0.5)); break;
 			}
 			currentItemColor = 0;
 		}

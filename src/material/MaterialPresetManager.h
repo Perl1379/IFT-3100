@@ -1,16 +1,28 @@
-//
-// Created by cobolfoo on 4/27/25.
-//
+/*****************************************************
+* TP IFT3100H25 - Adventure Party Maker
+ * by Team 12
+ *****************************************************
+ *
+ * MaterialPresetManager class declaraction
+ *
+ *****************************************************/
+ #pragma once
+#include <vector>
 
-#ifndef MATERIALPRESETMANAGER_H
-#define MATERIALPRESETMANAGER_H
-
-
+#include "MaterialPreset.h"
 
 class MaterialPresetManager {
+
+private:
+    std::vector<MaterialPreset> m_presets;
+
+    public:
+    MaterialPresetManager();
+
+    void init();
+    std::vector<MaterialPreset>* getPresets();
+
 
 };
 
 
-
-#endif //MATERIALPRESETMANAGER_H

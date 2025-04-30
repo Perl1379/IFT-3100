@@ -93,7 +93,7 @@ void MainWindow::cameraDraw(int index) {
 		glm::vec3 lightDiffuseColors[8];
 		glm::vec3 lightSpecularColors[8];
 
-		ofMatrix4x4 modelView = ofGetCurrentMatrix(OF_MATRIX_MODELVIEW);
+		ofMatrix4x4 modelView = camera->getModelViewMatrix();
 
 		// Pass light information
 		int count = 0;
@@ -104,7 +104,8 @@ void MainWindow::cameraDraw(int index) {
 		 	}
 
 		 	lightTypes[i] = light->getLightType();
-		 	lightPositions[i] = light->getPosition() * modelView;
+		 	lightPositions[i] =  light->getPosition() * modelView;
+
 		 	lightOrientations[i] = light->getOrientation();
 		 	lightAttenuations[i] = light->getAttenuation();
 

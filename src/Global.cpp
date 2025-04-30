@@ -31,7 +31,7 @@ ofFloatColor Global::m_ambientLightColor = ofFloatColor(0.0, 0.0, 0.0);
 bool Global::m_doColorPicking = true;
 ShaderManager Global::m_shaders;
 int Global::id_next = 1;
-MaterialPreset Global::m_materialPreset;
+MaterialPresetManager Global::m_materialPresets;
 
 
 /**
@@ -46,7 +46,8 @@ void Global::setup() {
 	}
 
 	//Material presets
-	m_materialPreset.init();
+	Global::m_materialPresets.init();
+
 
 	//Load models (characters and assets)
 	m_modelManager.init();
@@ -59,6 +60,7 @@ void Global::setup() {
 	// Init lights
 	for (int i=0;i<8;i++) {
 		m_lights[i].setup();
+		m_lights[i].setAttenuation(0.0005);
 		m_lights[i].setLightType(POINT_LIGHT);
 		m_lights[i].setPosition(ofVec3f(0, 1000 - (i * 200), 2000));
 

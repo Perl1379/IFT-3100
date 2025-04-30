@@ -1,9 +1,8 @@
-#version 330
+#version 420
 
 in vec3 surface_position;
 in vec3 surface_normal;
 in vec2 surface_texcoord;
-in mat3 TBN;  // Tangent, Bitangent, Normal matrix
 
 out vec4 fragment_color;
 
@@ -22,12 +21,11 @@ uniform vec3 light_color_diffuse[8];
 uniform vec3 light_color_specular[8];
 uniform float texture_albedo_scale;
 
-uniform sampler2D textureAlbedo;
+layout(binding=0) uniform sampler2D textureAlbedo;
 
 void main()
 {
-    vec4 texColor = texture(textureAlbedo, surface_texcoord * texture_albedo_scale);
-
+    vec4 texture_color = texture(textureAlbedo, surface_texcoord * texture_albedo_scale);
 
     vec3 final_ambient = vec3(0.0);
     vec3 final_diffuse = vec3(0.0);
@@ -37,9 +35,8 @@ void main()
         vec3 l = normalize(light_position[i] - surface_position);
 
         float dist = length(light_position[i] - surface_position);
-        //float attenuation = 1.0 / (0.1 + light_attenuation[i] * dist);
         float attenuation = 1.0 / (0.1 + light_attenuation[i] * dist);
-        attenuation = max(attenuation, 0.01); // Avoid very small or zero attenuation
+        attenuation = max(attenuation, 0.01);
 
         float reflection_diffuse = max(dot(surface_normal, l), 0.0);
 
@@ -50,7 +47,7 @@ void main()
 
     }
     vec3 final_color = final_ambient + final_diffuse + global_ambient_color;
-    final_color = (final_ambient * 0.2 + final_diffuse) * texColor.rgb;
+    final_color = (final_ambient * 0.2 + final_diffuse) * texture_color.rgb;
 
     fragment_color = vec4(final_color, 1.0);
 }
