@@ -30,13 +30,12 @@ enum TONEMAP_TYPE {
 
 
 enum LIGHTMODEL_TYPE {
-	OPENGL_LIGHTS = 0,
-	LAMBERT = 1,
-	GOURAUD = 2,
-	PHONG = 3,
-	BLINN_PHONG = 4,
-	PBR = 5,
-	NON_REALISTIC = 6
+	LAMBERT = 0,
+	GOURAUD = 1,
+	PHONG = 2,
+	BLINN_PHONG = 3,
+	PBR = 4,
+	NON_REALISTIC = 5
 };
 
 
@@ -62,7 +61,7 @@ private:
 	ofVec3f m_initialPosition;
 	ofVec3f m_initialOrientation;
 	ofShader* m_shaderLight;
-	int m_lightModel = OPENGL_LIGHTS;
+	int m_lightModel = PBR;
 
 	float m_initialFOV;
 	float m_initialzNear;

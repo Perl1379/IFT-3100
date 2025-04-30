@@ -139,10 +139,43 @@ vec3 brdf_cook_torrance()
 
     for (int i = 0; i < light_sources; ++i)
     {
-        vec3 l = normalize(light_position[i] - surface_position);
+        vec3 l;
+        float attenuation = 1.0;
+
+        // Lumière directionnelle
+        if (light_type[i] == 2)
+        {
+            l = normalize(light_orientation[i]);
+        }
+        // Lumière ponctuelle
+        else if (light_type[i] == 1)
+        {
+            l = normalize(light_position[i] - surface_position);
+            float dist = length(light_position[i] - surface_position);
+            attenuation = 1.0 / (0.1 + light_attenuation[i] * dist);
+            attenuation = max(attenuation, 0.01);
+        }
+        // Projecteur
+        else if (light_type[i] == 0)
+        {
+            l = normalize(light_position[i] - surface_position);
+            float spot_factor = dot(normalize(light_orientation[i]), -l);
+            if (spot_factor < 0.0) {
+                spot_factor = 0.0;
+            }
+            float dist = length(light_position[i] - surface_position);
+            attenuation = 1.0 / (0.1 + light_attenuation[i] * dist);
+            attenuation = max(attenuation, 0.01);
+
+            float spot_threshold = 0.9;
+            spot_factor = smoothstep(spot_threshold, 1.0, spot_factor);
+            attenuation *= spot_factor;
+        }
+
+
+
         vec3 h = normalize(l + v);
         float light_distance = length(light_position[i] - surface_position);
-        float attenuation = 1.0 / (0.1 + light_attenuation[i] * light_distance);
         vec3 radiance = light_color_diffuse[i] * attenuation;
 
         float n_dot_l = max(dot(n, l), 0.0);

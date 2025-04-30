@@ -151,7 +151,7 @@ int SplineNode::draw(bool p_objectPicking, Camera* p_camera)
 
     if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {
 
-        if ((!p_objectPicking) && (p_camera->getLightModel() != OPENGL_LIGHTS)) {
+        if (!p_objectPicking) {
             p_camera->getLightShader()->end();
             m_materialNode.begin();
         }
@@ -162,7 +162,7 @@ int SplineNode::draw(bool p_objectPicking, Camera* p_camera)
 
         m_transform.restoreTransformGL();
 
-        if ((!p_objectPicking) && (p_camera->getLightModel() != OPENGL_LIGHTS)) {
+        if (!p_objectPicking) {
             m_materialNode.end();
             p_camera->getLightShader()->begin();
         }
@@ -227,7 +227,14 @@ std::vector<NodeProperty> SplineNode::getProperties() const
     properties.emplace_back("Display", PROPERTY_TYPE::BOOLEAN_FIELD, m_displayNode, Global::m_tooltipMessages.node_display);
     properties.emplace_back("Transform", PROPERTY_TYPE::LABEL, nullptr);
     properties.emplace_back("Position", PROPERTY_TYPE::VECTOR3, m_transform.getPosition());
-    properties.emplace_back("Orientation", PROPERTY_TYPE::VECTOR3, m_transform.getOrientationEulerDeg());
+    ofVec3f euler = m_transform.getOrientationEulerDeg();
+    ofQuaternion q;
+    q.makeRotate(euler.x, ofVec3f(1, 0, 0), euler.y, ofVec3f(0, 1, 0), euler.z, ofVec3f(0, 0, 1));
+    ofVec3f direction = q * ofVec3f(0, 0, -1);
+    direction.normalize();
+
+    properties.emplace_back("Orientation", PROPERTY_TYPE::VECTOR3, glm::vec3(direction));
+
     properties.emplace_back("Scale", PROPERTY_TYPE::VECTOR3, m_transform.getScale());
     properties.emplace_back("Material", PROPERTY_TYPE::LABEL, nullptr);
     properties.emplace_back("Diffuse Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getDiffuseColor());
