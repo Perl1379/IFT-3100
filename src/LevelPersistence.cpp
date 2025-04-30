@@ -43,7 +43,7 @@ glm::vec3 stringToVec3(const std::string &str) {
 /**
  * Helper function to convert string to floatColor3
  */
-ofFloatColor stringToColor(const std::string &str) {
+ofFloatColor LevelPersistence::stringToColor(const std::string &str) {
     float r, g, b, a;
     std::stringstream ss(str);
     char delimiter;
@@ -134,6 +134,10 @@ void LevelPersistence::saveNode(ofXml &xml, BaseNode *node) {
     ofXml xmlProperties = xmlNode.appendChild("Properties");
     auto properties = node->getProperties();
     for (auto prop: properties) {
+
+        if (prop.getType() == PROPERTY_TYPE::LABEL) continue;
+        if (prop.getType() == PROPERTY_TYPE::DUMB_BUTTON) continue;
+
         ofXml xmlProperty = xmlProperties.appendChild("Property");
         xmlProperty.setAttribute("name", prop.getName());
         xmlProperty.setAttribute("type", prop.getType());

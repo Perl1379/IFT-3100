@@ -39,12 +39,13 @@ void main()
 
         float dist = length(light_position[i] - p);
         float attenuation = 1.0 / (0.1 + light_attenuation[i] * dist);
+        attenuation = max(attenuation, 0.01);
 
         float reflection_diffuse = max(dot(n, l), 0.0);
 
         vec3 ambient = light_color_ambient[i] * color_ambient;
         vec3 diffuse = light_color_diffuse[i] * color_diffuse * reflection_diffuse;
-        final_ambient += ambient * attenuation;
+        final_ambient += ambient;
         final_diffuse += diffuse * reflection_diffuse * attenuation;
     }
 

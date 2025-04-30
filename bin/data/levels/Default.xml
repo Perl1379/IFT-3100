@@ -1,78 +1,92 @@
 <?xml version="1.0"?>
-<Level skyboxName="lightsky" selectedNode="2">
+<Level skyboxName="blood" selectedNode="0">
 	<Cameras>
-		<Camera position="-317.957, 1043.56, 98.0805" orientation="-102.016, 2.37858, 12.7917" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
-		<Camera position="122.612, 582.535, 192.623" orientation="116.753, 40.871, -180" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
-		<Camera position="480.001, 182.608, -70.5198" orientation="167.471, 86.8402, 180" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="4" tonemapUniforms="" />
+		<Camera position="-100.765, 207.366, 569.479" orientation="-25.4652, -8.15761, 4.27499" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="5" tonemapUniforms="" />
+		<Camera position="47.2564, -96.2248, -34.422" orientation="-126.835, 40.9689, 180" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="5" tonemapUniforms="" />
+		<Camera position="-584.724, -73.3695, -14.4827" orientation="143.673, 84.6899, -179.998" orthoMode="0" orthoZoom="1" fov="70" nearClip="1" farClip="20000" tonemapType="0" lightModel="5" tonemapUniforms="" />
 	</Cameras>
 	<Lights ambientColor="0, 0, 0, 1">
-		<LightSource type="1" enabled="1" position="-470, 230, 60" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0007" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
-		<LightSource type="1" enabled="0" position="-1240, 310, 655" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0002" ambientColor="0, 0, 0, 1" diffuseColor="1, 0, 0, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
-		<LightSource type="1" enabled="0" position="0, 600, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
-		<LightSource type="1" enabled="0" position="0, 400, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
-		<LightSource type="1" enabled="0" position="0, 200, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
-		<LightSource type="1" enabled="0" position="0, 0, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
-		<LightSource type="1" enabled="0" position="0, -200, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
-		<LightSource type="1" enabled="0" position="0, -400, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="1" position="0, 1000, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0001" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="0" position="0, 800, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="0" position="0, 600, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="0" position="0, 400, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="0" position="0, 200, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="0" position="0, 0, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="0" position="0, -200, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
+		<LightSource type="1" enabled="0" position="0, -400, 2000" orientation="0, -0, 0" scale="1, 1, 1" attenuation="0.0005" ambientColor="0, 0, 0, 1" diffuseColor="1, 1, 1, 1" specularColor="1, 1, 1, 1" cameraBind="-1" />
 	</Lights>
 	<Nodes>
-		<Node class="BoxNode" expanded="1">
+		<Node class="SphereNode" expanded="1">
 			<Properties>
-				<Property name="Name" type="0" value="Box" />
+				<Property name="Name" type="0" value="Sphere" />
 				<Property name="Display" type="6" value="1" />
-				<Property name="Transform" type="5" />
-				<Property name="Position" type="1" value="0, 0, 20" />
+				<Property name="Position" type="1" value="260, 0, 0" />
 				<Property name="Orientation" type="1" value="0, -0, 0" />
 				<Property name="Scale" type="1" value="1, 1, 1" />
-				<Property name="Material" type="5" />
-				<Property name="Diffuse Color" type="2" value="0.8, 0.8, 0.8, 1" />
-				<Property name="Ambient Color" type="2" value="0.2, 0.2, 0.2, 1" />
-				<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
-				<Property name="Specular Color" type="2" value="0, 0, 0, 1" />
-				<Property name="Shininess" type="3" value="0.2" />
+				<Property name="Diffuse Color" type="2" value="1, 1, 1, 1" />
+				<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+				<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+				<Property name="Shininess" type="3" value="0.8" />
+				<Property name="Roughness" type="3" value="0.5" />
+				<Property name="Ind. of Reflexion" type="3" value="1.65" />
 				<Property name="Metallicity" type="3" value="0" />
-				<Property name="Texture" type="5" />
-				<Property name="Albedo" type="12" value="filename=data/images/textures/rock_face/rock_face_diff_4k.png;4096.000000;4096.000000;9729;9729;10497;1.000000" />
-				<Property name="Normal" type="12" value="filename=data/images/textures/rock_face/rock_face_nor_gl_4k.png;4096.000000;4096.000000;9729;9729;10497;1.000000" />
-				<Property name="Ambient Occl." type="12" value="color=1.000000,1.000000,1.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
-				<Property name="Roughness" type="12" value="color=0.500000,0.500000,0.500000;1.000000;1.000000;9729;9729;10497;1.000000" />
-				<Property name="Metallic" type="12" value="color=0.000000,0.000000,0.000000;1.000000;1.000000;9729;9729;10497;1.000000" />
-				<Property name="Presets" type="9" value="0" />
-				<Property name="Apply preset" type="11" />
-				<Property name="Box parameters" type="5" />
-				<Property name="Width" type="3" value="100" />
-				<Property name="Height" type="3" value="100" />
-				<Property name="Depth" type="3" value="100" />
-				<Property name="Resolution" type="7" value="2" />
+				<Property name="Albedo" type="12" value="filename=data/images/textures/materials/sandstone_cracks/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;1.000000" />
+				<Property name="Normal" type="12" value="filename=data/images/textures/materials/sandstone_cracks/normal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+				<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/sandstone_cracks/ao.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+				<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/sandstone_cracks/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+				<Property name="Metallic" type="12" value="filename=data/images/textures/materials/sandstone_cracks/metal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+				<Property name="Radius" type="3" value="100" />
+				<Property name="Resolution" type="7" value="16" />
 			</Properties>
-			<Node class="SphereNode" expanded="1">
-				<Properties>
-					<Property name="Name" type="0" value="Sphere" />
-					<Property name="Display" type="6" value="1" />
-					<Property name="Transform" type="5" />
-					<Property name="Position" type="1" value="0, 0, 415" />
-					<Property name="Orientation" type="1" value="0, -0, 0" />
-					<Property name="Scale" type="1" value="1, 1, 1" />
-					<Property name="Material" type="5" />
-					<Property name="Diffuse Color" type="2" value="0.8, 0.8, 0.8, 1" />
-					<Property name="Ambient Color" type="2" value="0.2, 0.2, 0.2, 1" />
-					<Property name="Emissive Color" type="2" value="0, 0, 0, 1" />
-					<Property name="Specular Color" type="2" value="0, 0, 0, 1" />
-					<Property name="Shininess" type="3" value="0.2" />
-					<Property name="Metallicity" type="3" value="0" />
-					<Property name="Texture" type="5" />
-					<Property name="Albedo" type="12" value="filename=data/images/textures/sandstone_cracks/sandstone_cracks_diff_4k.png;4096.000000;4096.000000;9985;9729;10497;1.000000" />
-					<Property name="Normal" type="12" value="filename=data/images/textures/sandstone_cracks/sandstone_cracks_nor_gl_4k.png;4096.000000;4096.000000;9729;9729;10497;1.000000" />
-					<Property name="Ambient Occl." type="12" value="filename=data/images/textures/sandstone_cracks/sandstone_cracks_ao_4k.png;4096.000000;4096.000000;9729;9729;10497;1.000000" />
-					<Property name="Roughness" type="12" value="filename=data/images/textures/sandstone_cracks/sandstone_cracks_arm_4k.png;4096.000000;4096.000000;9729;9729;10497;1.000000" />
-					<Property name="Metallic" type="12" value="filename=data/images/textures/sandstone_cracks/sandstone_cracks_ao_4k.png;4096.000000;4096.000000;9729;9729;10497;1.000000" />
-					<Property name="Presets" type="9" value="0" />
-					<Property name="Apply preset" type="11" />
-					<Property name="Sphere parameters" type="5" />
-					<Property name="Radius" type="3" value="300" />
-					<Property name="Resolution" type="7" value="16" />
-				</Properties>
-			</Node>
+		</Node>
+		<Node class="SphereNode" expanded="1">
+			<Properties>
+				<Property name="Name" type="0" value="Sphere" />
+				<Property name="Display" type="6" value="1" />
+				<Property name="Position" type="1" value="-240, 0, 0" />
+				<Property name="Orientation" type="1" value="0, -0, 0" />
+				<Property name="Scale" type="1" value="1, 1, 1" />
+				<Property name="Diffuse Color" type="2" value="1, 1, 1, 1" />
+				<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+				<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+				<Property name="Shininess" type="3" value="0.8" />
+				<Property name="Roughness" type="3" value="0.5" />
+				<Property name="Ind. of Reflexion" type="3" value="1.65" />
+				<Property name="Metallicity" type="3" value="0" />
+				<Property name="Albedo" type="12" value="filename=data/images/textures/materials/dark_brick/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;1.000000" />
+				<Property name="Normal" type="12" value="filename=data/images/textures/materials/dark_brick/normal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+				<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/dark_brick/ao.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+				<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/dark_brick/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+				<Property name="Metallic" type="12" value="filename=data/images/textures/materials/dark_brick/metal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+				<Property name="Radius" type="3" value="100" />
+				<Property name="Resolution" type="7" value="16" />
+			</Properties>
+		</Node>
+		<Node class="SphereNode" expanded="1">
+			<Properties>
+				<Property name="Name" type="0" value="Sphere" />
+				<Property name="Display" type="6" value="1" />
+				<Property name="Position" type="1" value="0, 0, 0" />
+				<Property name="Orientation" type="1" value="0, -0, 0" />
+				<Property name="Scale" type="1" value="1, 1, 1" />
+				<Property name="Diffuse Color" type="2" value="1, 1, 1, 1" />
+				<Property name="Ambient Color" type="2" value="0, 0, 0, 1" />
+				<Property name="Emissive Color" type="2" value="1, 1, 1, 1" />
+				<Property name="Specular Color" type="2" value="1, 1, 1, 1" />
+				<Property name="Shininess" type="3" value="0.8" />
+				<Property name="Roughness" type="3" value="0.5" />
+				<Property name="Ind. of Reflexion" type="3" value="1.65" />
+				<Property name="Metallicity" type="3" value="0" />
+				<Property name="Albedo" type="12" value="filename=data/images/textures/materials/rocky_terrain/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;1.000000" />
+				<Property name="Normal" type="12" value="filename=data/images/textures/materials/rocky_terrain/normal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+				<Property name="Ambient Occl." type="12" value="filename=data/images/textures/materials/rocky_terrain/ao.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+				<Property name="Rough. Texture" type="12" value="filename=data/images/textures/materials/rocky_terrain/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+				<Property name="Metallic" type="12" value="filename=data/images/textures/materials/rocky_terrain/metal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+				<Property name="Radius" type="3" value="100" />
+				<Property name="Resolution" type="7" value="16" />
+			</Properties>
 		</Node>
 	</Nodes>
 </Level>

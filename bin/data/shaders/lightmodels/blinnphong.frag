@@ -3,7 +3,6 @@
 in vec3 surface_position;
 in vec3 surface_normal;
 in vec2 surface_texcoord;
-in mat3 TBN;  // Tangent, Bitangent, Normal matrix
 
 out vec4 fragment_color;
 
@@ -22,27 +21,23 @@ uniform float light_attenuation[8];
 uniform vec3 light_color_ambient[8];
 uniform vec3 light_color_diffuse[8];
 uniform vec3 light_color_specular[8];
-
 uniform float texture_albedo_scale;
 uniform float texture_normal_scale;
 
-layout(binding=0) uniform sampler2D textureAlbedo;
-layout(binding=1) uniform sampler2D textureNormal;
-
+layout(binding=0) uniform sampler2D texture_albedo;
+layout(binding=1) uniform sampler2D texture_normal;
 
 void main()
 {
-    vec4 texColor = texture(textureAlbedo, surface_texcoord * texture_albedo_scale);
+    vec4 texture_color = texture(texture_albedo, surface_texcoord * texture_albedo_scale);
+    vec3 normal_color = texture(texture_normal, surface_texcoord * texture_normal_scale).rgb * 2.0 - 1.0;
+    vec3 perturbed_normal = normalize(vec3(
+                                      surface_normal.x + normal_color.x * 0.3,
+                                      surface_normal.y + normal_color.y * 0.3,
+                                      surface_normal.z
+                                      ));
 
-
-    vec3 normalMapSample = texture(textureNormal, surface_texcoord * texture_normal_scale).rgb;
-    vec3 tangentNormal = normalMapSample * 2.0 - 1.0;
-
-    vec3 worldNormal = normalize(TBN * tangentNormal);
-
-
-    // Lighting calculations
-    vec3 n = worldNormal; // Use the normal from the normal map
+    vec3 n = perturbed_normal;
     vec3 v = normalize(-surface_position);
 
     vec3 final_ambient = vec3(0.0);
@@ -52,7 +47,7 @@ void main()
     for (int i = 0; i < light_sources; ++i)
     {
         vec3 l = normalize(light_position[i] - surface_position);
-        vec3 h = normalize(l + v);
+        vec3 h = normalize(l + v); // vecteur halfway
 
         float dist = length(light_position[i] - surface_position);
         float attenuation = 1.0 / (0.1 + light_attenuation[i] * dist);
@@ -64,11 +59,11 @@ void main()
         vec3 diffuse = light_color_diffuse[i] * color_diffuse * reflection_diffuse;
         vec3 specular = light_color_specular[i] * color_specular * reflection_specular;
         final_ambient += ambient * attenuation;
-        final_diffuse += diffuse * attenuation;
-        final_specular += specular * attenuation;
+        final_diffuse += diffuse * reflection_diffuse * attenuation;
+        final_specular += specular * reflection_specular * attenuation;
     }
 
-    vec3 final_color = (final_ambient + final_diffuse + final_specular + global_ambient_color) * texColor.rgb;
+    vec3 final_color = (final_ambient + final_diffuse + final_specular + global_ambient_color) * texture_color.rgb;
     fragment_color = vec4(final_color, 1.0);
 
 }

@@ -1,4 +1,4 @@
-#version 150
+#version 420
 
 in vec3 surface_position;
 in vec3 surface_normal;
@@ -21,123 +21,156 @@ uniform float light_attenuation[8];
 uniform vec3 light_color_ambient[8];
 uniform vec3 light_color_diffuse[8];
 uniform vec3 light_color_specular[8];
+uniform float pbr_metallic;
+uniform float pbr_ior;
+uniform float pbr_roughness;
 
 uniform float texture_albedo_scale;
 uniform float texture_normal_scale;
 
-uniform sampler2D textureAlbedo;
-uniform sampler2D textureNormal;
+layout(binding=0) uniform sampler2D texture_albedo;
+layout(binding=1) uniform sampler2D texture_normal;
+layout(binding=2) uniform sampler2D texture_occlusion;
+layout(binding=3) uniform sampler2D texture_roughness;
+layout(binding=4) uniform sampler2D texture_metallic;
 
-const float material_roughness = 0.5;
-const float material_metallic = 0.0;
 
 // Constants
-const float PI = 3.14159265359;
 
-vec3 getNormal()
-{
-    vec3 n = normalize(surface_normal);
-    if (texture_normal_scale > 0.0) {
-        vec3 normal_map = texture(textureNormal, surface_texcoord).rgb;
-        normal_map = normalize(normal_map * 2.0 - 1.0);
-        mat3 TBN = mat3(normalize(normal_tangent), normalize(normal_bitangent), normalize(n));
-        n = normalize(TBN * normal_map);
-    }
-    return n;
-}
+const float PI = 3.1415926535897932384626433832795;
 
-float distributionGGX(vec3 n, vec3 h, float roughness)
+
+// fonction de distribution des microfacettes (Trowbridge-Reitz)
+float trowbridge_reitz(vec3 n, vec3 h, float roughness)
 {
     float a = roughness * roughness;
     float a2 = a * a;
     float ndh = max(dot(n, h), 0.0);
-    float denom = (ndh * ndh * (a2 - 1.0) + 1.0);
-    return a2 / (PI * denom * denom);
+    float ndh2 = ndh * ndh;
+    float numerator = a2;
+    float denominator = (ndh2 * (a2 - 1.0) + 1.0);
+    denominator = denominator * denominator * PI;
+    return numerator / denominator;
 }
 
-float geometrySchlickGGX(float ndv, float roughness)
+// fonction géométrique pour calculer l'impact de l'occlusion et de l'ombrage des microfacettes (Schlick-Beckmann)
+float schlick_beckmann(float costheta, float roughness)
 {
     float r = (roughness + 1.0);
     float k = (r * r) / 8.0;
-    return ndv / (ndv * (1.0 - k) + k);
+    float numerator = costheta;
+    float denominator = costheta * (1.0 - k) + k;
+    return numerator / denominator;
 }
 
-float geometrySmith(vec3 n, vec3 v, vec3 l, float roughness)
+// fonction géométrique avec occlusion et ombrage combinés (méthode de Smith)
+float smith(vec3 n, vec3 l, vec3 v, float roughness)
 {
-    float ndv = max(dot(n, v), 0.0);
     float ndl = max(dot(n, l), 0.0);
-    float ggx1 = geometrySchlickGGX(ndv, roughness);
-    float ggx2 = geometrySchlickGGX(ndl, roughness);
-    return ggx1 * ggx2;
+    float ndv = max(dot(n, v), 0.0);
+    float shadow = schlick_beckmann(ndl, roughness);
+    float occlusion = schlick_beckmann(ndv, roughness);
+    return shadow * occlusion;
 }
 
-vec3 fresnelSchlick(float cos_theta, vec3 f0)
+// fonction qui calcul l'effet de Fresnel
+vec3 schlick_fresnel(float costheta, vec3 f0)
 {
-    return f0 + (1.0 - f0) * pow(1.0 - cos_theta, 5.0);
+    return f0 + (1.0 - f0) * pow(1.0 - costheta, 5.0);
+}
+
+// mappage tonal de la couleur HDR vers LDR (Reinhard tone mapping)
+vec3 tone_mapping_reinhard(vec3 x)
+{
+    return x / (x + vec3(1.0));
+}
+
+// mappage tonal de la couleur HDR vers LDR (approximation de la courbe du ACES filmic tone mapping)
+vec3 tone_mapping_aces_filmic(vec3 x)
+{
+    float a = 2.51f;
+    float b = 0.03f;
+    float c = 2.43f;
+    float d = 0.59f;
+    float e = 0.14f;
+    return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
+}
+
+// fonction qui calcule un modèle d'illumination de type pbr avec brdf de cook-torrance
+vec3 brdf_cook_torrance()
+{
+    vec3 normal_color = texture(texture_normal, surface_texcoord * texture_normal_scale).rgb * 2.0 - 1.0;
+    vec3 perturbed_normal = normalize(vec3(
+                                      surface_normal.x + normal_color.x * 0.3,
+                                      surface_normal.y + normal_color.y * 0.3,
+                                      surface_normal.z
+                                      ));
+
+    vec3 n = perturbed_normal;
+
+    // direction vers la caméra
+    vec3 v = normalize(-surface_position);
+
+    // échantillons de textures
+    vec3 texture_sample_diffuse = texture(texture_albedo, surface_texcoord * texture_albedo_scale).rgb;
+    float texture_sample_metallic = texture(texture_metallic, surface_texcoord).r;
+    float texture_sample_roughness = texture(texture_roughness, surface_texcoord).r;
+    float texture_sample_occlusion = texture(texture_occlusion, surface_texcoord).r;
+
+    // propriétés du matériau
+    float metallic = pbr_metallic * texture_sample_metallic;
+    float roughness = pbr_roughness * texture_sample_roughness;
+    float occlusion = texture_sample_occlusion;
+
+    vec3 albedo = color_diffuse * texture_sample_diffuse;
+    vec3 ambient = color_ambient * albedo * occlusion;
+
+    // réflexion à incidence nulle
+
+    float dielectric_ior = pbr_ior;
+    float base_reflectivity = pow((dielectric_ior - 1.0) / (dielectric_ior + 1.0), 2.0);
+
+    vec3 f0 = vec3(base_reflectivity);
+    f0 = mix(f0, albedo, metallic);
+
+
+    // accumulation des réflexions
+    vec3 reflectance = vec3(0.0);
+
+    for (int i = 0; i < light_sources; ++i)
+    {
+        vec3 l = normalize(light_position[i] - surface_position);
+        vec3 h = normalize(l + v);
+        float light_distance = length(light_position[i] - surface_position);
+        float attenuation = 1.0 / (0.1 + light_attenuation[i] * light_distance);
+        vec3 radiance = light_color_diffuse[i] * attenuation;
+
+        float n_dot_l = max(dot(n, l), 0.0);
+
+        float d = trowbridge_reitz(n, h, roughness);
+        float g = smith(n, l, v, roughness);
+        vec3 f = schlick_fresnel(max(dot(h, v), 0.0), f0);
+
+        vec3 numerator = d * f * g;
+        float denominator = 4.0 * max(dot(n, v), 0.0) * n_dot_l;
+        vec3 specular = numerator / max(denominator, 0.001);
+
+        vec3 ks = f;
+        vec3 kd = vec3(1.0) - ks;
+        kd *= 1.0 - metallic;
+
+        reflectance += (kd * albedo / PI + specular) * radiance * n_dot_l;
+    }
+
+    vec3 color = global_ambient_color + ambient + reflectance;
+    return color;
 }
 
 void main()
 {
-    vec3 n = getNormal();
-    vec3 v = normalize(-surface_position); // camera is at (0,0,0)
+    // évaluation du modèle d'illumination
+    vec3 color = brdf_cook_torrance();
 
-    // Albedo (color_diffuse or texture)
-    vec3 tex_albedo = pow(texture(textureAlbedo, surface_texcoord).rgb, vec3(2.2));
-    vec3 albedo = mix(color_diffuse, tex_albedo, texture_albedo_scale);
-
-    // Fresnel reflectance at normal incidence
-    vec3 f0 = mix(vec3(0.04), albedo, material_metallic);
-
-    vec3 radiance_total = vec3(0.0);
-
-    for (int i = 0; i < light_sources; ++i)
-    {
-        vec3 l;
-        float attenuation = 1.0;
-        if (light_type[i] == 0) { // point
-            vec3 lp = light_position[i];
-            vec3 light_vec = lp - surface_position;
-            float d = length(light_vec);
-            l = normalize(light_vec);
-            attenuation = 1.0 / (1.0 + light_attenuation[i] * d * d);
-        }
-        else if (light_type[i] == 1) { // directional
-            l = normalize(-light_orientation[i]);
-        }
-        else {
-            continue; // skip unsupported light types
-        }
-
-        vec3 h = normalize(v + l);
-        float ndl = max(dot(n, l), 0.0);
-        float ndv = max(dot(n, v), 0.0);
-        float ndh = max(dot(n, h), 0.0);
-
-        // Cook-Torrance BRDF
-        float D = distributionGGX(n, h, material_roughness);
-        float G = geometrySmith(n, v, l, material_roughness);
-        vec3 F = fresnelSchlick(max(dot(h, v), 0.0), f0);
-
-        vec3 specular = (D * G * F) / max(4.0 * ndv * ndl, 0.001);
-
-        vec3 kS = F;
-        vec3 kD = (vec3(1.0) - kS) * (1.0 - material_metallic);
-
-        vec3 light_color = light_color_diffuse[i];
-        vec3 light_radiance = light_color * attenuation;
-
-        radiance_total += (kD * albedo / PI + specular) * light_radiance * ndl;
-    }
-
-    // Ambient term
-    vec3 ambient = (global_ambient_color + color_ambient) * albedo * (1.0 - material_metallic);
-
-    // Final color
-    vec3 color = ambient + radiance_total;
-
-    // Tone mapping and gamma correction
-    color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0 / 2.2)); // gamma correction
-
+    // assigner la couleur final du fragment dans un attribut en sortie
     fragment_color = vec4(color, 1.0);
 }

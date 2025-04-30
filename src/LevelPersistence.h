@@ -14,10 +14,12 @@
 class LevelPersistence {
 
 private:
+
     void saveNode(ofXml & xml, BaseNode * node);
     void loadNode(ofXml & xml, BaseNode * node);
 
 public:
+    static ofFloatColor stringToColor(const std::string &str);
 
     void saveToFile(const std::string& filename);
     void loadFromFile(const std::string& filename);

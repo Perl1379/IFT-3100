@@ -36,6 +36,22 @@ void NewLevelDialog::draw() {
             m_isOpen = false;
 
             Global::m_level.reset();
+
+            // Init lights
+            for (int i=0;i<8;i++) {
+                Global::m_lights[i].setup();
+                Global::m_lights[i].setAttenuation(0.0005);
+                Global::m_lights[i].setLightType(POINT_LIGHT);
+                Global::m_lights[i].setPosition(ofVec3f(0, 1000 - (i * 200), 2000));
+
+                if (i > 0) {
+                    Global::m_lights[i].setEnabled(false);
+                } else {
+                    Global::m_lights[i].setEnabled(true);
+
+                }
+            }
+
         }
 
         ImGui::SameLine();

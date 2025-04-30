@@ -528,8 +528,54 @@ void UserInterface::drawTreeActions() {
                 }
             }
             if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
-                ImGui::SetTooltip(
-                    Global::m_tooltipMessages.level_down);
+                ImGui::SetTooltip(Global::m_tooltipMessages.level_down);
+
+
+            if (selectedNode->getUseMaterial()) {
+                ImGui::SameLine();
+
+                std::vector<std::string> items;
+                auto presets = Global::m_materialPresets.getPresets();
+                items.push_back("Preset");
+                for (size_t i=0;i<presets->size();i++) {
+                    items.push_back(presets->at(i).m_name);
+                }
+
+                int currentIndex = 0;
+
+                const char* currentItem = items[currentIndex].c_str();
+                ImGui::SetNextItemWidth(72);
+                if (ImGui::BeginCombo("##preset", currentItem)) {
+                    for (size_t n = 0; n < items.size(); n++) {
+                        if (ImGui::Selectable(items[n].c_str(), false)) {
+
+                            // Apply material
+                            if (n > 0) {
+                                auto preset = presets->at(n - 1);
+                                selectedNode->setProperty("Diffuse Color", preset.m_colorDiffuse);
+                                selectedNode->setProperty("Ambient Color", preset.m_colorAmbient);
+                                selectedNode->setProperty("Emissive Color", preset.m_colorEmissive);
+                                selectedNode->setProperty("Specular Color", preset.m_colorSpecular);
+                                selectedNode->setProperty("Shininess", preset.m_shininess);
+                                selectedNode->setProperty("Roughness", preset.m_roughness);
+                                selectedNode->setProperty("Ind. of Reflexion", preset.m_ior);
+                                selectedNode->setProperty("Metallicity", preset.m_metallicity);
+                                selectedNode->setProperty("Albedo", preset.m_textureAlbedo);
+                                selectedNode->setProperty("Normal", preset.m_textureNormal);
+                                selectedNode->setProperty("Ambient Occl.", preset.m_textureAO);
+                                selectedNode->setProperty("Rough. Texture", preset.m_textureRoughness);
+                                selectedNode->setProperty("Metallic", preset.m_textureMetallic);
+
+
+                            }
+
+                        }
+                    }
+                    ImGui::EndCombo();
+                }
+                if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+                    ImGui::SetTooltip(Global::m_tooltipMessages.material_applyPreset);
+            }
         }
 
         if (m_addNodeDialog.isOpen()) {

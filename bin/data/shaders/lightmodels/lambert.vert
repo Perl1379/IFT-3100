@@ -9,16 +9,15 @@ out vec3 surface_normal;
 out vec2 surface_texcoord;
 
 // Uniforms
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
+uniform mat4x4 modelViewMatrix;
+uniform mat4x4 projectionMatrix;
 
 void main()
 {
-
-    mat4 normalMatrix = transpose(inverse(modelViewMatrix));
-    surface_normal = normalize(vec3(normalMatrix * normal));
-    surface_position = vec3(modelViewMatrix * position);
+    mat4x4 normalMatrix = transpose(inverse(modelViewMatrix));
+    surface_normal = vec3(normalMatrix * normal);
     surface_texcoord = texcoord;
+    surface_position = vec3(modelViewMatrix * position);
 
     gl_Position = projectionMatrix * modelViewMatrix * position;
 }

@@ -35,11 +35,12 @@ int PlaneNode::draw(bool p_objectPicking, Camera* p_camera) {
     if (p_camera->testVisibility(m_transform.getGlobalPosition(), getBoundingBox() * m_transform.getGlobalScale())) {
         m_transform.transformGL();
         m_primitive.draw();
+
         m_transform.restoreTransformGL();
         count++;
     }
 
-    count = endDraw(p_objectPicking, p_camera);
+    count += endDraw(p_objectPicking, p_camera);
     return count;
 }
 

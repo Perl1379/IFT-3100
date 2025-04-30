@@ -12,7 +12,6 @@
 #include <of3dGraphics.h>
 #include <ofGraphics.h>
 #include <PerlinNoiseTexture.h>
-#include "MaterialPreset.h"
 
 
 /**
@@ -23,6 +22,9 @@ BaseNode::BaseNode(const std::string& p_name) : m_name(p_name) {
 	m_id = Global::id_next;
 	Global::id_next += 1;
 
+	m_materialNode.setMetallic(0.0);
+	m_materialNode.setReflectance(1.5);
+	m_materialNode.setRoughness(1.0);
 
 	m_textureAlbedo.setup(ofFloatColor(1.0f, 1.0f, 1.0f));
 	m_textureNormal.setup(ofFloatColor(0.50196, 0.50196, 1.0));
@@ -143,17 +145,17 @@ std::vector<NodeProperty> BaseNode::getProperties() const {
 		properties.emplace_back("Emissive Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getEmissiveColor());
 		properties.emplace_back("Specular Color", PROPERTY_TYPE::COLOR_PICKER, m_materialNode.getSpecularColor());
 		properties.emplace_back("Shininess", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getShininess());
+		properties.emplace_back("Roughness", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getRoughness());
+		properties.emplace_back("Ind. of Reflexion", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getReflectance());
 		properties.emplace_back("Metallicity", PROPERTY_TYPE::FLOAT_FIELD, m_materialNode.getMetallic());
 
 		properties.emplace_back("Texture", PROPERTY_TYPE::LABEL, nullptr);
 		properties.emplace_back("Albedo", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureAlbedo);
 		properties.emplace_back("Normal", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureNormal);
 		properties.emplace_back("Ambient Occl.", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureAmbientOcclusion);
-		properties.emplace_back("Roughness", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureRoughness);
+		properties.emplace_back("Rough. Texture", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureRoughness);
 		properties.emplace_back("Metallic", PROPERTY_TYPE::TEXTURE2D, (TextureInfo*) &m_textureMetallic);
 
-		properties.emplace_back("Presets", PROPERTY_TYPE::ITEM_CLIST, std::make_pair(m_selectedMaterialPreset, Global::m_materialPreset.getPresetList()), Global::m_tooltipMessages.material_preset);
-		properties.emplace_back("Apply preset", PROPERTY_TYPE::DUMB_BUTTON, false, Global::m_tooltipMessages.material_applyPreset);
 	}
 
 	return properties;
@@ -216,6 +218,14 @@ void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 			m_materialNode.setShininess(std::any_cast<float>(p_value));
 		}
 
+		if (p_name == "Roughness") {
+			m_materialNode.setRoughness(std::any_cast<float>(p_value));
+		}
+
+		if (p_name == "Ind. of Reflexion") {
+			m_materialNode.setReflectance(std::any_cast<float>(p_value));
+		}
+
 		if (p_name == "Metallicity") {
 			m_materialNode.setMetallic(std::any_cast<float>(p_value));
 		}
@@ -232,7 +242,7 @@ void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 			m_textureAmbientOcclusion.setPropertyValue(std::any_cast<std::string>(p_value));
 		}
 
-		if (p_name == "Roughness") {
+		if (p_name == "Rough. Texture") {
 			m_textureRoughness.setPropertyValue(std::any_cast<std::string>(p_value));
 		}
 
@@ -240,56 +250,8 @@ void BaseNode::setProperty(const std::string& p_name, std::any p_value) {
 			m_textureMetallic.setPropertyValue(std::any_cast<std::string>(p_value));
 		}
 
-		if (p_name == "Presets") {
-			m_selectedMaterialPreset = std::any_cast<int>(p_value);
-		}
-
-		if (p_name == "Apply preset") {
-			applyPreset(m_selectedMaterialPreset);
-		}
 	}
 
-
-}
-
-
-/**
-* Apply the selected preset values to the material
-*/
-void BaseNode::applyPreset(int p_index)
-{
-	ofLog() << "TODO: Apply preset";
-
-	//Textures
-	const MaterialPBR & mat = Global::m_materialPreset.getMaterial(p_index);
-	for (size_t i = 0; i < mat.m_textures.size(); i++) {
-		if (!mat.m_textures[i].isAllocated()) {
-			switch (i)
-			{
-			case 0: //ao
-				
-				break;
-			case 1: //arm (Albedo Rougness Metallic)
-				
-				break;
-			case 2: //diff
-				
-				break;
-			case 3: //disp
-				
-				break;
-			case 4: //nor
-				
-				break;
-			case 5: //rough
-
-				break;
-			case 6: //spec
-				
-				break;
-			}
-		}
-	}
 }
 
 
@@ -384,12 +346,15 @@ void BaseNode::beginDraw(bool p_objectPicking, Camera* p_camera) {
 			m_shader->setUniform3f("color_emissive", colorEmissive.r, colorEmissive.g, colorEmissive.b);
 			m_shader->setUniform3f("color_specular", colorSpecular.r, colorSpecular.g, colorSpecular.b);
 			m_shader->setUniform1f("mat_shininess", m_materialNode.getShininess());
-			m_shader->setUniform1f("mat_metallic", m_materialNode.getMetallic());
+			m_shader->setUniform1f("pbr_metallic", m_materialNode.getMetallic());
+			m_shader->setUniform1f("pbr_roughness", m_materialNode.getRoughness());
+			m_shader->setUniform1f("pbr_ior", m_materialNode.getReflectance());
 			m_shader->setUniform1f("texture_albedo_scale", m_textureAlbedo.getTextureScale());
 			m_shader->setUniform1f("texture_normal_scale", m_textureNormal.getTextureScale());
 			m_shader->setUniform1f("texture_ao_scale", m_textureAmbientOcclusion.getTextureScale());
 			m_shader->setUniform1f("texture_roughness_scale", m_textureRoughness.getTextureScale());
 			m_shader->setUniform1f("texture_metallic_scale", m_textureMetallic.getTextureScale());
+
 			m_textureAlbedo.getTexture()->bind(0);
 			m_textureNormal.getTexture()->bind(1);
 			m_textureAmbientOcclusion.getTexture()->bind(2);
@@ -551,10 +516,3 @@ std::tuple<bool, bool, bool> BaseNode::getTransformAxes() {
 	return std::make_tuple(m_axisTransformX, m_axisTransformY, m_axisTransformZ);
 }
 
-
-/**
- * Calculate tangents and bitangents
- */
-void BaseNode::calculateTangentsAndBitangents() {
-	// Do nothing by default
-}

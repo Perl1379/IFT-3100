@@ -1,39 +1,38 @@
 /*****************************************************
- * TP IFT3100H25 - Adventure Party Maker
+* TP IFT3100H25 - Adventure Party Maker
  * by Team 12
  *****************************************************
  *
- * MaterialPreset class definition
+ * MaterialPreset struct definition
  *
  *****************************************************/
-
 #pragma once
-#include <string>
-#include <map>
-#include <vector>
+#include <iostream>
 #include <ofColor.h>
-#include <ofMain.h>
-#include "Material.h"
+using namespace std;
 
-enum class textureTypes { ao, arm, diff, disp, nor, rough, spec };
 
-class MaterialPreset
-{
-private:
-	// PRIVATE VARIABLES
-	std::vector<std::string> m_presetNames;
-	std::vector<const char*> m_presetCNames;
-	const std::vector<std::string> m_TEXTURE_TYPES{ "ao", "arm", "diff", "disp", "nor", "rough", "spec"};
-	std::map<std::string, MaterialPBR> m_presetValues;
-public: 
-	void init();
-	~MaterialPreset();
+struct MaterialPreset {
 
-	//accessors
-	const std::vector<const char*> getPresetList() { return m_presetCNames; };
-	const MaterialPBR& getMaterial(int p_index);
+    string m_name;
 
-private:
-	void listCValues();
-	void loadTextures(MaterialPBR& p_mat);
+    // Only used by Phong
+    ofFloatColor m_colorAmbient;
+    ofFloatColor m_colorSpecular;
+    float m_shininess = 1.0f;
+
+    // Used by both phong and PBR
+    ofFloatColor m_colorDiffuse;
+    ofFloatColor m_colorEmissive;
+    float m_roughness = 0.5f;
+    std::string m_textureAlbedo;
+    std::string m_textureNormal;
+
+    // PBR Only
+    float m_metallicity = 0.0f;
+    float m_ior = 0.5f;
+
+    std::string m_textureAO;
+    std::string m_textureMetallic;
+    std::string m_textureRoughness;
 };
