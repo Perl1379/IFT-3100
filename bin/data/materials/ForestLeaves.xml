@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Material name="Forest Leaves">
+    <Property name="Diffuse Color" value="0.5, 1.0, 0.5, 1.0" />
+    <Property name="Ambient Color" value="0.0, 0.0, 0.0, 1.0" />
+    <Property name="Emissive Color" value="1, 1, 1, 1" />
+    <Property name="Specular Color" value="1, 1, 1, 1" />
+
+    <Property name="Shininess" value="0.1" />
+    <Property name="Roughness" value="0.9" />
+    <Property name="Metallicity" value="0.0" />
+    <Property name="Reflectance" value="1.65" />
+
+    <Property name="Albedo Texture" value="filename=data/images/textures/materials/forest_leaves/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;1.000000" />
+    <Property name="Normal Texture" value="filename=data/images/textures/materials/forest_leaves/normal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+    <Property name="Metallic Texture" value="filename=data/images/textures/materials/forest_leaves/metal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+    <Property name="Roughness Texture" value="filename=data/images/textures/materials/forest_leaves/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+    <Property name="AO Texture" value="filename=data/images/textures/materials/forest_leaves/ao.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+
+</Material>

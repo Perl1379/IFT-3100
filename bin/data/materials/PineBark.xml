@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Material name="Pine Bark">
+    <Property name="Diffuse Color" value="0.541, 0.396, 0.106, 1.0" />
+    <Property name="Ambient Color" value="0.0, 0.0, 0.0, 1.0" />
+    <Property name="Emissive Color" value="1, 1, 1, 1" />
+    <Property name="Specular Color" value="1, 1, 1, 1" />
+
+    <Property name="Shininess" value="0.1" />
+    <Property name="Roughness" value="0.9" />
+    <Property name="Metallicity" value="0.0" />
+    <Property name="Reflectance" value="0.5" />
+
+    <Property name="Albedo Texture" value="filename=data/images/textures/materials/pine_bark/diffuse.jpg;2048.000000;2048.000000;9985;9729;10497;1.000000" />
+    <Property name="Normal Texture" value="filename=data/images/textures/materials/pine_bark/normal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+    <Property name="Metallic Texture" value="filename=data/images/textures/materials/pine_bark/metal.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+    <Property name="Roughness Texture" value="filename=data/images/textures/materials/pine_bark/roughness.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+    <Property name="AO Texture" value="filename=data/images/textures/materials/pine_bark/ao.jpg;2048.000000;2048.000000;9987;9729;10497;1.000000" />
+
+</Material>

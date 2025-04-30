@@ -78,6 +78,9 @@ void MaterialPresetManager::init() {
             } else if (propertyName == "Shininess") {
                 preset.m_shininess = child.getAttribute("value").getFloatValue();
 
+            } else if (propertyName == "Roughness") {
+                preset.m_roughness = child.getAttribute("value").getFloatValue();
+
             } else if (propertyName == "Reflectance") {
                 preset.m_ior = child.getAttribute("value").getFloatValue();
 
